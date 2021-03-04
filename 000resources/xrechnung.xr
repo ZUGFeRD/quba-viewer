@@ -1,0 +1,81 @@
+<xr:invoice xmlns:xr="urn:ce.eu:en16931:2017:xoev-de:kosit:standard:xrechnung-1">
+   <xr:Invoice_number xr:id="BT-1" xr:src="/rsm:CrossIndustryInvoice/rsm:ExchangedDocument/ram:ID">123</xr:Invoice_number>
+   <xr:Invoice_issue_date xr:id="BT-2" xr:src="/rsm:CrossIndustryInvoice/rsm:ExchangedDocument/ram:IssueDateTime/udt:DateTimeString">2020-11-22</xr:Invoice_issue_date>
+   <xr:Invoice_type_code xr:id="BT-3" xr:src="/rsm:CrossIndustryInvoice/rsm:ExchangedDocument/ram:TypeCode">380</xr:Invoice_type_code>
+   <xr:Invoice_currency_code xr:id="BT-5" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:InvoiceCurrencyCode">EUR</xr:Invoice_currency_code>
+   <xr:Payment_due_date xr:id="BT-9" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradePaymentTerms/ram:DueDateDateTime">2020-11-22</xr:Payment_due_date>
+   <xr:Buyer_reference xr:id="BT-10" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:BuyerReference">991-01484-64</xr:Buyer_reference>
+   <xr:Payment_terms xr:id="BT-20" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradePaymentTerms/ram:Description">Zahlbar ohne Abzug bis 22.11.2020</xr:Payment_terms>
+   <xr:PROCESS_CONTROL xr:id="BG-2" xr:src="/rsm:CrossIndustryInvoice/rsm:ExchangedDocumentContext">
+      <xr:Specification_identifier xr:id="BT-24" xr:src="/rsm:CrossIndustryInvoice/rsm:ExchangedDocumentContext/ram:GuidelineSpecifiedDocumentContextParameter/ram:ID">urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2</xr:Specification_identifier>
+   </xr:PROCESS_CONTROL>
+   <xr:SELLER xr:id="BG-4" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty">
+      <xr:Seller_name xr:id="BT-27" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:Name">Test company</xr:Seller_name>
+      <xr:Seller_VAT_identifier xr:id="BT-31" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:SpecifiedTaxRegistration[1]/ram:ID">DE0815</xr:Seller_VAT_identifier>
+      <xr:Seller_tax_registration_identifier xr:id="BT-32" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:SpecifiedTaxRegistration[2]/ram:ID">DE4711</xr:Seller_tax_registration_identifier>
+      <xr:SELLER_POSTAL_ADDRESS xr:id="BG-5" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:PostalTradeAddress">
+         <xr:Seller_address_line_1 xr:id="BT-35" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:PostalTradeAddress/ram:LineOne">teststr</xr:Seller_address_line_1>
+         <xr:Seller_city xr:id="BT-37" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:PostalTradeAddress/ram:CityName">teststadt</xr:Seller_city>
+         <xr:Seller_post_code xr:id="BT-38" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:PostalTradeAddress/ram:PostcodeCode">55232</xr:Seller_post_code>
+         <xr:Seller_country_code xr:id="BT-40" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:PostalTradeAddress/ram:CountryID">DE</xr:Seller_country_code>
+      </xr:SELLER_POSTAL_ADDRESS>
+      <xr:SELLER_CONTACT xr:id="BG-6" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:DefinedTradeContact">
+         <xr:Seller_contact_point xr:id="BT-41" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:DefinedTradeContact/ram:PersonName">Hans Test</xr:Seller_contact_point>
+         <xr:Seller_contact_telephone_number xr:id="BT-42" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication/ram:CompleteNumber">+49123456789</xr:Seller_contact_telephone_number>
+         <xr:Seller_contact_email_address xr:id="BT-43" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication/ram:URIID">test@example.org</xr:Seller_contact_email_address>    
+      </xr:SELLER_CONTACT>
+   </xr:SELLER>
+   <xr:BUYER xr:id="BG-7" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:BuyerTradeParty">
+      <xr:Buyer_name xr:id="BT-44" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:BuyerTradeParty/ram:Name">Franz M├╝ller</xr:Buyer_name>
+      <xr:BUYER_POSTAL_ADDRESS xr:id="BG-8" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:BuyerTradeParty/ram:PostalTradeAddress">
+         <xr:Buyer_address_line_1 xr:id="BT-50" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:BuyerTradeParty/ram:PostalTradeAddress/ram:LineOne">teststr.12</xr:Buyer_address_line_1>
+         <xr:Buyer_city xr:id="BT-52" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:BuyerTradeParty/ram:PostalTradeAddress/ram:CityName">Entenhausen</xr:Buyer_city>
+         <xr:Buyer_post_code xr:id="BT-53" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:BuyerTradeParty/ram:PostalTradeAddress/ram:PostcodeCode">55232</xr:Buyer_post_code>
+         <xr:Buyer_country_code xr:id="BT-55" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:BuyerTradeParty/ram:PostalTradeAddress/ram:CountryID">DE</xr:Buyer_country_code>
+      </xr:BUYER_POSTAL_ADDRESS>
+   </xr:BUYER>
+   <xr:PAYMENT_INSTRUCTIONS xr:id="BG-16" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementPaymentMeans">
+      <xr:Payment_means_type_code xr:id="BT-81" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementPaymentMeans/ram:TypeCode">42</xr:Payment_means_type_code>
+      <xr:Payment_means_text xr:id="BT-82" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementPaymentMeans/ram:Information">Bank transfer</xr:Payment_means_text>
+      <xr:Remittance_information xr:id="BT-83" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:PaymentReference">123</xr:Remittance_information>
+      <xr:CREDIT_TRANSFER xr:id="BG-17" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementPaymentMeans/ram:PayeePartyCreditorFinancialAccount">
+         <xr:Payment_account_identifier xr:id="BT-84" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementPaymentMeans/ram:PayeePartyCreditorFinancialAccount/ram:IBANID">DE12500105170648489890</xr:Payment_account_identifier>         <xr:Payment_service_provider_identifier xr:id="BT-86" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementPaymentMeans/ram:PayeeSpecifiedCreditorFinancialInstitution/ram:BICID">COBADEFXXX</xr:Payment_service_provider_identifier>
+      </xr:CREDIT_TRANSFER>
+   </xr:PAYMENT_INSTRUCTIONS>
+   <xr:DOCUMENT_TOTALS xr:id="BG-22" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation">
+      <xr:Sum_of_Invoice_line_net_amount xr:id="BT-106" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:LineTotalAmount">1.00</xr:Sum_of_Invoice_line_net_amount>
+      <xr:Sum_of_allowances_on_document_level xr:id="BT-107" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:AllowanceTotalAmount">0.00</xr:Sum_of_allowances_on_document_level>
+      <xr:Sum_of_charges_on_document_level xr:id="BT-108" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:ChargeTotalAmount">0.00</xr:Sum_of_charges_on_document_level>
+      <xr:Invoice_total_amount_without_VAT xr:id="BT-109" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TaxBasisTotalAmount">1.00</xr:Invoice_total_amount_without_VAT>
+      <xr:Invoice_total_VAT_amount_in_accounting_currency xr:id="BT-111" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TaxTotalAmount">0.00</xr:Invoice_total_VAT_amount_in_accounting_currency>
+      <xr:Invoice_total_amount_with_VAT xr:id="BT-112" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:GrandTotalAmount">1.00</xr:Invoice_total_amount_with_VAT>
+      <xr:Paid_amount xr:id="BT-113" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TotalPrepaidAmount">0.00</xr:Paid_amount>
+      <xr:Amount_due_for_payment xr:id="BT-115" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:DuePayableAmount">1.00</xr:Amount_due_for_payment>
+   </xr:DOCUMENT_TOTALS>
+   <xr:VAT_BREAKDOWN xr:id="BG-23" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:ApplicableTradeTax">
+      <xr:VAT_category_taxable_amount xr:id="BT-116" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:ApplicableTradeTax/ram:BasisAmount">1.00</xr:VAT_category_taxable_amount>
+      <xr:VAT_category_tax_amount xr:id="BT-117" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:ApplicableTradeTax/ram:CalculatedAmount">0.00</xr:VAT_category_tax_amount>
+      <xr:VAT_category_code xr:id="BT-118" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:ApplicableTradeTax/ram:CategoryCode">Z</xr:VAT_category_code>
+      <xr:VAT_category_rate xr:id="BT-119" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:ApplicableTradeTax/ram:RateApplicablePercent">0.00</xr:VAT_category_rate>
+   </xr:VAT_BREAKDOWN>
+   <xr:INVOICE_LINE xr:id="BG-25" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem">
+      <xr:Invoice_line_identifier xr:id="BT-126" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:AssociatedDocumentLineDocument/ram:LineID">1</xr:Invoice_line_identifier>
+      <xr:Invoiced_quantity xr:id="BT-129" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeDelivery/ram:BilledQuantity">1.0000</xr:Invoiced_quantity>
+      <xr:Invoiced_quantity_unit_of_measure_code xr:id="BT-130" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeDelivery/ram:BilledQuantity/@unitCode">C62</xr:Invoiced_quantity_unit_of_measure_code>
+      <xr:Invoice_line_net_amount xr:id="BT-131" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeSettlement/ram:SpecifiedTradeSettlementLineMonetarySummation/ram:LineTotalAmount">1.00</xr:Invoice_line_net_amount>
+      <xr:PRICE_DETAILS xr:id="BG-29" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeAgreement">
+         <xr:Item_net_price xr:id="BT-146" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeAgreement/ram:NetPriceProductTradePrice/ram:ChargeAmount">1.0000</xr:Item_net_price>
+         <xr:Item_gross_price xr:id="BT-148" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeAgreement/ram:GrossPriceProductTradePrice/ram:ChargeAmount">1.0000</xr:Item_gross_price>
+         <xr:Item_price_base_quantity xr:id="BT-149" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeAgreement/ram:NetPriceProductTradePrice/ram:ChargeAmount|/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeAgreement/ram:GrossPriceProductTradePrice/ram:AppliedTradeAllowanceCharge/ram:ActualAmount">1.0000</xr:Item_price_base_quantity>
+         <xr:Item_price_base_quantity_unit_of_measure xr:id="BT-150" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeAgreement/ram:GrossPriceProductTradePrice/ram:BasisQuantity/@unitCode">C62</xr:Item_price_base_quantity_unit_of_measure>
+      </xr:PRICE_DETAILS>
+      <xr:LINE_VAT_INFORMATION xr:id="BG-30" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeSettlement/ram:ApplicableTradeTax">
+         <xr:Invoiced_item_VAT_category_code xr:id="BT-151" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeSettlement/ram:ApplicableTradeTax/ram:CategoryCode">Z</xr:Invoiced_item_VAT_category_code>
+         <xr:Invoiced_item_VAT_rate xr:id="BT-152" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedLineTradeSettlement/ram:ApplicableTradeTax/ram:RateApplicablePercent">0.00</xr:Invoiced_item_VAT_rate>
+      </xr:LINE_VAT_INFORMATION>
+      <xr:ITEM_INFORMATION xr:id="BG-31" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedTradeProduct">
+         <xr:Item_name xr:id="BT-153" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedTradeProduct/ram:Name">Testprodukt</xr:Item_name>
+         <xr:Item_description xr:id="BT-154" xr:src="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:IncludedSupplyChainTradeLineItem/ram:SpecifiedTradeProduct/ram:Description"/>
+      </xr:ITEM_INFORMATION>
+   </xr:INVOICE_LINE>
+</xr:invoice>

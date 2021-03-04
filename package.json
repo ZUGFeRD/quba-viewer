@@ -1,0 +1,22 @@
+{
+  "name": "electron-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.12.17",
+    "@babel/register": "^7.12.13",
+    "electron": "^11.2.3"
+  },
+  "dependencies": {
+    "@babel/node": "^7.12.17",
+    "node": "^15.8.0",
+    "saxon-js": "^2.0.3"
+  }
+}
