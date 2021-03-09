@@ -3,14 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';"/>
 </head>
+<script>
+    const {ipcRenderer} = require('electron');
+
+    function clickButton() {
+        console.log("trying to fire click button");
+        ipcRenderer.send('click-button', null, true)
+
+    }
+
+    ipcRenderer.send('openFile');
+
+    ipcRenderer.on('fileData', (event, data) => {
+        document.write(data)
+    })
+
+    ipcRenderer.on('eventForBrowser', (event, data) => {
+        console.log("received event for browser", event, data)
+    })
+
+
+</script>
 <body style="background: white;">
-    <h1>Hello World!</h1>
-    <p>
-        We are using  <script>document.write(process.versions.node)</script>,
-        Chrome <script>document.write(process.versions.chrome)</script>,
-        and Electron <script>document.write(process.versions.electron)</script>.
-    </p>
+
+<button onclick="clickButton()" id="new-window">Open File</button>
+
 </body>
 </html>
