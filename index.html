@@ -5,30 +5,11 @@
     <title>Hello World!</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';"/>
 </head>
-<script>
-    const {ipcRenderer} = require('electron');
 
-    function clickButton() {
-        console.log("trying to fire click button");
-        ipcRenderer.send('click-button', null, true)
-
-    }
-
-    ipcRenderer.send('openFile');
-
-    ipcRenderer.on('fileData', (event, data) => {
-        document.write(data)
-    })
-
-    ipcRenderer.on('eventForBrowser', (event, data) => {
-        console.log("received event for browser", event, data)
-    })
-
-
-</script>
 <body style="background: white;">
 
-<button onclick="clickButton()" id="new-window">Open File</button>
+
 
 </body>
+<script src="script.js"></script>
 </html>

@@ -4,9 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-
+let win;
 function createWindow() {
-    const win = new BrowserWindow({
+     win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -39,7 +39,7 @@ function createWindow() {
 */
 
 
-ipcMain.on('click-button', (event, arg) => {
+/*ipcMain.on('click-button', (event, arg) => {
     console.log("click-button received ", event, arg);
     if (arg == 'true') {
         dialog.showOpenDialog(function (fileNames) {
@@ -70,7 +70,7 @@ function readFile(filepath) {
     })
 }
 
-/*
+
 
 function readFile(filepath) {
   
@@ -165,7 +165,7 @@ function openFile() {
             if (!result.canceled) {
                 let paths = result.filePaths;
                 if (paths && paths.length > 0) {
-                    console.log(SaxonJS);
+                    //console.log(SaxonJS);
                     const content = fs.readFileSync(paths[0]).toString();
                     // console.log (content, paths[0]);
 
@@ -175,7 +175,7 @@ function openFile() {
                         destination: "serialized"
                     }, "async").then(output => {
 
-                        console.log("first transformation finished", output.principalResult);
+                        //console.log("first transformation finished", output.principalResult);
 
                         let xrXML = output.principalResult;
 
@@ -184,8 +184,9 @@ function openFile() {
                             sourceText: xrXML,
                             destination: "serialized"
                         }, "async").then(output => {
-                            console.log("second transformation finished", output.principalResult);
+                            //console.log("second transformation finished", output.principalResult);
                             let HTML = output.principalResult;
+                            win.webContents.send('HTML_TRANSFORMED', HTML);
                         }).catch(output => {
                             console.error("error", output);
                         });
