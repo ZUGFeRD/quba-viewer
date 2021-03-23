@@ -1,3 +1,6 @@
 .idea
+000resources
 node_modules
 electron-webpack-quick-start/node_modules
+out
+dist

@@ -5,6 +5,7 @@ Quba-Viewer ([homepage](https://www.quba-viewer.org)) is a cross platform open s
 structured (i.e., XML) and hybrid (Factur-X/ZUGFeRD PDF) electronic invoices.
 
 
+
 Development
 =============
 So far, this is a simple [electron](https://www.electronjs.org/) application (just use `npm start` to run) which uses XSLT to convert XML to HTML,
@@ -17,6 +18,14 @@ conversion is a two-step process,
   * from the input XML to an intermediate XR format using `cii-xr.sef.json` and 
   * from this XR format to HTML using `xrechnung-html.sef.json`
 
+
+Deployment
+=============
+
+```
+$env:GH_TOKEN = '<private github access token>'
+npm run publish
+```
 
 Known issues
 =============
