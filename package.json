@@ -1,22 +1,71 @@
 {
-  "name": "electron-project",
-  "version": "1.0.0",
-  "description": "",
+  "name": "quba_viewer",
+  "version": "0.0.7",
+  "description": "Viewer",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "build": "electron-builder build --win --publish never",
+    "publish": "electron-builder build --win --publish always",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "org.quba-viewer.viewer",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "ZUGFeRD",
+        "repo": "quba-viewer"
+      }
+    ]
   },
   "keywords": [],
-  "author": "",
+  "author": "Cuba",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.17",
-    "@babel/register": "^7.12.13",
-    "electron": "^11.2.3"
-  },
-  "dependencies": {
     "@babel/node": "^7.12.17",
+    "@babel/register": "^7.12.13",
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "electron": "^11.2.3",
+    "electron-localshortcut": "^3.2.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^4.3.8",
     "node": "^15.8.0",
     "saxon-js": "^2.0.3"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_project"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }

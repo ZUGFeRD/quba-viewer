@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quba- About</title>
+    <link rel="stylesheet" href="assets/css/about.css">
+</head>
+
+<body>
+    <div id='titlebar'></div>
+    <img id='logo' src='assets/img/logo.png'/>
+    <div id='info'>
+        <div id='label'>Quba</div>
+        <div id='description'>Viewer</div>
+        <div id='stats'>
+            <div>Version: 0.1</div>
+            <div></div>
+        </div>
+    </div>
+    <div id='close1'>&times;</div>
+
+    <script>
+      
+      const electron = require('electron')
+        const remote = electron.remote
+
+        const closeBtn = document.getElementById('close1')
+
+
+closeBtn.addEventListener('click', function (event) {
+    var window = remote.getCurrentWindow();
+    window.close();
+})
+      
+        
+    </script>
+</body>
+
+</html>

@@ -1,87 +1,47 @@
 require('saxon-js');
 const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, dialog, protocol} = require('electron');
+const { autoUpdater } = require('electron-updater');
+const electronLocalshortcut = require('electron-localshortcut');
+
+
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-let win;
+
+let win, aboutWin;;
 function createWindow() {
      win = new BrowserWindow({
         width: 800,
         height: 600,
+        icon: 'assets/img/logo.png',
         webPreferences: {
             nodeIntegration: true
         }
     })
 
     //win.loadFile('index.html')
+
+    
     win.loadURL(`file://${__dirname}/index.html`);
+     win.once('ready-to-show', () => {
+        autoUpdater.checkForUpdatesAndNotify();
+      });
 
 
-    win.webContents.openDevTools();
+    //win.webContents.openDevTools();
+
 
 }
 
-
-/*
-function createWindow() {
-  win = new BrowserWindow({width:800, height:600,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  
-  })
-  win.loadURL(`file://${__dirname}/index.html`);
-  win.webContents.openDevTools();
-  
-
-}
-*/
-
-
-/*ipcMain.on('click-button', (event, arg) => {
-    console.log("click-button received ", event, arg);
-    if (arg == 'true') {
-        dialog.showOpenDialog(function (fileNames) {
-            if (fileNames == undefined) {
-                console.log("no file selected");
-            } else {
-                console.log("reading ", fileNames[0]);
-                readFile(fileNames[0])
-            }
-        })
-    }
-})
-console.log("click-button registered");
-ipcMain.on('openFile', (event, arg) => {
-    const {dialog} = require('electron')
-    const fs = require('fs')
-
-})
-
-function readFile(filepath) {
-
-    fs.readFile(filepath, 'utf-8', (err, data) => {
-        if (err) {
-            alert('an error :' + err.message)
-            return
-        }
-        event.sender.send('fileData', data)
-    })
+function registerShortcuts() {
+    electronLocalshortcut.register(win, 'CommandOrControl+B', () => {
+        win.webContents.openDevTools();
+    });
 }
 
 
 
-function readFile(filepath) {
-  
-  fs.readFile(filepath, 'utf-8', (event,err,data)=>{
-    if(err){
-      alert('an error :' + err.message)
-      return
-    }
-    event.sender.send('fileData', data)
-  })
-}*/
 
 app.on('ready', function () {
     createWindow()
@@ -95,13 +55,6 @@ app.on('ready', function () {
                     accelerator: 'CmdOrCtrl+O',
                     click() {
                         openFile();
-                    }
-
-                },{
-                    label: 'Send event to embedded browser',
-                    click() {
-                        const window=BrowserWindow.getFocusedWindow();
-                        window.webContents.send('eventForBrowser', null, true)
                     }
 
                 },
@@ -132,10 +85,49 @@ app.on('ready', function () {
                 {role: 'selectall'}
             ]
         },
+
+           {
+            label: 'Help',
+            submenu: [
+                {
+                    label: 'About',
+                    id: 'about'
+                }
+            ]
+        }
+        
     ]
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
+
+    menu.getMenuItemById('about').click = () => {
+
+    if (!aboutWin) {
+        aboutWin = new BrowserWindow({
+            width: 300,
+            height: 150,
+            resizable: false,
+            frame: false,
+            parent: win,
+            modal: true,
+            webPreferences: {
+                nodeIntegration: true
+            },
+        });
+
+
+
+
+        aboutWin.loadURL(`file://${__dirname}/about.html`);
+            
+        aboutWin.on('closed', () => {
+            aboutWin = null;
+        })
+
+    }
+}
 });
+
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -149,6 +141,25 @@ app.on('activate', () => {
     }
 
 })
+
+
+ipcMain.on('app_version', (event) => {
+    event.sender.send('app_version', { version: app.getVersion() });
+  });
+  
+  autoUpdater.on('update-available', () => {
+    win.webContents.send('update_available');
+  });
+  
+  autoUpdater.on('update-downloaded', () => {
+    win.webContents.send('update_downloaded');
+  });
+  
+  ipcMain.on('restart_app', () => {
+    autoUpdater.quitAndInstall();
+  });
+
+
 
 
 function openFile() {

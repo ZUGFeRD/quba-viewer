@@ -2,14 +2,64 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Quba</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';"/>
+    <link rel="stylesheet" href="assets/css/about.css">
 </head>
 
-<body style="background: white;">
+<body>
 
-
+    <div id='backgroundInfo'>
+        <img id='backgroundLogo' src='assets/img/logo.png' />
+        <div id='backgroundText'>
+            Open a file from the menu or by pressing Ctrl + O to open the file
+        </div>
+        <p id="version"></p>
+        <div id="notification" class="hidden">
+            <p id="message"></p>
+            <button id="close-button" onClick="closeNotification()">
+              Close
+            </button>
+            <button id="restart-button" onClick="restartApp()" class="hidden">
+              Restart
+            </button>
+          </div>
+          <script src="script.js"></script>
+          <script>
+            
+            const version = document.getElementById('version');
+            const notification = document.getElementById('notification');
+            const message = document.getElementById('message');
+            const restartButton = document.getElementById('restart-button');
+            
+            ipcRenderer.send('app_version');
+            ipcRenderer.on('app_version', (event, arg) => {
+              ipcRenderer.removeAllListeners('app_version');
+              version.innerText = 'Version ' + arg.version;
+            });
+          
+            ipcRenderer.on('update_available', () => {
+              ipcRenderer.removeAllListeners('update_available');
+              message.innerText = 'A new update is available. Downloading now...';
+              notification.classList.remove('hidden');
+            });
+          
+            ipcRenderer.on('update_downloaded', () => {
+              ipcRenderer.removeAllListeners('update_downloaded');
+              message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+              restartButton.classList.remove('hidden');
+              notification.classList.remove('hidden');
+            });
+          
+            function closeNotification() {
+              notification.classList.add('hidden');
+            }
+            
+            function restartApp() {
+              ipcRenderer.send('restart_app');
+            }
+          </script>
+          
 
 </body>
-<script src="script.js"></script>
 </html>
