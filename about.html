@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -10,7 +9,7 @@
 
 <body>
     <div id='titlebar'></div>
-    <img id='logo' src='assets/img/logo.png'/>
+    <img id='logo' src='assets/img/logo.svg'/>
     <div id='info'>
         <div id='label'>Quba</div>
         <div id='description'>Viewer</div>
@@ -19,22 +18,16 @@
             <div></div>
         </div>
     </div>
-    <div id='close1'>&times;</div>
+    <div id='close'><a onclick='clickButton()'>&times;</a></div>
 
     <script>
-      
-      const electron = require('electron')
-        const remote = electron.remote
 
-        const closeBtn = document.getElementById('close1')
+        const {ipcRenderer} = require('electron');
 
+        function clickButton() {
+            ipcRenderer.send('close-about', null, true)
+        }
 
-closeBtn.addEventListener('click', function (event) {
-    var window = remote.getCurrentWindow();
-    window.close();
-})
-      
-        
     </script>
 </body>
 

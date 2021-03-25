@@ -14,7 +14,7 @@ function createWindow() {
      win = new BrowserWindow({
         width: 800,
         height: 600,
-        icon: 'assets/img/logo.png',
+        icon: 'assets/img/logo_small_icon_only.png',
         webPreferences: {
             nodeIntegration: true
         }
@@ -27,9 +27,9 @@ function createWindow() {
      win.once('ready-to-show', () => {
         autoUpdater.checkForUpdatesAndNotify();
       });
+    registerShortcuts();
 
-
-    //win.webContents.openDevTools();
+  //  win.webContents.openDevTools();
 
 
 }
@@ -69,7 +69,7 @@ app.on('ready', function () {
                 }
             ]
         },
-
+/*
         {
             label: 'Edit',
             submenu: [
@@ -85,7 +85,7 @@ app.on('ready', function () {
                 {role: 'selectall'}
             ]
         },
-
+*/
            {
             label: 'Help',
             submenu: [
@@ -114,10 +114,6 @@ app.on('ready', function () {
                 nodeIntegration: true
             },
         });
-
-
-
-
         aboutWin.loadURL(`file://${__dirname}/about.html`);
             
         aboutWin.on('closed', () => {
@@ -158,6 +154,13 @@ ipcMain.on('app_version', (event) => {
   ipcMain.on('restart_app', () => {
     autoUpdater.quitAndInstall();
   });
+
+ipcMain.on('close-about', () => {
+    if (aboutWin!==null) {
+        aboutWin.close();
+    }
+});
+
 
 
 

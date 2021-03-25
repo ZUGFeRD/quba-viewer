@@ -1,0 +1,98 @@
+
+html {
+    font-family: "Segoe UI", "San Francisco", "Source Sans Pro", sans-serif;
+}
+
+
+
+body {
+    overflow: hidden;
+    user-select: none;
+}
+
+#titlebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 25px);
+    height: 25px;
+    -webkit-app-region: drag;
+}
+
+#logo {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 75px;
+    width: 75px;
+    left: 25px;
+}
+
+#info {
+    position: absolute;
+    top: 50%;
+    left: 125px;
+    transform: translateY(-50%);
+}
+
+#label {
+    font-size: 18px;
+}
+
+#description {
+    font-size: 14px
+}
+
+#stats {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+#close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#backgroundInfo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    margin: auto;
+    display: block;
+    text-align: center;
+
+}
+.backgroundText {
+    font-size: 16px;
+    font-weight: lighter;
+    color: #cccccc;
+}
+.backgroundText a {
+    color:#aaaaff
+}
+#backgroundLogo {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    margin: auto;
+}
+
+#notification {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 200px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  .hidden {
+    display: none;
+  }
