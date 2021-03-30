@@ -13,21 +13,25 @@
     <div id='info'>
         <div id='label'>Quba</div>
         <div id='description'>Viewer</div>
-        <div id='stats'>
-            <div>Version: 0.1</div>
+        <div id='stats ver'>
+            <div id="version"></div>
             <div></div>
         </div>
     </div>
-    <div id='close'><a onclick='clickButton()'>&times;</a></div>
 
     <script>
-
-        const {ipcRenderer} = require('electron');
-
-        function clickButton() {
-            ipcRenderer.send('close-about', null, true)
-        }
-
+      
+      const electron = require('electron')
+        const remote = electron.remote
+        const { ipcRenderer } = require('electron');
+        const version = document.getElementById('version');
+        ipcRenderer.send('app_version');
+            ipcRenderer.on('app_version', (event, arg) => {
+              ipcRenderer.removeAllListeners('app_version');
+              version.innerText = 'Version ' + arg.version;
+            });
+      
+        
     </script>
 </body>
 

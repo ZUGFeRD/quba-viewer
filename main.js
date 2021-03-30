@@ -16,14 +16,17 @@ function createWindow() {
         height: 600,
         icon: 'assets/img/logo_small_icon_only.png',
         webPreferences: {
-            nodeIntegration: true
-        }
+            plugins: true,
+            nodeIntegration: true,
+            preload: path.join(__dirname, 'js/index.js')
+        },
+       // frame: false
     })
 
     //win.loadFile('index.html')
 
     
-    win.loadURL(`file://${__dirname}/index.html`);
+    win.loadFile('index.html');
      win.once('ready-to-show', () => {
         autoUpdater.checkForUpdatesAndNotify();
       });
@@ -91,18 +94,49 @@ app.on('ready', function () {
             submenu: [
                 {
                     label: 'About',
-                    id: 'about'
+                    click() {
+                        openAboutWindow();
+                    }
                 }
             ]
         }
         
     ]
-    const menu = Menu.buildFromTemplate(template)
-    Menu.setApplicationMenu(menu)
+    const menucreate = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(menucreate)
 
-    menu.getMenuItemById('about').click = () => {
+    var newWindow = null
+        function openAboutWindow() {
+            if (newWindow) {
+              newWindow.focus()
+              return
+            }
+          
+            newWindow = new BrowserWindow({
+              height: 185,
+              resizable: false,
+              width: 400,
+              title: '',
+              parent: win,
+              modal: true,
+              minimizable: false,
+              fullscreenable: false,
+              webPreferences: {
+                nodeIntegration: true
+            },
+            });
+            newWindow.setMenuBarVisibility(false)
+          
+            newWindow.loadFile('about.html');
+          
+            newWindow.on('closed', function() {
+              newWindow = null
+            })
+          }
 
-    if (!aboutWin) {
+    /*  menu.getMenuItemById('about').click = () => {
+
+  if (!aboutWin) {
         aboutWin = new BrowserWindow({
             width: 300,
             height: 150,
@@ -120,8 +154,12 @@ app.on('ready', function () {
             aboutWin = null;
         })
 
-    }
-}
+    
+}}*/
+
+
+
+registerShortcuts();
 });
 
 
@@ -164,7 +202,7 @@ ipcMain.on('close-about', () => {
 
 
 
-
+//https://stackoverflow.com/questions/31529772/how-to-set-app-icon-for-electron-atom-shell-app
 function openFile() {
     const files = dialog.showOpenDialog(BrowserWindow, {
         path: '',
