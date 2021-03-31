@@ -59,6 +59,10 @@
       }
     ]
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/ZUGFeRD/quba-viewer.git"
+  },
   "keywords": [],
   "author": "Cuba",
   "license": "ISC",
