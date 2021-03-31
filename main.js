@@ -14,11 +14,10 @@ function createWindow() {
      win = new BrowserWindow({
         width: 800,
         height: 600,
-        icon: 'assets/img/logo_small_icon_only.png',
+        icon: 'assets/img/logo.png',
         webPreferences: {
             plugins: true,
             nodeIntegration: true,
-            preload: path.join(__dirname, 'js/index.js')
         },
        // frame: false
     })
@@ -30,9 +29,9 @@ function createWindow() {
      win.once('ready-to-show', () => {
         autoUpdater.checkForUpdatesAndNotify();
       });
-    registerShortcuts();
 
-  //  win.webContents.openDevTools();
+
+    //win.webContents.openDevTools();
 
 
 }
@@ -72,7 +71,7 @@ app.on('ready', function () {
                 }
             ]
         },
-/*
+
         {
             label: 'Edit',
             submenu: [
@@ -88,7 +87,7 @@ app.on('ready', function () {
                 {role: 'selectall'}
             ]
         },
-*/
+
            {
             label: 'Help',
             submenu: [
@@ -148,6 +147,10 @@ app.on('ready', function () {
                 nodeIntegration: true
             },
         });
+
+
+
+
         aboutWin.loadURL(`file://${__dirname}/about.html`);
             
         aboutWin.on('closed', () => {
@@ -193,13 +196,6 @@ ipcMain.on('app_version', (event) => {
     autoUpdater.quitAndInstall();
   });
 
-ipcMain.on('close-about', () => {
-    if (aboutWin!==null) {
-        aboutWin.close();
-    }
-});
-
-
 
 
 //https://stackoverflow.com/questions/31529772/how-to-set-app-icon-for-electron-atom-shell-app
@@ -215,6 +211,7 @@ function openFile() {
     (
         result => {
             if (!result.canceled) {
+
                 let paths = result.filePaths;
                 if (paths && paths.length > 0) {
                     //console.log(SaxonJS);
@@ -222,7 +219,7 @@ function openFile() {
                     // console.log (content, paths[0]);
 
                     let test = SaxonJS.transform({
-                        stylesheetFileName: "cii-xr.sef.json",
+                        stylesheetFileName: path.join(__dirname, "cii-xr.sef.json"),
                         sourceFileName: paths[0],
                         destination: "serialized"
                     }, "async").then(output => {
@@ -232,7 +229,7 @@ function openFile() {
                         let xrXML = output.principalResult;
 
                         let test = SaxonJS.transform({
-                            stylesheetFileName: "xrechnung-html.sef.json",
+                            stylesheetFileName: path.join(__dirname, "xrechnung-html.sef.json"),
                             sourceText: xrXML,
                             destination: "serialized"
                         }, "async").then(output => {

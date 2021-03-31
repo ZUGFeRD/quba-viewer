@@ -21,6 +21,20 @@ more precisely it uses [saxon-js](https://www.saxonica.com/saxon-js/) as XSLT pr
 some [available](https://github.com/itplr-kosit/xrechnung-visualization) XSLT style sheets which were previously 
 converted to .sef.json files using the xslt3 utility.
 
+```
+npm install --global xslt3
+xslt3 -xsl:cii-xr.xsl -export:cii-xr.sef.json -t
+xslt3 -xsl:xrechnung-html.xsl -export:xrechnung-html.sef.json -t
+```
+
+Since xrechnung-viewer.css and xrechnung-viewer.js are required via the XSLT file 
+this will bypass the usual javascript loading routines, which is not an issue 
+for a development version but a severe issue in a deployed version where those
+files would have to be read from the ASAR file. 
+The current workaround is copy/pasting the contents of those files into the
+xrechung-html.xsl XSL file to generate a self sufficient xrechung-html.sef.json.
+
+
 Since the input XML can be UN/CEFACT CII or UBL, the XRechnung visualization 
 conversion is a two-step process, 
   * from the input XML to an intermediate XR format using `cii-xr.sef.json` and 
@@ -28,7 +42,17 @@ conversion is a two-step process,
 
 Development
 =============
-Setup with npm install --global electron-builder
+
+
+Set up one time with 
+```
+
+npm install --global electron-builder
+npm install --global electron-forge
+npm update
+```
+then 
+
 ```
 npm run start
 ```
