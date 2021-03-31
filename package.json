@@ -8,7 +8,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "build": "electron-builder build --win --publish never",
-    "publish": "electron-builder build --win --linux --publish always",
+    "publish": "electron-builder build --win --publish always",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
