@@ -1,17 +1,17 @@
 require('saxon-js');
 const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, dialog, protocol} = require('electron');
-const { autoUpdater } = require('electron-updater');
+const {autoUpdater} = require('electron-updater');
 const electronLocalshortcut = require('electron-localshortcut');
-
 
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
+let win, aboutWin;
+;
 
-let win, aboutWin;;
 function createWindow() {
-     win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 800,
         height: 600,
         icon: 'assets/img/logo.png',
@@ -19,20 +19,13 @@ function createWindow() {
             plugins: true,
             nodeIntegration: true,
         },
-       // frame: false
+        // frame: false
     })
 
-    //win.loadFile('index.html')
-
-    
     win.loadFile('index.html');
-     win.once('ready-to-show', () => {
+    win.once('ready-to-show', () => {
         autoUpdater.checkForUpdatesAndNotify();
-      });
-
-
-    //win.webContents.openDevTools();
-
+    });
 
 }
 
@@ -41,9 +34,6 @@ function registerShortcuts() {
         win.webContents.openDevTools();
     });
 }
-
-
-
 
 app.on('ready', function () {
     createWindow()
@@ -88,7 +78,7 @@ app.on('ready', function () {
             ]
         },
 
-           {
+        {
             label: 'Help',
             submenu: [
                 {
@@ -99,161 +89,168 @@ app.on('ready', function () {
                 }
             ]
         }
-        
+
     ]
     const menucreate = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menucreate)
 
     var newWindow = null
-        function openAboutWindow() {
-            if (newWindow) {
-              newWindow.focus()
-              return
-            }
-          
-            newWindow = new BrowserWindow({
-              height: 185,
-              resizable: false,
-              width: 400,
-              title: '',
-              parent: win,
-              modal: true,
-              minimizable: false,
-              fullscreenable: false,
-              webPreferences: {
-                nodeIntegration: true
-            },
-            });
-            newWindow.setMenuBarVisibility(false)
-          
-            newWindow.loadFile('about.html');
-          
-            newWindow.on('closed', function() {
-              newWindow = null
-            })
-          }
 
-    /*  menu.getMenuItemById('about').click = () => {
+    function openAboutWindow() {
+        if (newWindow) {
+            newWindow.focus()
+            return
+        }
 
-  if (!aboutWin) {
-        aboutWin = new BrowserWindow({
-            width: 300,
-            height: 150,
+        newWindow = new BrowserWindow({
+            height: 185,
             resizable: false,
-            frame: false,
+            width: 400,
+            title: '',
             parent: win,
             modal: true,
+            minimizable: false,
+            fullscreenable: false,
             webPreferences: {
                 nodeIntegration: true
             },
         });
+        newWindow.setMenuBarVisibility(false)
 
+        newWindow.loadFile('about.html');
 
-
-
-        aboutWin.loadURL(`file://${__dirname}/about.html`);
-            
-        aboutWin.on('closed', () => {
-            aboutWin = null;
+        newWindow.on('closed', function () {
+            newWindow = null
         })
+    }
 
-    
-}}*/
-
-
-
-registerShortcuts();
+    registerShortcuts();
 });
 
+const gotTheLock = app.requestSingleInstanceLock();
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit()
-    }
-})
+if (!gotTheLock) {
+    app.quit();
+} else {
+    app.on('second-instance', (event, commandLine) => {
+        // Someone tried to run a second instance, we should focus our window.
+        if (win) {
+            if (win.isMinimized()) {
+                win.restore();
+            }
+            win.focus();
+            win.webContents.send('external-file-open', commandLine);
+        }
+    });
 
-app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow()
-    }
+    app.on('window-all-closed', () => {
+        if (process.platform !== 'darwin') {
+            app.quit()
+        }
+    })
 
-})
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow()
+        }
 
+    })
 
-ipcMain.on('app_version', (event) => {
-    event.sender.send('app_version', { version: app.getVersion() });
-  });
-  
-  autoUpdater.on('update-available', () => {
-    win.webContents.send('update_available');
-  });
-  
-  autoUpdater.on('update-downloaded', () => {
-    win.webContents.send('update_downloaded');
-  });
-  
-  ipcMain.on('restart_app', () => {
-    autoUpdater.quitAndInstall();
-  });
+    ipcMain.on('app_version', (event) => {
+        event.sender.send('app_version', {version: app.getVersion()});
+    });
 
+    autoUpdater.on('update-available', () => {
+        win.webContents.send('update_available');
+    });
 
+    autoUpdater.on('update-downloaded', () => {
+        win.webContents.send('update_downloaded');
+    });
 
-//https://stackoverflow.com/questions/31529772/how-to-set-app-icon-for-electron-atom-shell-app
+    ipcMain.on('restart_app', () => {
+        autoUpdater.quitAndInstall();
+    });
+
+}
+
+function transformCII(sourceFileName) {
+    return transform(sourceFileName, path.join(__dirname, "cii-xr.sef.json"));
+}
+
+function transformUBL(sourceFileName) {
+    return transform(sourceFileName, path.join(__dirname, "ubl-xr.sef.json"));
+}
+
+function transform(sourceFileName, stylesheetFileName) {
+
+    let test = SaxonJS.transform({
+        stylesheetFileName,
+        sourceFileName,
+        destination: "serialized"
+    }, "async").then(output => {
+
+        //console.log("first transformation finished", output.principalResult);
+
+        let xrXML = output.principalResult;
+
+        let test = SaxonJS.transform({
+            stylesheetFileName: path.join(__dirname, "xrechnung-html.sef.json"),
+            sourceText: xrXML,
+            destination: "serialized"
+        }, "async").then(output => {
+            //console.log("second transformation finished", output.principalResult);
+            let HTML = output.principalResult;
+            win.webContents.send('HTML_TRANSFORMED', HTML); // send to be displayed
+            return HTML;
+        }).catch(output => {
+            console.error("error", output);
+        });
+
+    }).catch(output => {
+        console.error("error", output);
+    });
+
+}
+
 function openFile() {
     const files = dialog.showOpenDialog(BrowserWindow, {
-        path: '',
-        properties: ['openFile'],
-        filters: [{
-            name: 'all',
-            extensions: ['txt']
-        }]
-    }).then
-    (
-        result => {
-            if (!result.canceled) {
+            path: '',
+            properties: ['openFile'],
+            filters: [{
+                name: 'all',
+                extensions: ['txt']
+            }]
+        }).then
+        (
+            result => {
+                if (!result.canceled) {
 
-                let paths = result.filePaths;
-                if (paths && paths.length > 0) {
-                    //console.log(SaxonJS);
-                    const content = fs.readFileSync(paths[0]).toString();
+                    let paths = result.filePaths;
+                    if (paths && paths.length > 0) {
+                        //console.log(SaxonJS);
+                        const content = fs.readFileSync(paths[0]).toString();
+                        var parser = require('fast-xml-parser');
+                        let json = parser.parse(content);
+                        for (let key in json) {
+                            // parse root node
+                            if (key.includes("CrossIndustryInvoice")) {
+                                transformCII(paths[0]);
+                            } else if (key.includes("Invoice")) {
+                                transformUBL(paths[0]);
+                            } else {
+                                console.error("XML format not recognized");
+
+                            }
+                        }
+
+                    }
+
                     // console.log (content, paths[0]);
-
-                    let test = SaxonJS.transform({
-                        stylesheetFileName: path.join(__dirname, "cii-xr.sef.json"),
-                        sourceFileName: paths[0],
-                        destination: "serialized"
-                    }, "async").then(output => {
-
-                        //console.log("first transformation finished", output.principalResult);
-
-                        let xrXML = output.principalResult;
-
-                        let test = SaxonJS.transform({
-                            stylesheetFileName: path.join(__dirname, "xrechnung-html.sef.json"),
-                            sourceText: xrXML,
-                            destination: "serialized"
-                        }, "async").then(output => {
-                            //console.log("second transformation finished", output.principalResult);
-                            let HTML = output.principalResult;
-                            win.webContents.send('HTML_TRANSFORMED', HTML);
-                        }).catch(output => {
-                            console.error("error", output);
-                        });
-
-
-                    }).catch(output => {
-                        console.error("error", output);
-                    });
-
-                    // window.webContents.send('load', content);
                 }
-            }
-        }
-    );
 
-    /*if (!files) return;
-    const file =files[0];
-    const filContent = fs.readFileSync(file).toString();
-    console.log(fileContent)
-  */
+            }
+        )
+    ;
+
 }
