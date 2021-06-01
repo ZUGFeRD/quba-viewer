@@ -4,69 +4,37 @@
     <meta charset="UTF-8">
     <title>Quba</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';"/>
-    <link rel="stylesheet" href="assets/css/about.css">
+    <link rel="stylesheet" href="assets/css/index.css">
     
     
 </head>
 
 <body>
 
-<div id='backgroundInfo'>
-    <img id='backgroundLogo' src='assets/img/logo.svg'/>
+    <div id='leftSeek'>&lang;</div>
+    <div id='tabContainer'></div>
+    <div id='rightSeek'>&rang;</div>
+    <div id='backgroundInfo'>
+    <img id='backgroundLogo' src='assets/img/logo_whitetext.svg'/>
     <div class='backgroundText'>
-        Currently UN/CEFACT CII .xml-files are supported (e.g. XRechnung/CII,
-        <a target="_blank"
-           href="https://github.com/ConnectingEurope/eInvoicing-EN16931/tree/master/cii/examples">Examples</a>).
+        Currently only .xml-files are supported (<a id="linkExamples" href="javascript:;">Examples</a>).
 
         Open them from the menu or by pressing Ctrl + O.
     </div>
     <p id="version"></p>
     <div id="notification" class="hidden">
         <p id="message"></p>
-        <button id="close-button" onClick="closeNotification()">
-            Close
-        </button>
-        <button id="restart-button" onClick="restartApp()" class="hidden">
-            Restart
-        </button>
+        <button id="close-button" onClick="closeNotification()">Close</button>
+        <button id="restart-button" onClick="restartApp()" class="hidden">Restart</button>
     </div>
 </div>
-<script src="script.js"></script>
-<script>
 
-    const version = document.getElementById('version');
-    const notification = document.getElementById('notification');
-    const message = document.getElementById('message');
-    const restartButton = document.getElementById('restart-button');
-
-    ipcRenderer.send('app_version');
-    ipcRenderer.on('app_version', (event, arg) => {
-        ipcRenderer.removeAllListeners('app_version');
-        version.innerText = 'Version ' + arg.version;
-    });
-
-    ipcRenderer.on('update_available', () => {
-        ipcRenderer.removeAllListeners('update_available');
-        message.innerText = 'A new update is available. Downloading now...';
-        notification.classList.remove('hidden');
-    });
-
-    ipcRenderer.on('update_downloaded', () => {
-        ipcRenderer.removeAllListeners('update_downloaded');
-        message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
-        restartButton.classList.remove('hidden');
-        notification.classList.remove('hidden');
-    });
-
-    function closeNotification() {
-        notification.classList.add('hidden');
-    }
-
-    function restartApp() {
-        ipcRenderer.send('restart_app');
-    }
-</script>
+<div id='viewContainer'>
+    <iframe id='viewer' name='viewer'></iframe>
+</div>
+<script src="./script.js"></script>
 
 
+<!--<script src="assets/js/index.js"></script>-->
 </body>
 </html>

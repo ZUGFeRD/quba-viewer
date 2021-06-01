@@ -9,15 +9,25 @@ structured (i.e., XML) and hybrid (Factur-X/ZUGFeRD PDF) electronic invoices.
 History
 =============
 <details>
-<summary>0.1 31.03.2021</summary>
+<summary>0.2 xx.xx.2021</summary>
+    - Support for XRechnung (UBL)
+    - "dark" theming
+    - possibility to open multiple files at the same time in the same viewer (tabs)
+    - print 
+</details> 
+<details>
+<summary>0.1 2021-03-31</summary>
     - Initial release
     - Support for XRechnung (UN/CEFACT CII)
+    - release for Windows on 2021-03-31, for Linux on 2101-04-16 and for Mac on 2021-04-27
 </details> 
 
 Architecture
 =============
-So far, this is a simple [electron](https://www.electronjs.org/) application (just use `npm start` to run) which uses XSLT to convert XML to HTML,
-more precisely it uses [saxon-js](https://www.saxonica.com/saxon-js/) as XSLT processor to apply
+This viewer is a simple [electron](https://www.electronjs.org/) application (just use `npm start` to run) 
+which uses some XML techniques (XSLT) to convert XML to HTML.
+
+More precisely it uses [saxon-js](https://www.saxonica.com/saxon-js/) as XSLT processor to apply
 some [available](https://github.com/itplr-kosit/xrechnung-visualization) XSLT style sheets which were previously 
 converted to .sef.json files using the xslt3 utility.
 
@@ -40,6 +50,11 @@ conversion is a two-step process,
   * from the input XML to an intermediate XR format using `cii-xr.sef.json` and 
   * from this XR format to HTML using `xrechnung-html.sef.json`
 
+of course if the root note is detected to be UBL 
+the first step will be using `ubl-xr.sef.json`.
+
+In the doc folder there is also a beginning [general Electron documentation](doc/electron.md).
+
 Development
 =============
 
@@ -59,14 +74,35 @@ npm run start
 
 
 
-Debugging
+Debugging and testing
 =============
 
 Use CTRL+B to open the developer console.
 `npm start` of course starts the application for local testing.
 
+```
+npm run start
+```
+should tell you if the software runs
+
+```
+npm run build
+```
+will build a version, which you can install e.g. with `dist\quba_viewer Setup 0.2.0.exe`.
+If you do not run it from the start menu, but in a shell directly from 
+`\Users\<your user name>\AppData\Local\Programs\quba_viewer\quba_viewer.exe`
+you will also see potential error output on the console.
+
+Common issues include listing runtime dependencies as devDepencencies 
+or not listing files to be included in the deployment in the build.files.filter 
+(both issues can be fixed in the package.json).
+
+
 Deployment
 =============
+
+The final update can then be deployed by Github users who have been granted access 
+via a powershell using
 
 ```
 $env:GH_TOKEN = '<private github access token>'
@@ -80,5 +116,4 @@ start Quba in a shell, e.g.
 Known issues
 =============
 
-  * XRechnung(UBL) is not yet supported
   * the invoice output is german

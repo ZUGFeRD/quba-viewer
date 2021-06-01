@@ -1,6 +1,6 @@
 {
   "name": "quba_viewer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Viewer",
   "main": "main.js",
   "scripts": {
@@ -28,11 +28,9 @@
           "script.js",
           "xrechnung-viewer.js",
           "xrechnung-viewer.css",
-          "xrechnung-html.xsl",
           "xrechnung-html.sef.json",
-          "xr-mapping.xsl",
-          "cii-xr.xsl",
           "cii-xr.sef.json",
+          "ubl-xr.sef.json",
           "package.json"
         ]
       },
@@ -60,8 +58,8 @@
     ]
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/ZUGFeRD/quba-viewer.git"
+    "type": "git",
+    "url": "https://github.com/ZUGFeRD/quba-viewer.git"
   },
   "keywords": [],
   "author": "Cuba",
@@ -75,9 +73,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "custom-electron-titlebar": "^3.2.6",
     "electron": "^11.2.3",
-    "electron-squirrel-startup": "^1.0.0",
     "node": "^15.8.0"
   },
   "config": {
@@ -110,8 +106,11 @@
   "dependencies": {
     "custom-electron-titlebar": "^3.2.6",
     "electron-localshortcut": "^3.2.1",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^7.0.2",
+    "electron-tabs": "^0.15.0",
     "electron-updater": "^4.3.8",
+    "fast-xml-parser": "^3.19.0",
     "saxon-js": "^2.1.0"
   }
 }

@@ -5,28 +5,27 @@ const electronLocalshortcut = require('electron-localshortcut');
 
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
+//const url = require('url');
 
 let win, aboutWin;
-;
 
 function createWindow() {
     win = new BrowserWindow({
         width: 800,
         height: 600,
-        icon: 'assets/img/logo.png',
+        icon: './assets/img/logoonly.svg',
         webPreferences: {
             plugins: true,
             nodeIntegration: true,
+            enableRemoteModule: true,
         },
-        // frame: false
+         frame: false
     })
 
     win.loadFile('index.html');
     win.once('ready-to-show', () => {
         autoUpdater.checkForUpdatesAndNotify();
     });
-
 }
 
 function registerShortcuts() {
@@ -37,10 +36,11 @@ function registerShortcuts() {
 
 app.on('ready', function () {
     createWindow()
-
     const template = [
         {
             label: 'File',
+            id: 'file-open',
+            accelerator: 'CmdOrCtrl+O',
             submenu: [
                 {
                     label: 'Open File',
@@ -48,7 +48,18 @@ app.on('ready', function () {
                     click() {
                         openFile();
                     }
-
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    label: 'Print',
+                    id: 'file-print',
+                    accelerator: 'CmdOrCtrl+P',
+                    enabled: true,
+                    click() {
+                        win.webContents.send('file-print')
+                    }
                 },
                 {
                     type: 'separator'
@@ -61,7 +72,6 @@ app.on('ready', function () {
                 }
             ]
         },
-
         {
             label: 'Edit',
             submenu: [
@@ -77,7 +87,6 @@ app.on('ready', function () {
                 {role: 'selectall'}
             ]
         },
-
         {
             label: 'Help',
             submenu: [
@@ -89,8 +98,8 @@ app.on('ready', function () {
                 }
             ]
         }
-
     ]
+
     const menucreate = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menucreate)
 
@@ -160,6 +169,21 @@ if (!gotTheLock) {
         event.sender.send('app_version', {version: app.getVersion()});
     });
 
+    ipcMain.on('open-examples', (event) => {
+        //supposed to open https://github.com/ConnectingEurope/eInvoicing-EN16931/tree/master/cii/examples
+        let exWin = new BrowserWindow({
+            width: 800,
+            height: 600,
+            icon: './assets/img/logoonly.svg',
+            webPreferences: {
+                plugins: true,
+                nodeIntegration: true,
+                enableRemoteModule: true,
+            },
+            frame: true
+        })
+        exWin.loadURL("https://github.com/ConnectingEurope/eInvoicing-EN16931/tree/master/cii/examples")
+    });
     autoUpdater.on('update-available', () => {
         win.webContents.send('update_available');
     });
@@ -171,7 +195,6 @@ if (!gotTheLock) {
     ipcMain.on('restart_app', () => {
         autoUpdater.quitAndInstall();
     });
-
 }
 
 function transformCII(sourceFileName) {
@@ -183,8 +206,7 @@ function transformUBL(sourceFileName) {
 }
 
 function transform(sourceFileName, stylesheetFileName) {
-
-    let test = SaxonJS.transform({
+    SaxonJS.transform({
         stylesheetFileName,
         sourceFileName,
         destination: "serialized"
@@ -201,7 +223,9 @@ function transform(sourceFileName, stylesheetFileName) {
         }, "async").then(output => {
             //console.log("second transformation finished", output.principalResult);
             let HTML = output.principalResult;
-            win.webContents.send('HTML_TRANSFORMED', HTML); // send to be displayed
+            win.webContents.send('file-open', [
+                sourceFileName,
+                `data:text/html;base64,${Buffer.from(HTML).toString('base64')}`,]); // send to be displayed
             return HTML;
         }).catch(output => {
             console.error("error", output);
@@ -214,7 +238,7 @@ function transform(sourceFileName, stylesheetFileName) {
 }
 
 function openFile() {
-    const files = dialog.showOpenDialog(BrowserWindow, {
+    dialog.showOpenDialog(BrowserWindow, {
             path: '',
             properties: ['openFile'],
             filters: [{
