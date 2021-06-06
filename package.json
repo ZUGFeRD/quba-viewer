@@ -111,6 +111,6 @@
     "electron-tabs": "^0.15.0",
     "electron-updater": "^4.3.8",
     "fast-xml-parser": "^3.19.0",
-    "saxon-js": "^2.1.0"
+    "saxon-js": "^2.2.0"
   }
 }

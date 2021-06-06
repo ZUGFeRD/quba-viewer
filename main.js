@@ -1,4 +1,4 @@
-require('saxon-js');
+const SaxonJS = require('saxon-js');
 const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, dialog, protocol} = require('electron');
 const {autoUpdater} = require('electron-updater');
 const electronLocalshortcut = require('electron-localshortcut');
