@@ -56,7 +56,7 @@ app.on('ready', function () {
                     label: 'Print',
                     id: 'file-print',
                     accelerator: 'CmdOrCtrl+P',
-                    enabled: true,
+                    enabled: false,
                     click() {
                         win.webContents.send('file-print')
                     }
@@ -75,9 +75,7 @@ app.on('ready', function () {
         {
             label: 'Edit',
             submenu: [
-                {role: 'undo'},
-                {role: 'redo'},
-                {type: 'separator'},
+          
                 {role: 'cut'},
                 {role: 'copy'},
                 {role: 'paste'},
@@ -102,6 +100,9 @@ app.on('ready', function () {
 
     const menucreate = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menucreate)
+    ipcMain.on('toggle-menu-items', (event, flag) => {
+        menucreate.getMenuItemById('file-print').enabled = flag;
+    });
 
     var newWindow = null
 

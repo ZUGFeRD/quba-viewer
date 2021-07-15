@@ -233,6 +233,16 @@
       this._viewerElement.onload = this._setViewerEvents.bind(this)
     }
 
+     /**
+         * @desc Opens pathName in iframe
+         * @param {*} pathName
+         */
+    /*  _openInViewer(pathName) {
+        this._viewerElement.src = '/assets/lib/pdfjs/web/viewer.html?file=' +
+            encodeURIComponent(pathName);
+        this._viewerElement.onload = this._setViewerEvents.bind(this);
+    }*/
+
     _focusCurrentTab() {
       this._tabs.forEach(tabElement => {
         tabElement.classList.remove('active')
@@ -321,9 +331,80 @@
       })
     }
 
+
+    /**
+         * @desc Sets seek element events
+         */
+     _setSeekEvents() {
+      let that = this;
+      this._leftSeekElement.addEventListener('click', event => {
+          if (that._currentBucket > 0) {
+              that._currentBucket--;
+              that._appendTabsToContainer(that._currentBucket);
+              that._toggleSeek();
+          }
+      });
+
+      this._rightSeekElement.addEventListener('click',
+          event => {
+              if (that._currentBucket < that._buckets - 1) {
+                  that._currentBucket++;
+                  that._appendTabsToContainer(that._currentBucket);
+                  that._toggleSeek();
+              }
+          });
+
+  }
+
+  /**
+   * @desc Sets window events
+   */
+  _setWindowEvents() {
+      let that = this;
+      // Adjust tabs on resize
+      window.addEventListener('resize', event => {
+          that._computeStepTabs();
+          if (that._tabs.length > 0) {
+              that._adjustTabs();
+          }
+      });
+  }
+
+  /**
+   * @desc Extracts path name from the arguments and opens the file.
+   * @param {*} args 
+   */
+  _processArguments(args) {
+      const argsLength = args.length;
+      if (argsLength > 1 && args[argsLength - 1].endsWith(".pdf")) {
+          this._openFile(args[argsLength - 1]);
+      }
+  }
+
+  /**
+   * @desc Sets external application events
+   */
+  _setExternalEvents() {
+      let that = this;
+      ipcRenderer.on('external-file-open', (event, args) => {
+          that._processArguments(args);
+      });
+  }
+
+  /**
+   * @desc Process initial arguments to the application
+   */
+  _processRemoteArguments() {
+      this._processArguments(remote.process.argv);
+  }
+
     run() {
-      this._setMenuItemEvents()
-      this._setViewerEvents()
+      this._setMenuItemEvents();
+      this._setSeekEvents();
+      this._setViewerEvents();
+      this._setWindowEvents();
+      this._setExternalEvents();
+      this._processRemoteArguments();
     }
   }
 
