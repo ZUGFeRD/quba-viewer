@@ -1,6 +1,6 @@
 {
   "name": "quba_viewer",
-  "version": "0.2.0",
+  "version": "0.5.0",
   "description": "Viewer",
   "main": "main.js",
   "scripts": {
@@ -62,8 +62,8 @@
     "url": "https://github.com/ZUGFeRD/quba-viewer.git"
   },
   "keywords": [],
-  "author": "Cuba",
-  "license": "ISC",
+  "author": "Quba",
+  "license": "APL",
   "devDependencies": {
     "@babel/core": "^7.12.17",
     "@babel/node": "^7.12.17",
@@ -109,8 +109,10 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^7.0.2",
     "electron-tabs": "^0.15.0",
+    "electron-unhandled": "^3.0.2",
     "electron-updater": "^4.3.8",
     "fast-xml-parser": "^3.19.0",
+    "pdfjs-dist": "^2.8.335",
     "saxon-js": "^2.2.0"
   }
 }

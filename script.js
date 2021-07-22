@@ -228,11 +228,18 @@
       this._viewerElement.contentDocument.addEventListener('mousedown', this._propagateClick)
     }
 
+   
     _openInViewer(pathName, fileContent) {
-      this._viewerElement.src = fileContent
-      this._viewerElement.onload = this._setViewerEvents.bind(this)
+      console.log(pathName, this._getFileExtension(pathName));
+      const ext = this._getFileExtension(pathName);
+      if (ext === 'pdf') {
+        this._viewerElement.src = 'assets/lib/pdfjs/web/viewer.html?file=' + encodeURIComponent(pathName);
+        this._viewerElement.onload = this._setViewerEvents.bind(this);
+      } else  {
+        this._viewerElement.src = fileContent
+        this._viewerElement.onload = this._setViewerEvents.bind(this)
+      }
     }
-
      /**
          * @desc Opens pathName in iframe
          * @param {*} pathName
@@ -319,10 +326,29 @@
       this._addTab(pathName, fileContent)
     }
 
+    _getFileExtension(filePath) {
+      if (typeof filePath === 'string') {
+        return filePath.slice((filePath.lastIndexOf(".") - 1 >>> 0) + 2);
+      }
+      return '';
+    }
+
     _setMenuItemEvents() {
-      ipcRenderer.on('file-open', (event, args) => {
+
+      ipcRenderer.on('xml-open', (event, args) => {
         this._propagateClick()
         this._openFile(args[0], args[1])
+      })
+
+      ipcRenderer.on('pdf-open', (event, args) => {
+       this._propagateClick()
+        this._openFile(args[0], args[1])
+       
+   /*     this._viewerElement.src = 'lib/pdfjs/web/viewer.html?file=' +
+        encodeURIComponent(args[0]);
+    this._viewerElement.onload = this._setViewerEvents.bind(this);
+
+        this._propagateClick()*/
       })
 
       ipcRenderer.on('file-print', (event, args) => {

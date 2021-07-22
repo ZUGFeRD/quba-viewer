@@ -2,6 +2,7 @@ const SaxonJS = require('saxon-js');
 const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, dialog, protocol} = require('electron');
 const {autoUpdater} = require('electron-updater');
 const electronLocalshortcut = require('electron-localshortcut');
+const pdfjsLib = require('pdfjs-dist/legacy/build/pdf');
 
 const fs = require('fs');
 const path = require('path');
@@ -19,7 +20,7 @@ function createWindow() {
             nodeIntegration: true,
             enableRemoteModule: true,
         },
-         frame: false
+        frame: false
     })
 
     win.loadFile('index.html');
@@ -33,6 +34,18 @@ function registerShortcuts() {
         win.webContents.openDevTools();
     });
 }
+// Importing unhandled.
+const unhandled = require('electron-unhandled');
+
+unhandled({
+    logger: () => {
+        console.error();
+    },
+    showDialog: true,
+    reportButton: (error) => {
+        console.log('Report Button Initialized');
+    }
+});
 
 app.on('ready', function () {
     createWindow()
@@ -75,7 +88,7 @@ app.on('ready', function () {
         {
             label: 'Edit',
             submenu: [
-          
+
                 {role: 'cut'},
                 {role: 'copy'},
                 {role: 'paste'},
@@ -183,7 +196,7 @@ if (!gotTheLock) {
             },
             frame: true
         })
-        exWin.loadURL("https://github.com/ConnectingEurope/eInvoicing-EN16931/tree/master/cii/examples")
+        exWin.loadURL("https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application")
     });
     autoUpdater.on('update-available', () => {
         win.webContents.send('update_available');
@@ -198,18 +211,19 @@ if (!gotTheLock) {
     });
 }
 
-function transformCII(sourceFileName) {
-    return transform(sourceFileName, path.join(__dirname, "cii-xr.sef.json"));
+function transformAndDisplayCII(sourceFileName, content) {
+    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "cii-xr.sef.json"));
 }
 
-function transformUBL(sourceFileName) {
-    return transform(sourceFileName, path.join(__dirname, "ubl-xr.sef.json"));
+function transformAndDisplayUBL(sourceFileName, content) {
+    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "ubl-xr.sef.json"));
 }
 
-function transform(sourceFileName, stylesheetFileName) {
+function transformAndDisplay(sourceFileName, content, stylesheetFileName) {
+
     SaxonJS.transform({
         stylesheetFileName,
-        sourceFileName,
+        sourceText: content,
         destination: "serialized"
     }, "async").then(output => {
 
@@ -224,58 +238,109 @@ function transform(sourceFileName, stylesheetFileName) {
         }, "async").then(output => {
             //console.log("second transformation finished", output.principalResult);
             let HTML = output.principalResult;
-            win.webContents.send('file-open', [
+            win.webContents.send('xml-open', [
                 sourceFileName,
                 `data:text/html;base64,${Buffer.from(HTML).toString('base64')}`,]); // send to be displayed
             return HTML;
         }).catch(output => {
-            console.error("error", output);
+            displayError("Exception", output.getMessage());
         });
 
     }).catch(output => {
-        console.error("error", output);
+        displayError("Exception", output.getMessage());
     });
+
+}
+
+function displayError(message, detail) {
+    console.error(message, detail)
+    const options = {
+        type: 'error',
+        buttons: ['OK'],
+        defaultId: 1,
+        title: 'Error',
+        message, detail
+    };
+
+    dialog.showMessageBox(null, options, (response, checkboxChecked) => {
+    });
+}
+
+function loadAndDisplayXML(filename) {
+    try {
+        const content = fs.readFileSync(filename).toString();
+        var parser = require('fast-xml-parser');
+        let json = parser.parse(content);
+        for (let key in json) {
+            // parse root node
+            if (key.includes("CrossIndustryInvoice")) {
+
+                transformAndDisplayCII(filename, content);
+            } else if (key.includes("Invoice")) {
+                transformAndDisplayUBL(filename, content);
+            } else {
+                displayError('File format not recognized', 'Is it a UBL 2.1 or UN/CEFACT 2016b XML file or PDF you are trying to open?');
+
+            }
+        }
+    } catch (e) {
+        displayError("Exception", e.message)
+    }
 
 }
 
 function openFile() {
     dialog.showOpenDialog(BrowserWindow, {
-            path: '',
-            properties: ['openFile'],
-            filters: [{
-                name: 'all',
-                extensions: ['txt']
-            }]
-        }).then
-        (
-            result => {
-                if (!result.canceled) {
+        path: '',
+        properties: ['openFile'],
+        filters: [{
+            name: 'all',
+            extensions: ['txt']
+        }]
+    }).then
+    (
+        result => {
+            if (!result.canceled) {
 
-                    let paths = result.filePaths;
-                    if (paths && paths.length > 0) {
-                        //console.log(SaxonJS);
-                        const content = fs.readFileSync(paths[0]).toString();
-                        var parser = require('fast-xml-parser');
-                        let json = parser.parse(content);
-                        for (let key in json) {
-                            // parse root node
-                            if (key.includes("CrossIndustryInvoice")) {
-                                transformCII(paths[0]);
-                            } else if (key.includes("Invoice")) {
-                                transformUBL(paths[0]);
-                            } else {
-                                console.error("XML format not recognized");
+                let paths = result.filePaths;
+                if (paths && paths.length > 0) {
+                    //console.log(SaxonJS);
+                    if (paths[0].toLowerCase().includes(".pdf")) {
+                        win.webContents.send('pdf-open', [
+                            paths[0], null]);
+                        // check if the PDF contains embedded xml files
 
-                            }
-                        }
+                        var loadingTask = pdfjsLib.getDocument(paths[0]);
+                        loadingTask.promise.then(function (pdf) {
+                            pdf.getAttachments().then(function (embeddedFiles) {
+                                let embeddedXML = null;
+                                if (Array.isArray(embeddedFiles)) {
+                                    if ("factur-x.xml" in embeddedFiles) {
+                                        embeddedXML = new TextDecoder().decode(embeddedFiles["factur-x.xml"]["content"]);
+                                    }
+                                    if ("zugferd-invoice.xml" in embeddedFiles) {
+                                        // the embedded file can also be named zugferd-invoice.xml
+                                        // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
+                                        embeddedXML = new TextDecoder().decode(embeddedFiles["zugferd-invoice.xml"]["content"]);
+                                    }
 
+                                }
+
+                                if (embeddedXML !== null) {
+                                    transformAndDisplayCII(paths[0] + " (embedded xml)", embeddedXML);
+                                }
+                            })
+                            // you can now use *pdf* here
+                    }).catch(error => displayError("Exception", error.getMessage()));
+
+                    } else {
+                        loadAndDisplayXML(paths[0]);
                     }
-
-                    // console.log (content, paths[0]);
                 }
-
             }
-        )
+        }
+    )
     ;
 
 }
+
