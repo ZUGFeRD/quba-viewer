@@ -314,7 +314,7 @@ function openFile() {
                         loadingTask.promise.then(function (pdf) {
                             pdf.getAttachments().then(function (embeddedFiles) {
                                 let embeddedXML = null;
-                                if (Array.isArray(embeddedFiles)) {
+                                if (typeof embeddedFiles=="object") {
                                     if ("factur-x.xml" in embeddedFiles) {
                                         embeddedXML = new TextDecoder().decode(embeddedFiles["factur-x.xml"]["content"]);
                                     }
@@ -323,9 +323,7 @@ function openFile() {
                                         // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
                                         embeddedXML = new TextDecoder().decode(embeddedFiles["zugferd-invoice.xml"]["content"]);
                                     }
-
                                 }
-
                                 if (embeddedXML !== null) {
                                     transformAndDisplayCII(paths[0] + " (embedded xml)", embeddedXML);
                                 }
