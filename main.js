@@ -212,11 +212,11 @@ if (!gotTheLock) {
 }
 
 function transformAndDisplayCII(sourceFileName, content) {
-    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "cii-xr.sef.json"));
+    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "xslt/cii-xr.sef.json"));
 }
 
 function transformAndDisplayUBL(sourceFileName, content) {
-    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "ubl-xr.sef.json"));
+    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "xslt/ubl-xr.sef.json"));
 }
 
 function transformAndDisplay(sourceFileName, content, stylesheetFileName) {
@@ -232,7 +232,7 @@ function transformAndDisplay(sourceFileName, content, stylesheetFileName) {
         let xrXML = output.principalResult;
 
         let test = SaxonJS.transform({
-            stylesheetFileName: path.join(__dirname, "xrechnung-html.sef.json"),
+            stylesheetFileName: path.join(__dirname, "xslt/xrechnung-html.sef.json"),
             sourceText: xrXML,
             destination: "serialized"
         }, "async").then(output => {

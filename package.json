@@ -1,13 +1,13 @@
 {
   "name": "quba_viewer",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Viewer",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build": "electron-builder build --win --publish never",
+    "build": "electron-builder build --win --linux --publish never",
     "publish": "electron-builder build --win --publish always",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"

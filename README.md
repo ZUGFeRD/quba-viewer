@@ -9,6 +9,11 @@ structured (i.e., XML) and hybrid (Factur-X/ZUGFeRD PDF) electronic invoices.
 History
 =============
 <details>
+<summary>0.5 27.07.2021</summary>
+    - Support for PDF
+    - Support for Factur-X/ZUGFeRD
+    - Display errors as dialog instead of hiding them 
+</details> 
 <summary>0.2 10.06.2021</summary>
     - Support for XRechnung (UBL)
     - "dark" theming

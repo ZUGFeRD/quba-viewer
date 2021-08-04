@@ -223,3 +223,12 @@ iframe {
     cursor: pointer;
     user-select: none;
 }
+
+.fixedSize {
+    width:200px;
+    height:100px;
+}
+
+.scrollable {
+    overflow: auto;
+}
