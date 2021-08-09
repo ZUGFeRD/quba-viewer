@@ -45,6 +45,8 @@
 
       this._tabs = []
 
+      this._xmlContents = []
+
       this._contents = []
 
       this._buckets = 1
@@ -61,6 +63,8 @@
       this._viewerElement = document.getElementById('viewer')
       this._leftSeekElement = document.getElementById('leftSeek')
       this._rightSeekElement = document.getElementById('rightSeek')
+      this._xmlContainerElement = document.getElementById("xmlContainer")
+      this._viewContainerElement = document.getElementById("viewContainer")
     }
 
     _computeStepTabs() {
@@ -163,6 +167,11 @@
           that._viewerElement.removeAttribute('src')
           that._toggleMenuItems(false)
           that._toggleBackgroundInfo(true)
+          that._xmlContents = []
+          that._resetXMLSection();
+          //that._viewContainerElement.style.width = "100%";
+          //that._xmlContainerElement.style.display = "none";
+          that._resetContainerSize();
         } else if (tabElement === that._currentTab) {
 
           let newCurrentPosition = positionToRemove
@@ -179,6 +188,7 @@
 
         that._paths.splice(positionToRemove, 1)
         that._tabs.splice(positionToRemove, 1)
+        that._xmlContents.splice(positionToRemove, 1)
         that._updateBuckets()
 
         if (that._tabs.length > 0) {
@@ -227,7 +237,93 @@
       this._viewerElement.contentDocument.addEventListener('click', this._propagateClick)
       this._viewerElement.contentDocument.addEventListener('mousedown', this._propagateClick)
     }
+    _showXMLSection(pathName, xmlInfo) {
+      this._viewContainerElement.style.width = "50%";
+      const showXMLBtnElement = document.getElementById("showXMLBtn");
+      // Close button
+      const closeXML = document.getElementById("closeXML");
 
+      if (xmlInfo && xmlInfo.isShowingXMLSection) {
+        // const para = document.createElement("pre");
+        // const node = document.createTextNode(xmlInfo.contents);
+        // para.appendChild(node);
+        // this._xmlContainerElement.appendChild(para);
+        const iframe = document.createElement("iframe");
+        iframe.setAttribute("style", "margin-top: 24px");
+        iframe.setAttribute("src", xmlInfo.contents);
+        this._xmlContainerElement.appendChild(iframe);
+        showXMLBtnElement.style.display = "none";
+      } else {
+        showXMLBtnElement.style.display = "block";
+      }
+      const that = this;
+      closeXML.onclick = () => {
+        // that._viewContainerElement.style.width = "100%";
+        // that._xmlContainerElement.style.display = "none";
+        showXMLBtnElement.style.display = "block";
+        // const preTag = that._xmlContainerElement.getElementsByTagName("pre")[0];
+        // if (preTag) {
+        //   preTag.remove();
+        // }
+
+        const iframeTag = that._xmlContainerElement.getElementsByTagName("iframe")[0];
+        if (iframeTag) {
+          iframeTag.remove();
+        }
+
+        const xmlIndex = that._xmlContents.findIndex(
+          (item) => item.path === pathName && item.isShowXML
+        );
+        console.log("xmlSection", xmlIndex);
+        if (xmlIndex !== undefined) {
+          // that._xmlContents[xmlIndex].isShowXML = false;
+          that._xmlContents[xmlIndex].isShowingXMLSection = false;
+        }
+      };
+      showXMLBtnElement.onclick = () => {
+        const xml = that._xmlContents.find((item) => item.path === pathName);
+        const xmlIndex = that._xmlContents.findIndex(
+          (item) => item.path === pathName
+        );
+        console.log("xmlSection", xml);
+
+        if (xml && xml.contents) {
+          // const para = document.createElement("pre");
+          // const node = document.createTextNode(xml.contents);
+          // para.appendChild(node);
+          // that._xmlContainerElement.appendChild(para);
+
+          const iframe = document.createElement("iframe");
+          iframe.setAttribute("style", "margin-top: 24px");
+          iframe.setAttribute("src", xml.contents);
+          that._xmlContainerElement.appendChild(iframe);
+
+          that._xmlContents[xmlIndex].isShowingXMLSection = true;
+          showXMLBtnElement.style.display = "none";
+        }
+      };
+
+      this._xmlContainerElement.style.display = "block";
+    }
+
+    _resetXMLSection() {
+      // this._viewContainerElement.style.width = "100%";
+      // this._xmlContainerElement.style.display = "none";
+      // const preTag = this._xmlContainerElement.getElementsByTagName("pre")[0];
+      // if (preTag) {
+      //   preTag.remove();
+      // }
+
+      const iframeTag = this._xmlContainerElement.getElementsByTagName("iframe")[0];
+      if (iframeTag) {
+        iframeTag.remove();
+      }
+    }
+
+    _resetContainerSize() {
+      this._viewContainerElement.style.width = "100%";
+      this._xmlContainerElement.style.display = "none";
+    }
    
     _openInViewer(pathName, fileContent) {
       console.log(pathName, this._getFileExtension(pathName));
@@ -235,9 +331,43 @@
       if (ext === 'pdf') {
         this._viewerElement.src = 'assets/lib/pdfjs/web/viewer.html?file=' + encodeURIComponent(pathName);
         this._viewerElement.onload = this._setViewerEvents.bind(this);
-      } else  {
+        if (this._xmlContents.length) {
+          const xmlSec = this._xmlContents.find(
+            (item) => item.path === pathName && item.isShowXML
+          );
+          console.log("xmlSection", xmlSec);
+          if (xmlSec) {
+            this._showXMLSection(pathName, xmlSec);
+          } else {
+            this._resetContainerSize();
+          }
+
+        }
+        else {
+          this._resetContainerSize();
+        }
+
+      } 
+      
+      /*else  if(ext === 'Pdf') {
+        this._viewerElement.src = 'assets/lib/pdfjs/web/viewer.html?file=' + encodeURIComponent(pathName);
+        this._viewerElement.onload = this._setViewerEvents.bind(this);
+        if (this._xmlContents.length) {
+          const xmlSec = this._xmlContents.find(
+            (item) => item.path === pathName && item.isShowXML
+          );
+          console.log("xmlSection", xmlSec);
+          if (xmlSec) {
+            this._showXMLSection(pathName, xmlSec);
+          }
+        }
+      }*/
+      else  {
         this._viewerElement.src = fileContent
         this._viewerElement.onload = this._setViewerEvents.bind(this)
+        this._resetContainerSize();
+        //this._viewContainerElement.style.width = "100%";
+        //this._xmlContainerElement.style.display = "none";
       }
     }
      /**
@@ -268,6 +398,7 @@
 
     _switchTab(tabElement) {
       if (this._currentTab !== tabElement) {
+        this._resetXMLSection();
         this._currentTab = tabElement
         this._updateTitle(this._paths[this._tabs.indexOf(tabElement)])
         this._adjustTabs()
@@ -289,7 +420,7 @@
 
 
     _addTab(pathName, fileContent) {
-
+      this._resetXMLSection();
       if (this._tabs.length === 0) {
         this._toggleTabContainer(true)
         this._toggleMenuItems(true)
@@ -301,6 +432,31 @@
         this._switchTab(this._tabs[this._paths.indexOf(pathName)])
         return
       }
+
+      const ext = this._getFileExtension(pathName);
+      if (ext === "pdf") {
+        const res = ipcRenderer.sendSync("check-xml", pathName);
+        if (res) {
+          this._xmlContents.push({
+            path: pathName,
+            contents: res,
+            isShowXML: true,
+            isShowingXMLSection: false,
+          });
+        }
+      }
+
+      /*else if (ext === "Pdf") {
+        const res = ipcRenderer.sendSync("check-xml", pathName);
+        if (res) {
+          this._xmlContents.push({
+            path: pathName,
+            contents: res,
+            isShowXML: true,
+            isShowingXMLSection: false,
+          });
+        }
+      }*/
 
       const tabElement = this._createTabElement(pathName)
 

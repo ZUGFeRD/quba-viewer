@@ -34,6 +34,7 @@ function registerShortcuts() {
         win.webContents.openDevTools();
     });
 }
+
 // Importing unhandled.
 const unhandled = require('electron-unhandled');
 
@@ -209,19 +210,62 @@ if (!gotTheLock) {
     ipcMain.on('restart_app', () => {
         autoUpdater.quitAndInstall();
     });
+    ipcMain.on("check-xml", async (event, filePath) => {
+        try {
+            var loadingTask = pdfjsLib.getDocument(filePath);
+            loadingTask.promise
+                .then(function (pdf) {
+                    pdf.getAttachments().then(function (embeddedFiles) {
+                        let embeddedXML = null;
+                        if (typeof embeddedFiles == "object") {
+                            if (embeddedFiles && embeddedFiles["factur-x.xml"]) {
+                                embeddedXML = new TextDecoder().decode(
+                                    embeddedFiles["factur-x.xml"]["content"]
+                                );
+                            }
+                            if (embeddedFiles && embeddedFiles["zugferd-invoice.xml"]) {
+                                // the embedded file can also be named zugferd-invoice.xml
+                                // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
+                                embeddedXML = new TextDecoder().decode(
+                                    embeddedFiles["zugferd-invoice.xml"]["content"]
+                                );
+                            }
+                        }
+                        if (embeddedXML !== null) {
+                            transformAndDisplayCII(
+                                filePath + "(embedded xml)",
+                                embeddedXML, false
+                            ).then((res) => {
+                                event.returnValue = res ? res : undefined;
+                            });
+                        }
+                        else {
+                            event.returnValue = undefined;
+                        }
+                    });
+                    // you can now use *pdf* here
+                })
+                .catch((error) => {displayError("Exception", error.getMessage())
+            });
+        } catch (error) {
+            event.returnValue = undefined;
+            console.error("Error", error);
+        }
+    });
 }
 
-function transformAndDisplayCII(sourceFileName, content) {
-    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "xslt/cii-xr.sef.json"));
+function transformAndDisplayCII(sourceFileName, content, shouldDisplay) {
+    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "/xslt/cii-xr.sef.json"), shouldDisplay);
 }
 
-function transformAndDisplayUBL(sourceFileName, content) {
-    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "xslt/ubl-xr.sef.json"));
+
+function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
+    return transformAndDisplay(sourceFileName, content, path.join(__dirname, "/xslt/ubl-xr.sef.json"), shouldDisplay);
 }
 
-function transformAndDisplay(sourceFileName, content, stylesheetFileName) {
+function transformAndDisplay(sourceFileName, content, stylesheetFileName, shouldDisplay) {
 
-    SaxonJS.transform({
+    return SaxonJS.transform({
         stylesheetFileName,
         sourceText: content,
         destination: "serialized"
@@ -230,18 +274,20 @@ function transformAndDisplay(sourceFileName, content, stylesheetFileName) {
         //console.log("first transformation finished", output.principalResult);
 
         let xrXML = output.principalResult;
-
-        let test = SaxonJS.transform({
-            stylesheetFileName: path.join(__dirname, "xslt/xrechnung-html.sef.json"),
+        return SaxonJS.transform({
+            stylesheetFileName: path.join(__dirname, "/xslt/xrechnung-html.sef.json"),
             sourceText: xrXML,
             destination: "serialized"
         }, "async").then(output => {
             //console.log("second transformation finished", output.principalResult);
             let HTML = output.principalResult;
-            win.webContents.send('xml-open', [
-                sourceFileName,
-                `data:text/html;base64,${Buffer.from(HTML).toString('base64')}`,]); // send to be displayed
-            return HTML;
+            if (shouldDisplay) {
+                win.webContents.send('xml-open', [
+                    sourceFileName,
+                    `data:text/html;base64,${Buffer.from(HTML).toString('base64')}`,]); // send to be displayed
+            }
+            return `data:text/html;base64,${Buffer.from(HTML).toString('base64')}`;
+            ;
         }).catch(output => {
             displayError("Exception", output.getMessage());
         });
@@ -274,13 +320,11 @@ function loadAndDisplayXML(filename) {
         for (let key in json) {
             // parse root node
             if (key.includes("CrossIndustryInvoice")) {
-
-                transformAndDisplayCII(filename, content);
+                transformAndDisplayCII(filename, content, true);
             } else if (key.includes("Invoice")) {
-                transformAndDisplayUBL(filename, content);
+                transformAndDisplayUBL(filename, content, true);
             } else {
                 displayError('File format not recognized', 'Is it a UBL 2.1 or UN/CEFACT 2016b XML file or PDF you are trying to open?');
-
             }
         }
     } catch (e) {
@@ -301,7 +345,6 @@ function openFile() {
     (
         result => {
             if (!result.canceled) {
-
                 let paths = result.filePaths;
                 if (paths && paths.length > 0) {
                     //console.log(SaxonJS);
@@ -310,26 +353,26 @@ function openFile() {
                             paths[0], null]);
                         // check if the PDF contains embedded xml files
 
-                        var loadingTask = pdfjsLib.getDocument(paths[0]);
-                        loadingTask.promise.then(function (pdf) {
-                            pdf.getAttachments().then(function (embeddedFiles) {
-                                let embeddedXML = null;
-                                if (typeof embeddedFiles=="object") {
-                                    if ("factur-x.xml" in embeddedFiles) {
-                                        embeddedXML = new TextDecoder().decode(embeddedFiles["factur-x.xml"]["content"]);
-                                    }
-                                    if ("zugferd-invoice.xml" in embeddedFiles) {
-                                        // the embedded file can also be named zugferd-invoice.xml
-                                        // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
-                                        embeddedXML = new TextDecoder().decode(embeddedFiles["zugferd-invoice.xml"]["content"]);
-                                    }
-                                }
-                                if (embeddedXML !== null) {
-                                    transformAndDisplayCII(paths[0] + " (embedded xml)", embeddedXML);
-                                }
-                            })
-                            // you can now use *pdf* here
-                    }).catch(error => displayError("Exception", error.getMessage()));
+                        /* var loadingTask = pdfjsLib.getDocument(paths[0]);
+                         loadingTask.promise.then(function (pdf) {
+                             pdf.getAttachments().then(function (embeddedFiles) {
+                                 let embeddedXML = null;
+                                 if (typeof embeddedFiles=="object") {
+                                     if ("factur-x.xml" in embeddedFiles) {
+                                         embeddedXML = new TextDecoder().decode(embeddedFiles["factur-x.xml"]["content"]);
+                                     }
+                                     if ("zugferd-invoice.xml" in embeddedFiles) {
+                                         // the embedded file can also be named zugferd-invoice.xml
+                                         // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
+                                         embeddedXML = new TextDecoder().decode(embeddedFiles["zugferd-invoice.xml"]["content"]);
+                                     }
+                                 }
+                                 if (embeddedXML !== null) {
+                                     transformAndDisplayCII(paths[0] + " (embedded xml)", embeddedXML);
+                                 }
+                             })
+                             // you can now use *pdf* here
+                     }).catch(error => displayError("Exception", error.getMessage()));*/
 
                     } else {
                         loadAndDisplayXML(paths[0]);
@@ -339,6 +382,7 @@ function openFile() {
         }
     )
     ;
+
 
 }
 

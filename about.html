@@ -8,95 +8,31 @@
 </head>
 
 <body>
-    <div id='titlebar'></div>
-    <img id='logo' src='assets/img/logo.svg'/>
-    <div id='info'>
-        <div id='label'>Quba E-Invoice Viewer</div>
-        <div id='description'> Hallo wir sind Quba
-            und wir sind nichts Besonderes.
-
-            </div>
-        <div id='stats ver'>
-            <div id="version"></div>
-            <div></div>
-        </div>
-        <div id='thankyou' class="fixedSize scrollable">
-            Dem Prototype Fund und frühen Beitragenden wie Symtrax,
-            der Kosit, OpenXRechnungToolbox, Lector, Electron und dem ganzen Rest
-
-            Wir schreiben einen Open-Source-E-Rechnungsviewer. Das bedeutet, wir schreiben ein Programm, mit dem sich sogar Verbraucher strukturierte elektronische Rechnungen ansehen können.
-
-            Das heißt: Wir reden quasi direkt mit dem Nutzer. Aber die Zahlen sollten richtig sein und die eigentliche Arbeit findet unter der Motorhaube statt.
-            Dafür basieren wir auf anderen Open-Sourve-Projekten.
-
-            Hier nur ein kleiner, unvollständiger Ausschnitt aus der Liste der Giganten, auf dessen Schultern wir zu krabbeln versuchen:
-            • Ganze Projekte wie die XRechnung-Visualisierung der Kosit, die Codelisten-Erweiterung der OpenXrechnungToolbox oder auch dem Open-Source PDF-Reader Lector
-            • Bibliotheken:Wir benutzen beispielsweise Electron zur Darstellung, Electron benutzt Chromium. Chromium benutzt Blink und V8, beispielsweise unter deren Linux-Version ist eines der Kerntools die Gnu Compiler Collection. Blink ist nebenbei ein Fork von WebCore, was ein Fork von KHTML ist, das ein Fork der khtmlw-Bibliothek war, über die heutzutage kaum noch jemand spricht, wenn man morgens beim ersten Kaffee seinen Microsoft Edge Browser startet. Waldo Bastian? Nie gehört.
-            ◦ Zur Darstellung von PDF verwenden wir (wie Lector) pdf.js. Diese basiert auf zahlreichen Schriftart- und Vektorgrafikbibliotheken.
-            • Unter unserer eigenen Haube?            Zum Entwickeln verwenden wir dutzende Tools wie Git (dank an Linus Torvalds), mal ein KDiff hier und ein Notepad++ da, öfter mal ein Libreoffice und täglich Open-Source-Tools wie Super-Productivity oder Task coach zur Aufgaben/Zeiterfassung
-            ◦ als Programmiersprache Javascript, Node oder NPM,
-            ◦ als Programmierumgebung das Microsoft Visual Studio Code oder auch dessen Open-Source Kern https://vscodium.com/ , was wiederum beispielsweise Monaco verwendet.
-            ◦ Unsere Website benutzt das OceanWP Theme und Wordpress, was auf PHP basiert. MariaDB als Datenbank. PHP läuft auf einem Apache unter KVM unter Proxmox unter Linux.
-
-            Ein vollständiger Stammbaum wäre praktisch unmöglich.
-
-            Wir sind stolz darauf, ein kleines Rädchen zu sein, tun unser bestes um uns schnell und richtig zu drehen und sind froh, dass es so viele andere Räder gibt.
-
-            Jeder Beitrag ist willkommen.
-
-            Bertold Brecht hat mal sehr schön ausgedrückt, dass viele Verdienste oft viel zu wenigen Leuten zugeschrieben werden:
-
-            Fragen eines lesenden Arbeiters
-
-            Wer baute das siebentorige Theben?
-            In den Büchern stehen die Namen von Königen.
-            Haben die Könige die Felsbrocken herbeigeschleppt?
-            Und das mehrmals zerstörte Babylon:
-            Wer baute es so viele Male auf? In welchen Häusern
-            des goldstrahlenden Lima wohnten die Bauleute?
-            Wohin gingen an dem Abend, wo die Chinesische Mauer fertig war
-            die Maurer? Das große Rom
-            ist voll von Triumphbögen. Wer errichtete sie? Über wen
-            triumphierten die Cäsaren? Hatte das vielbesungene Byzanz
-            nur Paläste für seine Bewohner? Selbst in dem sagenhaften Atlantis
-            brüllten in der Nacht, wo das Meer es verschlang
-            die Ersaufenden nach ihren Sklaven.
-
-            Der junge Alexander eroberte Indien.
-            Er allein?
-            Cäsar schlug die Gallier.
-            Hatte er nicht wenigstens einen Koch bei sich?
-            Philipp von Spanien weinte, als seine Flotte
-            Untergegangen war. Weinte sonst niemand?
-            Friedrich der Zweite siegte im Siebenjährigen Krieg. Wer
-            siegte außer ihm?
-
-            Jede Seite ein Sieg.
-            Wer kochte den Siegesschmaus?
-            Alle zehn Jahre ein großer Mann.
-            Wer bezahlte die Spesen?
-
-            So viele Berichte.
-            So viele Fragen.
-
-
-        </div>
+<div id='titlebar'></div>
+<img id='logo' src='assets/img/logo.svg'/>
+<div id='info'>
+    <div id='label'>Quba</div>
+    <div id='description'>E-Invoice Viewer</div>
+    <div id='stats ver'>
+        <div id="version"></div>
+        <div></div>
     </div>
+</div>
 
-    <script>
-      
-      const electron = require('electron')
-        const remote = electron.remote
-        const { ipcRenderer } = require('electron');
-        const version = document.getElementById('version');
-        ipcRenderer.send('app_version');
-            ipcRenderer.on('app_version', (event, arg) => {
-              ipcRenderer.removeAllListeners('app_version');
-              version.innerText = 'Version ' + arg.version;
-            });
-      
-        
-    </script>
+<script>
+
+    const electron = require('electron')
+    const remote = electron.remote
+    const { ipcRenderer } = require('electron');
+    const version = document.getElementById('version');
+    ipcRenderer.send('app_version');
+    ipcRenderer.on('app_version', (event, arg) => {
+        ipcRenderer.removeAllListeners('app_version');
+        version.innerText = 'Version ' + arg.version;
+    });
+
+
+</script>
 </body>
 
 </html>

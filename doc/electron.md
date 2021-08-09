@@ -75,3 +75,32 @@ the first step will be using `ubl-xr.sef.json`.
 
 Have a look at
 [the saxon documentaion](https://www.saxonica.com/saxon-js/documentation/index.html) for further info.
+
+
+
+Codelists
+-------------
+
+
+Codelists are lists of attribute values, like for countries, currencies, units or tax exemption codes.
+The [codelists](https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/Registry+of+supporting+artefacts+to+implement+EN16931) 
+for UBL and CII are the same and they are maintained by the CEF (not to be confused with CEFACT, which is a UN body).
+
+Apparently the [OpenXRechnungToolbox](https://github.com/jcthiele/OpenXRechnungToolbox) has downloaded them 
+and made them [available](https://github.com/jcthiele/xrechnung-visualization-codelist-resolve/) 
+as patch on [Kosit's XRechnung Visualization](https://github.com/itplr-kosit/xrechnung-visualization).
+Quba is using this patch so that instead of 15 times a "H87" of a product can be resolved into the more unterstandable
+15 times a "piece" of a product: unit-wise apart from "Piece" H87 or C61 "one", there are thousands of unit codes also covering 
+e.g. sixpack, hours, kilogram, metres, square metres, litres or cubic foot.
+
+
+
+Influence
+-------------
+
+The FeRD had published visualization XSLTs for ZF1 (~=UN/CEFACT C13B) as open source, unfortunately the ones for the UN/CEFACT C16B-based 
+version 2 remains proprietary. The Kosit released XSLT for both CII and UBL of the XRechnung (XR) which has been used for various online viewers
+but also for offline viewers like Ultramarinviewer and Open XRechnung Toolbox. As mentioned, Quba uses this work and will add translation and 
+at least experimental support for Factur-X/ZUGFeRD profiles higher than EN16931.
+
+![History of Quba](History_of_Quba-02.svg "Logo Title Text 1")

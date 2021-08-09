@@ -1,6 +1,6 @@
 {
   "name": "quba_viewer",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Viewer",
   "main": "main.js",
   "scripts": {
@@ -31,7 +31,8 @@
           "xrechnung-html.sef.json",
           "cii-xr.sef.json",
           "ubl-xr.sef.json",
-          "package.json"
+          "package.json",
+          "xslt/**"
         ]
       },
       {
