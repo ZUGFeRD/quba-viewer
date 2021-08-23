@@ -76,6 +76,13 @@ the first step will be using `ubl-xr.sef.json`.
 Have a look at
 [the saxon documentaion](https://www.saxonica.com/saxon-js/documentation/index.html) for further info.
 
+To preview changes we try in the XSLT files, we sometimes use
+[the Java version of Saxon](https://sourceforge.net/projects/saxon/files/Saxon-HE/10/Java/) to test our changes
+in the usual (Kosit) two step process like 
+```
+java -jar saxon-he-10.5.jar factur-x.xml cii-xr.xsl  >xr.xr
+java -jar \Users\jstaerk\workspace\XMLexamples\saxon-he-10.5.jar xr.xr xrechnung-html.xsl  >xr.html
+```
 
 
 Codelists
