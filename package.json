@@ -1,119 +1,61 @@
 {
-  "name": "quba_viewer",
+  "name": "Quba",
   "version": "1.0.0",
   "description": "Viewer",
-  "main": "main.js",
+  "author": "Quba",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "build": "electron-builder build --win --linux --publish never",
-    "publish": "electron-builder build --win --publish always",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
+    "pack": "npm run build && electron-builder build --publish=never",
+    "start": "vue-cli-service build && electron ."
+  },
+  "main": "app/main.js",
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "custom-electron-titlebar": "^3.2.7",
+    "electron-localshortcut": "^3.2.1",
+    "electron-store": "^8.0.0",
+    "electron-updater": "^4.3.9",
+    "fast-xml-parser": "^3.19.0",
+    "i18next": "^20.6.0",
+    "i18next-node-fs-backend": "^2.1.3",
+    "pdfjs-dist": "^2.9.359",
+    "saxon-js": "^2.3.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.1.7",
+    "vue-tabs-chrome": "^0.10.0",
+    "vue3-tabs-chrome": "^0.2.1"
+  },
+  "devDependencies": {
+    "@intlify/vue-i18n-loader": "^3.0.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "electron": "^12.0.0",
+    "electron-builder": "^22.11.7",
+    "vue-cli-plugin-i18n": "~2.1.3"
   },
   "build": {
     "appId": "org.quba-viewer.viewer",
-    "extends": null,
-    "files": [
-      {
-        "from": ".",
-        "to": ".",
-        "filter": [
-          "node_modules",
-          "assets",
-          "main.js",
-          "index.html",
-          "about.html",
-          "script.js",
-          "xrechnung-viewer.js",
-          "xrechnung-viewer.css",
-          "xrechnung-html.sef.json",
-          "cii-xr.sef.json",
-          "ubl-xr.sef.json",
-          "package.json",
-          "xslt/**"
-        ]
-      },
-      {
-        "from": "**/*",
-        "to": ".",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
     "mac": {
-      "icon": "./assets/img/logo_small_icon_only.png",
-      "category": "public.app-category.utilities"
+      "category": "Document"
     },
-    "win": {
-      "icon": "./assets/img/logo_small_icon_only.png"
+    "directories": {
+      "output": "release"
     },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "ZUGFeRD",
-        "repo": "quba-viewer"
-      }
+    "files": [
+      "**/*",
+      "dist/**/*",
+      "!*.map",
+      "!package.json",
+      "!package-lock.json"
     ]
   },
+  "keywords": [],
+  "license": "APL",
   "repository": {
     "type": "git",
     "url": "https://github.com/ZUGFeRD/quba-viewer.git"
-  },
-  "keywords": [],
-  "author": "Quba",
-  "license": "APL",
-  "devDependencies": {
-    "@babel/core": "^7.12.17",
-    "@babel/node": "^7.12.17",
-    "@babel/register": "^7.12.13",
-    "@electron-forge/cli": "^6.0.0-beta.54",
-    "@electron-forge/maker-deb": "^6.0.0-beta.54",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
-    "@electron-forge/maker-zip": "^6.0.0-beta.54",
-    "electron": "^11.2.3",
-    "node": "^15.8.0"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "electron_project"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
-  },
-  "dependencies": {
-    "custom-electron-titlebar": "^3.2.6",
-    "electron-localshortcut": "^3.2.1",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^7.0.2",
-    "electron-tabs": "^0.15.0",
-    "electron-unhandled": "^3.0.2",
-    "electron-updater": "^4.3.8",
-    "fast-xml-parser": "^3.19.0",
-    "pdfjs-dist": "^2.8.335",
-    "saxon-js": "^2.2.0"
   }
 }

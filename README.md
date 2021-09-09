@@ -9,10 +9,6 @@ structured (i.e., XML) and hybrid (Factur-X/ZUGFeRD PDF) electronic invoices.
 History
 =============
 <details>
-<summary>1.0 23.08.2021</summary>
-    - PDF hybrid view now opens in the same tab
-    - Support for Factur-X/ZUGFeRD Extended XML Skonto
-</details> 
 <summary>0.5 27.07.2021</summary>
     - Support for PDF
     - Support for Factur-X/ZUGFeRD
