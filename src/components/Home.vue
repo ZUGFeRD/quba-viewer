@@ -176,14 +176,14 @@ export default {
   },
    mounted() {
      let MyTitleBar = new customTitlebar.Titlebar({
-       backgroundcolor : customTitlebar.Color.fromHex("#000"),
+       backgroundcolor : customTitlebar.Color.fromHex("#1f2c40"),
        shadow:true,
        icon:"../assets/img/logoonly.svg",
      });
     electron.ipcRenderer.on("language-change", (event, args) => {
       MyTitleBar.dispose();
       MyTitleBar = new customTitlebar.Titlebar({
-       backgroundcolor : customTitlebar.Color.fromHex("#000"),
+       backgroundcolor : customTitlebar.Color.fromHex("#1f2c40"),
        shadow:true,
        icon:"../assets/img/logoonly.svg",
        menu:Menu.getApplicationMenu(),
