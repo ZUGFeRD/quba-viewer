@@ -76,13 +76,6 @@ the first step will be using `ubl-xr.sef.json`.
 Have a look at
 [the saxon documentaion](https://www.saxonica.com/saxon-js/documentation/index.html) for further info.
 
-To preview changes we try in the XSLT files, we sometimes use
-[the Java version of Saxon](https://sourceforge.net/projects/saxon/files/Saxon-HE/10/Java/) to test our changes
-in the usual (Kosit) two step process like 
-```
-java -jar saxon-he-10.5.jar factur-x.xml cii-xr.xsl  >xr.xr
-java -jar \Users\jstaerk\workspace\XMLexamples\saxon-he-10.5.jar xr.xr xrechnung-html.xsl  >xr.html
-```
 
 
 Codelists
@@ -111,3 +104,10 @@ but also for offline viewers like Ultramarinviewer and Open XRechnung Toolbox. A
 at least experimental support for Factur-X/ZUGFeRD profiles higher than EN16931.
 
 ![History of Quba](History_of_Quba-02.svg "Logo Title Text 1")
+Vue
+-------------
+
+How to work with vue in conjunction with PDF is [explained here](https://pdfjs.express/blog/how-build-pdf-viewer-vuejs-pdfjs) https://www.smashingmagazine.com/2020/06/internationalization-vue-i18n/
+-------------
+
+Vue Internationalzation with i18next(https://www.i18next.com/overview/api)

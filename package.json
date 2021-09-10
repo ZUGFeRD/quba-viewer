@@ -1,70 +1,28 @@
 {
-  "name": "quba_viewer",
-  "version": "1.0.0",
+  "name": "Quba",
+  "version": "1.0.1",
   "description": "Viewer",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "build": "electron-builder build --win --linux --publish never",
-    "publish": "electron-builder build --win --publish always",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
-  },
-  "build": {
-    "appId": "org.quba-viewer.viewer",
-    "extends": null,
-    "files": [
-      {
-        "from": ".",
-        "to": ".",
-        "filter": [
-          "node_modules",
-          "assets",
-          "main.js",
-          "index.html",
-          "about.html",
-          "script.js",
-          "xrechnung-viewer.js",
-          "xrechnung-viewer.css",
-          "xrechnung-html.sef.json",
-          "cii-xr.sef.json",
-          "ubl-xr.sef.json",
-          "package.json",
-          "xslt/**"
-        ]
-      },
-      {
-        "from": "**/*",
-        "to": ".",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "mac": {
-      "icon": "./assets/img/logo_small_icon_only.png",
-      "category": "public.app-category.utilities"
-    },
-    "win": {
-      "icon": "./assets/img/logo_small_icon_only.png"
-    },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "ZUGFeRD",
-        "repo": "quba-viewer"
-      }
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ZUGFeRD/quba-viewer.git"
-  },
-  "keywords": [],
   "author": "Quba",
-  "license": "APL",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
+    "pack": "npm run build && electron-builder build --publish=never",
+    "start": "vue-cli-service build && electron ."
+  },
+  "main": "app/main.js",
+  "dependencies": {
+    "custom-electron-titlebar": "^3.2.6",
+    "electron-localshortcut": "^3.2.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^7.0.2",
+    "electron-tabs": "^0.15.0",
+    "electron-unhandled": "^3.0.2",
+    "electron-updater": "^4.3.8",
+    "fast-xml-parser": "^3.19.0",
+    "pdfjs-dist": "^2.8.335",
+    "saxon-js": "^2.2.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.17",
     "@babel/node": "^7.12.17",
@@ -77,43 +35,26 @@
     "electron": "^11.2.3",
     "node": "^15.8.0"
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "electron_project"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
+  "build": {
+    "appId": "org.quba-viewer.viewer",
+    "mac": {
+      "category": "Document"
+    },
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "**/*",
+      "dist/**/*",
+      "!*.map",
+      "!package.json",
+      "!package-lock.json"
+    ]
   },
-  "dependencies": {
-    "custom-electron-titlebar": "^3.2.6",
-    "electron-localshortcut": "^3.2.1",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^7.0.2",
-    "electron-tabs": "^0.15.0",
-    "electron-unhandled": "^3.0.2",
-    "electron-updater": "^4.3.8",
-    "fast-xml-parser": "^3.19.0",
-    "pdfjs-dist": "^2.8.335",
-    "saxon-js": "^2.2.0"
+  "keywords": [],
+  "license": "APL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZUGFeRD/quba-viewer.git"
   }
 }
