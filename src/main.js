@@ -1,17 +1,17 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import English from "./translation/English.json";
-import Deutsch from "./translation/Deutsch.json";
-import French from "./translation/French.json";
+import en from "./translation/en.json";
+import de from "./translation/de.json";
+import fr from "./translation/fr.json";
 import { createI18n } from "vue-i18n";
 
 const i18n = createI18n({
   messages: {
-    English,
-    Deutsch,
-    French
+    en,
+    de,
+    fr
   },
-  fallbackLocale: "English",
+  fallbackLocale: "en",
 });
 
 const app =  createApp(App)

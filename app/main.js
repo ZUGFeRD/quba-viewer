@@ -12,17 +12,10 @@ const i18nextOptions = require("./config/i18next.config");
 
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
+const store = new Store();
 
 let mainWindow;
-let newWindow;
-
-/*function changeLanguage(newISOcode) {
-  i18next.changeLanguage(newISOcode);
-  const store = new Store();
-
-  store.set('language', newISOcode);
-}*/
+let currentLanguage = store.get("language") || config.fallbackLng;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -44,8 +37,11 @@ function createWindow() {
 
   menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
   i18next.on("languageChanged", (lng) => {
-    menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
+    currentLanguage = lng;
+    store.set("language", lng);
     mainWindow.webContents.send("language-change", lng);
+    menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
+    
   });
 
     mainWindow.once("ready-to-show", () => {
@@ -72,166 +68,12 @@ app.on("activate", function() {
     if (mainWindow === null) createWindow();
   });
 
-  /*i18next.on("loaded", (loaded) => {
-    
-    const store = new Store();
-// we need a check here and a default language because on a fresh installation we might get  null or undefined
-    i18next.changeLanguage(store.get('language'));
-    i18next.off("loaded");
-  });
-  
-  i18next.on("languageChanged", (lng) => {
-    console.log("languageChanged");
-    setMenu();
-  });*/
-  
   function registerShortcuts() {
     electronLocalShortcut.register(mainWindow, "CommandOrControl+B", () => {
       mainWindow.webContents.openDevTools();
     });
   }
-  
-  /*function setMenu() {
-    const menuConfig = [
-      {
-        // label: "File",
-        label: i18next.t("File"),
-        id: "file-open",
-        accelerator: "CmdOrCtrl+O",
-        submenu: [
-          {
-            // label: "Open File",
-            label: i18next.t("OpenFile"),
-            accelerator: "CmdOrCtrl+O",
-            click() {
-              openFile();
-            },
-          },
-          {
-            type: "separator",
-          },
-          {
-          label: i18next.t("Language"),
-          id: "language",
-         
-          submenu: [
-          {
-          label: i18next.t("German"),
-          id: "lang-de",
-          type: "normal",
-          //icon: "../assets/img/german.png",
-          click() {
-            changeLanguage("de");
-          },
 
-        },
-        {
-        label: i18next.t("English"),
-        id: "lang-en",
-        type: "normal",
-        click() {
-          changeLanguage("en");
-        },
-      },
-      {
-      label: i18next.t("French"),
-      id: "lang-fr",
-      type: "normal",
-      //icon:"../assets/img/german.png",
-      click() {
-        changeLanguage("fr");
-      },
-    },
-  ]
-  },
-        {
-          type: "separator",
-        },
-          {
-            // label: "Print",
-            label: i18next.t("print"),
-            id: "file-print",
-            accelerator: "CmdOrCtrl+P",
-            enabled: false,
-            click() {
-              mainWindow.webContents.send("file-print");
-            },
-          },
-          {
-            type: "separator",
-          },
-          {
-            // label: "Exit",
-            label: i18next.t("exit"),
-            click() {
-              app.quit();
-            },
-          },
-        ],
-      },
-      {
-        // label: "Edit",
-        label: i18next.t("Edit"),
-        submenu: [
-          { role: "cut" },
-          { role: "copy" },
-          { role: "paste" },
-          { type: "separator" },
-          { role: "delete" },
-          { type: "separator" },
-          { role: "selectall" },
-        ],
-      },
-      {
-        // label: "Help",
-        label: i18next.t("Help"),
-        submenu: [
-          {
-            // label: "About",
-            label: i18next.t("about"),
-            click() {
-              openAboutWindow();
-            },
-          },
-        ],
-      },
-    ];
-    const menu = Menu.buildFromTemplate(menuConfig);
-    Menu.setApplicationMenu(menu);
-    ipcMain.on("toggle-menu-items", (event, flag) => {
-      menu.getMenuItemById("file-print").enabled = flag;
-    });
-  }
-
-  function openAboutWindow() {
-    if (newWindow) {
-      newWindow.focus();
-      return;
-    }
-
-    newWindow = new BrowserWindow({
-        height: 185,
-        resizable: false,
-        width: 400,
-        title: "",
-        parent: mainWindow,
-        modal: true,
-        minimizable: false,
-        fullscreenable: false,
-        webPreferences: {
-          nodeIntegration: true,
-        },
-      });
-      newWindow.setMenuBarVisibility(false);
-    
-      newWindow.loadFile("./about.html");
-    
-      newWindow.on("closed", function() {
-        newWindow = null;
-      });
-    }*/
-
- 
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
@@ -278,7 +120,7 @@ function listenEvents() {
   
     ipcMain.on("check-xml", async (event, filePath) => {
       //   check if the PDF contains embedded xml files
-      console.log('coming here in check-xml');
+      
       try {
         var loadingTask = pdfjsLib.getDocument(filePath);
         loadingTask.promise
@@ -311,7 +153,7 @@ function listenEvents() {
                 event.returnValue = undefined;
               }
             });
-            // you can now use *pdf* here
+          
           })
           .catch((error) => {
             displayError("Exception", error.getMessage());
@@ -376,7 +218,7 @@ function listenEvents() {
     return transformAndDisplay(
       sourceFileName,
       content,
-      path.join(__dirname, "xslt/cii-xr.sef.json"),
+      path.join(__dirname, "xslt", "cii-xr.sef.json"),
       shouldDisplay
     );
   }
@@ -385,7 +227,7 @@ function listenEvents() {
     return transformAndDisplay(
       sourceFileName,
       content,
-      path.join(__dirname, "xslt/ubl-xr.sef.json"),
+      path.join(__dirname, "xslt", "ubl-xr.sef.json"),
       shouldDisplay
     );
   }
@@ -409,7 +251,7 @@ function listenEvents() {
   
         return SaxonJS.transform(
           {           
-            stylesheetFileName: path.join(__dirname, "xslt/xrechnung-html.sef.json"),
+            stylesheetFileName: path.join(__dirname, "xslt", "xrechnung-html." + currentLanguage + ".sef.json"),
             sourceText: xrXML,
             destination: "serialized",
           },

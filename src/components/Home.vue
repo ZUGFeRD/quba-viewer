@@ -42,6 +42,11 @@
       ></iframe>
     </div>
   </div>
+  <div v-if="!currentTab" class="center-logo">
+      <pre class="note-logo">
+        <img src="../assets/img/logo_whitetext.svg">
+    </pre>
+  </div>
     <div v-if="!currentTab" class="center">
       <pre class="note">
       {{ t("welcomeNote1", {}, { locale: lang }) }}
@@ -69,7 +74,7 @@ export default {
   },
   data() {
     return {
-      lang: "Deutsch",
+      lang: "",
     };
   },
   setup() {
@@ -85,8 +90,6 @@ export default {
 
       if (currentTabObj.length) {
         currentTab.value = currentTabObj[0];
-        console.log("currentTab", currentTabObj);
-        console.log("element tabRef", tabs[0].link, tab);
       }
     };
 
@@ -103,17 +106,14 @@ export default {
     };
 
     const handleRemove = () => {
-      console.log(tab);
       tabRef.value.removeTab(tab.value);
     };
 
     electron.ipcRenderer.on("pdf-open", (event, args) => {
       window.dispatchEvent(new Event("mousedown"));
-      console.log("filepath", args[0]);
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
       const res = electron.ipcRenderer.sendSync("check-xml", args[0]);
-      console.log("res", res);
       tabRef.value.addTab({
         label: path,
         key,
@@ -130,7 +130,6 @@ export default {
 
     electron.ipcRenderer.on("xml-open", (event, args) => {
       window.dispatchEvent(new Event("mousedown")); 
-      console.log("filepath", args[0]);
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
       tabRef.value.addTab({
@@ -146,13 +145,13 @@ export default {
     });
 
     const onClick = (e) => {
-      console.log("OnCLick", e);
+     
     };
     const onClose = (tabObj, key, index) => {
-      console.log("in on close", tabObj, key, index, tabs, tabs.length);
+      
       if (tabs.length === 1) {
         currentTab.value = undefined;
-        console.log("tab", tabObj, tabs);
+        
       }
     };
     const showXML = () => {
@@ -181,7 +180,6 @@ export default {
        shadow:true,
        icon:"../assets/img/logoonly.svg",
      });
-    //console.log("mounted", this.lang);
     electron.ipcRenderer.on("language-change", (event, args) => {
       MyTitleBar.dispose();
       MyTitleBar = new customTitlebar.Titlebar({
@@ -191,8 +189,7 @@ export default {
        menu:Menu.getApplicationMenu(),
         });
       MyTitleBar.updateTitle(this.t("appName", {}, {locale:args}));
-      this.lang = args;
-      //console.log("language-change", args);
+      this.lang = args; 
     });
   },
 };
@@ -206,6 +203,14 @@ export default {
   position: absolute;
   left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 10px;
+}
+.center-logo img {
+  position: absolute;
+  left: 50%;
+  top: 35%;
   transform: translate(-50%, -50%);
 
   padding: 10px;
@@ -254,4 +259,5 @@ export default {
   font-size: 16px;
   font-weight: bold;
 }
+
 </style>

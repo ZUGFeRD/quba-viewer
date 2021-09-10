@@ -1,6 +1,7 @@
 const i18n = require("i18next");
 const i18nextBackend = require("i18next-node-fs-backend");
 const config = require("./app.config");
+const Store = require('electron-store');
 const path = require("path");
 
 const i18nextOptions = {
