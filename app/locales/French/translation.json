@@ -1,11 +1,15 @@
 {
-    "File": "Déposer",
-    "print": "Imprimer",
-    "exit": "Sortir",
-    "Edit": "Éditer",
-    "Help": "Aider",
-    "About": "À propos",
-    "Open File": "Fichier ouvert",
+    "File": "Fichier",
+    "Print": "Imprimer",
+    "Exit": "Quitter",
+    "Edit": "Modifier",
+    "Help": "Aide",
+    "About": "À propos",
+    "Open File": "Ouvrir le fichier",
     "Language": "Langue",
-    "English" :"Anglaise"
+    "English" :"Anglaise",
+    "Copy": "Copier",
+    "Paste": "Coller",
+    "Delete": "Supprimer",
+    "Select all": "Sélectionner tout"
   }

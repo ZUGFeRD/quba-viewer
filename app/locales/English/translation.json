@@ -1,11 +1,16 @@
 {
   "File": "File",
-  "print": "Print",
-  "exit": "Exit",
+  "Print": "Print",
+  "Exit": "Exit",
   "Edit": "Edit",
   "Help": "Help",
   "About": "About",
   "Open File": "Open File",
   "Language": "Language",
-  "English": "English"
+  "English": "English",
+  "Cut": "Cut",
+  "Copy": "Copy",
+  "Paste": "Paste",
+  "Delete": "Delete",
+  "Select all": "Select All"
 }

@@ -1,5 +1,6 @@
 {
     "showXML": "Eingebettetes XML anzeigen",
     "welcomeNote1": "Derzeit werden nur .xml-Dateien unterstützt.",
-    "welcomeNote2": "Öffnen Sie sie über das Menü oder durch Drücken von Strg + O."
+    "welcomeNote2": "Öffnen Sie sie über das Menü oder durch Drücken von Strg + O.",
+    "appName":"E-Rechnungsanzeige"
   }

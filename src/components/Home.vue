@@ -57,6 +57,8 @@ import { reactive, ref } from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import { useI18n } from "vue-i18n";
 const electron = window.require("electron");
+const customTitlebar = window.require("custom-electron-titlebar");
+const Menu = window.require("electron").remote.Menu;
 
 export default {
   name: "Home",
@@ -174,8 +176,21 @@ export default {
     };
   },
    mounted() {
+     let MyTitleBar = new customTitlebar.Titlebar({
+       backgroundcolor : customTitlebar.Color.fromHex("#000"),
+       shadow:true,
+       icon:"../assets/img/logoonly.svg",
+     });
     //console.log("mounted", this.lang);
     electron.ipcRenderer.on("language-change", (event, args) => {
+      MyTitleBar.dispose();
+      MyTitleBar = new customTitlebar.Titlebar({
+       backgroundcolor : customTitlebar.Color.fromHex("#000"),
+       shadow:true,
+       icon:"../assets/img/logoonly.svg",
+       menu:Menu.getApplicationMenu(),
+        });
+      MyTitleBar.updateTitle(this.t("appName", {}, {locale:args}));
       this.lang = args;
       //console.log("language-change", args);
     });

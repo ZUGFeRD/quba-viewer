@@ -1,12 +1,16 @@
 {
     "File": "Datei",
-    "print": "Drucken",
-    "exit": "Ausgang",
+    "Print": "Drucken",
+    "Exit": "Beenden",
     "Edit": "Bearbeiten",
     "Help": "Hilfe",
-    "About": "Über",
+    "About": "Info",
     "Open File": "Datei öffnen",
     "Language": "Sprachen",
-    "English": "Englisch "
+    "English": "Englisch ","$schema": "cut": "Cut",
+    "Copy": "Kopieren",
+    "Paste": "Einfügen",
+    "Delete": "Löschen",
+    "Select all": "Alle auswählen"
   }
   

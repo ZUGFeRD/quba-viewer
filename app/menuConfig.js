@@ -43,7 +43,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
             type: "separator",
           },
         {
-          label: i18n.t("print"),
+          label: i18n.t("Print"),
           id: "file-print",
           accelerator: "CmdOrCtrl+P",
           enabled: false,
@@ -55,7 +55,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
           type: "separator",
         },
         {
-          label: i18n.t("exit"),
+          label: i18n.t("Exit"),
           click() {
             app.quit();
           },
@@ -65,13 +65,18 @@ function buildMenu(app, mainWindow, i18n, openFile) {
     {
       label: i18n.t("Edit"),
       submenu: [
-        { role: "Cut" },
-        { role: "Copy" },
-        { role: "Paste" },
+        { label: i18n.t("Cut"),
+          role: "Cut" },
+        { label: i18n.t("Copy"),
+          role: "Copy" },
+        { label: i18n.t("Paste"),
+          role: "Paste" },
         { type: "separator" },
-        { role: "Delete" },
+        { label: i18n.t("Delete"),
+          role: "Delete" },
         { type: "separator" },
-        { role: "Selectall" },
+        { label: i18n.t("Select all"),
+          role: "Selectall" },
       ],
     },
     {

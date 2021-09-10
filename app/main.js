@@ -34,7 +34,7 @@ function createWindow() {
             enableRemoteModule: true,
             contextIsolation: false,
         },
-        //frame: false
+        frame: false
     })
 
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
