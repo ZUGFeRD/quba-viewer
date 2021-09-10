@@ -6,17 +6,18 @@ const pdfjsLib = require('pdfjs-dist/legacy/build/pdf');
 const Store = require('electron-store');
 const menuFactoryService = require("./menuConfig");
 
-var i18next = require("i18next");
-var Backend = require("i18next-node-fs-backend");
+const i18next = require("i18next");
+const Backend = require("i18next-node-fs-backend");
 const i18nextOptions = require("./config/i18next.config");
+const config = require("./config/app.config");
 
 const fs = require('fs');
 const path = require('path');
+
 const store = new Store();
 
 let mainWindow;
 let currentLanguage = store.get("language") || config.fallbackLng;
-
 function createWindow() {
   mainWindow = new BrowserWindow({
         width: 800,
@@ -43,16 +44,10 @@ function createWindow() {
     menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
     
   });
-
-    mainWindow.once("ready-to-show", () => {
-    autoUpdater.checkForUpdatesAndNotify();
-  });
-
   setTimeout(() => {
     mainWindow.webContents.send("goToHome");
   }, 2000);
 }
-
 
 app.on("ready", async () => {
   const t = await i18next.use(Backend).init(i18nextOptions);

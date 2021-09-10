@@ -1,33 +1,23 @@
-const i18n = require("i18next");
-const i18nextBackend = require("i18next-node-fs-backend");
 const config = require("./app.config");
-const Store = require('electron-store');
 const path = require("path");
+const Store = require('electron-store');
+const store = new Store();
+let currentLanguage = store.get("language") || config.fallbackLng;
 
 const i18nextOptions = {
+  debug :false,
+  lng : currentLanguage,
+  lngs : config.languages,
+  supportedLngs : config.languages,
+  ns : "translation",
+  defaultsNS : "translation",
+  fallbackLng : config.fallbackLng,
+  saveMissing: true,
   backend: {
     loadPath: path.join(__dirname, '..',  'locales', '{{lng}}','{{ns}}.json'),
-
     addPath: path.join(__dirname, '..',  'locales', '{{lng}}','{{ns}}.missing.json'),
-
-    jsonIndent: 2,
-  },
-  interpolation: {
-    escapeValue: false,
-  },
-  saveMissing: true,
-  fallbackLng: config.fallbackLng,
-  whitelist: config.languages,
-  react: {
-    wait: false,
   },
 };
 
-i18n.use(i18nextBackend);
-
-if (!i18n.isInitialized) {
-  i18n.init(i18nextOptions);
-}
-
-module.exports = i18n;
+module.exports = i18nextOptions;
 
