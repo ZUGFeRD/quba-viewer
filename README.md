@@ -14,16 +14,19 @@ History
     - #6 New document shows still old data / invoice
     - Switch to vue.js
     - i18n: Support for EN and FR
-</details> 
+</details>
+<details>
 <summary>1.0 23.08.2021</summary>
     - #5 Codelists are now resolved
     - Support for first FX Extended Element, i.e., Cash Discount in XML 
-</details> 
+</details>
+<details>
 <summary>0.5 27.07.2021</summary>
     - Support for PDF
     - Support for Factur-X/ZUGFeRD
     - Display errors as dialog instead of hiding them 
-</details> 
+</details>
+<details>
 <summary>0.2 10.06.2021</summary>
     - Support for XRechnung (UBL)
     - "dark" theming
@@ -40,13 +43,12 @@ History
 Pedigree
 -------------
 
+![History of Quba](doc/History_of_Quba-02.svg "Pedigree of Quba")
+
 The FeRD had published visualization XSLTs for ZF1 (~=UN/CEFACT C13B) as open source, unfortunately the ones for the UN/CEFACT C16B-based
 version 2 remains proprietary. The Kosit released XSLT for both CII and UBL of the XRechnung (XR) which has been used for various online viewers
 but also for offline viewers like Ultramarinviewer and Open XRechnung Toolbox. Quba uses this work added translations and
 at least experimental support for Factur-X/ZUGFeRD profiles higher than EN16931.
-
-![History of Quba](doc/History_of_Quba-02.svg "Pedigree of Quba")
-
 
 Known issues
 =============
