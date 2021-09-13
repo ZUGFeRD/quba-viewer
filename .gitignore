@@ -4,5 +4,6 @@ node_modules
 electron-webpack-quick-start/node_modules
 out
 dist
+release
 #Electron-builder output
 /dist_electron

@@ -95,15 +95,6 @@ e.g. sixpack, hours, kilogram, metres, square metres, litres or cubic foot.
 
 
 
-Influence
--------------
-
-The FeRD had published visualization XSLTs for ZF1 (~=UN/CEFACT C13B) as open source, unfortunately the ones for the UN/CEFACT C16B-based 
-version 2 remains proprietary. The Kosit released XSLT for both CII and UBL of the XRechnung (XR) which has been used for various online viewers
-but also for offline viewers like Ultramarinviewer and Open XRechnung Toolbox. As mentioned, Quba uses this work and will add translation and 
-at least experimental support for Factur-X/ZUGFeRD profiles higher than EN16931.
-
-![History of Quba](History_of_Quba-02.svg "Logo Title Text 1")
 Vue
 -------------
 

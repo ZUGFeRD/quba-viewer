@@ -4,11 +4,21 @@ Quba-Viewer
 Quba-Viewer ([homepage](https://www.quba-viewer.org)) is a cross platform open source application to display 
 structured (i.e., XML) and hybrid (Factur-X/ZUGFeRD PDF) electronic invoices.
 
-
+Documentation-wise there is a doc RE [Architecture, Development, Debugging and testing](doc/development.md) in 
+general and some Electron and E-Invoice peculiarities like [interprocess (IPC) communication, XSLT and codelists](doc/electron.md) in particular.
 
 History
 =============
 <details>
+<summary>1.1 21.09.2021</summary>
+    - #6 New document shows still old data / invoice
+    - Switch to vue.js
+    - i18n: Support for EN and FR
+</details> 
+<summary>1.0 23.08.2021</summary>
+    - #5 Codelists are now resolved
+    - Support for first FX Extended Element, i.e., Cash Discount in XML 
+</details> 
 <summary>0.5 27.07.2021</summary>
     - Support for PDF
     - Support for Factur-X/ZUGFeRD
@@ -27,73 +37,18 @@ History
     - release for Windows on 2021-03-31, for Linux on 2101-04-16 and for Mac on 2021-04-27
 </details> 
 
-Architecture
-=============
-This viewer is a simple [electron](https://www.electronjs.org/) application (just use `npm start` to run) 
-which uses [XSLT files](https://github.com/itplr-kosit/xrechnung-visualization) to convert XML to HTML.
+Pedigree
+-------------
 
+The FeRD had published visualization XSLTs for ZF1 (~=UN/CEFACT C13B) as open source, unfortunately the ones for the UN/CEFACT C16B-based
+version 2 remains proprietary. The Kosit released XSLT for both CII and UBL of the XRechnung (XR) which has been used for various online viewers
+but also for offline viewers like Ultramarinviewer and Open XRechnung Toolbox. Quba uses this work added translations and
+at least experimental support for Factur-X/ZUGFeRD profiles higher than EN16931.
 
-In the doc folder there is a documentation on [Electron fundamentals and XSLT details](doc/electron.md).
+![History of Quba](doc/History_of_Quba-02.svg "Pedigree of Quba")
 
-Development
-=============
-
-
-Set up one time with 
-```
-
-npm install --global electron-builder
-npm install --global electron-forge
-npm update
-```
-then 
-
-```
-npm run start
-```
-
-
-
-Debugging and testing
-=============
-
-Use CTRL+B to open the developer console.
-`npm start` of course starts the application for local testing.
-
-```
-npm run start
-```
-should tell you if the software runs
-
-```
-npm run build
-```
-will build a version, which you can install e.g. with `dist\quba_viewer Setup 0.2.0.exe`.
-If you do not run it from the start menu, but in a shell directly from 
-`\Users\<your user name>\AppData\Local\Programs\quba_viewer\quba_viewer.exe`
-you will also see potential error output on the console.
-
-Common issues include listing runtime dependencies as devDepencencies 
-or not listing files to be included in the deployment in the build.files.filter 
-(both issues can be fixed in the package.json).
-
-
-Deployment
-=============
-
-The final update can then be deployed by Github users who have been granted access 
-via a powershell using
-
-```
-$env:GH_TOKEN = '<private github access token>'
-npm run publish
-```
-
-To access the console (not only of the browser windows but also of main.js)
-start Quba in a shell, e.g.
-`%AppData%\Local\Programs\quba_viewer\quba_viewer.exe`
 
 Known issues
 =============
 
-  * the invoice output is german
+  * While XRechnung, EN16931 and below should work, not all FX attributes/elements of the Extended Profile have yet been mapped, feel free to [report missing ones](https://github.com/ZUGFeRD/quba-viewer/issues) 
