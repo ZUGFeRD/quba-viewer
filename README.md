@@ -14,6 +14,7 @@ History
     - #6 New document shows still old data / invoice
     - Switch to vue.js
     - i18n: Support for EN and FR
+    - support FX Referenzprofil XRechnung
 </details>
 <details>
 <summary>1.0 23.08.2021</summary>

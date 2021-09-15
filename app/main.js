@@ -36,18 +36,17 @@ function createWindow() {
     mainWindow = null;
     });
   mainWindow.once("ready-to-show", () => {
-      console.log("ready-to-show");
       mainWindow.webContents.send("language-change", currentLanguage);
       autoUpdater.checkForUpdatesAndNotify();
     });
-    
+
   menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
   i18next.on("languageChanged", (lng) => {
     currentLanguage = lng;
     store.set("language", lng);
     mainWindow.webContents.send("language-change", lng);
     menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
-    
+
   });
   setTimeout(() => {
     mainWindow.webContents.send("goToHome");
@@ -63,7 +62,7 @@ app.on("ready", async () => {
   app.on("window-all-closed", function() {
     if (process.platform !== "darwin") app.quit();
   });
-  
+
 app.on("activate", function() {
     if (mainWindow === null) createWindow();
   });
@@ -104,26 +103,26 @@ function listenEvents() {
     ipcMain.on("app_version", (event) => {
       event.sender.send("app_version", { version: app.getVersion() });
     });
-    
+
     ipcMain.on("toggle-menu-items", (event, flag) => {
       menu.getMenuItemById("file-print").enabled = flag;
     });
-    
+
     autoUpdater.on("update-available", () => {
       mainWindow.webContents.send("update_available");
     });
-  
+
     autoUpdater.on("update-downloaded", () => {
       mainWindow.webContents.send("update_downloaded");
     });
-  
+
     ipcMain.on("restart_app", () => {
       autoUpdater.quitAndInstall();
     });
-  
+
     ipcMain.on("check-xml", async (event, filePath) => {
       //   check if the PDF contains embedded xml files
-      
+
       try {
         var loadingTask = pdfjsLib.getDocument(filePath);
         loadingTask.promise
@@ -131,18 +130,23 @@ function listenEvents() {
             pdf.getAttachments().then(function(embeddedFiles) {
               let embeddedXML = null;
               if (typeof embeddedFiles == "object") {
-                if (embeddedFiles && embeddedFiles["factur-x.xml"]) {
+                if (embeddedFiles["factur-x.xml"]) {
                   embeddedXML = new TextDecoder().decode(
                     embeddedFiles["factur-x.xml"]["content"]
                   );
                 }
-                if (embeddedFiles && embeddedFiles["zugferd-invoice.xml"]) {
-                  // the embedded file can also be named zugferd-invoice.xml
-                  // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
-                  embeddedXML = new TextDecoder().decode(
-                    embeddedFiles["zugferd-invoice.xml"]["content"]
-                  );
-                }
+                  if (embeddedFiles["zugferd-invoice.xml"]) {
+                      // the embedded file can also be named zugferd-invoice.xml
+                      // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
+                      embeddedXML = new TextDecoder().decode(
+                          embeddedFiles["zugferd-invoice.xml"]["content"]
+                      );
+                  }
+                  if (embeddedFiles["xrechnung.xml"]) {
+                      embeddedXML = new TextDecoder().decode(
+                          embeddedFiles["xrechnung.xml"]["content"]
+                      );
+                  }
               }
               if (embeddedXML !== null) {
                 transformAndDisplayCII(
@@ -156,7 +160,7 @@ function listenEvents() {
                 event.returnValue = undefined;
               }
             });
-          
+
           })
           .catch((error) => {
             displayError("Exception", error.getMessage());
@@ -193,7 +197,7 @@ function listenEvents() {
         }
       });
   }
-  
+
   function loadAndDisplayXML(filename) {
     try {
       const content = fs.readFileSync(filename).toString();
@@ -216,7 +220,7 @@ function listenEvents() {
       displayError("Exception", e.message);
     }
   }
-  
+
   function transformAndDisplayCII(sourceFileName, content, shouldDisplay) {
     return transformAndDisplay(
       sourceFileName,
@@ -225,7 +229,7 @@ function listenEvents() {
       shouldDisplay
     );
   }
-  
+
   function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
     return transformAndDisplay(
       sourceFileName,
@@ -234,7 +238,7 @@ function listenEvents() {
       shouldDisplay
     );
   }
-  
+
   function transformAndDisplay(
     sourceFileName,
     content,
@@ -251,9 +255,9 @@ function listenEvents() {
     )
       .then((output) => {
         let xrXML = output.principalResult;
-  
+
         return SaxonJS.transform(
-          {           
+          {
             stylesheetFileName: path.join(__dirname, "xslt", "xrechnung-html." + currentLanguage + ".sef.json"),
             sourceText: xrXML,
             destination: "serialized",
