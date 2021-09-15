@@ -4,13 +4,13 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xr="urn:ce.eu:en16931:2017:xoev-de:kosit:standard:xrechnung-1"
                 xmlns:xrv="http://www.example.org/XRechnung-Viewer">
-    
+
     <xsl:variable name="i18n.bt10" select="'Identifiant d''itinéraire'"/>
     <xsl:variable name="i18n.bt44" select="'Nom'"/>
     <xsl:variable name="i18n.title" select="'XRechnung'"/>
     <xsl:variable name="i18n.overview" select="'Aperçu'"/>
-    <xsl:variable name="i18n.items" select="'Positionen'"/>
-    <xsl:variable name="i18n.information" select="'Informationen'"/>
+    <xsl:variable name="i18n.items" select="'Détails'"/>
+    <xsl:variable name="i18n.information" select="'Additif'"/>
     <xsl:variable name="i18n.attachments" select="'Pièces jointes'"/>
     <xsl:variable name="i18n.history" select="'Historique de traitement'"/>
     <xsl:variable name="i18n.disclaimer" select="'Nous n''assumons aucune responsabilité quant à l''exactitude des données.'"/>
@@ -58,16 +58,16 @@
     <xsl:variable name="i18n.bt106" select="'Total de toutes les lignes'"/>
     <xsl:variable name="i18n.bt107" select="'Total de remises'"/>
     <xsl:variable name="i18n.bt108" select="'Total de suppléments'"/>
-    <xsl:variable name="i18n.bt109" select="'Grand total'"/>
+    <xsl:variable name="i18n.bt109" select="'Montant total'"/>
     <xsl:variable name="i18n.bt110" select="'montant de la TVA'"/>
     <xsl:variable name="i18n.bt111" select="'Montant total de TVA'"/>
-    <xsl:variable name="i18n.bt112" select="'Grand total'"/>
+    <xsl:variable name="i18n.bt112" select="'Montant total'"/>
     <xsl:variable name="i18n.bt113" select="'Montant payé'"/>
     <xsl:variable name="i18n.bt114" select="'Montant arrondi'"/>
     <xsl:variable name="i18n.bt115" select="'Montant dû'"/>
     <xsl:variable name="i18n.bg23" select="'Ventilation de la TVA au niveau de la facture'"/>
     <xsl:variable name="i18n.bt118" select="'Catégorie de TVA'"/>
-    <xsl:variable name="i18n.bt116" select="'Grand total'"/>
+    <xsl:variable name="i18n.bt116" select="'Montant total'"/>
     <xsl:variable name="i18n.bt119" select="'taux TVA'"/>
     <xsl:variable name="i18n.bt117" select="'montant de la TVA'"/>
     <xsl:variable name="i18n.bt120" select="'Motif d''exemption'"/>
@@ -116,7 +116,7 @@
     <xsl:variable name="i18n.bg26" select="'Période de facturation'"/>
     <xsl:variable name="i18n.bt134" select="'de'"/>
     <xsl:variable name="i18n.bt135" select="'jusqu''à'"/>
-    <xsl:variable name="i18n.bg29" select="'Preiseinzelheiten'"/>
+    <xsl:variable name="i18n.bg29" select="'Détails de prix'"/>
     <xsl:variable name="i18n.bt129" select="'Quantité'"/>
     <xsl:variable name="i18n.bt130" select="'Unité'"/>
     <xsl:variable name="i18n.bt146" select="'Prix unitaire net'"/>
@@ -143,7 +143,7 @@
     <xsl:variable name="i18n.bt153" select="'Nom'"/>
     <xsl:variable name="i18n.bt154" select="'Description'"/>
     <xsl:variable name="i18n.bt155" select="'Numéro d''article'"/>
-    <xsl:variable name="i18n.bt156" select="'Kunden-Material-Nr.'"/>
+    <xsl:variable name="i18n.bt156" select="'N° client / matériel'"/>
     <xsl:variable name="i18n.bg32" select="'Propriétés de l''article'"/>
     <xsl:variable name="i18n.bt157" select="'Identifiant article'"/>
     <xsl:variable name="i18n.bt157-id" select="'Schéma de l''Identifiant article'"/>
