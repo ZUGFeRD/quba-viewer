@@ -20,5 +20,14 @@
   "language": "language",
   "About": "About",
   "fri": "fri",
-  "Deutsch": "Deutsch"
+  "Deutsch": "Deutsch",
+  "Quba": "Quba",
+  "appName": "appName",
+  "cut": "cut",
+  "copy": "copy",
+  "paste": "paste",
+  "delete": "delete",
+  "selectall": "selectall",
+  "project": "project",
+  "version": "version"
 }

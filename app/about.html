@@ -238,7 +238,7 @@
 
   <body>
     <div id='titlebar'></div>
-    <img id='logo' src='../assets/img/logoonly.svg' />
+    <img id='logo' src='../assets//img/logoonly.svg' />
     <div id='info'>
       <div id='label'>Quba</div>
       <div id='description'></div>
@@ -249,17 +249,18 @@
     </div>
 
     <script>
-
-      /*const electron = require('electron')
-      const remote = electron.remote
-      const { ipcRenderer } = require('electron');
+      const { ipcRenderer, remote } = require('electron');
       const version = document.getElementById('version');
-      ipcRenderer.send('app_version');
-      ipcRenderer.on('app_version', (event, arg) => {
-        ipcRenderer.removeAllListeners('app_version');
-        version.innerText = 'Version ' + arg.version;
-      });*/
+      const label = document.getElementById('label');
+      const description = document.getElementById('description');
 
+      ipcRenderer.send('about-info');
+      ipcRenderer.on('about-info', (event, arg) => {
+        ipcRenderer.removeAllListeners('about-info');
+        version.innerText = arg.version;
+        label.innerText = arg.title;
+        description.innerText = arg.appName;
+      });
     </script>
   </body>
 

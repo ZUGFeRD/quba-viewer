@@ -12,5 +12,6 @@
   "Copy": "Copy",
   "Paste": "Paste",
   "Delete": "Delete",
-  "Select all": "Select All"
+  "Select all": "Select All",
+  "appName": "E-Invoice Viewer"
 }

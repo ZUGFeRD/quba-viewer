@@ -1,6 +1,6 @@
 {
     "showXML": "Eingebettetes XML anzeigen",
-    "welcomeNote1": "Derzeit werden nur .xml-Dateien unterstützt.",
-    "welcomeNote2": "Öffnen Sie sie über das Menü oder durch Drücken von Strg + O.",
+    "welcomeNote1": "Open electronic invoice XML- or PDF-file ",
+    "welcomeNote2": "from the menu or by pressing Ctrl + O.",
     "appName":"E-Rechnungsviewer"
   }

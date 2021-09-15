@@ -1,5 +1,5 @@
 const SaxonJS = require('saxon-js');
-const {app, BrowserWindow, ipcMain, ipcRenderer, Menu, dialog, protocol} = require('electron');
+const {app, BrowserWindow, ipcMain, Menu, dialog} = require('electron');
 const {autoUpdater} = require('electron-updater');
 const electronLocalShortcut = require("electron-localshortcut");
 const pdfjsLib = require('pdfjs-dist/legacy/build/pdf');
@@ -22,20 +22,25 @@ function createWindow() {
   mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        frame: false,
         webPreferences: {
             plugins: true,
             nodeIntegration: true,
             enableRemoteModule: true,
             contextIsolation: false,
         },
-        frame: false
     })
 
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
   mainWindow.on("closed", function() {
     mainWindow = null;
     });
-
+  mainWindow.once("ready-to-show", () => {
+      console.log("ready-to-show");
+      mainWindow.webContents.send("language-change", currentLanguage);
+      autoUpdater.checkForUpdatesAndNotify();
+    });
+    
   menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
   i18next.on("languageChanged", (lng) => {
     currentLanguage = lng;
@@ -96,11 +101,14 @@ function listenEvents() {
         createWindow();
       }
     });
-  
     ipcMain.on("app_version", (event) => {
       event.sender.send("app_version", { version: app.getVersion() });
     });
-  
+    
+    ipcMain.on("toggle-menu-items", (event, flag) => {
+      menu.getMenuItemById("file-print").enabled = flag;
+    });
+    
     autoUpdater.on("update-available", () => {
       mainWindow.webContents.send("update_available");
     });

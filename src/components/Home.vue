@@ -50,8 +50,21 @@
     <div v-if="!currentTab" class="center">
       <pre class="note">
       {{ t("welcomeNote1", {}, { locale: lang }) }}
+      <a href=" https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application">Examples</a>
       {{ t("welcomeNote2", {}, { locale: lang }) }}
     </pre>
+    <p class="note" v-if="version" style="text-align: center">
+      {{ t("Version", {}, { locale: lang }) }} {{ version }}
+    </p>
+  </div>
+  <div class="notification" v-if="showNofification">
+    <p v-if="message">{{ message }}</p>
+    <button @click="closeNotification">
+      {{ t("close", {}, { locale: lang }) }}
+    </button>
+    <button v-if="showRestartButton" @click="restartApp">
+      {{ t("restart", {}, { locale: lang }) }}
+    </button>
   </div>
 </template>
 
@@ -74,7 +87,11 @@ export default {
   },
   data() {
     return {
-      lang: "",
+      lang: "en",
+      version: undefined,
+      showNofification: false,
+      message: undefined,
+      showRestartButton: false,
     };
   },
   setup() {
@@ -191,6 +208,29 @@ export default {
       MyTitleBar.updateTitle(this.t("appName", {}, {locale:args}));
       this.lang = args; 
     });
+     electron.ipcRenderer.send("app_version");
+    electron.ipcRenderer.on("app_version", (event, arg) => {
+      electron.ipcRenderer.removeAllListeners("app_version");
+      this.version = arg.version;
+    });
+        electron.ipcRenderer.on("update_available", () => {
+      electron.ipcRenderer.removeAllListeners("update_available");
+      this.message = this.t("updateAvailableNote", {}, { locale: this.lang });
+    });
+
+    electron.ipcRenderer.on("update_downloaded", () => {
+      electron.ipcRenderer.removeAllListeners("update_downloaded");
+      this.message = this.t("updateDownloadedNote", {}, { locale: this.lang });
+      this.showRestartButton = true;
+    });
+  },
+  methods: {
+    closeNotification() {
+      this.showNofification = false;
+    },
+    restartApp() {
+      electron.ipcRenderer.send("restart_app");
+    },
   },
 };
 </script>
@@ -260,4 +300,23 @@ export default {
   font-weight: bold;
 }
 
+.note a{
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 200px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
 </style>

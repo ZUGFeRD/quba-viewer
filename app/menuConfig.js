@@ -1,4 +1,4 @@
-const { Menu, BrowserWindow } = require("electron");
+const { Menu, BrowserWindow, ipcMain  } = require("electron");
 const config = require('./config/app.config');
 const menu = null;
 let newWindow;
@@ -85,7 +85,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
         {
           label: i18n.t("About"),
           click() {
-            openAboutWindow(mainWindow);
+            openAboutWindow(mainWindow, app, i18n);
           },
         },
       ],
@@ -97,7 +97,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
   Menu.setApplicationMenu(appMenu);
 }
 
-function openAboutWindow(mainWindow) {
+function openAboutWindow(mainWindow,  app, i18n) {
   if (newWindow) {
     newWindow.focus();
     return;
@@ -114,9 +114,19 @@ function openAboutWindow(mainWindow) {
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
     },
   });
   newWindow.setMenuBarVisibility(false);
+  const data = {
+    title: "Quba",
+    appName: i18n.t("appName"),
+    version: i18n.t("version") + " " + app.getVersion(),
+  };
+
+  ipcMain.on("about-info", (event) => {
+    event.sender.send("about-info", { ...data });
+  });
 
   newWindow.loadFile("./app/about.html");
 

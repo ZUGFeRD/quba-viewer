@@ -1,14 +1,16 @@
 {
   "name": "Quba",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Viewer",
   "author": "Quba",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && electron-builder build --win --publish never",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "pack": "npm run build && electron-builder build --publish=never",
-    "start": "vue-cli-service build && electron ."
+    "start": "vue-cli-service build && electron .",
+    "dist": "electron-builder",
+    "publish": "electron-builder build --win --publish always"
   },
   "main": "app/main.js",
   "dependencies": {
@@ -39,7 +41,11 @@
   "build": {
     "appId": "org.quba-viewer.viewer",
     "mac": {
-      "category": "Document"
+      "category": "Document",
+      "icon": "./assets/img/logo_small_icon_only.png"
+    },
+    "win": {
+      "icon": "./assets/img/logo_small_icon_only.png"
     },
     "directories": {
       "output": "release"
@@ -50,12 +56,20 @@
       "!*.map",
       "!package.json",
       "!package-lock.json"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "ZUGFeRD",
+        "repo": "quba-viewer"
+      }
     ]
   },
-  "keywords": [],
-  "license": "APL",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ZUGFeRD/quba-viewer.git"
-  }
+    "url": "https://github.com/asimkhanaup/quba-viewer.git"
+  },
+  "keywords": [],
+  "license": "APL"
+  
 }

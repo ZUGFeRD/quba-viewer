@@ -1,6 +1,6 @@
 {
     "showXML": "Afficher le XML incorporé",
-    "welcomeNote1": "Seuls les fichiers .xml sont actuellement pris en charge.",
-    "welcomeNote2": "Ouvrez-le à partir du menu ou en appuyant sur Ctrl + O.",
+    "welcomeNote1": "Open electronic invoice XML- or PDF-file ",
+    "welcomeNote2": "from the menu or by pressing Ctrl + O.",
     "appName": "Visionneuse de factures électroniques"
   }
