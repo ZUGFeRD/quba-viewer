@@ -31,8 +31,8 @@
     <xsl:variable name="i18n.bt58" select="'E-mail address'"/>
     <xsl:variable name="i18n.bt27" select="'Company name'"/>
     <xsl:variable name="i18n.bt35" select="'Street / house number'"/>
-    <xsl:variable name="i18n.bt36" select="'Boîte postale'"/>
-    <xsl:variable name="i18n.bt162" select="'Supplément d''adresse'"/>
+    <xsl:variable name="i18n.bt36" select="'PO Box'"/>
+    <xsl:variable name="i18n.bt162" select="'Address Addition'"/>
     <xsl:variable name="i18n.bt38" select="'Code postal'"/>
     <xsl:variable name="i18n.bt37" select="'Place'"/>
     <xsl:variable name="i18n.bt39" select="'State/Province'"/>
@@ -174,7 +174,7 @@
     <xsl:variable name="i18n.bt69" select="'Country code'"/>
     <xsl:variable name="i18n.bt63" select="'VAT ID'"/>
     <xsl:variable name="i18n.bg7" select="'Buyer Information'"/>
-    <xsl:variable name="i18n.bt45" select="'Differing trade name:'"/>
+    <xsl:variable name="i18n.bt45" select="'Differing trade name'"/>
     <xsl:variable name="i18n.bt49" select="'E-mail address'"/>
     <xsl:variable name="i18n.bt49-id" select="'Electronic address scheme'"/>
     <xsl:variable name="i18n.bt47" select="'Register number'"/>
