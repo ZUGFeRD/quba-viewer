@@ -1,7 +1,7 @@
 const { Menu, BrowserWindow, ipcMain  } = require("electron");
 const config = require('./config/app.config');
 const menu = null;
-let newWindow;
+let data;
 
 function MenuFactoryService(menuList) {
   this.menu = menuList;
@@ -9,6 +9,11 @@ function MenuFactoryService(menuList) {
 }
 
 function buildMenu(app, mainWindow, i18n, openFile) {
+  data = {
+    title: i18n.t("About") + " " +"Quba",
+    appName: i18n.t("appName"),
+    version: i18n.t("version") + " " + app.getVersion(),
+  };
   const languageMenu = config.languages.map((languageCode) => {
     return {
       label: i18n.t(languageCode),
@@ -98,16 +103,11 @@ function buildMenu(app, mainWindow, i18n, openFile) {
 }
 
 function openAboutWindow(mainWindow,  app, i18n) {
-  if (newWindow) {
-    newWindow.focus();
-    return;
-  }
-
   newWindow = new BrowserWindow({
     height: 185,
     resizable: false,
     width: 400,
-    title: "",
+    title: data.title,
     parent: mainWindow,
     modal: true,
     minimizable: false,
@@ -118,11 +118,6 @@ function openAboutWindow(mainWindow,  app, i18n) {
     },
   });
   newWindow.setMenuBarVisibility(false);
-  const data = {
-    title: "Quba",
-    appName: i18n.t("appName"),
-    version: i18n.t("version") + " " + app.getVersion(),
-  };
 
   ipcMain.on("about-info", (event) => {
     event.sender.send("about-info", { ...data });
