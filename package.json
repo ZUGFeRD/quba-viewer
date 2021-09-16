@@ -10,7 +10,7 @@
     "pack": "npm run build && electron-builder build --publish=never",
     "start": "vue-cli-service build && electron .",
     "dist": "electron-builder",
-    "publish": "electron-builder build --win --publish always"
+    "publish": "electron-builder build --win --linux --mac --publish always"
   },
   "main": "app/main.js",
   "dependencies": {
