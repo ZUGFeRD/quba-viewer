@@ -44,18 +44,6 @@ function buildMenu(app, mainWindow, i18n, openFile) {
             label: i18n.t("Language"),
             submenu: languageMenu,
           },
-          {
-            type: "separator",
-          },
-        {
-          label: i18n.t("Print"),
-          id: "file-print",
-          accelerator: "CmdOrCtrl+P",
-          enabled: false,
-          click() {
-            mainWindow.webContents.send("file-print");
-          },
-        },
         {
           type: "separator",
         },

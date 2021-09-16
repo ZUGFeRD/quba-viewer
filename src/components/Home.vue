@@ -42,17 +42,13 @@
       ></iframe>
     </div>
   </div>
-  <div v-if="!currentTab" class="center-logo">
-      <pre class="note-logo">
-        <img src="../assets/img/logo_whitetext.svg">
-    </pre>
-  </div>
     <div v-if="!currentTab" class="center">
-      <pre class="note">
-      {{ t("welcomeNote1", {}, { locale: lang }) }}
-      {{ t("welcomeNote2", {}, { locale: lang }) }}
-       <a href=" https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application"> {{ t("Examples", {}, { locale: lang }) }}</a>
-    </pre>
+        <img src="../assets/img/logo_whitetext.svg"><br>
+      
+      {{ t("welcomeNote1", {}, { locale: lang }) }}<br>
+      {{ t("welcomeNote2", {}, { locale: lang }) }}<br>
+       <a class="example" href=" https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application">{{ t("Examples", {}, { locale: lang }) }}</a>
+    
     <p class="note" v-if="version" style="text-align: center">
       {{ t("Version", {}, { locale: lang }) }} {{ version }}
     </p>
@@ -241,18 +237,16 @@ export default {
 }
 .center {
   position: absolute;
+  text-align: center;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-
+  color: white;
   padding: 10px;
 }
-.center-logo img {
-  position: absolute;
-  left: 50%;
-  top: 35%;
-  transform: translate(-50%, -50%);
-
+.center img {
+  margin: auto;
+  display: block;
   padding: 10px;
 }
 .full-height {
@@ -318,5 +312,8 @@ export default {
   border-radius: 5px;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+a.example {
+  color: #fff;
 }
 </style>
