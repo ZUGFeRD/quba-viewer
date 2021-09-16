@@ -50,8 +50,8 @@
     <div v-if="!currentTab" class="center">
       <pre class="note">
       {{ t("welcomeNote1", {}, { locale: lang }) }}
-      <a href=" https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application">Examples</a>
       {{ t("welcomeNote2", {}, { locale: lang }) }}
+       <a href=" https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application"> {{ t("Examples", {}, { locale: lang }) }}</a>
     </pre>
     <p class="note" v-if="version" style="text-align: center">
       {{ t("Version", {}, { locale: lang }) }} {{ version }}

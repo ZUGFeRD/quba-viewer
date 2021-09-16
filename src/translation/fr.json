@@ -2,5 +2,6 @@
     "showXML": "Afficher le XML incorporé",
     "welcomeNote1": "Ouvrez-les depuis le menu invoice XML- or PDF-file ",
     "welcomeNote2": "ou en cliquant Ctrl + O.",
-    "appName": "Visionneuse de factures électroniques"
+    "appName": "Visionneuse de factures électroniques",
+    "Examples":"Exemples"
   }
