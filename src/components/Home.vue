@@ -29,6 +29,8 @@
           class="full-height"
           :src="currentTab?.content"
           title=""
+          id="viewer"
+          name="viewer"
         ></iframe>
         </div>
     </div>
@@ -39,6 +41,8 @@
         class="full-height"
         :src="currentTab?.content"
         title=""
+        id="viewer"
+        name="viewer"
       ></iframe>
     </div>
   </div>
@@ -218,6 +222,12 @@ export default {
       electron.ipcRenderer.removeAllListeners("update_downloaded");
       this.message = this.t("updateDownloadedNote", {}, { locale: this.lang });
       this.showRestartButton = true;
+    });
+     electron.ipcRenderer.on("file-print", (event, args) => {
+      if (window.frames["viewer"]) {
+        window.frames["viewer"].focus();
+        window.frames["viewer"].print();
+      }
     });
   },
   methods: {

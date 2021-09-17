@@ -1,6 +1,13 @@
 <template>
   <div class="full-height" v-if="fileName">
-    <iframe height="100%" width="100%" :src="fileName" title=""></iframe>
+   <iframe
+      height="100%"
+      width="100%"
+      :src="fileName"
+      id="viewer"
+      name="viewer"
+      title=""
+    ></iframe>
   </div>
 </template>
 

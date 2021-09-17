@@ -192,7 +192,6 @@ function listenEvents() {
             if (paths[0].toLowerCase().includes(".pdf")) {
               mainWindow.webContents.send("pdf-open", [paths[0], null]);
             } else {
-              mainWindow.webContents.send("file-print", true);
               loadAndDisplayXML(paths[0]);
             }
           }
