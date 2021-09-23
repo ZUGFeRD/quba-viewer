@@ -52,9 +52,20 @@ function buildMenu(app, mainWindow, i18n, openFile) {
             id: "file-print",
             accelerator: "CmdOrCtrl+P",
             enabled: true,
-            click() {
-              mainWindow.webContents.send("file-print");
-            },
+            submenu: [
+              {
+                label: "PDF",
+                click() {
+                  mainWindow.webContents.send("file-print-pdf");
+                },
+              },
+              {
+                label: "XML",
+                click() {
+                  mainWindow.webContents.send("file-print-xml");
+                },
+              },
+            ],
           },
         {
           type: "separator",
