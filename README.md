@@ -10,6 +10,11 @@ general and some Electron and E-Invoice peculiarities like [interprocess (IPC) c
 History
 =============
 <details>
+<summary>1.1.1 24.09.2021</summary>
+    - New windows for the example files
+    - support plain pdf without embedded xml.
+</details>
+<details>
 <summary>1.1 21.09.2021</summary>
     - #6 New document shows still old data / invoice
     - Switch to vue.js
