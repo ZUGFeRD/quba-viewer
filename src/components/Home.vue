@@ -51,9 +51,8 @@
       
       {{ t("welcomeNote1", {}, { locale: lang }) }}<br>
       {{ t("welcomeNote2", {}, { locale: lang }) }}<br>
-       <a class="example" href=" https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application">{{ t("Examples", {}, { locale: lang }) }}</a>
-    
-    <p class="note" v-if="version" style="text-align: center">
+       <a class="example-link" @click="openLink">{{t("Examples", {}, { locale: lang })}}</a>
+       <p class="note" v-if="version" style="text-align: center">
       {{ t("Version", {}, { locale: lang }) }} {{ version }}
     </p>
   </div>
@@ -244,6 +243,10 @@ export default {
     restartApp() {
       electron.ipcRenderer.send("restart_app");
     },
+     openLink(link) {
+      console.log("hererere");
+      electron.ipcRenderer.send("open-link");
+    },
   },
 };
 </script>
@@ -333,4 +336,8 @@ export default {
 a.example {
   color: #fff;
 }
+
+.example-link{
+  text-decoration: underline;
+} 
 </style>

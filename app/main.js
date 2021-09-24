@@ -131,8 +131,6 @@ function listenEvents() {
             let embeddedXML = null;
             if ((typeof embeddedFiles == "object")&&(embeddedFiles !== null)) {
               if (embeddedFiles["factur-x.xml"]) {
-                console.log("deb im here despite its null ");
-              
                 embeddedXML = new TextDecoder().decode(
                   embeddedFiles["factur-x.xml"]["content"]
                 );
@@ -299,3 +297,12 @@ function displayError(message, detail) {
   };
   dialog.showMessageBox(null, options, (response, checkboxChecked) => {});
 }
+ipcMain.on("open-link", (event) => {
+  let exWin = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: process.platform === "win32" ? "../assets/img/favicon.ico" : "../assets/img/logoonly.svg",
+  });
+  exWin.setMenu(null);
+  exWin.loadURL("https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application");
+});
