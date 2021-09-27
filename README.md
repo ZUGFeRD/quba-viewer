@@ -11,11 +11,11 @@ History
 =============
 <details>
 <summary>1.1.1 24.09.2021</summary>
-    - New windows for the example files
-    - support plain pdf without embedded xml.
+    - The window for the example files can now be closed
+    - plain pdf without embedded xml not to show button for visualization
 </details>
 <details>
-<summary>1.1 21.09.2021</summary>
+<summary>1.1.0 20.09.2021</summary>
     - #6 New document shows still old data / invoice
     - Switch to vue.js
     - i18n: Support for EN and FR

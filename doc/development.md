@@ -48,6 +48,10 @@ Common issues include listing runtime dependencies as devDepencencies
 or not listing files to be included in the deployment in the build.files.filter
 (both issues can be fixed in the package.json).
 
+Test ideas:     build (pack) version opens and displays and has every file it needs
+if settings keep thr set language, files open, opens side by side, rects on tab click, reacts on show xml click, resolves codelists and opens dev console
+performs autoupdate, opens and closes example page
+
 
 Deployment
 =============
