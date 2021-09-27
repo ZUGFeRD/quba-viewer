@@ -306,3 +306,11 @@ ipcMain.on("open-link", (event) => {
   exWin.setMenu(null);
   exWin.loadURL("https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application");
 });
+
+ipcMain.on("open-dragged-file", (event, filePath) => {
+  if (filePath.toLowerCase().includes(".pdf")) {
+    mainWindow.webContents.send("pdf-open", [filePath, null]);
+  } else if (filePath.toLowerCase().includes(".xml")) {
+    loadAndDisplayXML(filePath);
+  }
+});

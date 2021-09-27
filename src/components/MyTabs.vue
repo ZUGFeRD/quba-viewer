@@ -133,7 +133,7 @@ export default {
       this.$refs.tab.removeTab(this.tab);
     },
     handleClick(e, tab, i) {
-      console.log(e, tab, i);
+     
     },
     handleSearch() {
       let { location } = this;

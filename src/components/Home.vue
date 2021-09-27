@@ -234,6 +234,32 @@ export default {
         window.frames["viewer"].print();
       }
     });
+    
+    document.addEventListener("drop", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      for (const f of event.dataTransfer.files) {
+        electron.ipcRenderer.send("open-dragged-file", f.path);
+      }
+      return false;
+    }, false);
+
+    document.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    }, false);
+
+    document.addEventListener("dragenter", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+    }, false);
+
+    document.addEventListener("dragleave", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    }, false);
   },
   
   methods: {
@@ -244,9 +270,10 @@ export default {
       electron.ipcRenderer.send("restart_app");
     },
      openLink(link) {
-      console.log("hererere");
+  
       electron.ipcRenderer.send("open-link");
     },
+
   },
 };
 </script>
