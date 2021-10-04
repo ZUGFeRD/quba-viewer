@@ -3,8 +3,8 @@
     :ref="setTabRef"
     :tabs="tabs"
     v-model="tab"
-    :dragable="false"
-    :swappable="false"
+    :dragable="true"
+    :swappable="true"
     :click="onClick"
     :class="[tabs?.length ? '' : 'display-none']"
     :on-close="onClose"
@@ -15,7 +15,7 @@
   <div v-if="currentTab">
     <div v-if="currentTab.isPdf">
       <div :class="[currentTab?.isShowXML ? 'left-part' : '']">
-      <PDFJSViewer :fileName="currentTab?.link"></PDFJSViewer>
+      <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
     </div>
     <div v-if="currentTab?.isShowXML" class="right-part">
         <button style="float: right" @click="hideXML">x</button>
@@ -247,18 +247,19 @@ export default {
 
     document.addEventListener("dragover", (event) => {
       event.preventDefault();
-      event.stopPropagation();
+      for (const f of event.dataTransfer.files) {
+     electron.ipcRenderer.send("open-dragged-file", f.path);
+      }
     }, false);
 
     document.addEventListener("dragenter", (event) => {
       event.preventDefault();
-      event.stopPropagation();
+      
 
     }, false);
 
     document.addEventListener("dragleave", (event) => {
       event.preventDefault();
-      event.stopPropagation();
     }, false);
   },
   
