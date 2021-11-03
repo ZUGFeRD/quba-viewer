@@ -132,6 +132,7 @@ export default {
       });
 
       tab.value = key;
+      electron.ipcRenderer.send('open-menu');
     };
 
     const handleRemove = () => {

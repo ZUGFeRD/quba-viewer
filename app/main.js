@@ -53,6 +53,10 @@ function createWindow() {
   }, 2000);
 }
 
+ipcMain.on("open-menu", (event, arg) => {
+  openFile();
+});
+
 app.on("ready", async () => {
   const t = await i18next.use(Backend).init(i18nextOptions);
   createWindow();
