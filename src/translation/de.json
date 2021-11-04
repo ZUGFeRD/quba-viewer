@@ -1,7 +1,7 @@
 {
     "showXML": "Eingebettetes XML anzeigen",
-    "welcomeNote1": "XML- oder PDF-Dateien über das Menü öffnen ",
-    "welcomeNote2": "oder durch Drücken von Strg + O Ziehen und Ablegen ",
+    "welcomeNote1": "XML- oder PDF-Dateien über das Menü öffnen, ",
+    "welcomeNote2": "durch Drücken von Strg + O oder Drag&Drop ",
     "appName":"E-Rechnungsviewer",
     "Examples":"Beispiele"
   }
