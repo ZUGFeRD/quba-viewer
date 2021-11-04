@@ -8,10 +8,23 @@
     :click="onClick"
     :class="[tabs?.length ? '' : 'display-none']"
     :on-close="onClose"
-  />
-  <div class="btns">
+  ><template v-slot:after>
+      <button
+        class="btn"
+        style="
+          height: 20px;
+          line-height: 20px;
+          padding: 0 10px;
+          margin-left: 0px;
+        "
+        @click="handleAdd"
+      >
+        +
+      </button>
+    </template>
+ </vue3-tabs-chrome>
+ <div class="btns">
   </div>
-
   <div v-if="currentTab">
     <div v-if="currentTab.isPdf">
       <div :class="[currentTab?.isShowXML ? 'left-part' : '']">
@@ -46,7 +59,7 @@
       ></iframe>
     </div>
   </div>
-    <div v-if="!currentTab" class="center">
+    <div v-if="!currentTab" class="center" id="drag-box">
         <img src="../assets/img/logo_whitetext.svg"><br>
       
       {{ t("welcomeNote1", {}, { locale: lang }) }}<br>
@@ -119,6 +132,7 @@ export default {
       });
 
       tab.value = key;
+      electron.ipcRenderer.send('open-menu');
     };
 
     const handleRemove = () => {
@@ -126,6 +140,10 @@ export default {
     };
 
     electron.ipcRenderer.on("pdf-open", (event, args) => {
+      const currentTabObj = tabs.filter((item) => item.key === tab.value);
+      if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
+        tabRef.value.removeTab(tab.value);
+      }
       window.dispatchEvent(new Event("mousedown"));
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
@@ -134,7 +152,7 @@ export default {
         label: path,
         key,
         favico: require("../assets/icons/pdf.svg"),
-        link: args[0],
+        link: `lib/pdfjs/web/viewer.html?file=${args[0]}`,
         isPdf: true,
         isShowXML: !!res,
         isShowingXMLSection: false,
@@ -145,6 +163,10 @@ export default {
     });
 
     electron.ipcRenderer.on("xml-open", (event, args) => {
+      const currentTabObj = tabs.filter((item) => item.key === tab.value);
+      if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
+        tabRef.value.removeTab(tab.value);
+      }
       window.dispatchEvent(new Event("mousedown")); 
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
@@ -237,7 +259,7 @@ export default {
     
     document.addEventListener("drop", (event) => {
       event.preventDefault();
-      event.stopPropagation();
+      //event.stopPropagation();
 
       for (const f of event.dataTransfer.files) {
         electron.ipcRenderer.send("open-dragged-file", f.path);
