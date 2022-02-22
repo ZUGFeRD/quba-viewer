@@ -4,6 +4,7 @@ const { autoUpdater } = require("electron-updater");
 const electronLocalShortcut = require("electron-localshortcut");
 const pdfjsLib = require("pdfjs-dist/legacy/build/pdf");
 const Store = require("electron-store");
+const isDev = require('electron-is-dev');
 const menuFactoryService = require("./menuConfig");
 
 const i18next = require("i18next");
@@ -20,6 +21,7 @@ const store = new Store();
 let mainWindow;
 let currentLanguage = store.get("language") || config.fallbackLng;
 function createWindow() {
+  console.log("deb arguments ",process.argv);
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -39,6 +41,13 @@ function createWindow() {
   mainWindow.once("ready-to-show", () => {
     mainWindow.webContents.send("language-change", currentLanguage);
     autoUpdater.checkForUpdatesAndNotify();
+
+    const appArgv = process.argv.slice(isDev ? 2 : 1);
+    if (appArgv[0] && appArgv[0].toLowerCase().endsWith(".pdf")) {
+      mainWindow.webContents.send("pdf-open", [appArgv[0], null]);
+    } else if (appArgv[0] && appArgv[0].toLowerCase().endsWith(".xml")) {
+      loadAndDisplayXML(appArgv[0]);
+    }
   });
 
   menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
