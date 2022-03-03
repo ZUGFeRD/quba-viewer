@@ -62,6 +62,10 @@ via a powershell using
 $env:GH_TOKEN = '<private github access token>'
 npm run publish
 ```
+Actually only the Mac can build all three versions, there and on Linux use `export GH_TOKEN=<your token>`. 
+Since there is an error in the build please use `npm run build` afterwards to also create the
+autoupdate files `latest.yml`, `latest-mac.yml` and `latest-linux.yml` and upload them manually to
+the release in Github.
 
 To access the console (not only of the browser windows but also of main.js)
 start Quba in a shell, e.g.
