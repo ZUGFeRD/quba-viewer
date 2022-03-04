@@ -60,4 +60,4 @@ Known issues
 =============
 
   * While XRechnung, EN16931 and below should work, not all FX attributes/elements of the Extended Profile have yet been mapped, feel free to [report missing ones](https://github.com/ZUGFeRD/quba-viewer/issues) 
-  * The example window can currently not be closed
+ 
