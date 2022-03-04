@@ -21,7 +21,6 @@ const store = new Store();
 let mainWindow;
 let currentLanguage = store.get("language") || config.fallbackLng;
 function createWindow() {
-  console.log("deb arguments ",process.argv);
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
