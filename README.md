@@ -9,6 +9,17 @@ general and some Electron and E-Invoice peculiarities like [interprocess (IPC) c
 
 History
 =============
+
+<details>
+<summary>1.1.2 .04.2022</summary>
+    - Accept invoices as command line arguments #12
+
+</details>
+
+<details>
+<summary>1.1.1 11.11.2021</summary>
+    - Allow drag&drop of files #9
+</details>
 <details>
 <summary>1.1.1 24.09.2021</summary>
     - The window for the example files can now be closed
