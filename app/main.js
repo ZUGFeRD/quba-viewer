@@ -34,6 +34,38 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+  mainWindow.webContents.on("new-window", function(
+    event,
+    url,
+    frameName,
+    disposition,
+    options,
+    additionalFeatures,
+    referrer,
+    postBody
+  ) {
+    //console.log("In new window", event);
+    event.preventDefault();
+    const win = new BrowserWindow({
+      webContents: options ? options.webContents : {},
+      show: false,
+    });
+    win.once("ready-to-show", () => win.show());
+    if (!options.webContents) {
+      const loadOptions = {
+        httpReferrer: referrer,
+      };
+      if (postBody != null) {
+        const { data, contentType, boundary } = postBody;
+        loadOptions.postData = postBody.data;
+        loadOptions.extraHeaders = `content-type: ${contentType}; boundary=${boundary}`;
+      }
+
+      win.loadURL(url, loadOptions);
+    }
+    event.newGuest = win;
+  });
+
   mainWindow.on("closed", function() {
     mainWindow = null;
   });
