@@ -11,13 +11,12 @@ History
 =============
 
 <details>
-<summary>1.1.2 .04.2022</summary>
+<summary>1.1.3 28.04.2022</summary>
     - Accept invoices as command line arguments #12
-
 </details>
 
 <details>
-<summary>1.1.1 11.11.2021</summary>
+<summary>1.1.2 11.11.2021</summary>
     - Allow drag&drop of files #9
 </details>
 <details>
