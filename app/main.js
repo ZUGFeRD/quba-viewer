@@ -37,7 +37,7 @@ function createWindow() {
   mainWindow.webContents.on("new-window", function(
     event,
     url,
-    frameName,
+    frameName, 
     disposition,
     options,
     additionalFeatures,
