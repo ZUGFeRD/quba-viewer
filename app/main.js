@@ -1,5 +1,5 @@
 const SaxonJS = require("saxon-js");
-const { app, BrowserWindow, ipcMain, Menu, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } =require('electron');
 const { autoUpdater } = require("electron-updater");
 const electronLocalShortcut = require("electron-localshortcut");
 const pdfjsLib = require("pdfjs-dist/legacy/build/pdf");

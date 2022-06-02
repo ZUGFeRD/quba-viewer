@@ -1,4 +1,4 @@
-const { Menu, BrowserWindow, ipcMain  } = require("electron");
+const { Menu, BrowserWindow, ipcMain  } =require('electron');
 const config = require('./config/app.config');
 const menu = null;
 let data;

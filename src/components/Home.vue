@@ -86,7 +86,7 @@ import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
 import { reactive, ref } from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import { useI18n } from "vue-i18n";
-const electron = window.require("electron");
+const electron = window.require('electron').remote;
 const customTitlebar = window.require("custom-electron-titlebar");
 const Menu = window.require("electron").remote.Menu;
 
