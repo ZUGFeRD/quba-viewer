@@ -1,11 +1,13 @@
 const SaxonJS = require("saxon-js");
-const { app, BrowserWindow, ipcMain, dialog } =require('electron');
+const { app, BrowserWindow, ipcMain, dialog, ipcRenderer} =require('electron');
+const os = require("os");
 const { autoUpdater } = require("electron-updater");
 const electronLocalShortcut = require("electron-localshortcut");
 const pdfjsLib = require("pdfjs-dist/legacy/build/pdf");
 const Store = require("electron-store");
 const isDev = require('electron-is-dev');
 const menuFactoryService = require("./menuConfig");
+const { setupTitlebar, attachTitlebarToWindow } = require("custom-electron-titlebar/main");
 
 const i18next = require("i18next");
 const Backend = require("i18next-node-fs-backend");
@@ -14,9 +16,8 @@ const config = require("./config/app.config");
 
 const fs = require("fs");
 const path = require("path");
-const { ipcRenderer } = require("electron/renderer");
-
 const store = new Store();
+setupTitlebar()
 
 let mainWindow;
 let currentLanguage = store.get("language") || config.fallbackLng;
@@ -27,13 +28,16 @@ function createWindow() {
     frame: false,
     webPreferences: {
       plugins: true,
-      nodeIntegration: true,
-      enableRemoteModule: true,
-      contextIsolation: false,
+      preload: path.join(__dirname, "preload.js"),
     },
   });
 
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+  attachTitlebarToWindow(mainWindow);
+  mainWindow.on("closed", function() {
+  mainWindow = null;
+  });
+
   mainWindow.webContents.on("new-window", function(
     event,
     url,
@@ -90,7 +94,7 @@ function createWindow() {
   });
   setTimeout(() => {
     mainWindow.webContents.send("goToHome");
-  }, 2000);
+  }, 200);
 }
 
 ipcMain.on("open-menu", (event, arg) => {
@@ -114,6 +118,9 @@ app.on("activate", function() {
 function registerShortcuts() {
   electronLocalShortcut.register(mainWindow, "CommandOrControl+B", () => {
     mainWindow.webContents.openDevTools();
+  });
+  electronLocalShortcut.register(mainWindow, "CommandOrControl+O", () => {
+    openFile();
   });
 }
 
@@ -206,6 +213,7 @@ function listenEvents() {
           });
         })
         .catch((error) => {
+          event.returnValue = undefined;
           displayError("Exception", error.getMessage());
         });
     } catch (error) {
@@ -357,4 +365,7 @@ ipcMain.on("open-dragged-file", (event, filePath) => {
   } else if (filePath.toLowerCase().includes(".xml")) {
     loadAndDisplayXML(filePath);
   }
+});
+ipcMain.on("open-menu", (event, arg) => {
+  openFile();
 });

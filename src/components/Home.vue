@@ -86,9 +86,6 @@ import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
 import { reactive, ref } from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import { useI18n } from "vue-i18n";
-const electron = window.require('electron').remote;
-const customTitlebar = window.require("custom-electron-titlebar");
-const Menu = window.require("electron").remote.Menu;
 
 export default {
   name: "Home",
@@ -132,22 +129,23 @@ export default {
       });
 
       tab.value = key;
-      electron.ipcRenderer.send('open-menu');
+      window.api.sendOpenMenu();
     };
 
     const handleRemove = () => {
       tabRef.value.removeTab(tab.value);
     };
 
-    electron.ipcRenderer.on("pdf-open", (event, args) => {
+   window.api.onPdfOpen((event, args) => {
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
       if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
         tabRef.value.removeTab(tab.value);
       }
-      window.dispatchEvent(new Event("mousedown"));
+      window.dispatchEvent(new Event("mousedown")); // Stop opening file with pdf.js shortcut ctrl+O
+      console.log("filepath", args[0]);
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
-      const res = electron.ipcRenderer.sendSync("check-xml", args[0]);
+      window.api.sendSyncCheckXml(args[0]);
       tabRef.value.addTab({
         label: path,
         key,
@@ -162,7 +160,7 @@ export default {
       tab.value = key;
     });
 
-    electron.ipcRenderer.on("xml-open", (event, args) => {
+    window.api.onXmlOpen((event, args) => {
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
       if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
         tabRef.value.removeTab(tab.value);
@@ -213,44 +211,31 @@ export default {
     };
   },
    mounted() {
-     let MyTitleBar = new customTitlebar.Titlebar({
-       backgroundcolor : customTitlebar.Color.fromHex("#1f2c40"),
-       shadow:true,
-       icon:"../assets/img/logoonly.svg",
-     });
-    electron.ipcRenderer.on("language-change", (event, args) => {
-      MyTitleBar.dispose();
-      MyTitleBar = new customTitlebar.Titlebar({
-       backgroundcolor : customTitlebar.Color.fromHex("#1f2c40"),
-       shadow:true,
-       icon:"../assets/img/logoonly.svg",
-       menu:Menu.getApplicationMenu(),
-        });
-      MyTitleBar.updateTitle(this.t("appName", {}, {locale:args}));
+    window.api.onLanguageChange((event, args) => {
       this.lang = args; 
     });
-     electron.ipcRenderer.send("app_version");
-    electron.ipcRenderer.on("app_version", (event, arg) => {
-      electron.ipcRenderer.removeAllListeners("app_version");
+     window.api.sendAppVersion();
+      window.api.onAppVersion((event, arg) => {
+      window.api.removeAllAppVersion();
       this.version = arg.version;
     });
-        electron.ipcRenderer.on("update_available", () => {
-      electron.ipcRenderer.removeAllListeners("update_available");
+      window.api.onUpdateAvailable(() => {
+      window.api.removeAllUpdateAvailable();
       this.message = this.t("updateAvailableNote", {}, { locale: this.lang });
     });
 
-    electron.ipcRenderer.on("update_downloaded", () => {
-      electron.ipcRenderer.removeAllListeners("update_downloaded");
+      window.api.onUpdateDownloaded(() => {
+      window.api.removeAllUpdateDownloaded();
       this.message = this.t("updateDownloadedNote", {}, { locale: this.lang });
       this.showRestartButton = true;
     });
-  electron.ipcRenderer.on("file-print-xml", (event, args) => {
+    window.api.onFilePrintXml((event, args) => {
       if (window.frames["xmlViewer"]) {
         window.frames["xmlViewer"].focus();
         window.frames["xmlViewer"].print();
       }
     });
-  electron.ipcRenderer.on("file-print-pdf", (event, args) => {
+      window.api.onFilePrintPdf((event, args) => {
       if (window.frames["viewer"]) {
         window.frames["viewer"].focus();
         window.frames["viewer"].print();
@@ -262,16 +247,14 @@ export default {
       //event.stopPropagation();
 
       for (const f of event.dataTransfer.files) {
-        electron.ipcRenderer.send("open-dragged-file", f.path);
+       window.api.sendOpenDraggedFile(f.path);
       }
       return false;
     }, false);
 
     document.addEventListener("dragover", (event) => {
       event.preventDefault();
-      for (const f of event.dataTransfer.files) {
-     electron.ipcRenderer.send("open-dragged-file", f.path);
-      }
+    
     }, false);
 
     document.addEventListener("dragenter", (event) => {
@@ -290,11 +273,11 @@ export default {
       this.showNofification = false;
     },
     restartApp() {
-      electron.ipcRenderer.send("restart_app");
+      window.api.sendRestartApp();
     },
      openLink(link) {
   
-      electron.ipcRenderer.send("open-link");
+      window.api.sendOpenLink(link);
     },
 
   },
