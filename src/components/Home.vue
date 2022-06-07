@@ -145,7 +145,7 @@ export default {
       console.log("filepath", args[0]);
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
-      window.api.sendSyncCheckXml(args[0]);
+      const res = window.api.sendSyncCheckXml(args[0]);
       tabRef.value.addTab({
         label: path,
         key,
@@ -212,6 +212,7 @@ export default {
   },
    mounted() {
     window.api.onLanguageChange((event, args) => {
+      window.api.updateMenuLanguage(this.t("appName", {}, { locale: this.lang }));
       this.lang = args; 
     });
      window.api.sendAppVersion();

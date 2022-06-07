@@ -4,11 +4,12 @@ const { Titlebar, Color } = require("custom-electron-titlebar");
 let myTitleBar;
 
 const setTitleBar = () => {
-  myTitleBar = new Titlebar({
+  let options = {
     backgroundColor: Color.fromHex("#1f2c40"),
     shadow: true,
     icon: "../src/assets/img/logoonly.svg",
-  });
+  }
+  myTitleBar = new Titlebar(options);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -67,12 +68,16 @@ const API = {
   removeAllUpdateDownloaded: () => {
     ipcRenderer.removeAllListeners('update_downloaded');
   },
+  setMenu: () => {
+    setTitleBar();
+  },
   updateMenuLanguage: (appName) => {
     if (myTitleBar) {
       myTitleBar.dispose();
-    }
+
     setTitleBar();
     myTitleBar.updateTitle(appName);
+    }
   }
 }
 

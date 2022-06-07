@@ -17,7 +17,7 @@ const config = require("./config/app.config");
 const fs = require("fs");
 const path = require("path");
 const store = new Store();
-setupTitlebar()
+setupTitlebar();
 
 let mainWindow;
 let currentLanguage = store.get("language") || config.fallbackLng;
@@ -48,7 +48,6 @@ function createWindow() {
     referrer,
     postBody
   ) {
-    //console.log("In new window", event);
     event.preventDefault();
     const win = new BrowserWindow({
       webContents: options ? options.webContents : {},
@@ -96,10 +95,6 @@ function createWindow() {
     mainWindow.webContents.send("goToHome");
   }, 200);
 }
-
-ipcMain.on("open-menu", (event, arg) => {
-  openFile();
-});
 
 app.on("ready", async () => {
   const t = await i18next.use(Backend).init(i18nextOptions);
