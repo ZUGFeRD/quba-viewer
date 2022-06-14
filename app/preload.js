@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, Menu } = require('electron');
+const { contextBridge, ipcRenderer, Menu, app, remote } = require('electron');
 const { Titlebar, Color } = require("custom-electron-titlebar");
 
 let myTitleBar;

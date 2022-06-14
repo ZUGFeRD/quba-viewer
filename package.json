@@ -5,7 +5,7 @@
   "author": "Quba",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && electron-builder build --win --linux --mac --publish never",
+    "build": "vue-cli-service build && electron-builder build --win --publish never",
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "pack": "npm run build && electron-builder build --publish=never",
     "start": "vue-cli-service build && electron .",
@@ -22,6 +22,7 @@
     "electron-updater": "^5.0.1",
     "fast-xml-parser": "^3.19.0",
     "i18next": "^21.8.5",
+    "i18next-fs-backend": "^1.1.4",
     "i18next-node-fs-backend": "^1.1.4",
     "pdfjs-dist": "^2.9.359",
     "saxon-js": "^2.4.0",

@@ -10,7 +10,7 @@ const menuFactoryService = require("./menuConfig");
 const { setupTitlebar, attachTitlebarToWindow } = require("custom-electron-titlebar/main");
 
 const i18next = require("i18next");
-const Backend = require("i18next-node-fs-backend");
+const Backend = require("i18next-fs-backend");
 const i18nextOptions = require("./config/i18next.config");
 const config = require("./config/app.config");
 
@@ -69,9 +69,6 @@ function createWindow() {
     event.newGuest = win;
   });
 
-  mainWindow.on("closed", function() {
-    mainWindow = null;
-  });
   mainWindow.once("ready-to-show", () => {
     mainWindow.webContents.send("language-change", currentLanguage);
     autoUpdater.checkForUpdatesAndNotify();

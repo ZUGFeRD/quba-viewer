@@ -212,8 +212,8 @@ export default {
   },
    mounted() {
     window.api.onLanguageChange((event, args) => {
-      window.api.updateMenuLanguage(this.t("appName", {}, { locale: this.lang }));
       this.lang = args; 
+      window.api.updateMenuLanguage(this.t("appName", {}, { locale: this.lang }));
     });
      window.api.sendAppVersion();
       window.api.onAppVersion((event, arg) => {
