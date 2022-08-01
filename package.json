@@ -25,6 +25,7 @@
     "i18next-fs-backend": "^1.1.4",
     "i18next-node-fs-backend": "^1.1.4",
     "pdfjs-dist": "^2.9.359",
+    "print-js": "^1.6.0",
     "saxon-js": "^2.4.0",
     "vue": "^3.2.36",
     "vue-i18n": "^9.1.10",

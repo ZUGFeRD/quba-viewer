@@ -31,11 +31,11 @@
       <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
     </div>
     <div v-if="currentTab?.isShowXML" class="right-part">
-        <button style="float: right" @click="hideXML">x</button>
+        <button class="closeBtn" style="float: right" @click="hideXML">x</button>
         <div class="center-btn" v-if="!currentTab?.isShowingXMLSection">
           <button class="xml-btn" @click="showXML"> {{ t("showXML", {}, { locale: lang }) }}</button>
         </div>
-        <iframe
+        <!--<iframe
           v-if="currentTab?.isShowingXMLSection"
           height="100%"
           width="100%"
@@ -44,7 +44,8 @@
           title=""
           id="xmlViewer"
           name="xmlViewer"
-        ></iframe>
+        ></iframe>-->
+        <div v-if="currentTab?.isShowingXMLSection" class="xmlPart" id="embedXML"></div>
         </div>
     </div>
     <div v-if="currentTab?.isXML">
@@ -87,6 +88,7 @@ import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
 import { reactive, ref } from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import { useI18n } from "vue-i18n";
+import printJS from 'print-js'
 
 export default {
   name: "Home",
@@ -184,6 +186,14 @@ export default {
       setTimeout(() => {
         const element = document.getElementById("embedXML");
         element.innerHTML = xmlHTML;
+        Array.from(element.querySelectorAll("script")).forEach((oldScript) => {
+          const newScript = document.createElement("script");
+          Array.from(oldScript.attributes).forEach((attr) =>
+            newScript.setAttribute(attr.name, attr.value)
+          );
+          newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+          oldScript.parentNode.replaceChild(newScript, oldScript);
+        });
       }, 200);
     });
 
@@ -199,6 +209,18 @@ export default {
     };
     const showXML = () => {
       currentTab.value.isShowingXMLSection = true;
+      setTimeout(() => {
+        const element = document.getElementById("embedXML");
+        element.innerHTML = window.atob(currentTab.value.content);
+        Array.from(element.querySelectorAll("script")).forEach((oldScript) => {
+          const newScript = document.createElement("script");
+          Array.from(oldScript.attributes).forEach((attr) =>
+            newScript.setAttribute(attr.name, attr.value)
+          );
+          newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+          oldScript.parentNode.replaceChild(newScript, oldScript);
+        });
+      }, 200);
     };
     const hideXML = () => {
       currentTab.value.isShowingXMLSection = false;
@@ -238,9 +260,12 @@ export default {
       this.showRestartButton = true;
     });
     window.api.onFilePrintXml((event, args) => {
-      if (window.frames["xmlViewer"]) {
-        window.frames["xmlViewer"].focus();
-        window.frames["xmlViewer"].print();
+      //if (window.frames["xmlViewer"]) {
+       // window.frames["xmlViewer"].focus();
+        //window.frames["xmlViewer"].print();
+        const element = document.getElementById("embedXML");
+         if (element) {
+        printJS('embedXML', 'html')
       }
     });
       window.api.onFilePrintPdf((event, args) => {
@@ -381,4 +406,27 @@ a.example {
 .example-link{
   text-decoration: underline;
 } 
+	.xmlPart {
+  overflow-y: scroll;
+  height: 100vh;
+  width: 100%;
+  padding-bottom: 70px;
+}
+	.closeBtn {
+  float: right;
+  padding: 8px;
+  cursor: pointer;
+  margin-right: 0% !important;
+}
+.closeBtn:hover {
+  background-color: red;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
 </style>
