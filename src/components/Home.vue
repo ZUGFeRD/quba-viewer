@@ -48,15 +48,16 @@
         </div>
     </div>
     <div v-if="currentTab?.isXML">
-      <iframe
+      <!--<iframe
         height="100%"
         width="100%"
         class="full-height"
         :src="currentTab?.content"
         title=""
         id="xmlViewer"
-          name="xmlViewer"
-      ></iframe>
+        name="xmlViewer"
+      ></iframe>-->
+      <div id="embedXML"></div>
     </div>
   </div>
     <div v-if="!currentTab" class="center" id="drag-box">
@@ -109,6 +110,7 @@ export default {
     const tab = ref("google");
     const tabs = reactive([]);
     const { t, locale } = useI18n();
+    let xmlHTML = undefined;
 
     const setTabRef = (el) => {
       tabRef.value = el;
@@ -166,6 +168,7 @@ export default {
         tabRef.value.removeTab(tab.value);
       }
       window.dispatchEvent(new Event("mousedown")); 
+      xmlHTML = window.atob(args[1]);
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
       tabRef.value.addTab({
@@ -178,6 +181,10 @@ export default {
       });
 
       tab.value = key;
+      setTimeout(() => {
+        const element = document.getElementById("embedXML");
+        element.innerHTML = xmlHTML;
+      }, 200);
     });
 
     const onClick = (e) => {

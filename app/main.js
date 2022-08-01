@@ -191,6 +191,7 @@ function listenEvents() {
                 );
               }
             }
+            
             if (embeddedXML !== null) {
               transformAndDisplayCII(
                 filePath + " (embedded xml)",
@@ -204,6 +205,7 @@ function listenEvents() {
             }
           });
         })
+     
         .catch((error) => {
           event.returnValue = undefined;
           displayError("Exception", error.getMessage());
@@ -228,9 +230,12 @@ function openFile() {
       ],
     })
     .then((result) => {
+      console.log("result",result);
       if (!result.canceled) {
         let paths = result.filePaths;
+        console.log("paths",paths);
         if (paths && paths.length > 0) {
+          
           if (paths[0].toLowerCase().includes(".pdf")) {
             mainWindow.webContents.send("pdf-open", [paths[0], null]);
           } else {
@@ -311,23 +316,24 @@ function transformAndDisplay(
         },
         "async"
       )
-        .then((response) => {
-          let HTML = response.principalResult;
-          const htmlStr = `data:text/html;base64,${Buffer.from(HTML).toString(
-            "base64"
-          )}`;
-          if (shouldDisplay) {
-            mainWindow.webContents.send("xml-open", [sourceFileName, htmlStr]); // send to be displayed
-          }
-          return htmlStr;
-        })
-        .catch((error) => {
-          displayError("Exception", error.getMessage());
-        });
-    })
-    .catch((output) => {
-      displayError("Exception", output.getMessage());
-    });
+      .then((response) => {
+        let HTML = response.principalResult;
+        // const htmlStr = `data:text/html;base64,${Buffer.from(HTML).toString(
+        //   "base64"
+        // )}`;
+        const htmlStr = `${Buffer.from(HTML).toString("base64")}`;
+        if (shouldDisplay) {
+          mainWindow.webContents.send("xml-open", [sourceFileName, htmlStr]); // send to be displayed
+        }
+        return htmlStr;
+      })
+      .catch((error) => {
+        displayError("Exception", error.getMessage());
+      });
+  })
+  .catch((output) => {
+    displayError("Exception", output.getMessage());
+  });
 }
 function displayError(message, detail) {
   console.error(message, detail);
