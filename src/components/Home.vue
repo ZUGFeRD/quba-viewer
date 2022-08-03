@@ -31,11 +31,11 @@
       <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
     </div>
     <div v-if="currentTab?.isShowXML" class="right-part">
-        <button class="closeBtn" style="float: right" @click="hideXML">x</button>
+        <button class="closeBtn" v-if="currentTab?.isShowingXMLSection"  @click="hideXML">x</button>
         <div class="center-btn" v-if="!currentTab?.isShowingXMLSection">
           <button class="xml-btn" @click="showXML"> {{ t("showXML", {}, { locale: lang }) }}</button>
         </div>
-        <!--<iframe
+        <iframe
           v-if="currentTab?.isShowingXMLSection"
           height="100%"
           width="100%"
@@ -44,12 +44,11 @@
           title=""
           id="xmlViewer"
           name="xmlViewer"
-        ></iframe>-->
-        <div v-if="currentTab?.isShowingXMLSection" class="xmlPart" id="embedXML"></div>
+        ></iframe>
         </div>
     </div>
     <div v-if="currentTab?.isXML">
-      <!--<iframe
+      <iframe
         height="100%"
         width="100%"
         class="full-height"
@@ -57,8 +56,7 @@
         title=""
         id="xmlViewer"
         name="xmlViewer"
-      ></iframe>-->
-      <div id="embedXML"></div>
+      ></iframe>
     </div>
   </div>
     <div v-if="!currentTab" class="center" id="drag-box">
@@ -88,7 +86,6 @@ import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
 import { reactive, ref } from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import { useI18n } from "vue-i18n";
-import printJS from 'print-js'
 
 export default {
   name: "Home",
@@ -112,7 +109,6 @@ export default {
     const tab = ref("google");
     const tabs = reactive([]);
     const { t, locale } = useI18n();
-    let xmlHTML = undefined;
 
     const setTabRef = (el) => {
       tabRef.value = el;
@@ -169,8 +165,7 @@ export default {
       if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
         tabRef.value.removeTab(tab.value);
       }
-      window.dispatchEvent(new Event("mousedown")); 
-      xmlHTML = window.atob(args[1]);
+      window.dispatchEvent(new Event("mousedown"));
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
       tabRef.value.addTab({
@@ -183,23 +178,8 @@ export default {
       });
 
       tab.value = key;
-      setTimeout(() => {
-        const element = document.getElementById("embedXML");
-        element.innerHTML = xmlHTML;
-        Array.from(element.querySelectorAll("script")).forEach((oldScript) => {
-          const newScript = document.createElement("script");
-          Array.from(oldScript.attributes).forEach((attr) =>
-            newScript.setAttribute(attr.name, attr.value)
-          );
-          newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-          oldScript.parentNode.replaceChild(newScript, oldScript);
-        });
-      }, 200);
     });
 
-    const onClick = (e) => {
-     
-    };
     const onClose = (tabObj, key, index) => {
       
       if (tabs.length === 1) {
@@ -209,18 +189,6 @@ export default {
     };
     const showXML = () => {
       currentTab.value.isShowingXMLSection = true;
-      setTimeout(() => {
-        const element = document.getElementById("embedXML");
-        element.innerHTML = window.atob(currentTab.value.content);
-        Array.from(element.querySelectorAll("script")).forEach((oldScript) => {
-          const newScript = document.createElement("script");
-          Array.from(oldScript.attributes).forEach((attr) =>
-            newScript.setAttribute(attr.name, attr.value)
-          );
-          newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-          oldScript.parentNode.replaceChild(newScript, oldScript);
-        });
-      }, 200);
     };
     const hideXML = () => {
       currentTab.value.isShowingXMLSection = false;
@@ -260,12 +228,9 @@ export default {
       this.showRestartButton = true;
     });
     window.api.onFilePrintXml((event, args) => {
-      //if (window.frames["xmlViewer"]) {
-       // window.frames["xmlViewer"].focus();
-        //window.frames["xmlViewer"].print();
-        const element = document.getElementById("embedXML");
-         if (element) {
-        printJS('embedXML', 'html')
+      if (window.frames["xmlViewer"]) {
+        window.frames["xmlViewer"].focus();
+        window.frames["xmlViewer"].print();
       }
     });
       window.api.onFilePrintPdf((event, args) => {
@@ -379,16 +344,6 @@ export default {
   font-size: 16px;
   font-weight: bold;
 }
-
-.note a{
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  position: absolute;
-  left: 50%;
-
-}
-
 .notification {
   position: fixed;
   bottom: 20px;

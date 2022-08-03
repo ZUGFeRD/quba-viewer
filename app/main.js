@@ -100,6 +100,19 @@ app.on("ready", async () => {
 });
 
 app.on("window-all-closed", function() {
+  const tempPath = path.join(app.getPath("temp"), app.getName());
+  if (fs.existsSync(tempPath)) {
+    console.log("Directory exists!");
+    try {
+      fs.rmdirSync(tempPath, { recursive: true });
+
+      console.log(`${tempPath} is deleted!`);
+    } catch (err) {
+      console.error(`Error while deleting ${tempPath}.`);
+    }
+  } else {
+    console.log("Directory not found.");
+  }
   if (process.platform !== "darwin") app.quit();
 });
 
@@ -321,18 +334,40 @@ function transformAndDisplay(
         // const htmlStr = `data:text/html;base64,${Buffer.from(HTML).toString(
         //   "base64"
         // )}`;
-        const htmlStr = `${Buffer.from(HTML).toString("base64")}`;
-        if (shouldDisplay) {
-          mainWindow.webContents.send("xml-open", [sourceFileName, htmlStr]); // send to be displayed
+        //const htmlStr = `${Buffer.from(HTML).toString("base64")}`;
+        //if (shouldDisplay) {
+          //mainWindow.webContents.send("xml-open", [sourceFileName, htmlStr]); // send to be displayed
+        //}
+        //return htmlStr;
+        const fileName = sourceFileName.replace(/^.*[\\\/]/, "");
+        const tempPath = path.join(app.getPath("temp"), app.getName());
+        const filePath = path.join(
+          tempPath,
+          `${path.parse(fileName).name}.html`
+        );
+        console.log("temp", filePath);
+        try {
+          if (!fs.existsSync(tempPath)) {
+            fs.mkdirSync(tempPath);
+          }
+          fs.writeFileSync(filePath, HTML, { flag: "w+" });
+          if (shouldDisplay) {
+            mainWindow.webContents.send("xml-open", [
+              sourceFileName,
+              filePath,
+            ]);
+          }
+          return filePath;
+        } catch (err) {
+          console.log(err);
         }
-        return htmlStr;
       })
       .catch((error) => {
-        displayError("Exception", error.getMessage());
+        displayError("Exception", error);
       });
   })
   .catch((output) => {
-    displayError("Exception", output.getMessage());
+    displayError("Exception", output);
   });
 }
 function displayError(message, detail) {
