@@ -11,6 +11,14 @@ History
 =============
 
 <details>
+<summary>1.1.5 04.08.2022</summary>
+    - XML invoice with large PDF (approx. > 1.4 MB) attached can't be opened #16
+</details>
+
+<summary>1.1.4 23.06.2022</summary>
+    - No close button for attachments #15
+</details>
+
 <summary>1.1.3 28.04.2022</summary>
     - Accept invoices as command line arguments #12
 </details>

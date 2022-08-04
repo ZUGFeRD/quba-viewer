@@ -20,7 +20,7 @@ npm update
 then
 
 ```
-npm run start
+npm start
 ```
 
 
