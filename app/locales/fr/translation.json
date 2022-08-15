@@ -13,5 +13,7 @@
     "Paste": "Coller",
     "Delete": "Supprimer",
     "Select all": "Sélectionner tout",
-    "appName": "Visionneuse pour e-factures"
+    "appName": "Visionneuse pour e-factures",
+    "Setting": "Paramètre",
+    "Login" : "Connexion"
   }

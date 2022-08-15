@@ -71,6 +71,17 @@ function buildMenu(app, mainWindow, i18n, openFile) {
           type: "separator",
         },
         {
+          label: i18n.t("Setting"),
+          submenu: [
+              {
+                label: i18n.t("Login"),
+              },
+            ]
+        },
+        {
+          type: "separator",
+        },
+        {
           label: i18n.t("Exit"),
           click() {
             app.quit();

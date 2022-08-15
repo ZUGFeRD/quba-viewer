@@ -13,5 +13,7 @@
   "Paste": "Paste",
   "Delete": "Delete",
   "Select all": "Select All",
-  "appName": "E-Invoice Viewer"
+  "appName": "E-Invoice Viewer",
+  "Setting": "Setting",
+  "Login" : "Login"
 }
