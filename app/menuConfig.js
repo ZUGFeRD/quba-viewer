@@ -71,10 +71,19 @@ function buildMenu(app, mainWindow, i18n, openFile) {
           type: "separator",
         },
         {
+          label: i18n.t("Validate"),
+        },
+        {
+          type: "separator",
+        },
+        {
           label: i18n.t("Setting"),
           submenu: [
               {
                 label: i18n.t("Login"),
+                click() {
+                  openLoginWindow(mainWindow, app, i18n);
+                },
               },
             ]
         },
@@ -146,6 +155,29 @@ function openAboutWindow(mainWindow,  app, i18n) {
   });
 
   newWindow.loadFile("./app/about.html");
+
+  newWindow.on("closed", function() {
+    newWindow = null;
+  });
+}
+
+function openLoginWindow(mainWindow,  app, i18n) {
+  newWindow = new BrowserWindow({
+    height: 400,
+    resizable: false,
+    width: 480,
+    title: "Login",
+    parent: mainWindow,
+    modal: true,
+    minimizable: false,
+    fullscreenable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+  newWindow.setMenuBarVisibility(false);
+  newWindow.loadFile("./app/login.html");
 
   newWindow.on("closed", function() {
     newWindow = null;

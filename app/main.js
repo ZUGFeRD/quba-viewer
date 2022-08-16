@@ -99,8 +99,11 @@ app.on("ready", async () => {
   registerShortcuts();
 });
 
+function validation() {
+  console.log("test");
+}
 app.on("window-all-closed", function() {
-  const tempPath = path.join(app.getPath("temp"), app.getName());
+    const tempPath = path.join(app.getPath("temp"), app.getName());
   if (fs.existsSync(tempPath)) {
     console.log("Directory exists!");
     try {
@@ -401,4 +404,8 @@ ipcMain.on("open-dragged-file", (event, filePath) => {
 });
 ipcMain.on("open-menu", (event, arg) => {
   openFile();
+});
+
+ipcMain.on("open-validation", (event, arg) => {
+  Validation();
 });

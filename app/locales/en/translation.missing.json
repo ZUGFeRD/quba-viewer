@@ -29,5 +29,6 @@
   "delete": "delete",
   "selectall": "selectall",
   "project": "project",
-  "version": "version"
+  "version": "version",
+  "Validation": "Validation"
 }

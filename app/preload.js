@@ -20,6 +20,9 @@ const API = {
   sendOpenMenu: () => {
     ipcRenderer.send('open-menu');
   },
+  sendValidation: () => {
+    ipcRenderer.send('open-validation');
+  },
   sendSyncCheckXml: (path) => {
     return ipcRenderer.sendSync('check-xml', path);
   },
