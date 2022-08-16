@@ -1,4 +1,6 @@
 const SaxonJS = require("saxon-js");
+const axios = require('axios').default;
+var FormData = require('form-data');
 const { app, BrowserWindow, ipcMain, dialog, ipcRenderer} =require('electron');
 const os = require("os");
 const { autoUpdater } = require("electron-updater");
@@ -251,11 +253,27 @@ function openFile() {
         let paths = result.filePaths;
         console.log("paths",paths);
         if (paths && paths.length > 0) {
-          
           if (paths[0].toLowerCase().includes(".pdf")) {
             mainWindow.webContents.send("pdf-open", [paths[0], null]);
           } else {
             loadAndDisplayXML(paths[0]);
+            // console.log("xml file",paths[0]);
+              // const formData = new FormData();
+              // const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
+              // // const xmlFilePath = paths[0];
+              // // payload.append("inFile", fs.createReadStream(paths[0]));
+              // formData.append("inFile", fs.createReadStream(xmlFilePath));
+              // axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
+              //   headers:{
+              //     'Content-Type': 'multipart/form-data',
+              //   },
+              // }) .then(function (response) {
+              //   console.log(response);
+              // })
+              // .catch(function (error) {
+              //   console.log(error);
+              // });
+
           }
         }
       }
@@ -400,6 +418,7 @@ ipcMain.on("open-dragged-file", (event, filePath) => {
     mainWindow.webContents.send("pdf-open", [filePath, null]);
   } else if (filePath.toLowerCase().includes(".xml")) {
     loadAndDisplayXML(filePath);
+    console.log("this is xml file and the path is ", filePath);
   }
 });
 ipcMain.on("open-menu", (event, arg) => {

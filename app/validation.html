@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="assets/css/about.css">
+    <style>
+      html {
+        font-family: "Segoe UI", "San Francisco", "Source Sans Pro", sans-serif;
+      }
+
+      body {
+        overflow: hidden;
+        user-select: none;
+      }
+
+      #titlebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(100% - 25px);
+        height: 25px;
+        -webkit-app-region: drag;
+      }
+
+      #logo {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 75px;
+        width: 75px;
+        left: 25px;
+      }
+
+      #info {
+        position: absolute;
+        top: 50%;
+        left: 125px;
+        transform: translateY(-50%);
+      }
+
+      #label {
+        font-size: 18px;
+      }
+
+      #description {
+        font-size: 14px
+      }
+
+      #stats {
+        margin-top: 10px;
+        font-size: 12px;
+      }
+
+      #close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin-right: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      #backgroundInfo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        margin: auto;
+        display: block;
+        text-align: center;
+
+      }
+
+      .backgroundText {
+        font-size: 16px;
+        font-weight: lighter;
+        color: #cccccc;
+      }
+
+      .backgroundText a {
+        color: #aaaaff
+      }
+
+      #backgroundLogo {
+        position: relative;
+        height: 150px;
+        width: 150px;
+        margin: auto;
+      }
+
+      #notification {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        width: 200px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #tabContainer {
+        position: absolute;
+        background: #252525;
+        top: 0;
+        left: 25px;
+        right: 25px;
+        height: 35px;
+        display: flex;
+        flex-direction: row;
+        visibility: hidden;
+      }
+
+      #leftSeek,
+      #rightSeek {
+        position: absolute;
+        background: #252525;
+        top: 0;
+        width: 25px;
+        height: 23px;
+        text-align: center;
+        font-size: 12px;
+        vertical-align: middle;
+        padding: 6px 0px;
+        font-weight: bolder;
+        visibility: hidden;
+        user-select: none;
+      }
+
+      #leftSeek {
+        left: 0;
+      }
+
+      #rightSeek {
+        right: 0;
+      }
+
+      .active-seek {
+        color: #cccccc;
+        cursor: pointer;
+      }
+
+      .inactive-seek {
+        color: #666666;
+        cursor: default;
+      }
+
+      #viewContainer {
+        position: absolute;
+        width: 100%;
+        top: 35px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+
+      #backgroundInfo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        margin: auto;
+        display: block;
+        font-size: 16px;
+        font-weight: lighter;
+        text-align: center;
+        color: #cccccc;
+      }
+
+      #backgroundLogo {
+        position: relative;
+        height: 150px;
+        width: 150px;
+        margin: auto;
+      }
+
+      iframe {
+        position: absolute;
+        border: none;
+        width: 100%;
+        height: 100%;
+      }
+
+      .active {
+        background: #1e1e1e;
+        border: none;
+        color: #ffffff;
+      }
+
+      .inactive {
+        background: #2d2d2d;
+        border-left: 0.5px solid #252525;
+        border-right: 0.5px solid #252525;
+        color: #cccccc;
+      }
+
+      .file-tab-label {
+        position: relative;
+        display: inline-block;
+        font-size: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: calc(100% - 15px);
+      }
+
+      .file-tab-close {
+        position: relative;
+        display: inline-block;
+        top: 40%;
+        transform: translateY(-50%);
+        margin-left: 5px;
+        width: 10px;
+        color: #ffffff;
+      }
+
+      .file-tab {
+        float: left;
+        height: 35px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: pointer;
+        user-select: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id='titlebar'></div>
+    <img id='logo' src='../assets/img/logoonly.svg' />
+    <div id='info'>
+      <div id='label'></div>
+      <div id='description'></div>
+      <div id='stats ver'>
+        <div id="version"></div>
+        <div></div>
+      </div>
+    </div>
+
+    <script>
+      const { ipcRenderer, remote } = require('electron');
+      const version = document.getElementById('version');
+      const label = document.getElementById('label');
+      const description = document.getElementById('description');
+
+      ipcRenderer.send('about-info');
+      ipcRenderer.on('about-info', (event, arg) => {
+        ipcRenderer.removeAllListeners('about-info');
+        version.innerText = arg.version;
+        label.innerText = arg.title;
+        description.innerText = arg.appName;
+      });
+    </script>
+  </body>
+
+</html>

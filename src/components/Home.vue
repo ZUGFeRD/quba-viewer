@@ -51,6 +51,7 @@
       <iframe
         height="100%"
         width="100%"
+        :data-xmlFilePath = "currentTab?.xmlFilePath"
         class="full-height"
         :src="currentTab?.content"
         title=""
@@ -120,6 +121,7 @@ export default {
     };
 
     const handleAdd = () => {
+
       const key = "tab" + Date.now();
       tabRef.value.addTab({
         label: "New Tab",
@@ -156,11 +158,12 @@ export default {
         isShowingXMLSection: false,
         content: res,
       });
-
       tab.value = key;
     });
 
     window.api.onXmlOpen((event, args) => {
+      console.log("clicked on tab");
+
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
       if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
         tabRef.value.removeTab(tab.value);
@@ -175,6 +178,7 @@ export default {
         link: args[0],
         isXML: true,
         content: args[1],
+        xmlFilePath: args[0],
       });
 
       tab.value = key;

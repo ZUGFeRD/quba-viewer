@@ -1,4 +1,7 @@
 const { Menu, BrowserWindow, ipcMain  } =require('electron');
+const axios = require('axios').default;
+var FormData = require('form-data');
+var nfs = require('fs');
 const config = require('./config/app.config');
 const menu = null;
 let data;
@@ -72,6 +75,9 @@ function buildMenu(app, mainWindow, i18n, openFile) {
         },
         {
           label: i18n.t("Validate"),
+          click() {
+            validateXmlWithAPI();
+          },
         },
         {
           type: "separator",
@@ -181,6 +187,43 @@ function openLoginWindow(mainWindow,  app, i18n) {
 
   newWindow.on("closed", function() {
     newWindow = null;
+  });
+}
+
+
+function validateXmlWithAPI(){
+  console.log("validateXmlWithAPI");
+
+  //const { net } = require('electron')
+  // const request = net.request({
+  //   method: 'GET',
+  //   protocol: 'https:',
+  //   hostname: 'jsonplaceholder.typicode.com',
+  //   // port: 3000,
+  //   path: '/posts',
+  //   // headers: {
+  //   //   'Content-Type': 'application/json',
+  //   //   'Content-Length': postData.length
+  //   // }
+  //  }) 
+
+  // file_path = "C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml";
+
+  // const ApiEndpoint = "http://api.usegroup.de:8080/mustang/validate";
+
+  // file name inFile
+  const formData = new FormData();
+  const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
+  formData.append("inFile", nfs.createReadStream(xmlFilePath));
+  axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
+    headers:{
+      'Content-Type': 'multipart/form-data',
+    },
+  }) .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
   });
 }
 
