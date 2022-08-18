@@ -117,11 +117,12 @@ export default {
 
       if (currentTabObj.length) {
         currentTab.value = currentTabObj[0];
+        localStorage.setItem("currentTabFilePath", currentTabObj[0].link);
+        console.log("current tab ref", currentTabObj[0]);
       }
     };
 
     const handleAdd = () => {
-
       const key = "tab" + Date.now();
       tabRef.value.addTab({
         label: "New Tab",

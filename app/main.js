@@ -258,21 +258,30 @@ function openFile() {
           } else {
             loadAndDisplayXML(paths[0]);
             // console.log("xml file",paths[0]);
-              // const formData = new FormData();
+            const xml2js = require('xml2js');
+            var status = false;
+            var parser = new xml2js.Parser();
+              const formData = new FormData();
               // const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
-              // // const xmlFilePath = paths[0];
-              // // payload.append("inFile", fs.createReadStream(paths[0]));
-              // formData.append("inFile", fs.createReadStream(xmlFilePath));
-              // axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
-              //   headers:{
-              //     'Content-Type': 'multipart/form-data',
-              //   },
-              // }) .then(function (response) {
-              //   console.log(response);
-              // })
-              // .catch(function (error) {
-              //   console.log(error);
-              // });
+              const xmlFilePath = paths[0];
+              formData.append("inFile", fs.createReadStream(xmlFilePath));
+              axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
+                headers:{
+                  'Content-Type': 'multipart/form-data',
+                },
+              }) .then(function (response) {
+                // console.log("response data",response.data);
+                parser.parseString(response.data, function (err, result) {
+                  // console.log("result.validation.summary",result.validation.summary[0].$.status)
+                  status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
+                  console.log("status",status);
+                });
+              })
+              .catch(function (error) {
+                console.log(error);
+                status = "Invalid";
+              });
+
 
           }
         }
@@ -418,7 +427,6 @@ ipcMain.on("open-dragged-file", (event, filePath) => {
     mainWindow.webContents.send("pdf-open", [filePath, null]);
   } else if (filePath.toLowerCase().includes(".xml")) {
     loadAndDisplayXML(filePath);
-    console.log("this is xml file and the path is ", filePath);
   }
 });
 ipcMain.on("open-menu", (event, arg) => {

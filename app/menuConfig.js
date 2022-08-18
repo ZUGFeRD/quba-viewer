@@ -1,6 +1,7 @@
-const { Menu, BrowserWindow, ipcMain  } =require('electron');
+const { Menu, BrowserWindow, ipcMain } =require('electron');
 const axios = require('axios').default;
-var FormData = require('form-data');
+const xml2js = require('xml2js');
+const FormData = require('form-data');
 var nfs = require('fs');
 const config = require('./config/app.config');
 const menu = null;
@@ -14,6 +15,7 @@ function MenuFactoryService(menuList) {
 function buildMenu(app, mainWindow, i18n, openFile) {
   data = {
     title: i18n.t("About") + " " +"Quba",
+    validationTitle: i18n.t("Validate"),
     appName: i18n.t("appName"),
     version: i18n.t("version") + " " + app.getVersion(),
   };
@@ -76,7 +78,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
         {
           label: i18n.t("Validate"),
           click() {
-            validateXmlWithAPI();
+            openValidationWindow();
           },
         },
         {
@@ -167,6 +169,75 @@ function openAboutWindow(mainWindow,  app, i18n) {
   });
 }
 
+function openValidationWindow(mainWindow, app, i18n) {
+  newWindow = new BrowserWindow({
+    height: 285,
+    resizable: false,
+    width: 600,
+    title: data.validationTitle,
+    parent: mainWindow,
+    modal: true,
+    minimizable: false,
+    fullscreenable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+  newWindow.setMenuBarVisibility(false);
+  // const currentTabFilePath = localStorage.getItem("currentTabFilePath");
+  // if (typeof localStorage === "undefined" || localStorage === null) {
+  //   var LocalStorage = require('node-localstorage').LocalStorage;
+  //   localStorage = new LocalStorage('./scratch');
+  // }
+
+  // var status = false;
+  // var parser = new xml2js.Parser();
+  // const formData = new FormData();
+  // const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
+  // formData.append("inFile", fs.createReadStream(xmlFilePath));
+  // axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
+  //   headers:{
+  //     'Content-Type': 'multipart/form-data',
+  //   },
+  // }) .then(function (response) {
+  //     parser.parseString(response.data, function (err, result) {
+  //     // console.log("result.validation.summary",result.validation.summary[0].$.status)
+  //     status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
+  //     //console.log("status",status);
+  //     ipcMain.on("validation-info", (event) => {
+  //       event.sender.send("validation-info", { 
+  //         ...data,
+  //         xmlStatus: status,
+  //        });
+  //     });
+
+  //   });
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  //   ipcMain.on("validation-info", (event) => {
+  //     event.sender.send("validation-info", { 
+  //       ...data,
+  //       xmlStatus: "Invalid",
+  //      });
+  //   });
+  // });
+
+  ipcMain.on("validation-info", (event) => {
+    event.sender.send("validation-info", { 
+      ...data,
+      name: "",
+     });
+  });
+
+  newWindow.loadFile("./app/validation.html");
+
+  newWindow.on("closed", function() {
+    newWindow = null;
+  });
+}
+
 function openLoginWindow(mainWindow,  app, i18n) {
   newWindow = new BrowserWindow({
     height: 400,
@@ -191,40 +262,5 @@ function openLoginWindow(mainWindow,  app, i18n) {
 }
 
 
-function validateXmlWithAPI(){
-  console.log("validateXmlWithAPI");
-
-  //const { net } = require('electron')
-  // const request = net.request({
-  //   method: 'GET',
-  //   protocol: 'https:',
-  //   hostname: 'jsonplaceholder.typicode.com',
-  //   // port: 3000,
-  //   path: '/posts',
-  //   // headers: {
-  //   //   'Content-Type': 'application/json',
-  //   //   'Content-Length': postData.length
-  //   // }
-  //  }) 
-
-  // file_path = "C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml";
-
-  // const ApiEndpoint = "http://api.usegroup.de:8080/mustang/validate";
-
-  // file name inFile
-  const formData = new FormData();
-  const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
-  formData.append("inFile", nfs.createReadStream(xmlFilePath));
-  axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
-    headers:{
-      'Content-Type': 'multipart/form-data',
-    },
-  }) .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
 
 module.exports = new MenuFactoryService(menu);
