@@ -279,35 +279,33 @@
         const label = document.getElementById('label');
         const validation = document.getElementById("validation");
         const description = document.getElementById('description');
-        const axios = require('axios').default;
+        const axios = require('axios');
+        const fs = require("fs");
+        const FormData = require('form-data');
         const xml2js = require('xml2js');
 
-        setTimeout(() => {
-            //validation.innerText =  "Valid";
-        }, 1000);
-
-        var status = false;
         var parser = new xml2js.Parser();
         const formData = new FormData();
-        const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
-        formData.append("inFile", fs.createReadStream(xmlFilePath));
-        axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
-          headers:{
-            'Content-Type': 'multipart/form-data',
-          },
-        }) .then(function (response) {
-            validation.innerText =  "InValid";
+        //const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
+       //const xmlFilePath = localStorage.getItem("currentTabFilePath");
+       //formData.append("inFile", fs.createReadStream(xmlFilePath));
 
-            parser.parseString(response.data, function (err, result) {
-            // console.log("result.validation.summary",result.validation.summary[0].$.status)
-            status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
-
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
-          validation.innerText =  "InValid";
-        });
+       //axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
+       //  headers:{
+       //    'Content-Type': 'multipart/form-data',
+       //  },
+       //})
+       //.then(function (response) {
+       //    validation.innerText =  "send request to the api";
+       //        parser.parseString(response.data, function (err, result) {
+       //        console.log("result.validation.summary",result.validation.summary[0].$.status)
+       //        status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
+       //   });
+       //})
+       //.catch(function (error) {
+       //    validation.innerText = JSON.stringify(error);
+       //    console.log(error);
+       //});
   
         ipcRenderer.send('validation-info');
         ipcRenderer.on('validation-info', (event, arg) => {

@@ -6,6 +6,7 @@ var nfs = require('fs');
 const config = require('./config/app.config');
 const menu = null;
 let data;
+const store = new Store();
 
 function MenuFactoryService(menuList) {
   this.menu = menuList;

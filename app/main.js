@@ -258,32 +258,46 @@ function openFile() {
           } else {
             loadAndDisplayXML(paths[0]);
             // console.log("xml file",paths[0]);
-            const xml2js = require('xml2js');
-            var status = false;
-            var parser = new xml2js.Parser();
-              const formData = new FormData();
-              // const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
-              const xmlFilePath = paths[0];
-              formData.append("inFile", fs.createReadStream(xmlFilePath));
-              axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
-                headers:{
-                  'Content-Type': 'multipart/form-data',
-                },
-              }) .then(function (response) {
-                // console.log("response data",response.data);
-                parser.parseString(response.data, function (err, result) {
-                  // console.log("result.validation.summary",result.validation.summary[0].$.status)
-                  status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
-                  console.log("status",status);
-                });
-              })
-              .catch(function (error) {
-                console.log(error);
-                status = "Invalid";
-              });
-
-
           }
+
+          const xml2js = require('xml2js');
+          var status = false;
+          var parser = new xml2js.Parser();
+            const formData = new FormData();
+            // const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
+            const xmlFilePath = paths[0];
+            const list = store.get("list") || [];
+            formData.append("inFile", fs.createReadStream(xmlFilePath));
+            axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
+              headers:{
+                'Content-Type': 'multipart/form-data',
+              },
+            }) .then(function (response) {
+              // console.log("response data",response.data);
+              parser.parseString(response.data, function (err, result) {
+                // console.log("result.validation.summary",result.validation.summary[0].$.status)
+                status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
+                console.log("status",status);
+                mainWindow.webContents.send("file-validate", status);
+                const fileItem = {
+                  filePath: xmlFilePath,
+                  status
+                }
+                list.push(fileItem);
+                store.set("list", list);
+              });
+            })
+            .catch(function (error) {
+              console.log(error);
+              status = "Invalid";
+              const fileItem = {
+                filePath: xmlFilePath,
+                status
+              }
+              list.push(fileItem);
+              store.set("list", list);
+              mainWindow.webContents.send("file-validate", status);
+            });
         }
       }
     });

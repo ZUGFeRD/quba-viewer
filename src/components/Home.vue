@@ -185,6 +185,10 @@ export default {
       tab.value = key;
     });
 
+    window.api.onFileValidate((event, args) => {
+      console.log("args", args);
+    });
+
     const onClose = (tabObj, key, index) => {
       
       if (tabs.length === 1) {

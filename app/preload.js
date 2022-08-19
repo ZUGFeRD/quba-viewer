@@ -71,6 +71,9 @@ const API = {
   removeAllUpdateDownloaded: () => {
     ipcRenderer.removeAllListeners('update_downloaded');
   },
+  onFileValidate: (callback) => {
+    ipcRenderer.on("file-validate", (event, ...args) => callback(event, ...args));
+  },
   setMenu: () => {
     setTitleBar();
   },
