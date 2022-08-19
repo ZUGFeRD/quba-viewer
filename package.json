@@ -29,6 +29,7 @@
     "saxon-js": "2.4.0",
     "vue": "3.2.36",
     "vue-i18n": "9.1.10",
+    "vue-sweetalert2": "^5.0.5",
     "vue-tabs-chrome": "0.10.0",
     "vue3-tabs-chrome": "0.3.2",
     "xml2js": "^0.4.23"

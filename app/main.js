@@ -273,30 +273,24 @@ function openFile() {
                 'Content-Type': 'multipart/form-data',
               },
             }) .then(function (response) {
-              // console.log("response data",response.data);
               parser.parseString(response.data, function (err, result) {
-                // console.log("result.validation.summary",result.validation.summary[0].$.status)
                 status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
                 console.log("status",status);
-                mainWindow.webContents.send("file-validate", status);
-                const fileItem = {
-                  filePath: xmlFilePath,
-                  status
+                const isValid = status === 'valid';
+                const request = {
+                  path: xmlFilePath,
+                  valid: isValid
                 }
-                list.push(fileItem);
-                store.set("list", list);
+                mainWindow.webContents.send("validate-complete", request);
               });
             })
             .catch(function (error) {
               console.log(error);
-              status = "Invalid";
-              const fileItem = {
-                filePath: xmlFilePath,
-                status
+              const request = {
+                path: xmlFilePath,
+                valid: false
               }
-              list.push(fileItem);
-              store.set("list", list);
-              mainWindow.webContents.send("file-validate", status);
+              mainWindow.webContents.send("validate-complete", request);
             });
         }
       }
@@ -309,7 +303,6 @@ function loadAndDisplayXML(filename) {
     var parser = require("fast-xml-parser");
     let json = parser.parse(content);
     for (let key in json) {
-      // parse root node
       if (key.includes("CrossIndustryInvoice")) {
         transformAndDisplayCII(filename, content, true);
       } else if (key.includes("Invoice")) {
@@ -375,14 +368,6 @@ function transformAndDisplay(
       )
       .then((response) => {
         let HTML = response.principalResult;
-        // const htmlStr = `data:text/html;base64,${Buffer.from(HTML).toString(
-        //   "base64"
-        // )}`;
-        //const htmlStr = `${Buffer.from(HTML).toString("base64")}`;
-        //if (shouldDisplay) {
-          //mainWindow.webContents.send("xml-open", [sourceFileName, htmlStr]); // send to be displayed
-        //}
-        //return htmlStr;
         const fileName = sourceFileName.replace(/^.*[\\\/]/, "");
         const tempPath = path.join(app.getPath("temp"), app.getName());
         const filePath = path.join(
@@ -445,8 +430,4 @@ ipcMain.on("open-dragged-file", (event, filePath) => {
 });
 ipcMain.on("open-menu", (event, arg) => {
   openFile();
-});
-
-ipcMain.on("open-validation", (event, arg) => {
-  Validation();
 });

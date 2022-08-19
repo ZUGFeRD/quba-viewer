@@ -62,6 +62,12 @@ const API = {
   onFilePrintPdf: (callback) => {
     ipcRenderer.on("file-print-pdf", (event, ...args) => callback(event, ...args));    
   },
+  onValidateClick: (callback) => {
+    ipcRenderer.on("validate-click", (event, ...args) => callback(event, ...args));    
+  },
+  onValidateComplete: (callback) => {
+    ipcRenderer.on("validate-complete", (event, ...args) => callback(event, ...args));    
+  },
   removeAllAppVersion: () => {
     ipcRenderer.removeAllListeners('app_version');
   },
@@ -70,9 +76,6 @@ const API = {
   },
   removeAllUpdateDownloaded: () => {
     ipcRenderer.removeAllListeners('update_downloaded');
-  },
-  onFileValidate: (callback) => {
-    ipcRenderer.on("file-validate", (event, ...args) => callback(event, ...args));
   },
   setMenu: () => {
     setTitleBar();

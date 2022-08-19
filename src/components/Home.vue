@@ -158,6 +158,7 @@ export default {
         isShowXML: !!res,
         isShowingXMLSection: false,
         content: res,
+        path: args[0]
       });
       tab.value = key;
     });
@@ -180,14 +181,20 @@ export default {
         isXML: true,
         content: args[1],
         xmlFilePath: args[0],
+        path: args[0]
       });
 
       tab.value = key;
     });
 
-    window.api.onFileValidate((event, args) => {
+    window.api.onValidateComplete((event, args) => {
       console.log("args", args);
+       let list = sessionStorage.getItem("validationResult");
+      list  = list ? JSON.parse(list) : [];
+      list.push(args);
+      sessionStorage.setItem("validationResult", JSON.stringify(list));
     });
+
 
     const onClose = (tabObj, key, index) => {
       
@@ -248,6 +255,34 @@ export default {
         window.frames["viewer"].print();
       }
     });
+
+    window.api.onValidateClick((event, args) => {
+      if (this.currentTab) {
+        console.log(sessionStorage.getItem("validationResult"));
+        console.log("onValidateClick", this.currentTab.link);
+        const list = sessionStorage.getItem("validationResult");
+        if (list) {
+          const result = JSON.parse(list);
+          const currentFileRecord = result.find((item) => item.path === this.currentTab.path);
+          console.log("currentFileRecord", currentFileRecord);
+          console.log("currentTab", this.currentTab.path);
+          if (currentFileRecord?.valid) {
+            console.log("Valid");
+            this.$swal({
+              icon: 'success',
+              title: this.t('validFile', {}, { locale: this.lang })
+            });
+          } else {
+            console.log("Invalid");
+            this.$swal({
+              icon: 'error',
+              title: this.t('invalidFile', {}, { locale: this.lang })
+            });
+          }
+          console.log("result", result);
+        }
+      }
+    }).call(this);
     
     document.addEventListener("drop", (event) => {
       event.preventDefault();

@@ -6,7 +6,6 @@ var nfs = require('fs');
 const config = require('./config/app.config');
 const menu = null;
 let data;
-const store = new Store();
 
 function MenuFactoryService(menuList) {
   this.menu = menuList;
@@ -79,7 +78,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
         {
           label: i18n.t("Validate"),
           click() {
-            openValidationWindow();
+            mainWindow.webContents.send("validate-click");
           },
         },
         {
@@ -186,45 +185,6 @@ function openValidationWindow(mainWindow, app, i18n) {
     },
   });
   newWindow.setMenuBarVisibility(false);
-  // const currentTabFilePath = localStorage.getItem("currentTabFilePath");
-  // if (typeof localStorage === "undefined" || localStorage === null) {
-  //   var LocalStorage = require('node-localstorage').LocalStorage;
-  //   localStorage = new LocalStorage('./scratch');
-  // }
-
-  // var status = false;
-  // var parser = new xml2js.Parser();
-  // const formData = new FormData();
-  // const xmlFilePath = 'C:\\Users\\Asim khan\\Documents\\quba-viewer\\000resources\\testfiles\\zugferd_2p1_EXTENDED_Fremdwaehrung.xml';
-  // formData.append("inFile", fs.createReadStream(xmlFilePath));
-  // axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
-  //   headers:{
-  //     'Content-Type': 'multipart/form-data',
-  //   },
-  // }) .then(function (response) {
-  //     parser.parseString(response.data, function (err, result) {
-  //     // console.log("result.validation.summary",result.validation.summary[0].$.status)
-  //     status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
-  //     //console.log("status",status);
-  //     ipcMain.on("validation-info", (event) => {
-  //       event.sender.send("validation-info", { 
-  //         ...data,
-  //         xmlStatus: status,
-  //        });
-  //     });
-
-  //   });
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  //   ipcMain.on("validation-info", (event) => {
-  //     event.sender.send("validation-info", { 
-  //       ...data,
-  //       xmlStatus: "Invalid",
-  //      });
-  //   });
-  // });
-
   ipcMain.on("validation-info", (event) => {
     event.sender.send("validation-info", { 
       ...data,
