@@ -278,7 +278,22 @@ export default {
               icon: 'error',
               title: this.t('invalidFile', {}, { locale: this.lang })
             });
+            let title = document.getElementById("swal2-title");
+          let text = document.createElement("p");
+          text.textContent = "Show More...";
+          text.classList.add("show-more");
+
+          text.addEventListener("click", () => {
+            let error = document.createElement("div");
+            error.classList.add("error-list");
+            // error.textContent = `${currentFileRecord?.error} ${currentFileRecord?.error}`;
+            error.textContent = `${currentFileRecord?.error}`;
+            text.parentNode.insertBefore(error, text.nextSibling);
+            text.style.display = "none";
+          });
+          title.parentNode.insertBefore(text, title.nextSibling);
           }
+          
           console.log("result", result);
         }
       }
