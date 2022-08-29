@@ -72,14 +72,51 @@
 <body>
     <div class="login">
         <div class="form">
-          <form class="login-form">
+          <form id="loginForm" class="login-form">
             <span class="material-icons">Login</span>
-            <input type="text" placeholder="username" required/>
-            <input type="password" placeholder="password" required />
+            <input type="text" id="username" placeholder="username" required/>
+            <input type="password" id="password" placeholder="password" required />
             <button class="button-style">login</button>
           </form>  
         </div>
       </div>
+      <p id="note"></p>
+    <script>
+      const axios = require('axios');
+      const loginForm = document.getElementById("loginForm");
+      const username = document.getElementById("username");
+      const password = document.getElementById("password");
+      const note = document.getElementById("note");
+      
+      loginForm.addEventListener("submit", function(e){
+        e.preventDefault();
+        note.innerText = username.value+password.value;
+        //alert(username.value+password.value);
+        // Make a request for a user with a given ID
+        axios.post('https://api.usegroup.de:9443/oauth2/token',JSON.stringify({
+            grant_type:"password",
+            username:"",
+            password:""
+          }),{
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(function (response) {
+          // handle success
+          console.log(response);
+          alert(JSON.stringify(response));
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+          alert(JSON.stringify(response));
+        })
+        .then(function () {
+          // always executed
+        });
+      })
+    </script>
 
 </body>
 </html>
