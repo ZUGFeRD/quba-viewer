@@ -275,9 +275,10 @@ function openFile() {
             }) .then(function (response) {
 
               parser.parseString(response.data, function (err, result) {
+                console.log("messages object", result);
                 // console.log("messages object", result?.validation?.xml[0]?.messages[0]?.error);
-                const error = result?.validation?.xml[0]?.messages[0]?.error[0]?._;
-                const criterion = result?.validation?.xml[0]?.messages[0]?.error[0]?.$?.criterion;
+                const error = result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?._;
+                const criterion = result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?.$?.criterion;
                 // console.log("messages error object", error);
                 // console.log("messages criterion object", criterion);
                 status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
