@@ -22,7 +22,6 @@
     "electron-store": "8.0.1",
     "electron-updater": "5.0.1",
     "fast-xml-parser": "3.19.0",
-    "https": "^1.0.0",
     "i18next": "21.8.5",
     "i18next-fs-backend": "1.1.4",
     "node-localstorage": "^2.2.1",

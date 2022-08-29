@@ -270,7 +270,7 @@ function openFile() {
             formData.append("inFile", fs.createReadStream(xmlFilePath));
             axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
               headers:{
-                'Content-Type': 'multipae rt/form-data',
+                'Content-Type': 'multipart/form-data',
               },
             }) .then(function (response) {
 
@@ -438,36 +438,4 @@ ipcMain.on("open-dragged-file", (event, filePath) => {
 });
 ipcMain.on("open-menu", (event, arg) => {
   openFile();
-});
-
-
-
-const https = require('https');
-// const httpsAgent = new https.Agent({ rejectUnauthorized: false });
-// At instance level
-const oAuth = axios.create({
-  httpsAgent: new https.Agent({  
-    rejectUnauthorized: false
-  })
-});
-
-oAuth.post('https://api.usegroup.de:9443/oauth2/token',JSON.stringify({
-  grant_type:"password",
-  username:"",
-  password:""
-}),{
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
-.then(function (response) {
-// handle success
-console.log("response",response.data);
-})
-.catch(function (error) {
-// handle error
-console.log("error",error.response);
-})
-.then(function () {
-// always executed
 });
