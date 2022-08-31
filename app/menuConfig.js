@@ -90,7 +90,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
               {
                 label: i18n.t("Login"),
                 click() {
-                  openLoginWindow(mainWindow, app, i18n);
+                  openLogin(mainWindow, app, i18n);
                 },
               },
             ]
@@ -199,29 +199,24 @@ function openValidationWindow(mainWindow, app, i18n) {
   });
 }
 
-function openLoginWindow(mainWindow,  app, i18n) {
-  newWindow = new BrowserWindow({
-    height: 400,
+function openLogin(mainWindow, app, i18n) {
+  let newWindow = new BrowserWindow({
+    height: 340,
+    width: 400,
     resizable: false,
-    width: 480,
-    title: "Login",
-    parent: mainWindow,
-    modal: true,
+    title: 'Login',
+    alwaysOnTop: true,
     minimizable: false,
     fullscreenable: false,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
   });
-  newWindow.setMenuBarVisibility(false);
+  newWindow.setMenu(null);
   newWindow.loadFile("./app/login.html");
+  // newWindow.webContents.openDevTools();
 
-  newWindow.on("closed", function() {
+  newWindow.on("closed", function () {
     newWindow = null;
   });
 }
-
 
 
 module.exports = new MenuFactoryService(menu);
