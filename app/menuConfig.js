@@ -5,7 +5,7 @@ const FormData = require('form-data');
 var nfs = require('fs');
 const config = require('./config/app.config');
 const menu = null;
-let data;
+let data,loginWindow;
 
 function MenuFactoryService(menuList) {
   this.menu = menuList;
@@ -142,7 +142,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
 }
 
 function openAboutWindow(mainWindow,  app, i18n) {
-  newWindow = new BrowserWindow({
+  let newWindow = new BrowserWindow({
     height: 185,
     resizable: false,
     width: 400,
@@ -168,15 +168,15 @@ function openAboutWindow(mainWindow,  app, i18n) {
     newWindow = null;
   });
 }
-
-function openValidationWindow(mainWindow, app, i18n) {
-  newWindow = new BrowserWindow({
-    height: 285,
+function openLogin(mainWindow, app, i18n) {
+  if (loginWindow && loginWindow.close) {	
+    loginWindow.close();	
+  }
+  loginWindow = new BrowserWindow({
+    height: 340,
+    width: 400,
     resizable: false,
-    width: 600,
-    title: data.validationTitle,
-    parent: mainWindow,
-    modal: true,
+    title: 'Login',
     minimizable: false,
     fullscreenable: false,
     webPreferences: {
@@ -184,38 +184,17 @@ function openValidationWindow(mainWindow, app, i18n) {
       contextIsolation: false,
     },
   });
-  newWindow.setMenuBarVisibility(false);
-  ipcMain.on("validation-info", (event) => {
-    event.sender.send("validation-info", { 
-      ...data,
-      name: "",
-     });
+  loginWindow.setMenu(null);
+  loginWindow.loadFile("./app/login.html");
+  loginWindow.on("closed", function () {
+    loginWindow = null;
   });
-
-  newWindow.loadFile("./app/validation.html");
-
-  newWindow.on("closed", function() {
-    newWindow = null;
-  });
-}
-
-function openLogin(mainWindow, app, i18n) {
-  let newWindow = new BrowserWindow({
-    height: 340,
-    width: 400,
-    resizable: false,
-    title: 'Login',
-    alwaysOnTop: true,
-    minimizable: false,
-    fullscreenable: false,
-  });
-  newWindow.setMenu(null);
-  newWindow.loadFile("./app/login.html");
-  // newWindow.webContents.openDevTools();
-
-  newWindow.on("closed", function () {
-    newWindow = null;
-  });
+  ipcMain.on('login-submit', (event, data) => {
+    console.log("mainwindow", mainWindow.webContents.send);
+    mainWindow.webContents.send('show-login-message', data);
+    loginWindow.close();
+    console.log("event", data);
+  }); 
 }
 
 

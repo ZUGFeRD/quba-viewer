@@ -256,6 +256,21 @@ export default {
       }
     });
 
+    	window.api.onShowLoginMessage((event, args) => {	
+      if (args.type === 'success') {	
+        this.$swal({	
+          icon: 'success',	
+          //title: args.message	
+          title: 'success'	
+        });	
+      } else {	
+        this.$swal({	
+          icon: 'error',	
+          title: args.message	
+        });	
+      }	
+    });
+
     window.api.onValidateClick((event, args) => {
       if (this.currentTab) {
         console.log(sessionStorage.getItem("validationResult"));

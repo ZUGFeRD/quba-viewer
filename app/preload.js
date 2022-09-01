@@ -38,6 +38,10 @@ const API = {
   sendOpenLink: () => {
     ipcRenderer.send('open-link');
   },
+  sendLoginSubmit: () => {	
+    console.log("sendLoginSubmit");	
+    ipcRenderer.send('login-submit');	
+  },
   onPdfOpen: (callback) => {
     ipcRenderer.on("pdf-open", (event, ...args) => callback(event, ...args));    
   },
@@ -62,11 +66,14 @@ const API = {
   onFilePrintPdf: (callback) => {
     ipcRenderer.on("file-print-pdf", (event, ...args) => callback(event, ...args));    
   },
+  onValidateComplete: (callback) => {	
+    ipcRenderer.on("validate-complete", (event, ...args) => callback(event, ...args));	
+  },
   onValidateClick: (callback) => {
     ipcRenderer.on("validate-click", (event, ...args) => callback(event, ...args));    
   },
-  onValidateComplete: (callback) => {
-    ipcRenderer.on("validate-complete", (event, ...args) => callback(event, ...args));    
+  onShowLoginMessage: (callback) => {	
+    ipcRenderer.on("show-login-message", (event, ...args) => callback(event, ...args));	
   },
   removeAllAppVersion: () => {
     ipcRenderer.removeAllListeners('app_version');

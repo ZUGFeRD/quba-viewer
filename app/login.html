@@ -87,6 +87,7 @@
     </div>
     <p id="note"></p>
     <script>
+      const { ipcRenderer, remote } = require('electron');
       const loginForm = document.getElementById("loginForm");
       const username = document.getElementById("username");
       const password = document.getElementById("password");
@@ -105,11 +106,25 @@
             'Content-Type': 'application/json'
           }
         }).then(function (response) {
-          console.log(response);
-          alert(JSON.stringify(response));
+          // handle success
+          console.log("res", response);
+          // alert(JSON.stringify(response));
+          // window.API.sendLoginSubmit(response.data.access_token);
+          const data = {
+            type: 'success',
+            message: response.data.access_token
+          }
+          ipcRenderer.send('login-submit', data);
         }).catch(function (error) {
-          console.log(error);
-          alert(JSON.stringify(response));
+          // handle error
+          console.log("error", error);
+          // window.API.sendLoginSubmit(error.message);
+          const data = {
+            type: 'error',
+            message: error.message
+          }
+          ipcRenderer.send('login-submit', data);
+          // alert(JSON.stringify(response));
         });
       });
     </script>
