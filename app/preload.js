@@ -20,9 +20,6 @@ const API = {
   sendOpenMenu: () => {
     ipcRenderer.send('open-menu');
   },
-  sendValidation: () => {
-    ipcRenderer.send('open-validation');
-  },
   sendSyncCheckXml: (path) => {
     return ipcRenderer.sendSync('check-xml', path);
   },
@@ -73,7 +70,19 @@ const API = {
     ipcRenderer.on("validate-click", (event, ...args) => callback(event, ...args));    
   },
   onShowLoginMessage: (callback) => {	
-    ipcRenderer.on("show-login-message", (event, ...args) => callback(event, ...args));	
+    ipcRenderer.on("show-login-message", (event, ...args) => 
+    {
+      if (args[0].type === 'success' || args[0].isDefaultUser) {
+        myTitleBar.dispose();
+        setTitleBar();
+      }
+      if (args[0].isDefaultUser) {
+        localStorage.setItem('isDefaultUser', true);
+      } else {
+        localStorage.setItem('isDefaultUser', false);
+      }
+
+    callback(event, ...args)});
   },
   removeAllAppVersion: () => {
     ipcRenderer.removeAllListeners('app_version');

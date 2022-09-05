@@ -118,7 +118,7 @@ export default {
       if (currentTabObj.length) {
         currentTab.value = currentTabObj[0];
         localStorage.setItem("currentTabFilePath", currentTabObj[0].link);
-        console.log("current tab ref", currentTabObj[0]);
+       
       }
     };
 
@@ -145,7 +145,7 @@ export default {
         tabRef.value.removeTab(tab.value);
       }
       window.dispatchEvent(new Event("mousedown")); // Stop opening file with pdf.js shortcut ctrl+O
-      console.log("filepath", args[0]);
+    
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
       const res = window.api.sendSyncCheckXml(args[0]);
@@ -164,7 +164,6 @@ export default {
     });
 
     window.api.onXmlOpen((event, args) => {
-      console.log("clicked on tab");
 
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
       if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
@@ -188,7 +187,6 @@ export default {
     });
 
     window.api.onValidateComplete((event, args) => {
-      console.log("args", args);
        let list = sessionStorage.getItem("validationResult");
       list  = list ? JSON.parse(list) : [];
       list.push(args);
@@ -261,7 +259,7 @@ export default {
         this.$swal({	
           icon: 'success',	
           //title: args.message	
-          title: 'success'	
+          title: 'success <br> You can now validate the file'	
         });	
       } else {	
         this.$swal({	
@@ -273,14 +271,13 @@ export default {
 
     window.api.onValidateClick((event, args) => {
       if (this.currentTab) {
-        console.log(sessionStorage.getItem("validationResult"));
-        console.log("onValidateClick", this.currentTab.link);
+
+       const validateFile = () => {
         const list = sessionStorage.getItem("validationResult");
         if (list) {
           const result = JSON.parse(list);
           const currentFileRecord = result.find((item) => item.path === this.currentTab.path);
-          console.log("currentFileRecord", currentFileRecord);
-          console.log("currentTab", this.currentTab.path);
+          
           if (currentFileRecord?.valid) {
             console.log("Valid");
             this.$swal({
@@ -308,9 +305,24 @@ export default {
           });
           title.parentNode.insertBefore(text, title.nextSibling);
           }
-          
-          console.log("result", result);
         }
+       }
+        const TIMER = 10000;
+        if (localStorage.getItem('isDefaultUser')) {
+          this.$swal({
+              icon: 'info',
+              title: 'Loading...',
+              timer: TIMER,
+              timerProgressBar: true,
+              showConfirmButton: false,
+              allowOutsideClick: false
+          });
+          setTimeout(() => {
+            validateFile();
+          }, TIMER);
+        } else {
+          validateFile();
+      }
       }
     }).call(this);
     

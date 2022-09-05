@@ -1,8 +1,5 @@
 const { Menu, BrowserWindow, ipcMain } =require('electron');
-const axios = require('axios').default;
-const xml2js = require('xml2js');
-const FormData = require('form-data');
-var nfs = require('fs');
+const path = require("path");
 const config = require('./config/app.config');
 const menu = null;
 let data,loginWindow;
@@ -76,7 +73,9 @@ function buildMenu(app, mainWindow, i18n, openFile) {
           type: "separator",
         },
         {
+          id: 'validate',
           label: i18n.t("Validate"),
+          enabled: false,
           click() {
             mainWindow.webContents.send("validate-click");
           },
@@ -190,10 +189,12 @@ function openLogin(mainWindow, app, i18n) {
     loginWindow = null;
   });
   ipcMain.on('login-submit', (event, data) => {
-    console.log("mainwindow", mainWindow.webContents.send);
     mainWindow.webContents.send('show-login-message', data);
+    if (data.type === 'success' || data.isDefaultUser) {
+      Menu.getApplicationMenu().getMenuItemById('validate').enabled = true;
+    }
     loginWindow.close();
-    console.log("event", data);
+    //console.log("event", data);
   }); 
 }
 

@@ -79,9 +79,9 @@
       <div class="form">
         <form id="loginForm" class="login-form">
           <span class="material-icons">Login</span>
-          <input type="text" id="username" placeholder="username" required />
-          <input type="password" id="password" placeholder="password" required />
-          <button class="button-style">login</button>
+          <input type="text" id="username" placeholder="Username" required value="test_user" />
+          <input type="password" id="password" placeholder="Password" value="password" required />
+          <button class="button-style">Login</button>
         </form>
       </div>
     </div>
@@ -96,6 +96,11 @@
       loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
         note.innerText = username.value + password.value;
+
+        let isDefaultUser = false;
+        if (username.value === 'test_user' && password.value === 'password'){
+          isDefaultUser = true;
+        }
         axios.post('https://api.usegroup.de:9443/oauth2/token', {
           grant_type: "password",
           username: username.value,
@@ -106,25 +111,19 @@
             'Content-Type': 'application/json'
           }
         }).then(function (response) {
-          // handle success
-          console.log("res", response);
-          // alert(JSON.stringify(response));
-          // window.API.sendLoginSubmit(response.data.access_token);
           const data = {
             type: 'success',
-            message: response.data.access_token
+            message: response.data.access_token,
+            isDefaultUser
           }
           ipcRenderer.send('login-submit', data);
         }).catch(function (error) {
-          // handle error
-          console.log("error", error);
-          // window.API.sendLoginSubmit(error.message);
           const data = {
             type: 'error',
-            message: error.message
+            message: error.message,
+            isDefaultUser
           }
           ipcRenderer.send('login-submit', data);
-          // alert(JSON.stringify(response));
         });
       });
     </script>

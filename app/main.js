@@ -102,21 +102,16 @@ app.on("ready", async () => {
 });
 
 function validation() {
-  console.log("test");
 }
 app.on("window-all-closed", function() {
     const tempPath = path.join(app.getPath("temp"), app.getName());
   if (fs.existsSync(tempPath)) {
-    console.log("Directory exists!");
     try {
       fs.rmdirSync(tempPath, { recursive: true });
-
-      console.log(`${tempPath} is deleted!`);
     } catch (err) {
-      console.error(`Error while deleting ${tempPath}.`);
     }
   } else {
-    console.log("Directory not found.");
+  
   }
   if (process.platform !== "darwin") app.quit();
 });
@@ -230,7 +225,7 @@ function listenEvents() {
         });
     } catch (error) {
       event.returnValue = undefined;
-      console.error("Error", error);
+      
     }
   });
 }
@@ -248,16 +243,13 @@ function openFile() {
       ],
     })
     .then((result) => {
-      console.log("result",result);
       if (!result.canceled) {
         let paths = result.filePaths;
-        console.log("paths",paths);
         if (paths && paths.length > 0) {
           if (paths[0].toLowerCase().includes(".pdf")) {
             mainWindow.webContents.send("pdf-open", [paths[0], null]);
           } else {
             loadAndDisplayXML(paths[0]);
-            // console.log("xml file",paths[0]);
           }
 
           const xml2js = require('xml2js');
@@ -275,14 +267,10 @@ function openFile() {
             }) .then(function (response) {
 
               parser.parseString(response.data, function (err, result) {
-                console.log("messages object", result);
-                // console.log("messages object", result?.validation?.xml[0]?.messages[0]?.error);
+
                 const error = result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?._;
                 const criterion = result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?.$?.criterion;
-                // console.log("messages error object", error);
-                // console.log("messages criterion object", criterion);
                 status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
-                console.log("status",status);
                 const isValid = status === 'valid';
                 const request = {
                   path: xmlFilePath,
@@ -294,7 +282,6 @@ function openFile() {
               });
             })
             .catch(function (error) {
-              console.log(error);
               const request = {
                 path: xmlFilePath,
                 valid: false
@@ -383,7 +370,6 @@ function transformAndDisplay(
           tempPath,
           `${path.parse(fileName).name}.html`
         );
-        console.log("temp", filePath);
         try {
           if (!fs.existsSync(tempPath)) {
             fs.mkdirSync(tempPath);
@@ -397,7 +383,6 @@ function transformAndDisplay(
           }
           return filePath;
         } catch (err) {
-          console.log(err);
         }
       })
       .catch((error) => {
@@ -409,7 +394,6 @@ function transformAndDisplay(
   });
 }
 function displayError(message, detail) {
-  console.error(message, detail);
   const options = {
     type: "error",
     buttons: ["OK"],
