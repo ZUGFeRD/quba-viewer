@@ -79,8 +79,8 @@
       <div class="form">
         <form id="loginForm" class="login-form">
           <span class="material-icons">Login</span>
-          <input type="text" id="username" placeholder="Username" required value="test_user" />
-          <input type="password" id="password" placeholder="Password" value="password" required />
+          <input type="text" id="username" placeholder="Username" required />
+          <input type="password" id="password" placeholder="Password" required />
           <button class="button-style">Login</button>
         </form>
       </div>
@@ -98,7 +98,7 @@
         note.innerText = username.value + password.value;
 
         let isDefaultUser = false;
-        if (username.value === 'test_user' && password.value === 'password'){
+        if (username.value === 'quba'){
           isDefaultUser = true;
         }
         axios.post('https://api.usegroup.de:9443/oauth2/token', {

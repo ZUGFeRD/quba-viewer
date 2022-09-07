@@ -1,6 +1,8 @@
 const { Menu, BrowserWindow, ipcMain } =require('electron');
 const path = require("path");
 const config = require('./config/app.config');
+const Store = require("electron-store");
+const store = new Store();
 const menu = null;
 let data,loginWindow;
 
@@ -75,12 +77,26 @@ function buildMenu(app, mainWindow, i18n, openFile) {
         {
           id: 'validate',
           label: i18n.t("Validate"),
-          enabled: false,
+          enabled: true,
           click() {
-            mainWindow.webContents.send("validate-click");
+            const isLoggedIn = store.get("isLoggedIn");
+            console.log("isLoggedIn", isLoggedIn);
+            if (!isLoggedIn) {
+              openLogin(mainWindow, app, i18n);
+            } else {
+              mainWindow.webContents.send("validate-click");
+            }
           },
         },
         {
+          type: "separator",
+        },
+        
+        {
+          label: i18n.t("Logout")
+        },
+        
+        /*{
           type: "separator",
         },
         {
@@ -93,7 +109,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
                 },
               },
             ]
-        },
+        },*/
         {
           type: "separator",
         },
@@ -189,9 +205,14 @@ function openLogin(mainWindow, app, i18n) {
     loginWindow = null;
   });
   ipcMain.on('login-submit', (event, data) => {
+    console.log("inside login-submit", data);
     mainWindow.webContents.send('show-login-message', data);
-    if (data.type === 'success' || data.isDefaultUser) {
+    if (data.type === 'success') {
+      const accessToken = data.message;
+      store.set("access_token", accessToken);
+      store.set("isLoggedIn", true);
       Menu.getApplicationMenu().getMenuItemById('validate').enabled = true;
+      // mainWindow.webContents.send("validate-click");
     }
     loginWindow.close();
     //console.log("event", data);

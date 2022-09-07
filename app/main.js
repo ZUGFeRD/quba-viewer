@@ -8,6 +8,7 @@ const electronLocalShortcut = require("electron-localshortcut");
 const pdfjsLib = require("pdfjs-dist/legacy/build/pdf");
 const Store = require("electron-store");
 const isDev = require('electron-is-dev');
+const https = require('https');
 const menuFactoryService = require("./menuConfig");
 const { setupTitlebar, attachTitlebarToWindow } = require("custom-electron-titlebar/main");
 
@@ -37,6 +38,8 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
   attachTitlebarToWindow(mainWindow);
   mainWindow.on("closed", function() {
+    store.clear();
+    console.log('closed!!');
   mainWindow = null;
   });
 
@@ -105,9 +108,12 @@ function validation() {
 }
 app.on("window-all-closed", function() {
     const tempPath = path.join(app.getPath("temp"), app.getName());
+    store.clear();
+    console.log('window-all-closed');
   if (fs.existsSync(tempPath)) {
     try {
       fs.rmdirSync(tempPath, { recursive: true });
+      
     } catch (err) {
     }
   } else {
@@ -260,14 +266,21 @@ function openFile() {
             const xmlFilePath = paths[0];
             const list = store.get("list") || [];
             formData.append("inFile", fs.createReadStream(xmlFilePath));
-            axios.post('http://api.usegroup.de:8080/mustang/validate',formData,{
+            const accessToken = store.get("access_token");
+            console.log("accessToken", accessToken);
+            const agent =  new https.Agent({rejectUnauthorized: false});
+            axios.post('https://gw.usegroup.de:8243/mustangserver/v0.4.0/mustang/validate',formData,{
               headers:{
+                'Authorization': 'Bearer ' + accessToken,
                 'Content-Type': 'multipart/form-data',
               },
+              httpsAgent: agent
             }) .then(function (response) {
+              console.log("response==>", response);
 
               parser.parseString(response.data, function (err, result) {
 
+                console.log("parser", result);
                 const error = result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?._;
                 const criterion = result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?.$?.criterion;
                 status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
@@ -282,6 +295,7 @@ function openFile() {
               });
             })
             .catch(function (error) {
+              console.log("error==>", error);
               const request = {
                 path: xmlFilePath,
                 valid: false

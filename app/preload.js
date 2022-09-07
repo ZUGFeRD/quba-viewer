@@ -72,16 +72,16 @@ const API = {
   onShowLoginMessage: (callback) => {	
     ipcRenderer.on("show-login-message", (event, ...args) => 
     {
-      if (args[0].type === 'success' || args[0].isDefaultUser) {
+      if (args[0].type === 'success') {
         myTitleBar.dispose();
         setTitleBar();
       }
+      console.log("onShowLoginMessage", args);
       if (args[0].isDefaultUser) {
         localStorage.setItem('isDefaultUser', true);
       } else {
         localStorage.setItem('isDefaultUser', false);
       }
-
     callback(event, ...args)});
   },
   removeAllAppVersion: () => {

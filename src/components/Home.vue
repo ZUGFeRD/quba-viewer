@@ -308,7 +308,7 @@ export default {
         }
        }
         const TIMER = 10000;
-        if (localStorage.getItem('isDefaultUser')) {
+        if (localStorage.getItem('isDefaultUser') === 'true') {
           this.$swal({
               icon: 'info',
               title: 'Loading...',
