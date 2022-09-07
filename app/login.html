@@ -5,28 +5,40 @@
     <meta charset="UTF-8">
     <title></title>
     <style>
-      body {
-        background: linear-gradient(90deg, #1e1e1e 0%, #1e1e1e 100%);
+      body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
       }
 
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+
       .login {
-        width: 360px;
-        padding: 8% 0 0;
-        margin: auto;
+        position: relative;
+        width: 100%;
+        max-width: 394px;
+        overflow: hidden;
       }
 
       .form {
         position: relative;
         z-index: 1;
-        background: #FFFFFF;
+        background: #fff;
         border-radius: 10px;
-        max-width: 360px;
-        margin: 0 auto 100px;
-        padding: 45px;
+        margin: 0;
+        padding: 25px;
         text-align: center;
       }
 
-      .form input {
+      .form input[type="email"],
+      .form input[type="text"],
+      .form input[type="password"]
+       {
         outline: 0;
         background: #f2f2f2;
         width: 100%;
@@ -57,6 +69,10 @@
         cursor: pointer;
       }
 
+      .form button:disabled {
+        opacity: 0.7;
+      }
+
       .form button:active {
         background: #1e1e1e;
       }
@@ -70,6 +86,17 @@
         color: #fff !important;
         background-color: #1e1e1e !important;
       }
+
+      .privacy{
+        margin: 10px 0;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+      }
+
+      .privacy input{
+        margin: 0 10px;
+      }
     </style>
     <script src="./axios.min.js"></script>
   </head>
@@ -81,17 +108,36 @@
           <span class="material-icons">Login</span>
           <input type="text" id="username" placeholder="Username" required />
           <input type="password" id="password" placeholder="Password" required />
-          <button class="button-style">Login</button>
+          <button class="button-style" disabled id="submit">Login</button>
+          <div class="privacy">
+            <input type="checkbox" name="privacy" id="privacy"> <a href="http://google.com" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+          </div>
         </form>
       </div>
+      
+      <p id="note"></p>
     </div>
-    <p id="note"></p>
     <script>
       const { ipcRenderer, remote } = require('electron');
       const loginForm = document.getElementById("loginForm");
       const username = document.getElementById("username");
       const password = document.getElementById("password");
       const note = document.getElementById("note");
+      const privacy = document.getElementById("privacy");
+      const submit = document.getElementById("submit");
+
+      privacy.addEventListener("click", function(e){
+        const checkbox = e.target;
+        if(checkbox.checked){
+          console.log("checked ")
+          submit.removeAttribute("disabled");
+        }else{
+          console.log("enabled ")
+          submit.setAttribute("disabled",true);
+        }
+      });
+
+
 
       loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -126,6 +172,7 @@
           ipcRenderer.send('login-submit', data);
         });
       });
+
     </script>
 
   </body>

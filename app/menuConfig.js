@@ -1,4 +1,4 @@
-const { Menu, BrowserWindow, ipcMain } =require('electron');
+const { Menu, BrowserWindow, ipcMain,ipcRenderer } =require('electron');
 const path = require("path");
 const config = require('./config/app.config');
 const Store = require("electron-store");
@@ -28,98 +28,133 @@ function buildMenu(app, mainWindow, i18n, openFile) {
       },
     };
   });
+
+  const mainSubMenu = [
+    {
+      label: i18n.t("Open File"),
+      accelerator: "CmdOrCtrl+O",
+      click() {
+        openFile();
+      },
+    },
+    {
+      type: "separator",
+    },
+    {
+        label: i18n.t("Language"),
+        submenu: languageMenu,
+      },
+      {
+        type: "separator",
+      },
+      {
+        label: i18n.t("Print"),
+        id: "file-print",
+        accelerator: "CmdOrCtrl+P",
+        enabled: true,
+        submenu: [
+          {
+            label: "PDF",
+            click() {
+              mainWindow.webContents.send("file-print-pdf");
+            },
+          },
+          {
+            label: "XML",
+            click() {
+              mainWindow.webContents.send("file-print-xml");
+            },
+          },
+        ],
+      },
+    {
+      type: "separator",
+    },
+    {
+      id: 'validate',
+      label: i18n.t("Validate"),
+      enabled: store.get("isLoggedIn") == true ? true : false,
+      click() {
+        const isLoggedIn = store.get("isLoggedIn");
+        console.log("isLoggedIn", isLoggedIn);
+        if (!isLoggedIn) {
+          openLogin(mainWindow, app, i18n);
+        } else {
+          mainWindow.webContents.send("validate-click");
+        }
+      },
+    },
+    /*{
+      type: "separator",
+    },
+    {
+      label: i18n.t("Setting"),
+      submenu: [
+          {
+            label: i18n.t("Login"),
+            click() {
+              openLogin(mainWindow, app, i18n);
+            },
+          },
+        ]
+    },*/
+  ];
+  
+  mainSubMenu.push({
+    type: "separator",
+  })
+  mainSubMenu.push({
+    id: 'logout',
+    label: i18n.t("Logout"),
+    visible: store.get("isLoggedIn") == true ? true : false,
+    click() {
+      store.delete("access_token");
+      store.delete("isLoggedIn");
+      console.log("Logout clicked.");
+      
+      ipcMain.emit('logout-submit');
+
+      ipcMain.on('logout-submit', (event, data) => {
+        console.log("inside logout-submit");
+        // mainWindow.webContents.send('show-login-message', data);
+        // if (data.type === 'success') {
+        //   const accessToken = data.message;
+        //   store.set("access_token", accessToken);
+        //   store.set("isLoggedIn", true);
+        //   Menu.getApplicationMenu().getMenuItemById('login').visible = false;
+        //   Menu.getApplicationMenu().getMenuItemById('logout').visible = true;
+        //   Menu.getApplicationMenu().getMenuItemById('validate').enabled = true;
+        //   // mainWindow.webContents.send("validate-click");
+        // }
+      });
+    },
+  })
+
+  mainSubMenu.push({
+    id: 'login',
+    label: i18n.t("Login"),
+    visible: store.get("isLoggedIn") == true ? false : true,
+    click() {
+      openLogin(mainWindow, app, i18n);
+    },
+  })
+
+  mainSubMenu.push({
+    type: "separator",
+  })
+  mainSubMenu.push({
+    label: i18n.t("Exit"),
+    click() {
+      app.quit();
+    },
+  })
+
   const menuConfig = [
     {
       label: i18n.t("File"),
       id: "file-open",
       accelerator: "CmdOrCtrl+O",
-      submenu: [
-        {
-          label: i18n.t("Open File"),
-          accelerator: "CmdOrCtrl+O",
-          click() {
-            openFile();
-          },
-        },
-        {
-          type: "separator",
-        },
-        {
-            label: i18n.t("Language"),
-            submenu: languageMenu,
-          },
-          {
-            type: "separator",
-          },
-          {
-            label: i18n.t("Print"),
-            id: "file-print",
-            accelerator: "CmdOrCtrl+P",
-            enabled: true,
-            submenu: [
-              {
-                label: "PDF",
-                click() {
-                  mainWindow.webContents.send("file-print-pdf");
-                },
-              },
-              {
-                label: "XML",
-                click() {
-                  mainWindow.webContents.send("file-print-xml");
-                },
-              },
-            ],
-          },
-        {
-          type: "separator",
-        },
-        {
-          id: 'validate',
-          label: i18n.t("Validate"),
-          enabled: true,
-          click() {
-            const isLoggedIn = store.get("isLoggedIn");
-            console.log("isLoggedIn", isLoggedIn);
-            if (!isLoggedIn) {
-              openLogin(mainWindow, app, i18n);
-            } else {
-              mainWindow.webContents.send("validate-click");
-            }
-          },
-        },
-        {
-          type: "separator",
-        },
-        
-        {
-          label: i18n.t("Logout")
-        },
-        
-        /*{
-          type: "separator",
-        },
-        {
-          label: i18n.t("Setting"),
-          submenu: [
-              {
-                label: i18n.t("Login"),
-                click() {
-                  openLogin(mainWindow, app, i18n);
-                },
-              },
-            ]
-        },*/
-        {
-          type: "separator",
-        },
-        {
-          label: i18n.t("Exit"),
-          click() {
-            app.quit();
-          },
-        },
-      ],
+      submenu: mainSubMenu,
     },
     {
       label: i18n.t("Edit"),
@@ -151,6 +186,9 @@ function buildMenu(app, mainWindow, i18n, openFile) {
     },
    
   ];
+
+
+  console.log("menuConfig",menuConfig);
 
   const appMenu = Menu.buildFromTemplate(menuConfig);
   Menu.setApplicationMenu(appMenu);
@@ -211,12 +249,14 @@ function openLogin(mainWindow, app, i18n) {
       const accessToken = data.message;
       store.set("access_token", accessToken);
       store.set("isLoggedIn", true);
+      Menu.getApplicationMenu().getMenuItemById('login').visible = false;
+      Menu.getApplicationMenu().getMenuItemById('logout').visible = true;
       Menu.getApplicationMenu().getMenuItemById('validate').enabled = true;
       // mainWindow.webContents.send("validate-click");
     }
     loginWindow.close();
     //console.log("event", data);
-  }); 
+  }) 
 }
 
 
