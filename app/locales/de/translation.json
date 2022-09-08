@@ -16,5 +16,6 @@
     "appName": "E-Rechnungs-Viewer",
     "Setting" : "Einstellung",
     "Login" : "Anmeldung",
-    "Validate": "Validieren"
+    "Validate": "Validieren",
+    "Success": "Erfolg"
   }

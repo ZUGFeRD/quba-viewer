@@ -16,5 +16,6 @@
   "appName": "E-Invoice Viewer",
   "Setting": "Setting",
   "Login" : "Login",
-  "Validate" : "Validate"
+  "Validate" : "Validate",
+  "Success": "success"
 }

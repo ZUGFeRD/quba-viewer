@@ -187,9 +187,14 @@ export default {
     });
 
     window.api.onValidateComplete((event, args) => {
-       let list = sessionStorage.getItem("validationResult");
+      let list = sessionStorage.getItem("validationResult");
       list  = list ? JSON.parse(list) : [];
-      list.push(args);
+      const res = list.find(item => item.path === args.path);
+      if (res) {
+        res = args;
+      } else {
+        list.push(args);
+      }
       sessionStorage.setItem("validationResult", JSON.stringify(list));
     });
 
@@ -271,40 +276,65 @@ export default {
 
     window.api.onValidateClick((event, args) => {
       if (this.currentTab) {
-
        const validateFile = () => {
         const list = sessionStorage.getItem("validationResult");
         if (list) {
           const result = JSON.parse(list);
           const currentFileRecord = result.find((item) => item.path === this.currentTab.path);
 
-          if (currentFileRecord?.valid) {
-            console.log("Valid");
-            this.$swal({
-              icon: 'success',
-              title: this.t('validFile', {}, { locale: this.lang })
-            });
-          } else {
-            console.log("Invalid");
-            this.$swal({
-              icon: 'error',
-              title: this.t('invalidFile', {}, { locale: this.lang })
-            });
-            let title = document.getElementById("swal2-title");
-          let text = document.createElement("p");
-          text.textContent = "Show More...";
-          text.classList.add("show-more");
+          console.log("currentFileRecord", currentFileRecord);
+          if (currentFileRecord) {
+            if (currentFileRecord?.valid) {
+              console.log("Valid");
+              this.$swal({
+                icon: 'success',
+                title: this.t('validFile', {}, { locale: this.lang })
+              });
+            } else {
+              console.log("Invalid");
+              this.$swal({
+                icon: 'error',
+                title: this.t('invalidFile', {}, { locale: this.lang })
+              });
+              let title = document.getElementById("swal2-title");
+              let text = document.createElement("p");
+              text.textContent = "Show More...";
+              text.classList.add("show-more");
 
-          text.addEventListener("click", () => {
-            let error = document.createElement("div");
-            error.classList.add("error-list");
-            // error.textContent = `${currentFileRecord?.error} ${currentFileRecord?.error}`;
-            error.textContent = `${currentFileRecord?.error}`;
-            text.parentNode.insertBefore(error, text.nextSibling);
-            text.style.display = "none";
-          });
-          title.parentNode.insertBefore(text, title.nextSibling);
+              text.addEventListener("click", () => {
+                let error = document.createElement("div");
+                error.classList.add("error-list");
+                // error.textContent = `${currentFileRecord?.error} ${currentFileRecord?.error}`;
+                error.textContent = `${currentFileRecord?.error}`;
+                text.parentNode.insertBefore(error, text.nextSibling);
+                text.style.display = "none";
+              });
+              title.parentNode.insertBefore(text, title.nextSibling);
+            }
+          } else {
+            const res = window.api.sendSyncValidateFile(this.currentTab.path);
+            let list = sessionStorage.getItem("validationResult");
+            list  = list ? JSON.parse(list) : [];
+            const result = list.find(item => item.path === args.path);
+            if (result) {
+              result = args;
+            } else {
+              list.push(res);
+            }
+            sessionStorage.setItem("validationResult", JSON.stringify(list));
+
           }
+        } else {
+          const res = window.api.sendSyncValidateFile(this.currentTab.path);
+            let list = sessionStorage.getItem("validationResult");
+            list  = list ? JSON.parse(list) : [];
+            const result = list.find(item => item.path === args.path);
+            if (result) {
+              result = args;
+            } else {
+              list.push(res);
+            }
+            sessionStorage.setItem("validationResult", JSON.stringify(list));
         }
        }
        /* const TIMER = 10000;

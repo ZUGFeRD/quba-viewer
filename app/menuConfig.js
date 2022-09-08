@@ -237,7 +237,7 @@ function openLogin(mainWindow, app, i18n) {
     loginWindow = null;
   });
   ipcMain.on('login-submit', (event, data) => {
-    console.log("inside login-submit", data);
+    // console.log("inside login-submit", data);
     mainWindow.webContents.send('show-login-message', data);
     if (data.type === 'success') {
       const accessToken = data.message;
