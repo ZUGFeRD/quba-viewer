@@ -307,8 +307,8 @@ export default {
           }
         }
        }
-        const TIMER = 10000;
-        if (localStorage.getItem('isDefaultUser') === 'true') {
+       /* const TIMER = 10000;
+        if (localStorage.getItem('isDefaultUser') === 'false') {
           this.$swal({
               icon: 'info',
               title: 'Loading...',
@@ -322,7 +322,8 @@ export default {
           }, TIMER);
         } else {
           validateFile();
-      }
+      }*/
+      validateFile();
       }
     }).call(this);
     

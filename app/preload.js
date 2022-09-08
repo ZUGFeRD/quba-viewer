@@ -77,11 +77,11 @@ const API = {
         setTitleBar();
       }
       console.log("onShowLoginMessage", args);
-      if (args[0].isDefaultUser) {
+      /*if (args[0].isDefaultUser) {
         localStorage.setItem('isDefaultUser', true);
       } else {
         localStorage.setItem('isDefaultUser', false);
-      }
+      }*/
     callback(event, ...args)});
   },
   removeAllAppVersion: () => {
