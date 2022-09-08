@@ -76,7 +76,6 @@ function buildMenu(app, mainWindow, i18n, openFile) {
       enabled: store.get("isLoggedIn") == true ? true : false,
       click() {
         const isLoggedIn = store.get("isLoggedIn");
-        console.log("isLoggedIn", isLoggedIn);
         if (!isLoggedIn) {
           openLogin(mainWindow, app, i18n);
         } else {
@@ -110,12 +109,10 @@ function buildMenu(app, mainWindow, i18n, openFile) {
     click() {
       store.delete("access_token");
       store.delete("isLoggedIn");
-      console.log("Logout clicked.");
       
       ipcMain.emit('logout-submit');
 
       ipcMain.on('logout-submit', (event, data) => {
-        console.log("inside logout-submit");
         // mainWindow.webContents.send('show-login-message', data);
         // if (data.type === 'success') {
         //   const accessToken = data.message;
@@ -187,9 +184,6 @@ function buildMenu(app, mainWindow, i18n, openFile) {
    
   ];
 
-
-  console.log("menuConfig",menuConfig);
-
   const appMenu = Menu.buildFromTemplate(menuConfig);
   Menu.setApplicationMenu(appMenu);
 }
@@ -255,7 +249,6 @@ function openLogin(mainWindow, app, i18n) {
       // mainWindow.webContents.send("validate-click");
     }
     loginWindow.close();
-    //console.log("event", data);
   }) 
 }
 

@@ -39,7 +39,6 @@ function createWindow() {
   attachTitlebarToWindow(mainWindow);
   mainWindow.on("closed", function() {
     store.clear();
-    console.log('closed!!');
   mainWindow = null;
   });
 
@@ -109,7 +108,6 @@ function validation() {
 app.on("window-all-closed", function() {
     const tempPath = path.join(app.getPath("temp"), app.getName());
     store.clear();
-    console.log('window-all-closed');
   if (fs.existsSync(tempPath)) {
     try {
       fs.rmdirSync(tempPath, { recursive: true });
@@ -276,11 +274,10 @@ function openFile() {
               },
               httpsAgent: agent
             }) .then(function (response) {
-              console.log("response==>", response);
+             /* console.log("response==>", response);*/
 
               parser.parseString(response.data, function (err, result) {
 
-                console.log("parser", result);
                 const error = result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?._;
                 const criterion = result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?.$?.criterion;
                 status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
