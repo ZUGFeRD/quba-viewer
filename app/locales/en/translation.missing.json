@@ -30,5 +30,6 @@
   "selectall": "selectall",
   "project": "project",
   "version": "version",
-  "Validation": "Validation"
+  "Validation": "Validation",
+  "Logout": "Logout"
 }

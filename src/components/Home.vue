@@ -62,7 +62,7 @@
   </div>
     <div v-if="!currentTab" class="center" id="drag-box">
         <img src="../assets/img/logo_whitetext.svg"><br>
-      
+
       {{ t("welcomeNote1", {}, { locale: lang }) }}<br>
       {{ t("welcomeNote2", {}, { locale: lang }) }}<br>
        <a class="example-link" @click="openLink">{{t("Examples", {}, { locale: lang })}}</a>
@@ -118,7 +118,7 @@ export default {
       if (currentTabObj.length) {
         currentTab.value = currentTabObj[0];
         localStorage.setItem("currentTabFilePath", currentTabObj[0].link);
-       
+
       }
     };
 
@@ -145,7 +145,7 @@ export default {
         tabRef.value.removeTab(tab.value);
       }
       window.dispatchEvent(new Event("mousedown")); // Stop opening file with pdf.js shortcut ctrl+O
-    
+
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
       const res = window.api.sendSyncCheckXml(args[0]);
@@ -195,10 +195,10 @@ export default {
 
 
     const onClose = (tabObj, key, index) => {
-      
+
       if (tabs.length === 1) {
         currentTab.value = undefined;
-        
+
       }
     };
     const showXML = () => {
@@ -223,7 +223,7 @@ export default {
   },
    mounted() {
     window.api.onLanguageChange((event, args) => {
-      this.lang = args; 
+      this.lang = args;
       window.api.updateMenuLanguage(this.t("appName", {}, { locale: this.lang }));
     });
      window.api.sendAppVersion();
@@ -254,19 +254,19 @@ export default {
       }
     });
 
-    	window.api.onShowLoginMessage((event, args) => {	
-      if (args.type === 'success') {	
-        this.$swal({	
-          icon: 'success',	
-          //title: args.message	
-          title: 'success <br> You can now validate the file'	
-        });	
-      } else {	
-        this.$swal({	
-          icon: 'error',	
-          title: args.message	
-        });	
-      }	
+    	window.api.onShowLoginMessage((event, args) => {
+      if (args.type === 'success') {
+        this.$swal({
+          icon: 'success',
+          //title: args.message
+          title: 'success <br> You can now validate files'
+        });
+      } else {
+        this.$swal({
+          icon: 'error',
+          title: args.message
+        });
+      }
     });
 
     window.api.onValidateClick((event, args) => {
@@ -277,7 +277,7 @@ export default {
         if (list) {
           const result = JSON.parse(list);
           const currentFileRecord = result.find((item) => item.path === this.currentTab.path);
-          
+
           if (currentFileRecord?.valid) {
             console.log("Valid");
             this.$swal({
@@ -326,7 +326,7 @@ export default {
       validateFile();
       }
     }).call(this);
-    
+
     document.addEventListener("drop", (event) => {
       event.preventDefault();
       //event.stopPropagation();
@@ -339,12 +339,12 @@ export default {
 
     document.addEventListener("dragover", (event) => {
       event.preventDefault();
-    
+
     }, false);
 
     document.addEventListener("dragenter", (event) => {
       event.preventDefault();
-      
+
 
     }, false);
 
@@ -352,7 +352,7 @@ export default {
       event.preventDefault();
     }, false);
   },
-  
+
   methods: {
     closeNotification() {
       this.showNofification = false;
@@ -361,7 +361,7 @@ export default {
       window.api.sendRestartApp();
     },
      openLink(link) {
-  
+
       window.api.sendOpenLink(link);
     },
 
@@ -447,7 +447,7 @@ a.example {
 
 .example-link{
   text-decoration: underline;
-} 
+}
 	.xmlPart {
   overflow-y: scroll;
   height: 100vh;
