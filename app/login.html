@@ -132,7 +132,6 @@
       }
     </style>
     <script src="./axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <body>
@@ -162,6 +161,7 @@
     <script>
 
       const { ipcRenderer, remote } = require('electron');
+      const Swal = require('sweetalert2');
       const loginForm = document.getElementById("loginForm");
       const username = document.getElementById("username");
       const password = document.getElementById("password");
@@ -172,8 +172,19 @@
       const policy = document.getElementById("policy");
 
       demo.addEventListener("click", function(e){
-        username.value = "quba";
-        password.value = "qubaq";
+        Swal.fire({
+          title: "Privacy Policy",
+          html: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eaque ad aliquid sed   consequuntur, incidunt sit consequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturvelit illo. Voluptas ea neque recusandae, at debitis illum et tenetur  deserunt dolore officiis?",
+          confirmButtonText: "Accept",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            privacy.checked = true;
+            username.value = "quba";
+            password.value = "qubaq";
+            submit.removeAttribute("disabled");
+          }
+        });
+
       });
 
       policy.addEventListener("click", function(e){
@@ -190,17 +201,19 @@
       });
 
       privacy.addEventListener("click", function(e){
-        privacy.checked = false;
-        Swal.fire({
-          title: "Privacy Policy",
-          html: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eaque ad aliquid sed   consequuntur, incidunt sit consequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturvelit illo. Voluptas ea neque recusandae, at debitis illum et tenetur  deserunt dolore officiis?",
-          confirmButtonText: "Accept",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            privacy.checked = true;
-            submit.removeAttribute("disabled");
-          }
-        });
+        if(privacy.checked){
+          Swal.fire({
+            title: "Privacy Policy",
+            html: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt eaque ad aliquid sed   consequuntur, incidunt sit consequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturconsequuntur, incidunt sit velit illo. Voluptas ea neque recusandae,   at debitis illum et teneturvelit illo. Voluptas ea neque recusandae, at debitis illum et tenetur  deserunt dolore officiis?",
+            confirmButtonText: "Accept",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              privacy.checked = true;
+              submit.removeAttribute("disabled");
+            }
+          });
+        }
+
       });
 
       loginForm.addEventListener("submit", function (e) {
