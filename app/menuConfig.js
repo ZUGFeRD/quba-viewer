@@ -1,10 +1,10 @@
-const { Menu, BrowserWindow, ipcMain,ipcRenderer } =require('electron');
+const { Menu, BrowserWindow, ipcMain, ipcRenderer } = require("electron");
 const path = require("path");
-const config = require('./config/app.config');
+const config = require("./config/app.config");
 const Store = require("electron-store");
 const store = new Store();
 const menu = null;
-let data,loginWindow;
+let loginWindow, aboutWindowTranslation, loginWindowTranslation;
 
 function MenuFactoryService(menuList) {
   this.menu = menuList;
@@ -12,12 +12,7 @@ function MenuFactoryService(menuList) {
 }
 
 function buildMenu(app, mainWindow, i18n, openFile) {
-  data = {
-    title: i18n.t("About") + " " +"Quba",
-    validationTitle: i18n.t("Validate"),
-    appName: i18n.t("appName"),
-    version: i18n.t("version") + " " + app.getVersion(),
-  };
+  initializeTranslation(app, i18n);
   const languageMenu = config.languages.map((languageCode) => {
     return {
       label: i18n.t(languageCode),
@@ -41,39 +36,39 @@ function buildMenu(app, mainWindow, i18n, openFile) {
       type: "separator",
     },
     {
-        label: i18n.t("Language"),
-        submenu: languageMenu,
-      },
-      {
-        type: "separator",
-      },
-      {
-        label: i18n.t("Print"),
-        id: "file-print",
-        accelerator: "CmdOrCtrl+P",
-        enabled: true,
-        submenu: [
-          {
-            label: "PDF",
-            click() {
-              mainWindow.webContents.send("file-print-pdf");
-            },
-          },
-          {
-            label: "XML",
-            click() {
-              mainWindow.webContents.send("file-print-xml");
-            },
-          },
-        ],
-      },
+      label: i18n.t("Language"),
+      submenu: languageMenu,
+    },
     {
       type: "separator",
     },
     {
-      id: 'validate',
+      label: i18n.t("Print"),
+      id: "file-print",
+      accelerator: "CmdOrCtrl+P",
+      enabled: true,
+      submenu: [
+        {
+          label: "PDF",
+          click() {
+            mainWindow.webContents.send("file-print-pdf");
+          },
+        },
+        {
+          label: "XML",
+          click() {
+            mainWindow.webContents.send("file-print-xml");
+          },
+        },
+      ],
+    },
+    {
+      type: "separator",
+    },
+    {
+      id: "validate",
       label: i18n.t("Validate"),
-      enabled: store.get("isLoggedIn") == true ? true : false,
+      // enabled: store.get("isLoggedIn") == true ? true : false,
       click() {
         const isLoggedIn = store.get("isLoggedIn");
         if (!isLoggedIn) {
@@ -83,68 +78,44 @@ function buildMenu(app, mainWindow, i18n, openFile) {
         }
       },
     },
-    /*{
+    {
       type: "separator",
     },
     {
-      label: i18n.t("Setting"),
-      submenu: [
-          {
-            label: i18n.t("Login"),
-            click() {
-              openLogin(mainWindow, app, i18n);
-            },
-          },
-        ]
-    },*/
+      id: "logout",
+      label: i18n.t("Logout"),
+      visible: store.get("isLoggedIn") == true ? true : false,
+      click() {
+        store.delete("access_token");
+        store.delete("isLoggedIn");
+
+        mainWindow.webContents.send("logout-submit");
+        Menu.getApplicationMenu().getMenuItemById("logout").visible = false;
+
+        ipcMain.on("logout-submit", (event, data) => {
+          // mainWindow.webContents.send('show-login-message', data);
+          // if (data.type === 'success') {
+          //   const accessToken = data.message;
+          //   store.set("access_token", accessToken);
+          //   store.set("isLoggedIn", true);
+          //   Menu.getApplicationMenu().getMenuItemById('login').visible = false;
+          //   Menu.getApplicationMenu().getMenuItemById('logout').visible = true;
+          //   Menu.getApplicationMenu().getMenuItemById('validate').enabled = true;
+          //   // mainWindow.webContents.send("validate-click");
+          // }
+        });
+      },
+    },
+    {
+      type: "separator",
+    },
+    {
+      label: i18n.t("Exit"),
+      click() {
+        app.quit();
+      },
+    },
   ];
-  
-  mainSubMenu.push({
-    type: "separator",
-  })
-  mainSubMenu.push({
-    id: 'logout',
-    label: i18n.t("Logout"),
-    visible: store.get("isLoggedIn") == true ? true : false,
-    click() {
-      store.delete("access_token");
-      store.delete("isLoggedIn");
-      
-      ipcMain.emit('logout-submit');
-
-      ipcMain.on('logout-submit', (event, data) => {
-        // mainWindow.webContents.send('show-login-message', data);
-        // if (data.type === 'success') {
-        //   const accessToken = data.message;
-        //   store.set("access_token", accessToken);
-        //   store.set("isLoggedIn", true);
-        //   Menu.getApplicationMenu().getMenuItemById('login').visible = false;
-        //   Menu.getApplicationMenu().getMenuItemById('logout').visible = true;
-        //   Menu.getApplicationMenu().getMenuItemById('validate').enabled = true;
-        //   // mainWindow.webContents.send("validate-click");
-        // }
-      });
-    },
-  })
-
-  mainSubMenu.push({
-    id: 'login',
-    label: i18n.t("Login"),
-    visible: store.get("isLoggedIn") == true ? false : true,
-    click() {
-      openLogin(mainWindow, app, i18n);
-    },
-  })
-
-  mainSubMenu.push({
-    type: "separator",
-  })
-  mainSubMenu.push({
-    label: i18n.t("Exit"),
-    click() {
-      app.quit();
-    },
-  })
 
   const menuConfig = [
     {
@@ -156,18 +127,13 @@ function buildMenu(app, mainWindow, i18n, openFile) {
     {
       label: i18n.t("Edit"),
       submenu: [
-        { label: i18n.t("Cut"),
-          role: "Cut" },
-        { label: i18n.t("Copy"),
-          role: "Copy" },
-        { label: i18n.t("Paste"),
-          role: "Paste" },
+        { label: i18n.t("Cut"), role: "Cut" },
+        { label: i18n.t("Copy"), role: "Copy" },
+        { label: i18n.t("Paste"), role: "Paste" },
         { type: "separator" },
-        { label: i18n.t("Delete"),
-          role: "Delete" },
+        { label: i18n.t("Delete"), role: "Delete" },
         { type: "separator" },
-        { label: i18n.t("Select all"),
-          role: "Selectall" },
+        { label: i18n.t("Select all"), role: "Selectall" },
       ],
     },
     {
@@ -181,19 +147,37 @@ function buildMenu(app, mainWindow, i18n, openFile) {
         },
       ],
     },
-   
   ];
 
   const appMenu = Menu.buildFromTemplate(menuConfig);
   Menu.setApplicationMenu(appMenu);
 }
 
-function openAboutWindow(mainWindow,  app, i18n) {
+function initializeTranslation(app, i18n) {
+  aboutWindowTranslation = {
+    title: i18n.t("About") + " " + "Quba",
+    validationTitle: i18n.t("Validate"),
+    appName: i18n.t("appName"),
+    version: i18n.t("version") + " " + app.getVersion(),
+  };
+
+  loginWindowTranslation = {
+    login: i18n.t("Login"),
+    demoUser: i18n.t("Demo User"),
+    username: i18n.t("Username"),
+    password: i18n.t("Password"),
+    privacyPolicy: i18n.t("Privacy Policy"),
+    subscription: i18n.t("Subscription"),
+    accept: i18n.t("Accept"),
+  };
+}
+
+function openAboutWindow(mainWindow, app, i18n) {
   let newWindow = new BrowserWindow({
     height: 185,
     resizable: false,
     width: 400,
-    title: data.title,
+    title: aboutWindowTranslation.title,
     parent: mainWindow,
     modal: true,
     minimizable: false,
@@ -206,24 +190,24 @@ function openAboutWindow(mainWindow,  app, i18n) {
   newWindow.setMenuBarVisibility(false);
 
   ipcMain.on("about-info", (event) => {
-    event.sender.send("about-info", { ...data });
+    event.sender.send("about-info", { ...aboutWindowTranslation });
   });
 
   newWindow.loadFile("./app/about.html");
 
-  newWindow.on("closed", function() {
+  newWindow.on("closed", function () {
     newWindow = null;
   });
 }
 function openLogin(mainWindow, app, i18n) {
-  if (loginWindow && loginWindow.close) {	
-    loginWindow.close();	
+  if (loginWindow && loginWindow.close) {
+    loginWindow.close();
   }
   loginWindow = new BrowserWindow({
     height: 340,
     width: 400,
     resizable: false,
-    title: 'Login',
+    title: "Login",
     minimizable: false,
     fullscreenable: false,
     webPreferences: {
@@ -236,21 +220,25 @@ function openLogin(mainWindow, app, i18n) {
   loginWindow.on("closed", function () {
     loginWindow = null;
   });
-  ipcMain.on('login-submit', (event, data) => {
+
+  ipcMain.on("get-login-info", (event) => {
+    event.sender.send("get-login-info", { ...loginWindowTranslation });
+  });
+
+  ipcMain.on("login-submit", (event, data) => {
     // console.log("inside login-submit", data);
-    mainWindow.webContents.send('show-login-message', data);
-    if (data.type === 'success') {
+    mainWindow.webContents.send("show-login-message", data);
+    if (data.type === "success") {
       const accessToken = data.message;
       store.set("access_token", accessToken);
       store.set("isLoggedIn", true);
-      Menu.getApplicationMenu().getMenuItemById('login').visible = false;
-      Menu.getApplicationMenu().getMenuItemById('logout').visible = true;
-      Menu.getApplicationMenu().getMenuItemById('validate').enabled = true;
+      // Menu.getApplicationMenu().getMenuItemById("login").visible = false;
+      Menu.getApplicationMenu().getMenuItemById("logout").visible = true;
+      // Menu.getApplicationMenu().getMenuItemById("validate").enabled = true;
       // mainWindow.webContents.send("validate-click");
     }
     loginWindow.close();
-  }) 
+  });
 }
-
 
 module.exports = new MenuFactoryService(menu);

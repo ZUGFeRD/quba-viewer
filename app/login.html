@@ -138,19 +138,19 @@
     <div class="login">
       <div class="form">
         <form id="loginForm" class="login-form">
-          <span class="material-icons">Login</span>
+          <span class="material-icons" id="login">Login</span>
           <input type="text" id="username" placeholder="Username" required />
           <input type="password" id="password" placeholder="Password" required />
           <button class="button-style" disabled id="submit">Login</button>
           <div class="privacy">
             <input type="checkbox" name="privacy" id="privacy"> <span id="policy">Privacy Policy</span>
-            <a href="http://google.com" target="_blank" rel="noopener noreferrer">Subscription</a>
+            <a href="http://google.com" target="_blank" rel="noopener noreferrer" id="subscription">Subscription</a>
           </div>
           <span id="demo">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
             </svg>
-            <span>Demo User</span>
+            <span id="demo-user">Demo User</span>
         </span>
         </form>
       </div>
@@ -170,6 +170,27 @@
       const submit = document.getElementById("submit");
       const demo = document.getElementById("demo");
       const policy = document.getElementById("policy");
+      const subscription = document.getElementById("subscription");
+      const demoUser = document.getElementById("demo-user");
+      
+      
+      let accept, privacyPolicy;
+
+      ipcRenderer.send('get-login-info');
+      ipcRenderer.on('get-login-info', (event, arg) => {
+        ipcRenderer.removeAllListeners('get-login-info');
+        console.log("args", arg);
+        login.innerText = arg.login;
+        submit.innerText = arg.login;
+        username.placeholder = arg.username;
+        password.placeholder = arg.password;
+        policy.innerText = arg.privacyPolicy;
+        demoUser.innerText = arg.demoUser;
+        subscription.innerText = arg.subscription;
+
+        accept = arg.accept;
+        privacyPolicy = arg.privacyPolicy;
+      });
 
       demo.addEventListener("click", function(e){
         Swal.fire({

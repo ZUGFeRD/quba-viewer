@@ -14,7 +14,19 @@
     "Delete": "Supprimer",
     "Select all": "Sélectionner tout",
     "appName": "Visionneuse pour e-factures",
-    "Setting": "Paramètre",
-    "Login" : "Connexion",
-    "Validate": "valider"
+    "Login" : "Login",
+    "Logout": "Se déconnecter",
+    "Validate": "valider",
+    "Success": "Succès",
+    "Show more": "Afficher plus",
+    "Invalid file":"Fichier non valide",
+    "Valid file":"Fichier valide",
+    "Logout success":"Succès de la déconnexion",
+    "You can now validate files":"Vous pouvez maintenant valider les fichiers",
+    "Demo User":"Utilisateur démo",
+    "Username":"Nom d'utilisateur :",
+    "Password":"Mot de passe",
+    "Privacy Policy":"Politique de confidentialité",
+    "Subscription":"Abonnement",
+    "Accept":"Accepter"
   }
