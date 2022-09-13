@@ -47,7 +47,9 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
   attachTitlebarToWindow(mainWindow);
   mainWindow.on("closed", function () {
-    store.clear();
+    //store.clear();
+    store.delete("access_token");
+    store.delete("isLoggedIn");
     mainWindow = null;
   });
 
@@ -118,7 +120,9 @@ app.on("ready", async () => {
 function validation() {}
 app.on("window-all-closed", function () {
   const tempPath = path.join(app.getPath("temp"), app.getName());
-  store.clear();
+  //store.clear();
+  store.delete("access_token");
+  store.delete("isLoggedIn");
   if (fs.existsSync(tempPath)) {
     try {
       fs.rmdirSync(tempPath, { recursive: true });
@@ -274,7 +278,7 @@ function openFile() {
             loadAndDisplayXML(paths[0]);
           }
 
-          validateFile(paths[0]);
+          //validateFile(paths[0]);
         }
       }
     });
@@ -432,7 +436,7 @@ function validateFile(xmlFilePath) {
             error: error,
             criterion: criterion,
           };
-          mainWindow.webContents.send("validate-complete", request);
+          //mainWindow.webContents.send("validate-complete", request);
           // return new Promise((resolve, reject) => {
             resolve(request);
           // });
@@ -445,7 +449,7 @@ function validateFile(xmlFilePath) {
             path: xmlFilePath,
             valid: false,
           };
-          mainWindow.webContents.send("validate-complete", request);
+          //mainWindow.webContents.send("validate-complete", request);
           // return new Promise((resolve, reject) => {
             resolve(request);
           // });

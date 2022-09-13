@@ -158,7 +158,7 @@ export default {
         isShowXML: !!res,
         isShowingXMLSection: false,
         content: res,
-        path: args[0]
+        path: args[0],
       });
       tab.value = key;
     });
@@ -180,7 +180,7 @@ export default {
         isXML: true,
         content: args[1],
         xmlFilePath: args[0],
-        path: args[0]
+        path: args[0],
       });
 
       tab.value = key;
@@ -189,7 +189,7 @@ export default {
     window.api.onValidateComplete((event, args) => {
       let list = sessionStorage.getItem("validationResult");
       list  = list ? JSON.parse(list) : [];
-      const res = list.find(item => item.path === args.path);
+      const res = list.find((item) => item.path === args.path);
       if (res) {
         res = args;
       } else {
@@ -264,7 +264,11 @@ export default {
         this.$swal({
           icon: 'success',
           //title: args.message
-          title: 'success <br> You can now validate files'
+          title: `${this.t("Success", {}, { locale: this.lang })} <br> 
+          ${this.t("You can now validate files",
+            {},
+            { locale: this.lang }
+          )}`,
         });
       } else {
         this.$swal({
@@ -274,9 +278,25 @@ export default {
       }
     });
 
-    window.api.onValidateClick((event, args) => {
+    window.api.onLogoutSubmit((event, args) => {
+      this.$swal({
+        icon: "success",
+        title: `${this.t("Logoutsuccess", {}, { locale: this.lang })}`,
+      });
+    });
+
+    window.api
+      .onValidateClick((event, args) => {
       if (this.currentTab) {
        const validateFile = () => {
+         const showMessage = (record) => {
+              if (record.valid) {
+                this.$swal({
+                  icon: "success",
+                  title: this.t("Valid file", {}, { locale: this.lang }),
+                });
+              }
+            };
         const list = sessionStorage.getItem("validationResult");
         if (list) {
           const result = JSON.parse(list);
@@ -288,17 +308,21 @@ export default {
               console.log("Valid");
               this.$swal({
                 icon: 'success',
-                title: this.t('validFile', {}, { locale: this.lang })
+                title: this.t('Valid file', {}, { locale: this.lang })
               });
             } else {
               console.log("Invalid");
               this.$swal({
                 icon: 'error',
-                title: this.t('invalidFile', {}, { locale: this.lang })
+                title: this.t('Invalid file', {}, { locale: this.lang })
               });
               let title = document.getElementById("swal2-title");
               let text = document.createElement("p");
-              text.textContent = "Show More...";
+              text.textContent = this.t(
+                    "Show more",
+                    {},
+                    { locale: this.lang }
+                  );
               text.classList.add("show-more");
 
               text.addEventListener("click", () => {
@@ -313,30 +337,33 @@ export default {
             }
           } else {
             const res = window.api.sendSyncValidateFile(this.currentTab.path);
+            if (res) {
             let list = sessionStorage.getItem("validationResult");
             list  = list ? JSON.parse(list) : [];
-            const result = list.find(item => item.path === args.path);
-            if (result) {
-              result = args;
-            } else {
               list.push(res);
+              sessionStorage.setItem(
+                    "validationResult",
+                    JSON.stringify(list)
+                  );
+                  showMessage(res);
             }
-            sessionStorage.setItem("validationResult", JSON.stringify(list));
 
           }
         } else {
           const res = window.api.sendSyncValidateFile(this.currentTab.path);
+          if (res) {
             let list = sessionStorage.getItem("validationResult");
             list  = list ? JSON.parse(list) : [];
-            const result = list.find(item => item.path === args.path);
-            if (result) {
-              result = args;
-            } else {
+
               list.push(res);
+        sessionStorage.setItem(
+                  "validationResult",
+                  JSON.stringify(list)
+                );
+                showMessage(res);
+              }
             }
-            sessionStorage.setItem("validationResult", JSON.stringify(list));
-        }
-       }
+          };
        /* const TIMER = 10000;
         if (localStorage.getItem('isDefaultUser') === 'false') {
           this.$swal({

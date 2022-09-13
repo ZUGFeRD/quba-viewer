@@ -14,8 +14,19 @@
   "Delete": "Delete",
   "Select all": "Select All",
   "appName": "E-Invoice Viewer",
-  "Setting": "Setting",
   "Login" : "Login",
-  "Validate" : "Validate",
-  "Success": "success"
+  "Logout": "Logout",
+  "Validate": "Validate",
+  "Success": "Success",
+  "Show more": "Show more",
+  "Invalid file":"Invalid file",
+  "Valid file":"Valid file",
+  "Logout success":"Logout success",
+  "You can now validate files":"You can now validate files",
+  "Demo User":"Demo User",
+  "Username":"Username",
+  "Password":"Password",
+  "Privacy Policy":"Privacy Policy",
+  "Subscription":"Subscription",
+  "Accept":"Accept"
 }

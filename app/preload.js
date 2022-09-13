@@ -8,9 +8,9 @@ const setTitleBar = () => {
     backgroundColor: Color.fromHex("#1f2c40"),
     shadow: true,
     icon: "../src/assets/img/logoonly.svg",
-  }
+  };
   myTitleBar = new Titlebar(options);
-}
+};
 
 window.addEventListener('DOMContentLoaded', () => {
   setTitleBar();
@@ -22,6 +22,9 @@ const API = {
   },
   sendSyncCheckXml: (path) => {
     return ipcRenderer.sendSync('check-xml', path);
+  },
+  sendSyncValidateFile: (path) => {
+    return ipcRenderer.sendSync("validate-file", path);
   },
   sendAppVersion: () => {
     ipcRenderer.send('app_version');
@@ -49,7 +52,8 @@ const API = {
     ipcRenderer.on("language-change", (event, ...args) => callback(event, ...args));    
   },
   onAppVersion: (callback) => {
-    ipcRenderer.on("app_version", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("app_version", (event, ...args) => 
+    callback(event, ...args));    
   },
   onUpdateAvailable: (callback) => {
     ipcRenderer.on("update_available", (event, ...args) => callback(event, ...args));    
@@ -83,6 +87,14 @@ const API = {
         localStorage.setItem('isDefaultUser', false);
       }*/
     callback(event, ...args)});
+    
+  },
+  onLogoutSubmit: (callback) => {
+    ipcRenderer.on("logout-submit", (event, ...args) => {
+      myTitleBar.dispose();
+      setTitleBar();
+      callback(event, ...args);
+    });
   },
   removeAllAppVersion: () => {
     ipcRenderer.removeAllListeners('app_version');
@@ -103,7 +115,7 @@ const API = {
     setTitleBar();
     myTitleBar.updateTitle(appName);
     }
-  }
-}
+  },
+};
 
 contextBridge.exposeInMainWorld('api', API);

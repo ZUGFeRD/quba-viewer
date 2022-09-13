@@ -14,8 +14,19 @@
     "Delete": "Löschen",
     "Select all": "Alle auswählen",
     "appName": "E-Rechnungs-Viewer",
-    "Setting" : "Einstellung",
     "Login" : "Anmeldung",
+    "Logout": "Abmeldung",
     "Validate": "Validieren",
-    "Success": "Erfolg"
+    "Success": "Erfolg",
+    "Show more": "Mehr anzeigen",
+    "Invalid file":"Ungültige Datei",
+    "Valid file": "Gültige Datei",
+    "Logout success":"Erfolgreich abmelden",
+    "You can now validate files" : "Sie können jetzt Dateien validieren",
+    "Demo User":"Demo-Benutzer",
+    "Username":"Benutzername",
+    "Password":"Passwort",
+    "Privacy Policy":"Datenschutzbestimmungen",
+    "Subscription":"Abonnement",
+    "Accept":"Akzeptieren"
   }
