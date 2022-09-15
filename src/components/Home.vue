@@ -265,10 +265,7 @@ export default {
           icon: 'success',
           //title: args.message
           title: `${this.t("Success", {}, { locale: this.lang })} <br> 
-          ${this.t("You can now validate files",
-            {},
-            { locale: this.lang }
-          )}`,
+          ${this.t("validateFiles",{},{ locale: this.lang })}`,
         });
       } else {
         this.$swal({

@@ -166,15 +166,14 @@
       const username = document.getElementById("username");
       const password = document.getElementById("password");
       const note = document.getElementById("note");
+      const login = document.getElementById("login");
       const privacy = document.getElementById("privacy");
       const submit = document.getElementById("submit");
       const demo = document.getElementById("demo");
       const policy = document.getElementById("policy");
       const subscription = document.getElementById("subscription");
       const demoUser = document.getElementById("demo-user");
-
-
-      let accept, privacyPolicy;
+      let accept, privacyPolicy, policyText;
 
       ipcRenderer.send('get-login-info');
       ipcRenderer.on('get-login-info', (event, arg) => {
@@ -190,6 +189,7 @@
 
         accept = arg.accept;
         privacyPolicy = arg.privacyPolicy;
+        policyText = arg.policyText;
       });
 
       demo.addEventListener("click", function(e){

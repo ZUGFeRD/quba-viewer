@@ -48,8 +48,8 @@ function createWindow() {
   attachTitlebarToWindow(mainWindow);
   mainWindow.on("closed", function () {
     //store.clear();
-    store.delete("access_token");
-    store.delete("isLoggedIn");
+    //store.delete("access_token");
+    //store.delete("isLoggedIn");
     mainWindow = null;
   });
 
@@ -121,8 +121,8 @@ function validation() {}
 app.on("window-all-closed", function () {
   const tempPath = path.join(app.getPath("temp"), app.getName());
   //store.clear();
-  store.delete("access_token");
-  store.delete("isLoggedIn");
+  //store.delete("access_token");
+  //store.delete("isLoggedIn");
   if (fs.existsSync(tempPath)) {
     try {
       fs.rmdirSync(tempPath, { recursive: true });

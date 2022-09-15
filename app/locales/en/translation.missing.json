@@ -43,5 +43,6 @@
   "Password": "Password",
   "Privacy Policy": "Privacy Policy",
   "Subscription": "Subscription",
-  "Accept": "Accept"
+  "Accept": "Accept",
+  "privacyPolicyText": "privacyPolicyText"
 }

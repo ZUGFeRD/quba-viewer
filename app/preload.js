@@ -26,6 +26,9 @@ const API = {
   sendSyncValidateFile: (path) => {
     return ipcRenderer.sendSync("validate-file", path);
   },
+  sendSyncValidateFile: (path) => {
+    return ipcRenderer.sendSync("validate-file", path);
+  },
   sendAppVersion: () => {
     ipcRenderer.send('app_version');
   },
