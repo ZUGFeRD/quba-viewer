@@ -28,5 +28,9 @@
   "Password":"Password",
   "Privacy Policy":"Privacy Policy",
   "Subscription":"Subscription",
-  "Accept":"Accept"
+  "Accept":"Accept",
+  "en": "English",
+  "de": "German",
+  "fr": "French",
+  "privacyPolicyText": "Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing."
 }

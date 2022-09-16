@@ -168,7 +168,7 @@ function initializeTranslation(app, i18n) {
     password: i18n.t("Password"),
     //privacyPolicy: i18n.t("Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing."),
     privacyPolicy: i18n.t("Privacy Policy"),
-    policyText: i18n.t("privacyPolicyText"),
+    policyText: i18n.t("Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing."),
     subscription: i18n.t("Subscription"),
     accept: i18n.t("Accept"),
   };

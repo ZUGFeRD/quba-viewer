@@ -28,5 +28,9 @@
     "Password":"Passwort",
     "Privacy Policy":"Datenschutzbestimmungen",
     "Subscription":"Abonnement",
-    "Accept":"Akzeptieren"
+    "Accept":"Akzeptieren",
+    "en": "Englisch",
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "privacyPolicyText": "Bitte validieren Sie nur anonymisierte Testdaten ohne Angaben zur Person (Absender, Empfänger, Bankverbindung), es sei denn, Sie haben ein Abonnement mit Vertrag zur Auftragsdatenverarbeitung."
   }

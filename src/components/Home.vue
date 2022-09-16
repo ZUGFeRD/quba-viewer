@@ -278,7 +278,7 @@ export default {
     window.api.onLogoutSubmit((event, args) => {
       this.$swal({
         icon: "success",
-        title: `${this.t("Logoutsuccess", {}, { locale: this.lang })}`,
+        title: `${this.t("Logout success", {}, { locale: this.lang })}`,
       });
     });
 

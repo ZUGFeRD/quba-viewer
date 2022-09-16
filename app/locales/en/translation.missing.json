@@ -44,5 +44,8 @@
   "Privacy Policy": "Privacy Policy",
   "Subscription": "Subscription",
   "Accept": "Accept",
-  "privacyPolicyText": "privacyPolicyText"
+  "privacyPolicyText": "privacyPolicyText",
+  "Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing": {
+    "": "Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing."
+  }
 }

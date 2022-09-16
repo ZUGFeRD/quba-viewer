@@ -28,5 +28,19 @@
     "Password":"Mot de passe",
     "Privacy Policy":"Politique de confidentialité",
     "Subscription":"Abonnement",
-    "Accept":"Accepter"
+    "Accept":"Accepter",
+    "showXML": "Afficher le XML incorporé",
+    "welcomeNote1": "Ouvrir les fichiers XML ou PDF via le menu,",
+    "welcomeNote2": "en appuyant sur Ctrl + O ou par glisser-déposer",
+    "Examples":"Exemples",
+    "validFile": "Fichier valide",
+    "invalidFile": "Fichier non valide",
+    "success": "Succès",
+    "validateFiles": "Vous pouvez maintenant valider les fichiers",
+    "showMore": "Show more...",
+    "logoutSuccess": "Déconnecté avec succès",
+    "en": "Anglaise",
+    "de": "Allemande",
+    "fr": "Français",
+    "privacyPolicyText": "Veuillez valider uniquement les données de test anonymisées sans aucune information personnelle (expéditeur, destinataire, identifiants bancaires) sauf si vous avez un abonnement avec un contrat de traitement de données commandé."
   }

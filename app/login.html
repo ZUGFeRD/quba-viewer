@@ -160,7 +160,7 @@
     </div>
     <script>
 
-      const { ipcRenderer, remote } = require('electron');
+      const { ipcRenderer } = require('electron');
       const Swal = require('sweetalert2');
       const loginForm = document.getElementById("loginForm");
       const username = document.getElementById("username");
@@ -194,9 +194,9 @@
 
       demo.addEventListener("click", function(e){
         Swal.fire({
-          title: "Privacy Policy",
-          html: privacyText,
-          confirmButtonText: "Accept",
+          title: privacyPolicy,
+          html: policyText,
+          confirmButtonText: accept,
         }).then((result) => {
           if (result.isConfirmed) {
             privacy.checked = true;
@@ -210,9 +210,9 @@
 
       policy.addEventListener("click", function(e){
         Swal.fire({
-          title: "Privacy Policy",
-          html: privacyText,
-          confirmButtonText: "Accept",
+          title: privacyPolicy,
+          html: policyText,
+          confirmButtonText: accept,
         }).then((result) => {
           if (result.isConfirmed) {
             privacy.checked = true;

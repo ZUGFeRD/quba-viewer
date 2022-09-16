@@ -3,5 +3,11 @@
     "welcomeNote1": "Ouvrir les fichiers XML ou PDF via le menu,",
     "welcomeNote2": "en appuyant sur Ctrl + O ou par glisser-déposer",
     "appName": "Visionneuse de factures électroniques",
-    "Examples":"Exemples"
+    "Examples":"Exemples",
+    "Valid file": "Fichier valide",
+    "Invalid file": "Fichier non valide",
+    "success": "Succès",
+    "validateFiles": "Vous pouvez maintenant valider les fichiers",
+    "Show more": "Montre plus...",
+    "Logout success": "Déconnecté avec succès"
   }
