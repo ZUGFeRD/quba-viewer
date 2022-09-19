@@ -6,8 +6,13 @@
     "Examples":"Beispiele",
     "Valid file": "Gültige Datei",
     "Invalid file": "Ungültige Datei",
+<<<<<<< HEAD
     "Success": "Erfolg",
     "validateFiles": "Sie können die Dateien jetzt validieren",
+=======
+    "success": "Erfolg",
+    "validateFiles": "Sie können jetzt Dateien validieren",
+>>>>>>> 332b82aab0ea5437183e59f70886efcfe216cc28
     "Show more": "Zeig mehr...",
     "Logout success": "Erfolgreich abgemeldet"
   }
