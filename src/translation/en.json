@@ -6,13 +6,8 @@
     "Examples":"Examples",
     "Valid file": "Valid File",
     "Invalid file": "Invalid File",
-<<<<<<< HEAD
     "Success": "Success",
     "validateFiles": "You can now validate the files",
-=======
-    "success": "Success",
-    "validateFiles": "You can now validate files",
->>>>>>> 332b82aab0ea5437183e59f70886efcfe216cc28
     "Show more": "Show more...",
     "Logout success": "Logged out successfully"
   }

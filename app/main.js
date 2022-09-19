@@ -403,7 +403,7 @@ function validateFile(xmlFilePath) {
     const formData = new FormData();
     formData.append("inFile", fs.createReadStream(xmlFilePath));
     const accessToken = store.get("access_token");
-    console.log("accessToken", accessToken);
+    //console.log("accessToken", accessToken);
     const agent = new https.Agent({ rejectUnauthorized: false });
     axios
       .post(
