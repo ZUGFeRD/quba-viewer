@@ -263,7 +263,8 @@
           const data = {
             type: 'error',
             message: error.message,
-            isDefaultUser
+            isDefaultUser,
+            code: error.code
           }
           ipcRenderer.send('login-submit', data);
         });

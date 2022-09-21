@@ -9,5 +9,7 @@
     "Success": "Success",
     "validateFiles": "You can now validate files",
     "Show more": "Show more...",
-    "Logout success": "Logged out successfully"
+    "Logout success": "Logged out successfully",
+    "serverunreachable":"Network error",
+    "invalidcredentials":"Invalid username or password"
   }

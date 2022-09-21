@@ -268,9 +268,13 @@ export default {
           ${this.t("validateFiles",{},{ locale: this.lang })}`,
         });
       } else {
+        const errMessage =
+          args.code === "ERR_NETWORK"
+            ? this.t("serverunreachable", {}, { locale: this.lang })
+            : this.t("invalidcredentials", {}, { locale: this.lang });
         this.$swal({
           icon: 'error',
-          title: args.message
+          title: errMessage || args.message,
         });
       }
     });
@@ -291,6 +295,12 @@ export default {
                 this.$swal({
                   icon: "success",
                   title: this.t("Valid file", {}, { locale: this.lang }),
+                });
+              }
+            else {
+                this.$swal({
+                  icon: "error",
+                  title: this.t("Invalid file", {}, { locale: this.lang }),
                 });
               }
             };
@@ -335,6 +345,17 @@ export default {
           } else {
             const res = window.api.sendSyncValidateFile(this.currentTab.path);
             if (res) {
+              if (res.code === "ERR_NETWORK") {
+                    this.$swal({
+                      icon: "error",
+                      title: this.t("serverunreachable", {}, { locale: this.lang }),
+                    });
+                  } else if (res.code === "ERR_UNAUTHORIZED") {
+                    this.$swal({
+                      icon: "error",
+                      title: this.t("notLoggedIn", {}, { locale: this.lang }),
+                    });
+                  } else {
             let list = sessionStorage.getItem("validationResult");
             list  = list ? JSON.parse(list) : [];
               list.push(res);
@@ -344,39 +365,35 @@ export default {
                   );
                   showMessage(res);
             }
-
+          }
           }
         } else {
           const res = window.api.sendSyncValidateFile(this.currentTab.path);
           if (res) {
+            if (res.code === "ERR_NETWORK") {
+                  this.$swal({
+                    icon: "error",
+                    title: this.t("serverunreachable", {}, { locale: this.lang }),
+                  });
+                } else if (res.code === "ERR_UNAUTHORIZED") {
+                  this.$swal({
+                    icon: "error",
+                    title: this.t("notLoggedIn", {}, { locale: this.lang }),
+                  });
+                } else {
             let list = sessionStorage.getItem("validationResult");
             list  = list ? JSON.parse(list) : [];
 
               list.push(res);
-        sessionStorage.setItem(
+              sessionStorage.setItem(
                   "validationResult",
                   JSON.stringify(list)
                 );
                 showMessage(res);
               }
             }
+          }
           };
-       /* const TIMER = 10000;
-        if (localStorage.getItem('isDefaultUser') === 'false') {
-          this.$swal({
-              icon: 'info',
-              title: 'Loading...',
-              timer: TIMER,
-              timerProgressBar: true,
-              showConfirmButton: false,
-              allowOutsideClick: false
-          });
-          setTimeout(() => {
-            validateFile();
-          }, TIMER);
-        } else {
-          validateFile();
-      }*/
       validateFile();
       }
     }).call(this);

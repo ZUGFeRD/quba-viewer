@@ -37,5 +37,6 @@ body {
 }
 .show-more {
   text-align: center;
+  cursor: pointer;
 }
 </style>

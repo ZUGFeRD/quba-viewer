@@ -6,8 +6,10 @@
     "Examples":"Exemples",
     "Valid file": "Fichier valide",
     "Invalid file": "Fichier non valide",
-    "Success": "Succès",
+    "Success": "Succès {Connecté avec succès}",
     "validateFiles": "Vous pouvez maintenant valider les fichiers",
-    "Show more": "Montre plus...",
-    "Logout success": "Déconnecté avec succès"
+    "Show more": "Afficher plus…",
+    "Logout success": "Déconnecté avec succès",
+    "serverunreachable":"Erreur de réseau",
+    "invalidcredentials":"Nom d'utilisateur ou mot de passe invalide"
   }

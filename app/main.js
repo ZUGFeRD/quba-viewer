@@ -443,19 +443,25 @@ function validateFile(xmlFilePath) {
         });
       })
       .catch(function (error) {
-        console.log("error==>", error.response.status);
-        if (error?.response?.status !== 401) {
-          const request = {
+        console.log(error);
+        let request = {
             path: xmlFilePath,
             valid: false,
           };
+          if (error?.response?.status === 401) {
+            store.delete("access_token");
+            store.delete("isLoggedIn");
+            request.code = 'ERR_UNAUTHORIZED';
+            reject(request);
+          } else {
+            request.code = 'ERR_NETWORK';
           //mainWindow.webContents.send("validate-complete", request);
           // return new Promise((resolve, reject) => {
-            resolve(request);
+            reject(request);
           // });
         }
         // return new Promise((resolve, reject) => {
-          reject(null);
+          //reject(null);
         // });
       });
   });
