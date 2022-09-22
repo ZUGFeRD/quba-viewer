@@ -11,5 +11,6 @@
     "Show more": "Afficher plus…",
     "Logout success": "Déconnecté avec succès",
     "serverunreachable":"Erreur de réseau",
-    "invalidcredentials":"Nom d'utilisateur ou mot de passe invalide"
+    "invalidcredentials":"Nom d'utilisateur ou mot de passe invalide",
+    "validatingFile": "Validation du fichier..."
   }

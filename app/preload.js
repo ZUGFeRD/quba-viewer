@@ -24,10 +24,12 @@ const API = {
     return ipcRenderer.sendSync('check-xml', path);
   },
   sendSyncValidateFile: (path) => {
-    return ipcRenderer.sendSync("validate-file", path);
-  },
-  sendSyncValidateFile: (path) => {
-    return ipcRenderer.sendSync("validate-file", path);
+    const response = ipcRenderer.sendSync("validate-file", path);
+    if (response.code === 'ERR_UNAUTHORIZED') {
+      myTitleBar.dispose();
+      setTitleBar();
+    }
+    return response;
   },
   sendAppVersion: () => {
     ipcRenderer.send('app_version');

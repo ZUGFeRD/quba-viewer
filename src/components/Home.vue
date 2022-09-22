@@ -8,7 +8,7 @@
     :click="onClick"
     :class="[tabs?.length ? '' : 'display-none']"
     :on-close="onClose"
-  ><template v-slot:after>
+    ><template v-slot:after>
       <button
         class="btn"
         style="
@@ -22,10 +22,14 @@
         +
       </button>
     </template>
- </vue3-tabs-chrome>
- <div class="btns">
-  </div>
+  </vue3-tabs-chrome>
+  <div class="btns"></div>
   <div v-if="currentTab">
+    <div class="loader" v-if="showLoader">
+      <div id="loading"></div>
+        <h1>{{ t("validatingFile", {}, { locale: lang }) }}</h1>
+  </div>
+
     <div v-if="currentTab.isPdf">
       <div :class="[currentTab?.isShowXML ? 'left-part' : '']">
       <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
@@ -61,10 +65,10 @@
     </div>
   </div>
     <div v-if="!currentTab" class="center" id="drag-box">
-        <img src="../assets/img/logo_whitetext.svg"><br>
+        <img src="../assets/img/logo_whitetext.svg" /><br />
 
-      {{ t("welcomeNote1", {}, { locale: lang }) }}<br>
-      {{ t("welcomeNote2", {}, { locale: lang }) }}<br>
+      {{ t("welcomeNote1", {}, { locale: lang }) }}<br />
+      {{ t("welcomeNote2", {}, { locale: lang }) }}<br />
        <a class="example-link" @click="openLink">{{t("Examples", {}, { locale: lang })}}</a>
        <p class="note" v-if="version" style="text-align: center">
       {{ t("Version", {}, { locale: lang }) }} {{ version }}
@@ -102,6 +106,7 @@ export default {
       showNofification: false,
       message: undefined,
       showRestartButton: false,
+      showLoader: false,
     };
   },
   setup() {
@@ -343,7 +348,11 @@ export default {
               title.parentNode.insertBefore(text, title.nextSibling);
             }
           } else {
-            const res = window.api.sendSyncValidateFile(this.currentTab.path);
+            setTimeout(() => {
+                  const res = window.api.sendSyncValidateFile(
+                    this.currentTab.path
+                  );
+                  this.showLoader = false;
             if (res) {
               if (res.code === "ERR_NETWORK") {
                     this.$swal({
@@ -366,9 +375,15 @@ export default {
                   showMessage(res);
             }
           }
+        });
           }
         } else {
-          const res = window.api.sendSyncValidateFile(this.currentTab.path);
+          this.showLoader = true;
+              setTimeout(() => {
+                const res = window.api.sendSyncValidateFile(
+                  this.currentTab.path
+                );
+                this.showLoader = false;
           if (res) {
             if (res.code === "ERR_NETWORK") {
                   this.$swal({
@@ -392,6 +407,7 @@ export default {
                 showMessage(res);
               }
             }
+          });
           }
           };
       validateFile();
@@ -541,5 +557,38 @@ a.example {
   cursor: pointer;
   border-radius: 4px;
   font-weight: bold;
+}
+.loader {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+}
+#loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 </style>

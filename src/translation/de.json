@@ -11,5 +11,6 @@
     "Show more": "Details...",
     "Logout success": "Abmeldung erfolgreich",
     "serverunreachable":"Netzwerkfehler",
-    "invalidcredentials":"Benutzername oder Passwort ungültig"
+    "invalidcredentials":"Benutzername oder Passwort ungültig",
+    "validatingFile": "Validiere Datei..."
   }

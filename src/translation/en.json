@@ -11,5 +11,6 @@
     "Show more": "Show more...",
     "Logout success": "Logged out successfully",
     "serverunreachable":"Network error",
-    "invalidcredentials":"Invalid username or password"
+    "invalidcredentials":"Invalid username or password",
+    "validatingFile": "Validating File..."
   }
