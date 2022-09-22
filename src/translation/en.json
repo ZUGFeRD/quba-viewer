@@ -12,5 +12,6 @@
     "Logout success": "Logged out successfully",
     "serverunreachable":"Network error",
     "invalidcredentials":"Invalid username or password",
-    "validatingFile": "Validating File..."
+    "validatingFile": "Validating File...",
+    "notLoggedIn":"You are not logged in, please log in and try again"
   }

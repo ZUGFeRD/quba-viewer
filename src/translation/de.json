@@ -12,5 +12,6 @@
     "Logout success": "Abmeldung erfolgreich",
     "serverunreachable":"Netzwerkfehler",
     "invalidcredentials":"Benutzername oder Passwort ungültig",
-    "validatingFile": "Validiere Datei..."
+    "validatingFile": "Validiere Datei...",
+    "notLoggedIn":"Sie sind nicht eingeloggt, bitte melden Sie sich an und versuchen es erneut"
   }

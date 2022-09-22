@@ -12,5 +12,6 @@
     "Logout success": "Déconnecté avec succès",
     "serverunreachable":"Erreur de réseau",
     "invalidcredentials":"Nom d'utilisateur ou mot de passe invalide",
-    "validatingFile": "Validation du fichier..."
+    "validatingFile": "Validation du fichier...",
+    "notLoggedIn":"Vous n'êtes pas connecté, veuillez vous connecter et réessayer."
   }
