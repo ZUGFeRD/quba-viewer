@@ -35,9 +35,17 @@
       <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
     </div>
     <div v-if="currentTab?.isShowXML" class="right-part">
-        <button class="closeBtn" v-if="currentTab?.isShowingXMLSection"  @click="hideXML">x</button>
+        <button 
+          class="closeBtn" 
+          v-if="currentTab?.isShowingXMLSection"  
+          @click="hideXML"
+          >
+            x
+          </button>
         <div class="center-btn" v-if="!currentTab?.isShowingXMLSection">
-          <button class="xml-btn" @click="showXML"> {{ t("showXML", {}, { locale: lang }) }}</button>
+          <button class="xml-btn" @click="showXML"> 
+            {{ t("showXML", {}, { locale: lang }) }}
+            </button>
         </div>
         <iframe
           v-if="currentTab?.isShowingXMLSection"
@@ -307,6 +315,7 @@ export default {
                   icon: "error",
                   title: this.t("Invalid file", {}, { locale: this.lang }),
                 });
+                this.addErrorToPopup(record?.error);
               }
             };
         const list = sessionStorage.getItem("validationResult");
@@ -328,26 +337,10 @@ export default {
                 icon: 'error',
                 title: this.t('Invalid file', {}, { locale: this.lang })
               });
-              let title = document.getElementById("swal2-title");
-              let text = document.createElement("p");
-              text.textContent = this.t(
-                    "Show more",
-                    {},
-                    { locale: this.lang }
-                  );
-              text.classList.add("show-more");
-
-              text.addEventListener("click", () => {
-                let error = document.createElement("div");
-                error.classList.add("error-list");
-                // error.textContent = `${currentFileRecord?.error} ${currentFileRecord?.error}`;
-                error.textContent = `${currentFileRecord?.error}`;
-                text.parentNode.insertBefore(error, text.nextSibling);
-                text.style.display = "none";
-              });
-              title.parentNode.insertBefore(text, title.nextSibling);
+              this.addErrorToPopup(currentFileRecord?.error);
             }
           } else {
+            this.showLoader = true;
             setTimeout(() => {
                   const res = window.api.sendSyncValidateFile(
                     this.currentTab.path
@@ -375,7 +368,7 @@ export default {
                   showMessage(res);
             }
           }
-        });
+        }, 100);
           }
         } else {
           this.showLoader = true;
@@ -450,6 +443,21 @@ export default {
      openLink(link) {
 
       window.api.sendOpenLink(link);
+    },
+    addErrorToPopup(errorMessage) {
+      let title = document.getElementById("swal2-title");
+      let text = document.createElement("p");
+      text.textContent = this.t("Show more", {}, { locale: this.lang });
+      text.classList.add("show-more");
+
+      text.addEventListener("click", () => {
+        let error = document.createElement("div");
+        error.classList.add("error-list");
+        error.textContent = errorMessage || '';
+        text.parentNode.insertBefore(error, text.nextSibling);
+        text.style.display = "none";
+      });
+      title.parentNode.insertBefore(text, title.nextSibling);
     },
 
   },
