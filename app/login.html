@@ -144,7 +144,7 @@
           <button class="button-style" disabled id="submit">Login</button>
           <div class="privacy">
             <input type="checkbox" name="privacy" id="privacy"> <span id="policy">Privacy Policy</span>
-            <a href="http://google.com" target="_blank" rel="noopener noreferrer" id="subscription">Subscription</a>
+            <a href=" https://www.mustangproject.org/server/" target="_blank" rel="noopener noreferrer" id="subscription">Subscription</a>
           </div>
           <span id="demo">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -208,7 +208,7 @@
 
       });
 
-      policy.addEventListener("click", function(e){
+        document.querySelector('.privacy').addEventListener("click", function(e){
         Swal.fire({
           title: privacyPolicy,
           html: policyText,
