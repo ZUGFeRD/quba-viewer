@@ -407,7 +407,7 @@ function validateFile(xmlFilePath) {
     const agent = new https.Agent({ rejectUnauthorized: false });
     axios
       .post(
-        "https://gw.usegroup.de:8243/mustangserver/v0.4.0/mustang/validate",
+        "https://gw.usegroup.de:8243/mustang/v0.5.0/mustang/validate",
         formData,
         {
           headers: {
