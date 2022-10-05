@@ -1,13 +1,25 @@
 const SaxonJS = require("saxon-js");
-const { app, BrowserWindow, ipcMain, dialog, ipcRenderer} =require('electron');
+const axios = require("axios").default;
+var FormData = require("form-data");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  dialog,
+  ipcRenderer,
+} = require("electron");
 const os = require("os");
 const { autoUpdater } = require("electron-updater");
 const electronLocalShortcut = require("electron-localshortcut");
 const pdfjsLib = require("pdfjs-dist/legacy/build/pdf");
 const Store = require("electron-store");
-const isDev = require('electron-is-dev');
+const isDev = require("electron-is-dev");
+const https = require("https");
 const menuFactoryService = require("./menuConfig");
-const { setupTitlebar, attachTitlebarToWindow } = require("custom-electron-titlebar/main");
+const {
+  setupTitlebar,
+  attachTitlebarToWindow,
+} = require("custom-electron-titlebar/main");
 
 const i18next = require("i18next");
 const Backend = require("i18next-fs-backend");
@@ -34,40 +46,46 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
   attachTitlebarToWindow(mainWindow);
-  mainWindow.on("closed", function() {
-  mainWindow = null;
+  mainWindow.on("closed", function () {
+    //store.clear();
+    //store.delete("access_token");
+    //store.delete("isLoggedIn");
+    mainWindow = null;
   });
 
-  mainWindow.webContents.on("new-window", function(
-    event,
-    url,
-    frameName, 
-    disposition,
-    options,
-    additionalFeatures,
-    referrer,
-    postBody
-  ) {
-    event.preventDefault();
-    const win = new BrowserWindow({
-      webContents: options ? options.webContents : {},
-      show: false,
-    });
-    win.once("ready-to-show", () => win.show());
-    if (!options.webContents) {
-      const loadOptions = {
-        httpReferrer: referrer,
-      };
-      if (postBody != null) {
-        const { data, contentType, boundary } = postBody;
-        loadOptions.postData = postBody.data;
-        loadOptions.extraHeaders = `content-type: ${contentType}; boundary=${boundary}`;
+  mainWindow.webContents.on(
+    "new-window",
+    function (
+      event,
+      url,
+      frameName,
+      disposition,
+      options,
+      additionalFeatures,
+      referrer,
+      postBody
+    ) {
+      event.preventDefault();
+      const win = new BrowserWindow({
+        webContents: options ? options.webContents : {},
+        show: false,
+      });
+      win.once("ready-to-show", () => win.show());
+      if (!options.webContents) {
+        const loadOptions = {
+          httpReferrer: referrer,
+        };
+        if (postBody != null) {
+          const { data, contentType, boundary } = postBody;
+          loadOptions.postData = postBody.data;
+          loadOptions.extraHeaders = `content-type: ${contentType}; boundary=${boundary}`;
+        }
+
+        win.loadURL(url, loadOptions);
       }
-
-      win.loadURL(url, loadOptions);
+      event.newGuest = win;
     }
-    event.newGuest = win;
-  });
+  );
 
   mainWindow.once("ready-to-show", () => {
     mainWindow.webContents.send("language-change", currentLanguage);
@@ -99,24 +117,22 @@ app.on("ready", async () => {
   registerShortcuts();
 });
 
-app.on("window-all-closed", function() {
+function validation() {}
+app.on("window-all-closed", function () {
   const tempPath = path.join(app.getPath("temp"), app.getName());
+  //store.clear();
+  //store.delete("access_token");
+  //store.delete("isLoggedIn");
   if (fs.existsSync(tempPath)) {
-    console.log("Directory exists!");
     try {
       fs.rmdirSync(tempPath, { recursive: true });
-
-      console.log(`${tempPath} is deleted!`);
-    } catch (err) {
-      console.error(`Error while deleting ${tempPath}.`);
-    }
+    } catch (err) {}
   } else {
-    console.log("Directory not found.");
   }
   if (process.platform !== "darwin") app.quit();
 });
 
-app.on("activate", function() {
+app.on("activate", function () {
   if (mainWindow === null) createWindow();
 });
 
@@ -182,10 +198,10 @@ function listenEvents() {
     try {
       var loadingTask = pdfjsLib.getDocument(filePath);
       loadingTask.promise
-        .then(function(pdf) {
-          pdf.getAttachments().then(function(embeddedFiles) {
+        .then(function (pdf) {
+          pdf.getAttachments().then(function (embeddedFiles) {
             let embeddedXML = null;
-            if ((typeof embeddedFiles == "object")&&(embeddedFiles !== null)) {
+            if (typeof embeddedFiles == "object" && embeddedFiles !== null) {
               if (embeddedFiles["factur-x.xml"]) {
                 embeddedXML = new TextDecoder().decode(
                   embeddedFiles["factur-x.xml"]["content"]
@@ -204,7 +220,7 @@ function listenEvents() {
                 );
               }
             }
-            
+
             if (embeddedXML !== null) {
               transformAndDisplayCII(
                 filePath + " (embedded xml)",
@@ -218,15 +234,25 @@ function listenEvents() {
             }
           });
         })
-     
+
         .catch((error) => {
           event.returnValue = undefined;
           displayError("Exception", error.getMessage());
         });
     } catch (error) {
       event.returnValue = undefined;
-      console.error("Error", error);
     }
+  });
+
+  ipcMain.on("validate-file", async (event, filePath) => {
+    validateFile(filePath).then(
+      (res) => {
+        event.returnValue = res;
+      },
+      (error) => {
+        event.returnValue = error;
+      }
+    );
   });
 }
 
@@ -243,17 +269,16 @@ function openFile() {
       ],
     })
     .then((result) => {
-      console.log("result",result);
       if (!result.canceled) {
         let paths = result.filePaths;
-        console.log("paths",paths);
         if (paths && paths.length > 0) {
-          
           if (paths[0].toLowerCase().includes(".pdf")) {
             mainWindow.webContents.send("pdf-open", [paths[0], null]);
           } else {
             loadAndDisplayXML(paths[0]);
           }
+
+          //validateFile(paths[0]);
         }
       }
     });
@@ -265,7 +290,6 @@ function loadAndDisplayXML(filename) {
     var parser = require("fast-xml-parser");
     let json = parser.parse(content);
     for (let key in json) {
-      // parse root node
       if (key.includes("CrossIndustryInvoice")) {
         transformAndDisplayCII(filename, content, true);
       } else if (key.includes("Invoice")) {
@@ -329,49 +353,37 @@ function transformAndDisplay(
         },
         "async"
       )
-      .then((response) => {
-        let HTML = response.principalResult;
-        // const htmlStr = `data:text/html;base64,${Buffer.from(HTML).toString(
-        //   "base64"
-        // )}`;
-        //const htmlStr = `${Buffer.from(HTML).toString("base64")}`;
-        //if (shouldDisplay) {
-          //mainWindow.webContents.send("xml-open", [sourceFileName, htmlStr]); // send to be displayed
-        //}
-        //return htmlStr;
-        const fileName = sourceFileName.replace(/^.*[\\\/]/, "");
-        const tempPath = path.join(app.getPath("temp"), app.getName());
-        const filePath = path.join(
-          tempPath,
-          `${path.parse(fileName).name}.html`
-        );
-        console.log("temp", filePath);
-        try {
-          if (!fs.existsSync(tempPath)) {
-            fs.mkdirSync(tempPath);
-          }
-          fs.writeFileSync(filePath, HTML, { flag: "w+" });
-          if (shouldDisplay) {
-            mainWindow.webContents.send("xml-open", [
-              sourceFileName,
-              filePath,
-            ]);
-          }
-          return filePath;
-        } catch (err) {
-          console.log(err);
-        }
-      })
-      .catch((error) => {
-        displayError("Exception", error);
-      });
-  })
-  .catch((output) => {
-    displayError("Exception", output);
-  });
+        .then((response) => {
+          let HTML = response.principalResult;
+          const fileName = sourceFileName.replace(/^.*[\\\/]/, "");
+          const tempPath = path.join(app.getPath("temp"), app.getName());
+          const filePath = path.join(
+            tempPath,
+            `${path.parse(fileName).name}.html`
+          );
+          try {
+            if (!fs.existsSync(tempPath)) {
+              fs.mkdirSync(tempPath);
+            }
+            fs.writeFileSync(filePath, HTML, { flag: "w+" });
+            if (shouldDisplay) {
+              mainWindow.webContents.send("xml-open", [
+                sourceFileName,
+                filePath,
+              ]);
+            }
+            return filePath;
+          } catch (err) {}
+        })
+        .catch((error) => {
+          displayError("Exception", error);
+        });
+    })
+    .catch((output) => {
+      displayError("Exception", output);
+    });
 }
 function displayError(message, detail) {
-  console.error(message, detail);
   const options = {
     type: "error",
     buttons: ["OK"],
@@ -382,14 +394,91 @@ function displayError(message, detail) {
   };
   dialog.showMessageBox(null, options, (response, checkboxChecked) => {});
 }
+
+function validateFile(xmlFilePath) {
+  return new Promise((resolve, reject) => {
+    const xml2js = require("xml2js");
+    var status = false;
+    var parser = new xml2js.Parser();
+    const formData = new FormData();
+    formData.append("inFile", fs.createReadStream(xmlFilePath));
+    const accessToken = store.get("access_token");
+    //console.log("accessToken", accessToken);
+    const agent = new https.Agent({ rejectUnauthorized: false });
+    axios
+      .post(
+        "https://gw.usegroup.de:8243/mustang/v0.5.0/mustang/validate",
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + accessToken,
+            "Content-Type": "multipart/form-data",
+          },
+          httpsAgent: agent,
+        }
+      )
+      .then(function (response) {
+        /* console.log("response==>", response);*/
+
+        parser.parseString(response.data, function (err, result) {
+          const error =
+            result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?._;
+          const criterion =
+            result?.validation?.xml?.[0]?.messages?.[0]?.error?.[0]?.$
+              ?.criterion;
+          status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
+          const isValid = status === "valid";
+          console.log("error", error);
+          console.log("status", status);
+          const request = {
+            path: xmlFilePath,
+            valid: isValid,
+            error: error,
+            criterion: criterion,
+          };
+          //mainWindow.webContents.send("validate-complete", request);
+          // return new Promise((resolve, reject) => {
+            resolve(request);
+          // });
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+        let request = {
+            path: xmlFilePath,
+            valid: false,
+          };
+          if (error?.response?.status === 401) {
+            store.delete("access_token");
+            store.delete("isLoggedIn");
+            request.code = 'ERR_UNAUTHORIZED';
+            reject(request);
+          } else {
+            request.code = 'ERR_NETWORK';
+          //mainWindow.webContents.send("validate-complete", request);
+          // return new Promise((resolve, reject) => {
+            reject(request);
+          // });
+        }
+        // return new Promise((resolve, reject) => {
+          //reject(null);
+        // });
+      });
+  });
+}
 ipcMain.on("open-link", (event) => {
   let exWin = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: process.platform === "win32" ? "../assets/img/favicon.ico" : "../assets/img/logoonly.svg",
+    icon:
+      process.platform === "win32"
+        ? "../assets/img/favicon.ico"
+        : "../assets/img/logoonly.svg",
   });
   exWin.setMenu(null);
-  exWin.loadURL("https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application");
+  exWin.loadURL(
+    "https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application"
+  );
 });
 
 ipcMain.on("open-dragged-file", (event, filePath) => {

@@ -29,5 +29,23 @@
   "delete": "delete",
   "selectall": "selectall",
   "project": "project",
-  "version": "version"
+  "version": "version",
+  "Validation": "Validation",
+  "Logout": "Logout",
+  "demoUser": "demoUser",
+  "username": "username",
+  "password": "password",
+  "privacyPolicy": "privacyPolicy",
+  "subscription": "subscription",
+  "accept": "accept",
+  "Demo User": "Demo User",
+  "Username": "Username",
+  "Password": "Password",
+  "Privacy Policy": "Privacy Policy",
+  "Subscription": "Subscription",
+  "Accept": "Accept",
+  "privacyPolicyText": "privacyPolicyText",
+  "Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing": {
+    "": "Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing."
+  }
 }

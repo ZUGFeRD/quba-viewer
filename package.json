@@ -1,6 +1,6 @@
 {
   "name": "Quba",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "Viewer",
   "author": "Quba",
   "scripts": {
@@ -14,6 +14,7 @@
   },
   "main": "app/main.js",
   "dependencies": {
+    "axios": "^0.27.2",
     "core-js": "3.24.1",
     "custom-electron-titlebar": "4.1.0",
     "electron-is-dev": "2.0.0",
@@ -23,12 +24,15 @@
     "fast-xml-parser": "3.19.0",
     "i18next": "21.8.5",
     "i18next-fs-backend": "1.1.4",
+    "node-localstorage": "^2.2.1",
     "pdfjs-dist": "2.9.359",
     "saxon-js": "2.4.0",
     "vue": "3.2.36",
     "vue-i18n": "9.1.10",
+    "vue-sweetalert2": "^5.0.5",
     "vue-tabs-chrome": "0.10.0",
-    "vue3-tabs-chrome": "0.3.2"
+    "vue3-tabs-chrome": "0.3.2",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@intlify/vue-i18n-loader": "4.2.0",

@@ -31,4 +31,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.error-list {
+  padding: 12px;
+  word-break: break-word;
+}
+.show-more {
+  text-align: center;
+  cursor: pointer;
+}
 </style>

@@ -13,5 +13,18 @@
   "Paste": "Paste",
   "Delete": "Delete",
   "Select all": "Select All",
-  "appName": "E-Invoice Viewer"
+  "appName": "E-Invoice Viewer",
+  "Login" : "Login",
+  "Logout": "Logout",
+  "Validate": "Validate",
+  "Demo User":"Demo User",
+  "Username":"Username",
+  "Password":"Password",
+  "Privacy Policy":"Privacy Policy",
+  "Subscription":"Subscription",
+  "Accept":"Accept",
+  "en": "English",
+  "de": "German",
+  "fr": "French",
+  "privacyPolicyText": "Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing."
 }

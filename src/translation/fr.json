@@ -3,5 +3,15 @@
     "welcomeNote1": "Ouvrir les fichiers XML ou PDF via le menu,",
     "welcomeNote2": "en appuyant sur Ctrl + O ou par glisser-déposer",
     "appName": "Visionneuse de factures électroniques",
-    "Examples":"Exemples"
+    "Examples":"Exemples",
+    "Valid file": "Fichier valide",
+    "Invalid file": "Fichier non valide",
+    "Success": "Succès {Connecté avec succès}",
+    "validateFiles": "Vous pouvez maintenant valider les fichiers",
+    "Show more": "Afficher plus…",
+    "Logout success": "Déconnecté avec succès",
+    "serverunreachable":"Erreur de réseau",
+    "invalidcredentials":"Nom d'utilisateur ou mot de passe invalide",
+    "validatingFile": "Validation du fichier...",
+    "notLoggedIn":"Vous n'êtes pas connecté, veuillez vous connecter et réessayer."
   }

@@ -13,5 +13,18 @@
     "Paste": "Coller",
     "Delete": "Supprimer",
     "Select all": "Sélectionner tout",
-    "appName": "Visionneuse pour e-factures"
+    "appName": "Visionneuse pour e-factures",
+    "Login" : "Connexion",
+    "Logout": "Se déconnecter",
+    "Validate": "Valider",
+    "Demo User":"Utilisateur démo",
+    "Username":"Nom d'utilisateur :",
+    "Password":"Mot de passe",
+    "Privacy Policy":"Politique de confidentialité",
+    "Subscription":"Abonnement",
+    "Accept":"Accepter",
+    "en": "Anglaise",
+    "de": "Allemande",
+    "fr": "Français",
+    "privacyPolicyText": "Veuillez valider uniquement les données de test anonymisées sans aucune information personnelle (expéditeur, destinataire, identifiants bancaires) sauf si vous avez un abonnement avec un contrat de traitement de données commandé."
   }

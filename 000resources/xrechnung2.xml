@@ -121,9 +121,9 @@
         <ram:AllowanceTotalAmount>0.00</ram:AllowanceTotalAmount>  
         <ram:TaxBasisTotalAmount>1.00</ram:TaxBasisTotalAmount>  
         <ram:TaxTotalAmount currencyID="EUR">0.00</ram:TaxTotalAmount>  
-        <ram:GrandTotalAmount>1.00</ram:GrandTotalAmount>  
+        <ram:GrandTotalAmount>2.40</ram:GrandTotalAmount>  
         <ram:TotalPrepaidAmount>0.00</ram:TotalPrepaidAmount>  
-        <ram:DuePayableAmount>1.00</ram:DuePayableAmount> 
+        <ram:DuePayableAmount>3.00</ram:DuePayableAmount> 
       </ram:SpecifiedTradeSettlementHeaderMonetarySummation> 
     </ram:ApplicableHeaderTradeSettlement> 
   </rsm:SupplyChainTradeTransaction> 

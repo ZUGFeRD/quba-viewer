@@ -3,5 +3,15 @@
     "welcomeNote1": "XML- oder PDF-Dateien über das Menü öffnen,",
     "welcomeNote2": "durch Drücken von Strg + O oder Drag&Drop",
     "appName":"E-Rechnungsviewer",
-    "Examples":"Beispiele"
+    "Examples":"Beispiele",
+    "Valid file": "Gültige Datei",
+    "Invalid file": "Ungültige Datei",
+    "Success": "Erfolgreich (?)",
+    "validateFiles": "Sie können jetzt Dateien validieren",
+    "Show more": "Mehr anzeigen",
+    "Logout success": "Abmeldung erfolgreich",
+    "serverunreachable":"Netzwerkfehler",
+    "invalidcredentials":"Benutzername oder Passwort ungültig",
+    "validatingFile": "Validiere Datei...",
+    "notLoggedIn":"Sie sind nicht eingeloggt, bitte melden Sie sich an und versuchen es erneut"
   }

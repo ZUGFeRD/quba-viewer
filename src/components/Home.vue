@@ -8,7 +8,7 @@
     :click="onClick"
     :class="[tabs?.length ? '' : 'display-none']"
     :on-close="onClose"
-  ><template v-slot:after>
+    ><template v-slot:after>
       <button
         class="btn"
         style="
@@ -22,18 +22,30 @@
         +
       </button>
     </template>
- </vue3-tabs-chrome>
- <div class="btns">
-  </div>
+  </vue3-tabs-chrome>
+  <div class="btns"></div>
   <div v-if="currentTab">
+    <div class="loader" v-if="showLoader">
+      <div id="loading"></div>
+        <h1>{{ t("validatingFile", {}, { locale: lang }) }}</h1>
+  </div>
+
     <div v-if="currentTab.isPdf">
       <div :class="[currentTab?.isShowXML ? 'left-part' : '']">
       <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
     </div>
     <div v-if="currentTab?.isShowXML" class="right-part">
-        <button class="closeBtn" v-if="currentTab?.isShowingXMLSection"  @click="hideXML">x</button>
+        <button 
+          class="closeBtn" 
+          v-if="currentTab?.isShowingXMLSection"  
+          @click="hideXML"
+          >
+            x
+          </button>
         <div class="center-btn" v-if="!currentTab?.isShowingXMLSection">
-          <button class="xml-btn" @click="showXML"> {{ t("showXML", {}, { locale: lang }) }}</button>
+          <button class="xml-btn" @click="showXML"> 
+            {{ t("showXML", {}, { locale: lang }) }}
+            </button>
         </div>
         <iframe
           v-if="currentTab?.isShowingXMLSection"
@@ -51,6 +63,7 @@
       <iframe
         height="100%"
         width="100%"
+        :data-xmlFilePath = "currentTab?.xmlFilePath"
         class="full-height"
         :src="currentTab?.content"
         title=""
@@ -60,10 +73,10 @@
     </div>
   </div>
     <div v-if="!currentTab" class="center" id="drag-box">
-        <img src="../assets/img/logo_whitetext.svg"><br>
-      
-      {{ t("welcomeNote1", {}, { locale: lang }) }}<br>
-      {{ t("welcomeNote2", {}, { locale: lang }) }}<br>
+        <img src="../assets/img/logo_whitetext.svg" /><br />
+
+      {{ t("welcomeNote1", {}, { locale: lang }) }}<br />
+      {{ t("welcomeNote2", {}, { locale: lang }) }}<br />
        <a class="example-link" @click="openLink">{{t("Examples", {}, { locale: lang })}}</a>
        <p class="note" v-if="version" style="text-align: center">
       {{ t("Version", {}, { locale: lang }) }} {{ version }}
@@ -101,6 +114,7 @@ export default {
       showNofification: false,
       message: undefined,
       showRestartButton: false,
+      showLoader: false,
     };
   },
   setup() {
@@ -116,6 +130,8 @@ export default {
 
       if (currentTabObj.length) {
         currentTab.value = currentTabObj[0];
+        localStorage.setItem("currentTabFilePath", currentTabObj[0].link);
+
       }
     };
 
@@ -142,7 +158,7 @@ export default {
         tabRef.value.removeTab(tab.value);
       }
       window.dispatchEvent(new Event("mousedown")); // Stop opening file with pdf.js shortcut ctrl+O
-      console.log("filepath", args[0]);
+
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
       const res = window.api.sendSyncCheckXml(args[0]);
@@ -155,12 +171,13 @@ export default {
         isShowXML: !!res,
         isShowingXMLSection: false,
         content: res,
+        path: args[0],
       });
-
       tab.value = key;
     });
 
     window.api.onXmlOpen((event, args) => {
+
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
       if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
         tabRef.value.removeTab(tab.value);
@@ -175,16 +192,31 @@ export default {
         link: args[0],
         isXML: true,
         content: args[1],
+        xmlFilePath: args[0],
+        path: args[0],
       });
 
       tab.value = key;
     });
 
+    window.api.onValidateComplete((event, args) => {
+      let list = sessionStorage.getItem("validationResult");
+      list  = list ? JSON.parse(list) : [];
+      const res = list.find((item) => item.path === args.path);
+      if (res) {
+        res = args;
+      } else {
+        list.push(args);
+      }
+      sessionStorage.setItem("validationResult", JSON.stringify(list));
+    });
+
+
     const onClose = (tabObj, key, index) => {
-      
+
       if (tabs.length === 1) {
         currentTab.value = undefined;
-        
+
       }
     };
     const showXML = () => {
@@ -209,7 +241,7 @@ export default {
   },
    mounted() {
     window.api.onLanguageChange((event, args) => {
-      this.lang = args; 
+      this.lang = args;
       window.api.updateMenuLanguage(this.t("appName", {}, { locale: this.lang }));
     });
      window.api.sendAppVersion();
@@ -239,7 +271,142 @@ export default {
         window.frames["viewer"].print();
       }
     });
-    
+
+    	window.api.onShowLoginMessage((event, args) => {
+      if (args.type === 'success') {
+        this.$swal({
+          icon: 'success',
+          //title: args.message
+          title: `${this.t("Success", {}, { locale: this.lang })} <br> 
+          ${this.t("validateFiles",{},{ locale: this.lang })}`,
+        });
+      } else {
+        const errMessage =
+          args.code === "ERR_NETWORK"
+            ? this.t("serverunreachable", {}, { locale: this.lang })
+            : this.t("invalidcredentials", {}, { locale: this.lang });
+        this.$swal({
+          icon: 'error',
+          title: errMessage || args.message,
+        });
+      }
+    });
+
+    window.api.onLogoutSubmit((event, args) => {
+      this.$swal({
+        icon: "success",
+        title: `${this.t("Logout success", {}, { locale: this.lang })}`,
+      });
+    });
+
+    window.api
+      .onValidateClick((event, args) => {
+      if (this.currentTab) {
+       const validateFile = () => {
+         const showMessage = (record) => {
+              if (record.valid) {
+                this.$swal({
+                  icon: "success",
+                  title: this.t("Valid file", {}, { locale: this.lang }),
+                });
+              }
+            else {
+                this.$swal({
+                  icon: "error",
+                  title: this.t("Invalid file", {}, { locale: this.lang }),
+                });
+                this.addErrorToPopup(record?.error);
+              }
+            };
+        const list = sessionStorage.getItem("validationResult");
+        if (list) {
+          const result = JSON.parse(list);
+          const currentFileRecord = result.find((item) => item.path === this.currentTab.path);
+
+          console.log("currentFileRecord", currentFileRecord);
+          if (currentFileRecord) {
+            if (currentFileRecord?.valid) {
+              console.log("Valid");
+              this.$swal({
+                icon: 'success',
+                title: this.t('Valid file', {}, { locale: this.lang })
+              });
+            } else {
+              console.log("Invalid");
+              this.$swal({
+                icon: 'error',
+                title: this.t('Invalid file', {}, { locale: this.lang })
+              });
+              this.addErrorToPopup(currentFileRecord?.error);
+            }
+          } else {
+            this.showLoader = true;
+            setTimeout(() => {
+                  const res = window.api.sendSyncValidateFile(
+                    this.currentTab.path
+                  );
+                  this.showLoader = false;
+            if (res) {
+              if (res.code === "ERR_NETWORK") {
+                    this.$swal({
+                      icon: "error",
+                      title: this.t("serverunreachable", {}, { locale: this.lang }),
+                    });
+                  } else if (res.code === "ERR_UNAUTHORIZED") {
+                    this.$swal({
+                      icon: "error",
+                      title: this.t("notLoggedIn", {}, { locale: this.lang }),
+                    });
+                  } else {
+            let list = sessionStorage.getItem("validationResult");
+            list  = list ? JSON.parse(list) : [];
+              list.push(res);
+              sessionStorage.setItem(
+                    "validationResult",
+                    JSON.stringify(list)
+                  );
+                  showMessage(res);
+            }
+          }
+        }, 100);
+          }
+        } else {
+          this.showLoader = true;
+              setTimeout(() => {
+                const res = window.api.sendSyncValidateFile(
+                  this.currentTab.path
+                );
+                this.showLoader = false;
+          if (res) {
+            if (res.code === "ERR_NETWORK") {
+                  this.$swal({
+                    icon: "error",
+                    title: this.t("serverunreachable", {}, { locale: this.lang }),
+                  });
+                } else if (res.code === "ERR_UNAUTHORIZED") {
+                  this.$swal({
+                    icon: "error",
+                    title: this.t("notLoggedIn", {}, { locale: this.lang }),
+                  });
+                } else {
+            let list = sessionStorage.getItem("validationResult");
+            list  = list ? JSON.parse(list) : [];
+
+              list.push(res);
+              sessionStorage.setItem(
+                  "validationResult",
+                  JSON.stringify(list)
+                );
+                showMessage(res);
+              }
+            }
+          });
+          }
+          };
+      validateFile();
+      }
+    }).call(this);
+
     document.addEventListener("drop", (event) => {
       event.preventDefault();
       //event.stopPropagation();
@@ -252,12 +419,12 @@ export default {
 
     document.addEventListener("dragover", (event) => {
       event.preventDefault();
-    
+
     }, false);
 
     document.addEventListener("dragenter", (event) => {
       event.preventDefault();
-      
+
 
     }, false);
 
@@ -265,7 +432,7 @@ export default {
       event.preventDefault();
     }, false);
   },
-  
+
   methods: {
     closeNotification() {
       this.showNofification = false;
@@ -274,8 +441,23 @@ export default {
       window.api.sendRestartApp();
     },
      openLink(link) {
-  
+
       window.api.sendOpenLink(link);
+    },
+    addErrorToPopup(errorMessage) {
+      let title = document.getElementById("swal2-title");
+      let text = document.createElement("p");
+      text.textContent = this.t("Show more", {}, { locale: this.lang });
+      text.classList.add("show-more");
+
+      text.addEventListener("click", () => {
+        let error = document.createElement("div");
+        error.classList.add("error-list");
+        error.textContent = errorMessage || '';
+        text.parentNode.insertBefore(error, text.nextSibling);
+        text.style.display = "none";
+      });
+      title.parentNode.insertBefore(text, title.nextSibling);
     },
 
   },
@@ -360,7 +542,7 @@ a.example {
 
 .example-link{
   text-decoration: underline;
-} 
+}
 	.xmlPart {
   overflow-y: scroll;
   height: 100vh;
@@ -383,5 +565,38 @@ a.example {
   cursor: pointer;
   border-radius: 4px;
   font-weight: bold;
+}
+.loader {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+}
+#loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 </style>

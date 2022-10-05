@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+      body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+
+      .login {
+        position: relative;
+        width: 100%;
+        max-width: 394px;
+        overflow: hidden;
+      }
+
+      .form {
+        position: relative;
+        z-index: 1;
+        background: #fff;
+        border-radius: 10px;
+        margin: 0;
+        padding: 25px;
+        text-align: center;
+      }
+
+      .form input[type="email"],
+      .form input[type="text"],
+      .form input[type="password"]
+       {
+        outline: 0;
+        background: #f2f2f2;
+        width: 100%;
+        border: 0;
+        border-radius: 5px;
+        margin: 0 0 15px;
+        padding: 15px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+
+      .form input:focus {
+        background: #dbdbdb;
+      }
+
+      .form button {
+        text-transform: uppercase;
+        outline: 0;
+        background: #4b6cb7;
+        width: 100%;
+        border: 0;
+        border-radius: 5px;
+        padding: 15px;
+        color: #FFFFFF;
+        font-size: 14px;
+        -webkit-transition: all 0.3 ease;
+        transition: all 0.3 ease;
+        cursor: pointer;
+      }
+
+      .form button:disabled {
+        opacity: 0.7;
+      }
+
+      .form button:active {
+        background: #1e1e1e;
+      }
+
+      .form span {
+        font-size: 25px;
+        color: #1e1e1e;
+      }
+
+      .button-style {
+        color: #fff !important;
+        background-color: #1e1e1e !important;
+      }
+
+      .privacy{
+        margin: 10px 0;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+      }
+
+      .privacy input{
+        margin: 0 10px;
+      }
+
+      .privacy a{
+        margin-left: 5px;
+      }
+
+      #demo{
+        position: absolute;
+        top: 0;
+        /* height: 30px;
+        width: 30px; */
+        border-radius: 5%;
+        background: whitesmoke;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 3px 2px 5px 0px #8080806e;
+
+      }
+      #policy,
+      #demo span{
+        font-size: 14px;
+        padding: 10px;
+        cursor: pointer;
+      }
+
+      #demo svg{
+        margin-left: 10px;
+        height: 18px;
+        width: 18px;
+        font-weight: bold;
+        pointer-events: none;
+      }
+    </style>
+    <script src="./axios.min.js"></script>
+  </head>
+
+  <body>
+    <div class="login">
+      <div class="form">
+        <form id="loginForm" class="login-form">
+          <span class="material-icons" id="login">Login</span>
+          <input type="text" id="username" placeholder="Username" required />
+          <input type="password" id="password" placeholder="Password" required />
+          <button class="button-style" disabled id="submit">Login</button>
+          <div class="privacy">
+            <input type="checkbox" name="privacy" id="privacy"> <span id="policy">Privacy Policy</span>
+            <a href=" https://www.mustangproject.org/server/" target="_blank" rel="noopener noreferrer" id="subscription">Subscription</a>
+          </div>
+          <span id="demo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-6 6m0 0l-6-6m6 6V9a6 6 0 0112 0v3" />
+            </svg>
+            <span id="demo-user">Demo User</span>
+        </span>
+        </form>
+      </div>
+
+      <p id="note"></p>
+
+    </div>
+    <script>
+
+      const { ipcRenderer } = require('electron');
+      const Swal = require('sweetalert2');
+      const loginForm = document.getElementById("loginForm");
+      const username = document.getElementById("username");
+      const password = document.getElementById("password");
+      const note = document.getElementById("note");
+      const login = document.getElementById("login");
+      const privacy = document.getElementById("privacy");
+      const submit = document.getElementById("submit");
+      const demo = document.getElementById("demo");
+      const policy = document.getElementById("policy");
+      const subscription = document.getElementById("subscription");
+      const demoUser = document.getElementById("demo-user");
+      let accept, privacyPolicy, policyText;
+
+      ipcRenderer.send('get-login-info');
+      ipcRenderer.on('get-login-info', (event, arg) => {
+        ipcRenderer.removeAllListeners('get-login-info');
+        console.log("args", arg);
+        login.innerText = arg.login;
+        submit.innerText = arg.login;
+        username.placeholder = arg.username;
+        password.placeholder = arg.password;
+        policy.innerText = arg.privacyPolicy;
+        demoUser.innerText = arg.demoUser;
+        subscription.innerText = arg.subscription;
+
+        accept = arg.accept;
+        privacyPolicy = arg.privacyPolicy;
+        policyText = arg.policyText;
+      });
+
+      demo.addEventListener("click", function(e){
+        Swal.fire({
+          title: privacyPolicy,
+          html: policyText,
+          confirmButtonText: accept,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            privacy.checked = true;
+            username.value = "quba";
+            password.value = "qubaq";
+            submit.removeAttribute("disabled");
+          }
+        });
+
+      });
+
+        document.querySelector('.privacy').addEventListener("click", function(e){
+        Swal.fire({
+          title: privacyPolicy,
+          html: policyText,
+          confirmButtonText: accept,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            privacy.checked = true;
+            submit.removeAttribute("disabled");
+          }
+        });
+      });
+
+      privacy.addEventListener("click", function(e){
+        if(privacy.checked){
+          Swal.fire({
+            title: "Privacy Policy",
+            html: privacyText,
+            confirmButtonText: "Accept",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              privacy.checked = true;
+              submit.removeAttribute("disabled");
+            }
+          });
+        }
+
+      });
+
+      loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        let isDefaultUser = false;
+        if (username.value === 'quba'){
+          isDefaultUser = true;
+        }
+        axios.post('https://api.usegroup.de:9443/oauth2/token', {
+          grant_type: "password",
+          username: username.value,
+          password: password.value
+        }, {
+          headers: {
+            'Authorization': 'Basic d29oTDFpSUZpQVcwb2NrRmZVVDVlRTJQRG9FYTozZmpaVk03NWc4eHIzSmliN1Yyejl6TWFWV1lh',
+            'Content-Type': 'application/json'
+          }
+        }).then(function (response) {
+          const data = {
+            type: 'success',
+            message: response.data.access_token,
+            isDefaultUser
+          }
+          ipcRenderer.send('login-submit', data);
+        }).catch(function (error) {
+          const data = {
+            type: 'error',
+            message: error.message,
+            isDefaultUser,
+            code: error.code
+          }
+          ipcRenderer.send('login-submit', data);
+        });
+      });
+
+    </script>
+
+  </body>
+
+</html>
