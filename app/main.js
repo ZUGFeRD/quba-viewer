@@ -16,10 +16,6 @@ const Store = require("electron-store");
 const isDev = require("electron-is-dev");
 const https = require("https");
 const menuFactoryService = require("./menuConfig");
-const {
-  setupTitlebar,
-  attachTitlebarToWindow,
-} = require("custom-electron-titlebar/main");
 
 const i18next = require("i18next");
 const Backend = require("i18next-fs-backend");
@@ -29,7 +25,6 @@ const config = require("./config/app.config");
 const fs = require("fs");
 const path = require("path");
 const store = new Store();
-setupTitlebar();
 
 let mainWindow;
 let currentLanguage = store.get("language") || config.fallbackLng;
@@ -37,7 +32,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    frame: false,
+    frame: true,
     webPreferences: {
       plugins: true,
       preload: path.join(__dirname, "preload.js"),
@@ -45,7 +40,6 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
-  attachTitlebarToWindow(mainWindow);
   mainWindow.on("closed", function () {
     //store.clear();
     //store.delete("access_token");
@@ -109,6 +103,8 @@ function createWindow() {
   setTimeout(() => {
     mainWindow.webContents.send("goToHome");
   }, 200);
+  menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
+
 }
 
 app.on("ready", async () => {
@@ -407,7 +403,7 @@ function validateFile(xmlFilePath) {
     const agent = new https.Agent({ rejectUnauthorized: false });
     axios
       .post(
-        "https://gw.usegroup.de:8243/mustang/v0.5.0/mustang/validate",
+        "https://gw.usegroup.de:8243/mustang/mustang/validate",
         formData,
         {
           headers: {
@@ -428,8 +424,8 @@ function validateFile(xmlFilePath) {
               ?.criterion;
           status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
           const isValid = status === "valid";
-          console.log("error", error);
-          console.log("status", status);
+//          console.log("error", error);
+//          console.log("status", status);
           const request = {
             path: xmlFilePath,
             valid: isValid,

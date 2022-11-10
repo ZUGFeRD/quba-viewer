@@ -16,7 +16,6 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "3.24.1",
-    "custom-electron-titlebar": "4.1.0",
     "electron-is-dev": "2.0.0",
     "electron-localshortcut": "3.2.1",
     "electron-store": "8.0.1",
@@ -39,7 +38,7 @@
     "@vue/cli-plugin-babel": "5.0.4",
     "@vue/cli-service": "5.0.4",
     "@vue/compiler-sfc": "3.2.36",
-    "electron": "14.0.0",
+    "electron": "20.0.0",
     "electron-builder": "23.0.3",
     "vue-cli-plugin-i18n": "2.3.1"
   },

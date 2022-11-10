@@ -1,20 +1,5 @@
 const { contextBridge, ipcRenderer, Menu, app, remote } = require('electron');
-const { Titlebar, Color } = require("custom-electron-titlebar");
 
-let myTitleBar;
-
-const setTitleBar = () => {
-  let options = {
-    backgroundColor: Color.fromHex("#1f2c40"),
-    shadow: true,
-    icon: "../src/assets/img/logoonly.svg",
-  };
-  myTitleBar = new Titlebar(options);
-};
-
-window.addEventListener('DOMContentLoaded', () => {
-  setTitleBar();
-});
 
 const API = {
   sendOpenMenu: () => {
@@ -25,10 +10,6 @@ const API = {
   },
   sendSyncValidateFile: (path) => {
     const response = ipcRenderer.sendSync("validate-file", path);
-    if (response.code === 'ERR_UNAUTHORIZED') {
-      myTitleBar.dispose();
-      setTitleBar();
-    }
     return response;
   },
   sendAppVersion: () => {
@@ -43,61 +24,49 @@ const API = {
   sendOpenLink: () => {
     ipcRenderer.send('open-link');
   },
-  sendLoginSubmit: () => {	
-    console.log("sendLoginSubmit");	
-    ipcRenderer.send('login-submit');	
+  sendLoginSubmit: () => {
+    console.log("sendLoginSubmit");
+    ipcRenderer.send('login-submit');
   },
   onPdfOpen: (callback) => {
-    ipcRenderer.on("pdf-open", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("pdf-open", (event, ...args) => callback(event, ...args));
   },
   onXmlOpen: (callback) => {
-    ipcRenderer.on("xml-open", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("xml-open", (event, ...args) => callback(event, ...args));
   },
   onLanguageChange: (callback) => {
-    ipcRenderer.on("language-change", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("language-change", (event, ...args) => callback(event, ...args));
   },
   onAppVersion: (callback) => {
-    ipcRenderer.on("app_version", (event, ...args) => 
-    callback(event, ...args));    
+    ipcRenderer.on("app_version", (event, ...args) =>
+    callback(event, ...args));
   },
   onUpdateAvailable: (callback) => {
-    ipcRenderer.on("update_available", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("update_available", (event, ...args) => callback(event, ...args));
   },
   onUpdateDownloaded: (callback) => {
-    ipcRenderer.on("update_downloaded", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("update_downloaded", (event, ...args) => callback(event, ...args));
   },
   onFilePrintXml: (callback) => {
-    ipcRenderer.on("file-print-xml", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("file-print-xml", (event, ...args) => callback(event, ...args));
   },
   onFilePrintPdf: (callback) => {
-    ipcRenderer.on("file-print-pdf", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("file-print-pdf", (event, ...args) => callback(event, ...args));
   },
-  onValidateComplete: (callback) => {	
-    ipcRenderer.on("validate-complete", (event, ...args) => callback(event, ...args));	
+  onValidateComplete: (callback) => {
+    ipcRenderer.on("validate-complete", (event, ...args) => callback(event, ...args));
   },
   onValidateClick: (callback) => {
-    ipcRenderer.on("validate-click", (event, ...args) => callback(event, ...args));    
+    ipcRenderer.on("validate-click", (event, ...args) => callback(event, ...args));
   },
-  onShowLoginMessage: (callback) => {	
-    ipcRenderer.on("show-login-message", (event, ...args) => 
+  onShowLoginMessage: (callback) => {
+    ipcRenderer.on("show-login-message", (event, ...args) =>
     {
-      if (args[0].type === 'success') {
-        myTitleBar.dispose();
-        setTitleBar();
-      }
-      console.log("onShowLoginMessage", args);
-      /*if (args[0].isDefaultUser) {
-        localStorage.setItem('isDefaultUser', true);
-      } else {
-        localStorage.setItem('isDefaultUser', false);
-      }*/
     callback(event, ...args)});
-    
+
   },
   onLogoutSubmit: (callback) => {
     ipcRenderer.on("logout-submit", (event, ...args) => {
-      myTitleBar.dispose();
-      setTitleBar();
       callback(event, ...args);
     });
   },
@@ -114,12 +83,6 @@ const API = {
     setTitleBar();
   },
   updateMenuLanguage: (appName) => {
-    if (myTitleBar) {
-      myTitleBar.dispose();
-
-    setTitleBar();
-    myTitleBar.updateTitle(appName);
-    }
   },
 };
 

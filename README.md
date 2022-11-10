@@ -11,6 +11,16 @@ History
 =============
 
 <details>
+<summary>1.2.1 13.10.2022</summary>
+    - upgrade to Electron 20 enabling e.g. newer Mac versions to run it
+</details>
+
+<details>
+<summary>1.2.0 26.09.2022</summary>
+    - Allow to validate files via Mustangserver
+</details>
+
+<details>
 <summary>1.1.5 15.08.2022</summary>
     - XML invoice with large PDF (approx. > 1.4 MB) attached can't be opened #16
 </details>
