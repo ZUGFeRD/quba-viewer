@@ -290,6 +290,8 @@ function loadAndDisplayXML(filename) {
         transformAndDisplayCII(filename, content, true);
       } else if (key.includes("Invoice")) {
         transformAndDisplayUBL(filename, content, true);
+      } else if (key.includes("CreditNote")) {
+        transformAndDisplayUBLCN(filename, content, true);
       } else {
         displayError(
           "File format not recognized",
@@ -313,10 +315,19 @@ function transformAndDisplayCII(sourceFileName, content, shouldDisplay) {
 
 function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
   return transformAndDisplay(
-    sourceFileName,
-    content,
-    path.join(__dirname, "xslt", "ubl-xr.sef.json"),
-    shouldDisplay
+      sourceFileName,
+      content,
+      path.join(__dirname, "xslt", "ubl-xr.sef.json"),
+      shouldDisplay
+  );
+}
+
+function transformAndDisplayUBLCN(sourceFileName, content, shouldDisplay) {
+  return transformAndDisplay(
+      sourceFileName,
+      content,
+      path.join(__dirname, "xslt", "ubl-creditnote-xr.sef.json"),
+      shouldDisplay
   );
 }
 
