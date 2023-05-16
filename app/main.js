@@ -27,6 +27,7 @@ const path = require("path");
 const store = new Store();
 
 let mainWindow;
+let windows = new Set();
 let currentLanguage = store.get("language") || config.fallbackLng;
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -39,11 +40,14 @@ function createWindow() {
     },
   });
 
+  windows.add(mainWindow);
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+
   mainWindow.on("closed", function () {
     //store.clear();
     //store.delete("access_token");
     //store.delete("isLoggedIn");
+    windows.delete(mainWindow);
     mainWindow = null;
   });
 
@@ -104,7 +108,6 @@ function createWindow() {
     mainWindow.webContents.send("goToHome");
   }, 200);
   menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
-
 }
 
 app.on("ready", async () => {
@@ -129,6 +132,10 @@ app.on("window-all-closed", function () {
 });
 
 app.on("activate", function () {
+  if (windows.size === 0) {
+        createWindow();
+        return;
+    }
   if (mainWindow === null) createWindow();
 });
 
@@ -141,23 +148,23 @@ function registerShortcuts() {
   });
 }
 
-const gotTheLock = app.requestSingleInstanceLock();
-if (!gotTheLock) {
-  app.quit();
-} else {
-  listenEvents();
-}
-
+// const gotTheLock = app.requestSingleInstanceLock();
+// if (!gotTheLock) {
+//   app.quit();
+// } else {
+//   listenEvents();
+// }
+listenEvents();
 function listenEvents() {
-  app.on("second-instance", (event, commandLine) => {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) {
-        mainWindow.restore();
-      }
-      mainWindow.focus();
-      mainWindow.webContents.send("external-file-open", commandLine);
-    }
-  });
+  // app.on("second-instance", (event, commandLine) => {
+  //   if (mainWindow) {
+  //     if (mainWindow.isMinimized()) {
+  //       mainWindow.restore();
+  //     }
+  //     mainWindow.focus();
+  //     mainWindow.webContents.send("external-file-open", commandLine);
+  //   }
+  // });
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
       app.quit();
@@ -290,6 +297,8 @@ function loadAndDisplayXML(filename) {
         transformAndDisplayCII(filename, content, true);
       } else if (key.includes("Invoice")) {
         transformAndDisplayUBL(filename, content, true);
+      } else if (key.includes("CreditNote")) {
+        transformAndDisplayUBLCN(filename, content, true);
       } else {
         displayError(
           "File format not recognized",
@@ -316,6 +325,15 @@ function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
     sourceFileName,
     content,
     path.join(__dirname, "xslt", "ubl-xr.sef.json"),
+    shouldDisplay
+  );
+}
+
+function transformAndDisplayUBLCN(sourceFileName, content, shouldDisplay) {
+  return transformAndDisplay(
+    sourceFileName,
+    content,
+    path.join(__dirname, "xslt", "ubl-creditnote-xr.sef.json"),
     shouldDisplay
   );
 }
@@ -424,8 +442,8 @@ function validateFile(xmlFilePath) {
               ?.criterion;
           status = result?.validation?.summary[0]?.$?.status ?? "Invalid";
           const isValid = status === "valid";
-//          console.log("error", error);
-//          console.log("status", status);
+          //          console.log("error", error);
+          //          console.log("status", status);
           const request = {
             path: xmlFilePath,
             valid: isValid,
@@ -453,11 +471,11 @@ function validateFile(xmlFilePath) {
             request.code = 'ERR_NETWORK';
           //mainWindow.webContents.send("validate-complete", request);
           // return new Promise((resolve, reject) => {
-            reject(request);
+          reject(request);
           // });
         }
         // return new Promise((resolve, reject) => {
-          //reject(null);
+        //reject(null);
         // });
       });
   });
