@@ -322,10 +322,19 @@ function transformAndDisplayCII(sourceFileName, content, shouldDisplay) {
 
 function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
   return transformAndDisplay(
-    sourceFileName,
-    content,
-    path.join(__dirname, "xslt", "ubl-xr.sef.json"),
-    shouldDisplay
+      sourceFileName,
+      content,
+      path.join(__dirname, "xslt", "ubl-xr.sef.json"),
+      shouldDisplay
+  );
+}
+
+function transformAndDisplayUBLCN(sourceFileName, content, shouldDisplay) {
+  return transformAndDisplay(
+      sourceFileName,
+      content,
+      path.join(__dirname, "xslt", "ubl-creditnote-xr.sef.json"),
+      shouldDisplay
   );
 }
 

@@ -11,6 +11,11 @@ History
 =============
 
 <details>
+<summary>1.3.0 14.04.2023</summary>
+    - support ubl credit notes
+</details>
+
+<details>
 <summary>1.2.1 13.10.2022</summary>
     - upgrade to Electron 20 enabling e.g. newer Mac versions to run it
 </details>
@@ -90,4 +95,6 @@ Known issues
 =============
 
   * While XRechnung, EN16931 and below should work, not all FX attributes/elements of the Extended Profile have yet been mapped, feel free to [report missing ones](https://github.com/ZUGFeRD/quba-viewer/issues) 
+  * conversion of XSLT to sef.json `xslt3 -xsl=ubl-creditnote-xr.xsl -export:ubl-creditnote-xr.sef.json -t` on windows works only in cmd.exe, not powershell
+
  
