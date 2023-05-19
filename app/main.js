@@ -27,7 +27,6 @@ const path = require("path");
 const store = new Store();
 
 let mainWindow;
-let windows = new Set();
 let currentLanguage = store.get("language") || config.fallbackLng;
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -40,14 +39,12 @@ function createWindow() {
     },
   });
 
-  windows.add(mainWindow);
   mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
 
   mainWindow.on("closed", function () {
     //store.clear();
     //store.delete("access_token");
     //store.delete("isLoggedIn");
-    windows.delete(mainWindow);
     mainWindow = null;
   });
 
@@ -132,10 +129,6 @@ app.on("window-all-closed", function () {
 });
 
 app.on("activate", function () {
-  if (windows.size === 0) {
-        createWindow();
-        return;
-    }
   if (mainWindow === null) createWindow();
 });
 
@@ -148,23 +141,35 @@ function registerShortcuts() {
   });
 }
 
-// const gotTheLock = app.requestSingleInstanceLock();
-// if (!gotTheLock) {
-//   app.quit();
-// } else {
-//   listenEvents();
-// }
-listenEvents();
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  app.quit();
+} else {
+  listenEvents();
+}
+
+console.log("gotTheLock", gotTheLock)
 function listenEvents() {
-  // app.on("second-instance", (event, commandLine) => {
-  //   if (mainWindow) {
-  //     if (mainWindow.isMinimized()) {
-  //       mainWindow.restore();
-  //     }
-  //     mainWindow.focus();
-  //     mainWindow.webContents.send("external-file-open", commandLine);
-  //   }
-  // });
+  app.on("second-instance", (event, commandLine) => {
+    console.log("second-instance-event", event);
+    console.log("second-instance-commandLine", commandLine);
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+      mainWindow.focus();
+
+      if (commandLine.length && commandLine[commandLine.length - 1]) {
+        const path = commandLine[commandLine.length - 1];
+        if (path.toLowerCase().includes(".pdf")) {
+          mainWindow.webContents.send("pdf-open", [path, null]);
+        } else {
+          loadAndDisplayXML(path);
+        }
+      }
+      // mainWindow.webContents.send("external-file-open", commandLine);
+    }
+  });
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
       app.quit();
