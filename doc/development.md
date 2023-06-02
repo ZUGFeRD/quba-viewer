@@ -12,9 +12,9 @@ Development
 
 Set up one time with
 ```
-npm install --global @vue/cli-service
-npm install --global electron-builder
-npm install --global electron-forge
+npm install @vue/cli-service
+npm install electron-builder
+npm install electron-forge
 npm update
 ```
 then
