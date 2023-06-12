@@ -519,3 +519,4 @@ ipcMain.on("open-dragged-file", (event, filePath) => {
 ipcMain.on("open-menu", (event, arg) => {
   openFile();
 });
+

@@ -1,6 +1,6 @@
 {
   "name": "Quba",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "description": "Viewer",
   "author": "Quba",
   "scripts": {
@@ -10,7 +10,7 @@
     "pack": "npm run build && electron-builder build --publish=never",
     "start": "vue-cli-service build && electron .",
     "dist": "electron-builder",
-    "publish": "electron-builder build --win --linux --mac --publish always"
+    "publish": "electron-builder build --win --publish always"
   },
   "main": "app/main.js",
   "dependencies": {
