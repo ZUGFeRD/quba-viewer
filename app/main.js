@@ -411,7 +411,7 @@ function transformAndDisplay(
       displayError("Exception", output);
     });
 }
-function displayError(message, detail) {
+function displayError(message, detail="") {
   const options = {
     type: "error",
     buttons: ["OK"],
@@ -420,7 +420,13 @@ function displayError(message, detail) {
     message,
     detail,
   };
-  dialog.showMessageBox(null, options, (response, checkboxChecked) => {});
+  try {
+    dialog.showMessageBox(null, options, (response, checkboxChecked) => {});
+  }
+  catch (e) {
+    console.log(e);
+  }
+
 }
 
 function validateFile(xmlFilePath) {
