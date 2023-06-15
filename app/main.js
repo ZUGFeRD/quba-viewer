@@ -312,7 +312,8 @@ function loadAndDisplayXML(filename) {
       }
     }
   } catch (e) {
-    displayError("Exception", e.message);
+    const errMessage = e?.message ? e.message : e;
+    displayError("Exception", errMessage);
   }
 }
 
@@ -404,21 +405,23 @@ function transformAndDisplay(
           } catch (err) {}
         })
         .catch((error) => {
-          displayError("Exception", error);
+          const errMessage = error?.message ? error.message : error;
+          displayError("Exception", errMessage);
         });
     })
-    .catch((output) => {
-      displayError("Exception", output);
+    .catch((output) => { d
+      const errMessage = output?.message ? output.message : output;
+      displayError("Exception", errMessage);
     });
 }
-function displayError(message, Detail) {
+function displayError(message, detail) {
   const options = {
     type: "error",
     buttons: ["OK"],
     defaultId: 1,
     title: "Error",
     message,
-    Detail,
+    detail,
   };
   try {
     dialog.showMessageBox(null, options, (response, checkboxChecked) => {});
