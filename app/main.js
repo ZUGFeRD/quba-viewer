@@ -411,14 +411,14 @@ function transformAndDisplay(
       displayError("Exception", output);
     });
 }
-function displayError(message, detail="") {
+function displayError(message, Detail) {
   const options = {
     type: "error",
     buttons: ["OK"],
     defaultId: 1,
     title: "Error",
     message,
-    detail,
+    Detail,
   };
   try {
     dialog.showMessageBox(null, options, (response, checkboxChecked) => {});
