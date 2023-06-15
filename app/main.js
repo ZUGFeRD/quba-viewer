@@ -423,12 +423,7 @@ function displayError(message, detail) {
     message,
     detail,
   };
-  try {
     dialog.showMessageBox(null, options, (response, checkboxChecked) => {});
-  }
-  catch (e) {
-    console.log(e);
-  }
 
 }
 
