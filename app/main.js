@@ -227,16 +227,31 @@ function listenEvents() {
                   embeddedFiles["xrechnung.xml"]["content"]
                 );
               }
+              if (embeddedFiles["order-x.xml"]) {
+                embeddedXML = new TextDecoder().decode(
+                  embeddedFiles["order-x.xml"]["content"]
+                );
+              }
             }
 
             if (embeddedXML !== null) {
-              transformAndDisplayCII(
-                filePath + " (embedded xml)",
-                embeddedXML,
-                false
-              ).then((res) => {
-                event.returnValue = res ? res : undefined;
-              });
+              if (embeddedFiles["order-x.xml"]) {
+                transformAndDisplayCIO (
+                    filePath + " (embedded xml)",
+                    embeddedXML,
+                    false
+                ).then((res) => {
+                  event.returnValue = res ? res : undefined;
+                });
+              } else {
+                transformAndDisplayCII (
+                    filePath + " (embedded xml)",
+                    embeddedXML,
+                    false
+                ).then((res) => {
+                  event.returnValue = res ? res : undefined;
+                });
+              }
             } else {
               event.returnValue = undefined;
             }
@@ -300,6 +315,8 @@ function loadAndDisplayXML(filename) {
     for (let key in json) {
       if (key.includes("CrossIndustryInvoice")) {
         transformAndDisplayCII(filename, content, true);
+      } else if (key.includes("SCRDMCCBDACIOMessageStructure")) {
+        transformAndDisplayCIO(filename, content, true);
       } else if (key.includes("Invoice")) {
         transformAndDisplayUBL(filename, content, true);
       } else if (key.includes("CreditNote")) {
@@ -326,11 +343,12 @@ function transformAndDisplayCII(sourceFileName, content, shouldDisplay) {
   );
 }
 
-function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
+
+function transformAndDisplayCIO(sourceFileName, content, shouldDisplay) {
   return transformAndDisplay(
       sourceFileName,
       content,
-      path.join(__dirname, "xslt", "ubl-xr.sef.json"),
+      path.join(__dirname, "xslt", "cio-xr.sef.json"),
       shouldDisplay
   );
 }
