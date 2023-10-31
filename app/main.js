@@ -451,7 +451,7 @@ function validateFile(xmlFilePath) {
     var status = false;
     var parser = new xml2js.Parser();
     const formData = new FormData();
-    formData.append("inFile", fs.createReadStream(xmlFilePath));
+    formData.append("file", fs.createReadStream(xmlFilePath));
     const accessToken = store.get("access_token");
     //console.log("accessToken", accessToken);
     const agent = new https.Agent({ rejectUnauthorized: false });
