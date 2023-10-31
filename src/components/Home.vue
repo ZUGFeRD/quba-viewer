@@ -169,7 +169,7 @@ export default {
         link: `lib/pdfjs/web/viewer.html?file=${args[0]}`,
         isPdf: true,
         isShowXML: !!res,
-        isShowingXMLSection: false,
+        isShowingXMLSection: true,
         content: res,
         path: args[0],
       });
