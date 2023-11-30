@@ -353,11 +353,11 @@ function transformAndDisplayCIO(sourceFileName, content, shouldDisplay) {
   );
 }
 
-function transformAndDisplayUBLCN(sourceFileName, content, shouldDisplay) {
+function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
   return transformAndDisplay(
       sourceFileName,
       content,
-      path.join(__dirname, "xslt", "ubl-creditnote-xr.sef.json"),
+      path.join(__dirname, "xslt", "ubl-xr.sef.json"),
       shouldDisplay
   );
 }
