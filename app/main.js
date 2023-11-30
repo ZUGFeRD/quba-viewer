@@ -236,13 +236,13 @@ function listenEvents() {
 
             if (embeddedXML !== null) {
               if (embeddedFiles["order-x.xml"]) {
-                transformAndDisplayCIO (
+                /*transformAndDisplayCIO (
                     filePath + " (embedded xml)",
                     embeddedXML,
                     false
                 ).then((res) => {
                   event.returnValue = res ? res : undefined;
-                });
+                });*/
               } else {
                 transformAndDisplayCII (
                     filePath + " (embedded xml)",

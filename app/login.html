@@ -139,8 +139,10 @@
       <div class="form">
         <form id="loginForm" class="login-form">
           <span class="material-icons" id="login">Login</span>
-          <input type="text" id="username" placeholder="Username" required />
-          <input type="password" id="password" placeholder="Password" required />
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <input type="text" id="clientid" placeholder="Client ID" required />
+            <input type="password" id="clientsecret" placeholder="Client secret" required />
           <button class="button-style" disabled id="submit">Login</button>
           <div class="privacy">
             <input type="checkbox" name="privacy" id="privacy"> <span id="policy">Privacy Policy</span>
@@ -165,6 +167,8 @@
       const loginForm = document.getElementById("loginForm");
       const username = document.getElementById("username");
       const password = document.getElementById("password");
+      const clientid = document.getElementById("clientid");
+      const clientsecret = document.getElementById("clientsecret");
       const note = document.getElementById("note");
       const login = document.getElementById("login");
       const privacy = document.getElementById("privacy");
@@ -173,12 +177,13 @@
       const policy = document.getElementById("policy");
       const subscription = document.getElementById("subscription");
       const demoUser = document.getElementById("demo-user");
+      const demoClientID = "m0tfubEMOChjPq7uMxFS_Hhq590a";
+      const demoClientSecret = "FroEffmXKeedvuHXsd9XyVUGy2Ea";
       let accept, privacyPolicy, policyText;
 
       ipcRenderer.send('get-login-info');
       ipcRenderer.on('get-login-info', (event, arg) => {
         ipcRenderer.removeAllListeners('get-login-info');
-        console.log("args", arg);
         login.innerText = arg.login;
         submit.innerText = arg.login;
         username.placeholder = arg.username;
@@ -200,8 +205,10 @@
         }).then((result) => {
           if (result.isConfirmed) {
             privacy.checked = true;
-            username.value = "quba";
-            password.value = "qubaq";
+              username.value = "quba";
+              password.value = "qubaq";
+              clientid.value = demoClientID;
+              clientsecret.value = demoClientSecret;
             submit.removeAttribute("disabled");
           }
         });
@@ -240,7 +247,7 @@
       loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
         let isDefaultUser = false;
-        if (username.value === 'quba'){
+        if (username.value === "quba"){
           isDefaultUser = true;
         }
         axios.post('https://api.usegroup.de:9443/oauth2/token', {
@@ -249,7 +256,7 @@
           password: password.value
         }, {
           headers: {
-            'Authorization': 'Basic Q0pOR01hZndPMW9kTWpBWHg2QXFERnBUNUhnYTpSb1hQS2paVUFlSzRVcnNmQlBuS1NZRU5JMXNh',
+            'Authorization': 'Basic '+btoa(clientid.value+":"+clientsecret.value),
             'Content-Type': 'application/json'
           }
         }).then(function (response) {

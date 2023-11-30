@@ -1,4 +1,4 @@
-const { Menu, BrowserWindow, ipcMain, ipcRenderer } = require("electron");
+const { Menu, BrowserWindow, ipcMain, ipcRenderer, safeStorage } = require("electron");
 const path = require("path");
 const config = require("./config/app.config");
 const Store = require("electron-store");
@@ -206,7 +206,7 @@ function openLogin(mainWindow, app, i18n) {
     loginWindow.close();
   }
   loginWindow = new BrowserWindow({
-    height: 340,
+    height: 500,
     width: 400,
     resizable: false,
     title: i18n.t("Login"),
@@ -218,6 +218,7 @@ function openLogin(mainWindow, app, i18n) {
     },
   });
   loginWindow.setMenu(null);
+ // console.log("deb abc",safeStorage.isEncryptionAvailable());
   loginWindow.loadFile("./app/login.html");
   loginWindow.on("closed", function () {
     loginWindow = null;
@@ -228,7 +229,6 @@ function openLogin(mainWindow, app, i18n) {
   });
 
   ipcMain.on("login-submit", (event, data) => {
-    // console.log("inside login-submit", data);
     mainWindow.webContents.send("show-login-message", data);
     if (data.type === "success") {
       const accessToken = data.message;
