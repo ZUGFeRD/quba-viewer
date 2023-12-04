@@ -11,6 +11,14 @@ History
 =============
 
 <details>
+<summary>1.4.0 xx.xx.2023</summary>
+- Online validation works again
+- Be able to visualize Order-X, i.e. CIO
+- Factur-X / ZUGFeRD is now visualized by default and requires no click 
+</details>
+
+
+<details>
 <summary>1.3.0 14.04.2023</summary>
     - support ubl credit notes
 </details>
