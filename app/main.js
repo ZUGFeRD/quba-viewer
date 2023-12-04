@@ -148,7 +148,6 @@ if (!gotTheLock) {
   listenEvents();
 }
 
-console.log("gotTheLock", gotTheLock)
 function listenEvents() {
   app.on("second-instance", (event, commandLine) => {
     console.log("second-instance-event", event);
