@@ -26,5 +26,6 @@
   "en": "English",
   "de": "German",
   "fr": "French",
+  "de.ids": "German with Boxed Ids",
   "privacyPolicyText": "Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing."
 }
