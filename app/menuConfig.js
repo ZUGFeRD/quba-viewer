@@ -23,6 +23,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
       },
     };
   });
+  let doShowIds = store.get("showIds");
 
   const mainSubMenu = [
     {
@@ -38,6 +39,16 @@ function buildMenu(app, mainWindow, i18n, openFile) {
     {
       label: i18n.t("Language"),
       submenu: languageMenu,
+    },
+
+    {
+      label: i18n.t("Show IDs"),
+      type: "checkbox",
+      checked: doShowIds,
+      click() {
+        doShowIds=!doShowIds;
+        store.set("showIds", doShowIds);
+      },
     },
     {
       type: "separator",
@@ -233,6 +244,7 @@ function openLogin(mainWindow, app, i18n) {
     if (data.type === "success") {
       const accessToken = data.message;
       store.set("access_token", accessToken);
+
       store.set("isLoggedIn", true);
       // Menu.getApplicationMenu().getMenuItemById("login").visible = false;
       Menu.getApplicationMenu().getMenuItemById("logout").visible = true;
