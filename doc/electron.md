@@ -56,6 +56,7 @@ npm install --global xslt3
 xslt3 -xsl:cii-xr.xsl -export:cii-xr.sef.json -t
 xslt3 -xsl:xrechnung-html.xsl -export:xrechnung-html.sef.json -t
 ```
+In MS Windows this only works using cmd.exe, the parameter notation for Powershell might be somewhat different. 
 
 Since xrechnung-viewer.css and xrechnung-viewer.js are required via the XSLT file
 this will bypass the usual javascript loading routines, which is not an issue
