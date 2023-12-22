@@ -108,6 +108,7 @@ function createWindow() {
 }
 
 app.on("ready", async () => {
+  console.log(app.getLocale())
   const t = await i18next.use(Backend).init(i18nextOptions);
   createWindow();
   registerShortcuts();
@@ -380,22 +381,25 @@ function transformAndDisplay(
     {
       stylesheetFileName,
       sourceText: content,
-      destination: "serialized",
+      destination: "serialized"
     },
     "async"
   )
     .then((output) => {
       let xrXML = output.principalResult;
-
+      let translations = i18next.getDataByLanguage(currentLanguage).translation;
       return SaxonJS.transform(
         {
           stylesheetFileName: path.join(
             __dirname,
             "xslt",
-            "xrechnung-html." + currentLanguage + ".sef.json"
+            "xrechnung-html.uni.sef.json"
           ),
           sourceText: xrXML,
           destination: "serialized",
+          stylesheetParams: {
+            "Q{}i18n": translations
+          }
         },
         "async"
       )
@@ -415,7 +419,7 @@ function transformAndDisplay(
             if (shouldDisplay) {
               mainWindow.webContents.send("xml-open", [
                 sourceFileName,
-                filePath,
+                filePath
               ]);
             }
             return filePath;
