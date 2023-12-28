@@ -13,5 +13,20 @@
     "serverunreachable":"Erreur de réseau",
     "invalidcredentials":"Nom d'utilisateur ou mot de passe invalide",
     "validatingFile": "Validation du fichier...",
-    "notLoggedIn":"Vous n'êtes pas connecté, veuillez vous connecter et réessayer."
-  }
+    "notLoggedIn":"Vous n'êtes pas connecté, veuillez vous connecter et réessayer.",
+    "search":"Recherche",
+    "search_next":"Résultat suivant",
+    "search_prev":"Résultat précédent",
+    "display_ids": "Afficher les BT-Ids",
+    "save_credentials": "Enregistrer les données d'accès",
+    "document_type": "Type de justificatif",
+    "seller_info": "Informations de vendeur",
+    "orderer_info": "Informations d'acheteur",
+    "order_data": "Détails de commande",
+    "order_number": "Numéro de commande",
+    "order_totals": "Montants totaux de la commande",
+    "po": "Confirmation de commande",
+    "po_data": "Données de la confirmation de commande",
+    "po_number": "Numéro  de la confirmation de commande",
+    "po_totals": "Montants totaux de la confirmation de commande"
+}

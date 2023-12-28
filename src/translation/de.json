@@ -13,5 +13,21 @@
     "serverunreachable":"Netzwerkfehler",
     "invalidcredentials":"Benutzername oder Passwort ungültig",
     "validatingFile": "Validiere Datei...",
-    "notLoggedIn":"Sie sind nicht eingeloggt, bitte melden Sie sich an und versuchen es erneut"
+    "notLoggedIn":"Sie sind nicht eingeloggt, bitte melden Sie sich an und versuchen es erneut",
+    "search":"Suche",
+    "search_next":"Nächster",
+    "search_prev":"Vorheriger",
+    "display_ids": "Zeige BT-IDs",
+    "save_credentials": "Zugangsdaten speichern",
+    "document_type": "Belegart",
+    "seller_info": "Informationen zum Verkäufer",
+    "orderer_info": "Informationen zum Besteller",
+    "order_data": "Bestelldaten",
+    "order_number": "Bestellnummer",
+    "order_totals": "Gesamtbeträge der Bestellung",
+    "po": "Auftragsbestätigung",
+    "po_data": "Auftragsbestätigungsdaten",
+    "po_number": "Auftragsbestätigungsnummer",
+    "po_totals": "Gesamtbeträge der Auftragsbestätigung"
+
   }
