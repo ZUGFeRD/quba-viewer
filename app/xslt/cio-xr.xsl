@@ -1455,9 +1455,9 @@
          <xsl:apply-templates mode="BT-108" select="./ram:ChargeTotalAmount"/>
          <xsl:apply-templates mode="BT-109" select="./ram:TaxBasisTotalAmount"/>
          <xsl:apply-templates mode="BT-110"
-                              select="./ram:TaxTotalAmount[@currencyID = parent::ram:SpecifiedTradeSettlementHeaderMonetarySummation/preceding-sibling::ram:TaxCurrencyCode]"/>
+                              select="./ram:TaxTotalAmount"/>
          <xsl:apply-templates mode="BT-111"
-                              select="./ram:TaxTotalAmount[@currencyID = parent::ram:SpecifiedTradeSettlementHeaderMonetarySummation/preceding-sibling::ram:InvoiceCurrencyCode]"/>
+                              select="./ram:TaxTotalAmount[@currencyID = parent::ram:SpecifiedTradeSettlementHeaderMonetarySummation/preceding-sibling::ram:OrderCurrencyCode]"/>
          <xsl:apply-templates mode="BT-112" select="./ram:GrandTotalAmount"/>
          <xsl:apply-templates mode="BT-113" select="./ram:TotalPrepaidAmount"/>
          <xsl:apply-templates mode="BT-114" select="./ram:RoundingAmount"/>
@@ -1504,7 +1504,7 @@
       </xr:Invoice_total_amount_without_VAT>
    </xsl:template>
    <xsl:template mode="BT-110"
-                 match="/rsm:SCRDMCCBDACIOMessageStructure/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TaxTotalAmount[@currencyID = parent::ram:SpecifiedTradeSettlementHeaderMonetarySummation/preceding-sibling::ram:TaxCurrencyCode]">
+                 match="/rsm:SCRDMCCBDACIOMessageStructure/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TaxTotalAmount">
       <xr:Invoice_total_VAT_amount>
          <xsl:attribute name="xr:id" select="'BT-110'"/>
          <xsl:attribute name="xr:src" select="xr:src-path(.)"/>
@@ -1512,7 +1512,7 @@
       </xr:Invoice_total_VAT_amount>
    </xsl:template>
    <xsl:template mode="BT-111"
-                 match="/rsm:SCRDMCCBDACIOMessageStructure/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TaxTotalAmount[@currencyID = parent::ram:SpecifiedTradeSettlementHeaderMonetarySummation/preceding-sibling::ram:InvoiceCurrencyCode]">
+                 match="/rsm:SCRDMCCBDACIOMessageStructure/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TaxTotalAmount[@currencyID = parent::ram:SpecifiedTradeSettlementHeaderMonetarySummation/preceding-sibling::ram:OrderCurrencyCode]">
       <xr:Invoice_total_VAT_amount_in_accounting_currency>
          <xsl:attribute name="xr:id" select="'BT-111'"/>
          <xsl:attribute name="xr:src" select="xr:src-path(.)"/>
