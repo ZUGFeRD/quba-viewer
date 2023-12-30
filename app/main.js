@@ -151,8 +151,6 @@ if (!gotTheLock) {
 
 function listenEvents() {
   app.on("second-instance", (event, commandLine) => {
-    console.log("second-instance-event", event);
-    console.log("second-instance-commandLine", commandLine);
     if (mainWindow) {
       if (mainWindow.isMinimized()) {
         mainWindow.restore();
@@ -405,25 +403,13 @@ function transformAndDisplay(
       )
         .then((response) => {
           let HTML = response.principalResult;
-          const fileName = sourceFileName.replace(/^.*[\\\/]/, "");
-          const tempPath = path.join(app.getPath("temp"), app.getName());
-          const filePath = path.join(
-            tempPath,
-            `${path.parse(fileName).name}.html`
-          );
-          try {
-            if (!fs.existsSync(tempPath)) {
-              fs.mkdirSync(tempPath);
-            }
-            fs.writeFileSync(filePath, HTML, { flag: "w+" });
             if (shouldDisplay) {
               mainWindow.webContents.send("xml-open", [
                 sourceFileName,
-                filePath
+                HTML
               ]);
             }
-            return filePath;
-          } catch (err) {}
+            return HTML;
         })
         .catch((error) => {
           const errMessage = error?.message ? error.message : error;

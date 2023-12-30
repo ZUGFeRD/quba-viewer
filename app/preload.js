@@ -25,7 +25,6 @@ const API = {
     ipcRenderer.send('open-link');
   },
   sendLoginSubmit: () => {
-    console.log("sendLoginSubmit");
     ipcRenderer.send('login-submit');
   },
   onPdfOpen: (callback) => {
