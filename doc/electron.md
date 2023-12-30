@@ -77,6 +77,42 @@ the first step will be using `ubl-xr.sef.json`.
 Have a look at
 [the saxon documentaion](https://www.saxonica.com/saxon-js/documentation/index.html) for further info.
 
+XSLT Parameters
+-------------
+
+As [documented](https://www.saxonica.com/saxon-js/documentation2/index.html#!api/transform/parameters) If the xslt-file says in the header
+```
+<xsl:param name="stringsVar" as="xs:string*"/>
+<xsl:param name="arrayVar" as="array(*)"/>
+<xsl:param name="my:mapVar" xmlns:my="my.uri" as="map(*)"/>
+```
+one can use  
+`<xsl:value-of select="$stringsVar"/>`
+in the content and pass the parameters from Javascript as 
+`stylesheetParams`, e.g.
+
+```
+return SaxonJS.transform(
+{
+stylesheetFileName: path.join(
+__dirname,
+"xslt",
+"xrechnung-html." + currentLanguage + ".sef.json"
+),
+stylesheetParams: {
+"stringsVar": ["er", "I'm excited"],
+"Q{}arrayVar": [[1, 2, 3]],
+"Q{my.uri}mapVar": {"a": [1, 2]}
+},
+sourceText: xrXML,
+destination: "serialized",
+},
+"async"
+)
+```
+
+We're using this for the translation vars, displaying the IDs and 
+few conditionals like not showing payment details for orders. 
 
 
 Codelists
@@ -99,7 +135,6 @@ e.g. sixpack, hours, kilogram, metres, square metres, litres or cubic foot.
 Vue
 -------------
 
-How to work with vue in conjunction with PDF is [explained here](https://pdfjs.express/blog/how-build-pdf-viewer-vuejs-pdfjs) https://www.smashingmagazine.com/2020/06/internationalization-vue-i18n/
--------------
+We do internationalization with [i18next](https://www.i18next.com/overview/api), [see also](https://www.smashingmagazine.com/2020/06/internationalization-vue-i18n/) .
+How to work with vue in conjunction with PDF is [explained here](https://pdfjs.express/blog/how-build-pdf-viewer-vuejs-pdfjs) 
 
-Vue Internationalzation with i18next(https://www.i18next.com/overview/api)

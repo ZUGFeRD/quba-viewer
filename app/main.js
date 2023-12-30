@@ -16,6 +16,8 @@ const Store = require("electron-store");
 const isDev = require("electron-is-dev");
 const https = require("https");
 const menuFactoryService = require("./menuConfig");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 const i18next = require("i18next");
 const Backend = require("i18next-fs-backend");
@@ -375,6 +377,12 @@ function transformAndDisplay(
   stylesheetFileName,
   shouldDisplay
 ) {
+
+  const dom = new JSDOM(content, {contentType: "application/xml"});
+  const doc = dom.window.document;
+
+  const typecode = doc.evaluate("//rsm:ExchangedDocument/ram:TypeCode", doc, null, 2, null).stringValue;
+
   return SaxonJS.transform(
     {
       stylesheetFileName,
@@ -396,6 +404,7 @@ function transformAndDisplay(
           sourceText: xrXML,
           destination: "serialized",
           stylesheetParams: {
+            "isOrder": (typecode==220)||(typecode==231),
             "Q{}i18n": translations
           }
         },

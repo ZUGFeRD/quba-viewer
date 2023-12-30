@@ -5,6 +5,7 @@
                 xmlns:xr="urn:ce.eu:en16931:2017:xoev-de:kosit:standard:xrechnung-1"
                 xmlns:xrv="http://www.example.org/XRechnung-Viewer">
     <xsl:param name="i18n" as="map(*)"/>
+    <xsl:param name="isOrder" as="xs:boolean"/>
 
     <xsl:output indent="yes" method="html" encoding="UTF-8" />
     <xsl:decimal-format name="decimal" decimal-separator="," grouping-separator="." NaN="" />
@@ -1424,11 +1425,13 @@ function downloadData (element_id) {
                         <div class="boxdaten rechnungSp2 paddingTop color2">brutto</div>
                         <div id="BT-112" title="BT-112" class="boxdaten rechnungSp3 paddingTop"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Invoice_total_amount_with_VAT,'###.##0,00','decimal')"/></div>
                     </div>
+                    <xsl:if test="fn:not($isOrder)">
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1"><xsl:value-of select="$i18n?bt113"/></div>
                         <div class="boxdaten rechnungSp2 color2">brutto</div>
                         <div id="BT-113" title="BT-113" class="boxdaten rechnungSp3"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Paid_amount,'###.##0,00','decimal')"/></div>
                     </div>
+                    </xsl:if>
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1 paddingBottom line2Bottom"><xsl:value-of select="$i18n?bt114"/></div>
                         <div class="boxdaten rechnungSp2 paddingBottom line2Bottom color2">brutto</div>
@@ -1564,6 +1567,7 @@ function downloadData (element_id) {
 
 
     <xsl:template name="uebersichtZahlungsinformationen">
+        <xsl:if test="fn:not($isOrder)">
         <div id="uebersichtZahlungsinformationen" class="box subBox">
             <div title="" class="boxtitel"><xsl:value-of select="$i18n?payment"/></div>
             <div class="boxtabelle boxinhalt borderSpacing">
@@ -1603,10 +1607,13 @@ function downloadData (element_id) {
                 </div>
             </div>
         </div>
+        </xsl:if>
+
     </xsl:template>
 
 
     <xsl:template name="uebersichtCard">
+        <xsl:if test="fn:not($isOrder)">
         <div id="uebersichtCard" class="box subBox">
             <div id="BG-18" title="BG-18" class="boxtitel boxtitelSub"><xsl:value-of select="$i18n?bg18"/></div>
             <div class="boxtabelle boxinhalt borderSpacing">
@@ -1620,10 +1627,12 @@ function downloadData (element_id) {
                 </div>
             </div>
         </div>
+        </xsl:if>
     </xsl:template>
 
 
     <xsl:template name="uebersichtLastschrift">
+        <xsl:if test="fn:not($isOrder)">
         <div id="uebersichtLastschrift" class="box subBox">
             <div id="BG-19" title="BG-19" class="boxtitel boxtitelSub"><xsl:value-of select="$i18n?bg19"/></div>
             <div class="boxtabelle boxinhalt borderSpacing">
@@ -1641,10 +1650,12 @@ function downloadData (element_id) {
                 </div>
             </div>
         </div>
+        </xsl:if>
     </xsl:template>
 
 
     <xsl:template name="uebersichtUeberweisung">
+        <xsl:if test="fn:not($isOrder)">
         <div id="uebersichtUeberweisung" class="box subBox">
             <div id="BG-17" title="BG-17" class="boxtitel boxtitelSub"><xsl:value-of select="$i18n?bg17"/></div>
             <xsl:for-each select="xr:PAYMENT_INSTRUCTIONS/xr:CREDIT_TRANSFER">
@@ -1664,6 +1675,7 @@ function downloadData (element_id) {
                 </div>
             </xsl:for-each>
         </div>
+        </xsl:if>
     </xsl:template>
 
 
