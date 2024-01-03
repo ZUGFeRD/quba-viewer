@@ -110,7 +110,6 @@ function createWindow() {
 }
 
 app.on("ready", async () => {
-  console.log(app.getLocale())
   const t = await i18next.use(Backend).init(i18nextOptions);
   createWindow();
   registerShortcuts();

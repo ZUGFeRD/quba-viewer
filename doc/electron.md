@@ -45,6 +45,26 @@ and in the browser's script the event can be picked up like this
     })
 ```
 
+To send signals from Vue3 to the main process you can define a function in 
+`app/preload.js` e.g. like 
+
+```
+sendMySig: () => {
+    ipcRenderer.send('myX');
+}
+```
+and in `app/main.js` you can subscribe like this:
+
+```
+ipcMain.on("myX", async () => {
+    console.log("Whoaaa")
+});
+
+```
+
+When you then fire `window.api.sendMySig();` in Vue your app/main.js ipcMain will pick it up. 
+
+
 XSLT/Saxon
 -------------
 Quba uses [saxon-js](https://www.saxonica.com/saxon-js/) as XSLT processor to apply
