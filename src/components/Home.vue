@@ -35,7 +35,7 @@
         <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
       </div>
     </div>
-    <div v-if="currentTab?.isShowXML || currentTab?.isXML" :class="{ rightPart: currentTab?.isShowXML }">
+    <div v-if="currentTab?.isShowXML || currentTab?.isXML" :class="{ rightPart: (currentTab?.isPdf)&&(currentTab?.isShowXML) }">
       <div class="full-height xmlViewer" id="xmlViewer" name="xmlViewer" v-html="currentTab?.content">
       </div>
     </div>
@@ -63,6 +63,7 @@
 
 <script>
 import Vue3TabsChrome from "vue3-tabs-chrome";
+//import { ipcRenderer } from 'electron';
 import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
 import {reactive, ref} from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
@@ -98,8 +99,9 @@ export default {
 
       if (currentTabObj.length) {
         currentTab.value = currentTabObj[0];
-        localStorage.setItem("currentTabFilePath", currentTabObj[0].link);
+//console.log("deb abc PDF:"+(currentTabObj[0].isPdf?"Y":"N")+" XML:"+(currentTabObj[0].isShowXML?"Y":"N"));
 
+//        ipcRenderer.send('myX', null, true);
       }
     };
 
@@ -159,6 +161,8 @@ export default {
         favico: require("../assets/icons/xml.png"),
         link: args[0],
         isXML: true,
+        isShowXML: true,
+        isPdf: false,
         content: args[1],
         xmlFilePath: args[0],
         path: args[0],
@@ -229,10 +233,7 @@ export default {
       this.showRestartButton = true;
     });
     window.api.onFilePrintXml((event, args) => {
-      if (window.frames["xmlViewer"]) {
-        window.frames["xmlViewer"].focus();
-        window.frames["xmlViewer"].print();
-      }
+       window.print();
     });
     window.api.onFilePrintPdf((event, args) => {
       if (window.frames["viewer"]) {
@@ -428,7 +429,7 @@ export default {
       title.parentNode.insertBefore(text, title.nextSibling);
     },
 
-  },
+  }
 };
 
 
