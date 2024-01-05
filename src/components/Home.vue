@@ -35,7 +35,8 @@
         <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
       </div>
     </div>
-    <div v-if="currentTab?.isShowXML || currentTab?.isXML" :class="{ rightPart: (currentTab?.isPdf)&&(currentTab?.isShowXML) }">
+    <div v-if="currentTab?.isShowXML || currentTab?.isXML"
+         :class="{ rightPart: (currentTab?.isPdf)&&(currentTab?.isShowXML) }">
       <div class="full-height xmlViewer" id="xmlViewer" name="xmlViewer" v-html="currentTab?.content">
       </div>
     </div>
@@ -63,9 +64,8 @@
 
 <script>
 import Vue3TabsChrome from "vue3-tabs-chrome";
-//import { ipcRenderer } from 'electron';
 import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
-import {reactive, ref} from "vue";
+import {reactive, ref, isProxy, toRaw} from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import {useI18n} from "vue-i18n";
 
@@ -98,12 +98,13 @@ export default {
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
 
       if (currentTabObj.length) {
+          if ((currentTabObj[0] != null) && (typeof currentTabObj[0].isPdf !== "undefined")) {
+            window.api.sendDocChange(currentTabObj[0].isPdf, currentTabObj[0].isShowXML);
+          }
+        }
         currentTab.value = currentTabObj[0];
-//console.log("deb abc PDF:"+(currentTabObj[0].isPdf?"Y":"N")+" XML:"+(currentTabObj[0].isShowXML?"Y":"N"));
-
-//        ipcRenderer.send('myX', null, true);
       }
-    };
+
 
     const handleAdd = () => {
       const key = "tab" + Date.now();
@@ -175,7 +176,7 @@ export default {
     window.api.onValidateComplete((event, args) => {
       let list = sessionStorage.getItem("validationResult");
       list = list ? JSON.parse(list) : [];
-      const res = list.find((item) => item.path === args.path);
+      let res = list.find((item) => item.path === args.path);
       if (res) {
         res = args;
       } else {
@@ -189,7 +190,7 @@ export default {
 
       if (tabs.length === 1) {
         currentTab.value = undefined;
-
+        window.api.sendLastTabClose();
       }
     };
     const showXML = () => {
@@ -233,7 +234,7 @@ export default {
       this.showRestartButton = true;
     });
     window.api.onFilePrintXml((event, args) => {
-       window.print();
+      window.print();
     });
     window.api.onFilePrintPdf((event, args) => {
       if (window.frames["viewer"]) {
@@ -374,7 +375,7 @@ export default {
             };
             validateFile();
           }
-        }).call(this);
+        });
 
     document.addEventListener("drop", (event) => {
       event.preventDefault();

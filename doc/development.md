@@ -52,6 +52,11 @@ Test ideas:     build (pack) version opens and displays and has every file it ne
 if settings keep thr set language, files open, opens side by side, rects on tab click, reacts on show xml click, resolves codelists and opens dev console
 performs autoupdate, opens and closes example page
 
+i18n
+=============
+vue-18n-next is used.
+For unknown reasons there is a  src/transaltion/de.json and a app/locales/de/translation.json
+https://github.com/ZUGFeRD/quba-viewer/issues/36
 
 Deployment
 =============

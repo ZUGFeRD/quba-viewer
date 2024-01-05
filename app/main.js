@@ -4,6 +4,7 @@ var FormData = require("form-data");
 const {
   app,
   BrowserWindow,
+  Menu,
   ipcMain,
   dialog,
   ipcRenderer,
@@ -185,6 +186,14 @@ function listenEvents() {
 
   ipcMain.on("toggle-menu-items", (event, flag) => {
     menu.getMenuItemById("file-print").enabled = flag;
+  });
+
+  ipcMain.on("doc-change", (event, params) => {
+    let setEnabled=params.visible;
+    Menu.getApplicationMenu().getMenuItemById("file-print").enabled=setEnabled;
+    Menu.getApplicationMenu().getMenuItemById("file-print-pdf").enabled=setEnabled&&params.pdf;
+    Menu.getApplicationMenu().getMenuItemById("file-print-xml").enabled=setEnabled&&params.xml;
+    Menu.getApplicationMenu().getMenuItemById("validate").enabled=setEnabled&&params.xml;
   });
 
   autoUpdater.on("update-available", () => {

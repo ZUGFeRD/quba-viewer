@@ -57,16 +57,20 @@ function buildMenu(app, mainWindow, i18n, openFile) {
       label: i18n.t("Print"),
       id: "file-print",
       accelerator: "CmdOrCtrl+P",
-      enabled: true,
+      enabled: false,
       submenu: [
         {
           label: "PDF",
+          id: "file-print-pdf",
+          enabled: false,
           click() {
             mainWindow.webContents.send("file-print-pdf");
           },
         },
         {
           label: "XML",
+          id: "file-print-xml",
+          enabled: false,
           click() {
             mainWindow.webContents.send("file-print-xml");
           },
@@ -78,6 +82,7 @@ function buildMenu(app, mainWindow, i18n, openFile) {
     },
     {
       id: "validate",
+      enabled: false,
       label: i18n.t("Validate"),
       // enabled: store.get("isLoggedIn") == true ? true : false,
       click() {

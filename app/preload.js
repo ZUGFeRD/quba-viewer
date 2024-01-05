@@ -27,6 +27,12 @@ const API = {
   sendLoginSubmit: () => {
     ipcRenderer.send('login-submit');
   },
+  sendDocChange: (isPDF, isXML) => {
+    ipcRenderer.send('doc-change', {"visible":true, "pdf":isPDF, "xml": isXML}, true);
+  },
+  sendLastTabClose: () => {
+    ipcRenderer.send('doc-change', {"visible":false, "pdf":false, "xml": false}, true);
+  },
   onPdfOpen: (callback) => {
     ipcRenderer.on("pdf-open", (event, ...args) => callback(event, ...args));
   },
