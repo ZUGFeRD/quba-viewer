@@ -413,6 +413,7 @@ function transformAndDisplay(
           destination: "serialized",
           stylesheetParams: {
             "isOrder": (typecode==220)||(typecode==231),
+            "showIds":  store.get("showIds"),
             "Q{}i18n": translations
           }
         },
