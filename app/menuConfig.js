@@ -23,6 +23,9 @@ function buildMenu(app, mainWindow, i18n, openFile) {
       },
     };
   });
+  if (typeof store.get("showIds")=="undefined") { // e.g. on first start
+    store.set("showIds",false);
+  }
   let doShowIds = store.get("showIds");
 
   const mainSubMenu = [
