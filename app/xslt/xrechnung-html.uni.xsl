@@ -198,6 +198,22 @@
                     display: none;
                     }
 
+                    .printHeading
+                    {
+                    display: none;
+                    page-break-before: always;
+                    }
+
+                    @media print
+                    {
+                        .divHide {
+                            display: block!important;
+                        }
+                        .printHeading {
+                            display: block!important;
+                        }
+                    }
+
                     /* Content *********************************************************************/
 
                     .inhalt
@@ -1699,6 +1715,7 @@ function downloadData (element_id) {
 
     <xsl:template name="details">
         <div id="details" class="divHide">
+            <h2 class="printHeading"><xsl:value-of select="$i18n?items"/></h2>
             <div class="haftungausschluss"><xsl:value-of select="$i18n?disclaimer"/></div>
             <xsl:apply-templates select="./xr:INVOICE_LINE"/> <!-- many -->
         </div>
@@ -1923,6 +1940,7 @@ function downloadData (element_id) {
 
     <xsl:template name="zusaetze">
         <div id="zusaetze" class="divHide">
+            <h2 class="printHeading"><xsl:value-of select="$i18n?information"/></h2>
             <div class="haftungausschluss"><xsl:value-of select="$i18n?disclaimer"/></div>
             <div class="boxtabelle boxtabelleZweispaltig">
                 <div class="boxzeile">
@@ -2220,6 +2238,7 @@ function downloadData (element_id) {
 
     <xsl:template name="anlagen">
         <div id="anlagen" class="divHide">
+            <h2 class="printHeading"><xsl:value-of select="$i18n?attachments"/></h2>
             <div class="haftungausschluss"><xsl:value-of select="$i18n?disclaimer"/></div>
             <div class="boxtabelle boxabstandtop">
                 <div class="boxzeile">
@@ -2274,6 +2293,7 @@ function downloadData (element_id) {
 
     <xsl:template name="laufzettel">
         <div id="laufzettel" class="divHide">
+            <h2 class="printHeading"><xsl:value-of select="$i18n?history"/></h2>
             <div class="boxtabelle boxabstandtop">
                 <div class="boxzeile">
                     <div id="laufzettelHistorie" class="box">

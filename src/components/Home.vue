@@ -31,7 +31,7 @@
       <h1>{{ t("validatingFile", {}, {locale: lang}) }}</h1>
     </div>
     <div v-if="currentTab.isPdf">
-      <div :class="[currentTab?.isShowXML ? 'leftPart' : '']">
+      <div :class="[currentTab?.isShowXML ? 'leftPart' : '']" class="pdfViewer">
         <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
       </div>
     </div>
@@ -648,4 +648,27 @@ a.example {
     -webkit-transform: rotate(360deg);
   }
 }
+
+@media print
+{
+  .vue3-tabs-chrome
+  {
+    display: none !important;
+  }
+  .pdfViewer {
+    display: none !important;
+  }
+  .xmlViewer {
+    overflow: visible;
+  }
+  .divHide {
+    display: block!important;
+  }
+  .rightPart {
+    width: 100%;
+  }
+
+
+}
+
 </style>
