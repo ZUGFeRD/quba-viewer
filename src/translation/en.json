@@ -18,16 +18,6 @@
     "search_next":"Next",
     "search_prev":"Previous",
     "display_ids": "Display BT-IDs",
-    "save_credentials": "Save credentials",
-    "document_type": "Document type",
-    "seller_info": "Seller info",
-    "orderer_info": "Orderer info",
-    "order_data": "Order data",
-    "order_number": "Order number",
-    "order_totals": "Order totals",
-    "po": "Purchase order",
-    "po_data": "PO data",
-    "po_number": "PO number",
-    "po_totals": "PO totals"
+    "save_credentials": "Save credentials"
 
 }

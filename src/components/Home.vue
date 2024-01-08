@@ -1,5 +1,5 @@
 <template>
-  <vue3-tabs-chrome
+  <vue3-tabs-chrome  style="flex-shrink: 1"
       :ref="setTabRef"
       :tabs="tabs"
       v-model="tab"
@@ -24,20 +24,19 @@
       </button>
     </template>
   </vue3-tabs-chrome>
-  <div class="btns"></div>
-  <div v-if="currentTab">
+  <div v-if="currentTab" style="flex-grow: 1;overflow:auto;display: flex;flex-direction: row">
     <div class="loader" v-if="showLoader">
       <div id="loading"></div>
       <h1>{{ t("validatingFile", {}, {locale: lang}) }}</h1>
     </div>
-    <div v-if="currentTab.isPdf">
-      <div :class="[currentTab?.isShowXML ? 'leftPart' : '']" class="pdfViewer">
+    <div v-if="currentTab.isPdf" class="full-height" style="flex: 1" :class="[currentTab?.isShowXML ? 'leftPart' : '']" >
+      <div class="pdfViewer full-height">
         <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
       </div>
     </div>
-    <div v-if="currentTab?.isShowXML || currentTab?.isXML"
+    <div v-if="currentTab?.isShowXML || currentTab?.isXML" class="full-height" style="flex: 1"
          :class="{ rightPart: (currentTab?.isPdf)&&(currentTab?.isShowXML) }">
-      <div class="full-height xmlViewer" id="xmlViewer" name="xmlViewer" v-html="currentTab?.content">
+      <div class="xmlViewer full-height" id="xmlViewer" name="xmlViewer" v-html="currentTab?.content">
       </div>
     </div>
   </div>
@@ -537,18 +536,14 @@ window.downloadData = downloadData; // make function available to inline javascr
 }
 
 .full-height {
-  height: 100vh;
+  height: 100%;
 }
 
 .leftPart {
-  float: left;
-  width: 50%;
 }
 
 .rightPart {
-  float: right;
-  width: 50%;
-  height: 100vh;
+  height: 100%;
   background: #1e1e1e;
 }
 
@@ -608,7 +603,7 @@ a.example {
 
 .xmlPart {
   overflow-y: scroll;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   padding-bottom: 70px;
 }

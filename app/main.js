@@ -388,8 +388,9 @@ function transformAndDisplay(
 
   const dom = new JSDOM(content, {contentType: "application/xml"});
   const doc = dom.window.document;
-
+//cbc:InvoiceTypeCode for bis biling, ubl order would be <cbc:ProfileID>urn:fdc:peppol.eu:poacc:bis:ordering:3</cbc:ProfileID>
   const typecode = doc.evaluate("//rsm:ExchangedDocument/ram:TypeCode", doc, null, 2, null).stringValue;
+  const isOrder=(typecode==220)||(typecode==231);
 
   return SaxonJS.transform(
     {
@@ -402,6 +403,16 @@ function transformAndDisplay(
     .then((output) => {
       let xrXML = output.principalResult;
       let translations = i18next.getDataByLanguage(currentLanguage).translation;
+      if (isOrder) {
+        translations["bt1"]=i18next.t("bt1_order"); //Rechnungsnummer->Bestellnummer
+        translations["bt2"]=i18next.t("bt2_order");//Rechnungsdatum
+        translations["bt3"]=i18next.t("bt3_order");//rechnungart
+        translations["bg22"]=i18next.t("bg22_order");//Gesmtbeträge der Rechnung
+        translations["bt25"]=i18next.t("bt25_order");//rechnungsnummer
+        translations["bt26"]=i18next.t("bt26_order");//rechnungsdatum
+        translations["details"]=i18next.t("details_order");//Rechnungsdaten
+      }
+
       return SaxonJS.transform(
         {
           stylesheetFileName: path.join(
@@ -412,7 +423,7 @@ function transformAndDisplay(
           sourceText: xrXML,
           destination: "serialized",
           stylesheetParams: {
-            "isOrder": (typecode==220)||(typecode==231),
+            "isOrder": isOrder,
             "showIds":  store.get("showIds"),
             "Q{}i18n": translations
           }

@@ -18,16 +18,6 @@
     "search_next":"Nächster",
     "search_prev":"Vorheriger",
     "display_ids": "Zeige BT-IDs",
-    "save_credentials": "Zugangsdaten speichern",
-    "document_type": "Belegart",
-    "seller_info": "Informationen zum Verkäufer",
-    "orderer_info": "Informationen zum Besteller",
-    "order_data": "Bestelldaten",
-    "order_number": "Bestellnummer",
-    "order_totals": "Gesamtbeträge der Bestellung",
-    "po": "Auftragsbestätigung",
-    "po_data": "Auftragsbestätigungsdaten",
-    "po_number": "Auftragsbestätigungsnummer",
-    "po_totals": "Gesamtbeträge der Auftragsbestätigung"
+    "save_credentials": "Zugangsdaten speichern"
 
   }

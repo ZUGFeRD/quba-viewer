@@ -58,6 +58,7 @@ vue-18n-next is used.
 For unknown reasons there is a  src/transaltion/de.json and a app/locales/de/translation.json
 https://github.com/ZUGFeRD/quba-viewer/issues/36
 
+uninstall %AppData%/Roaming/Quba
 Deployment
 =============
 The final update can then be deployed by Github users who have been granted access
@@ -76,3 +77,5 @@ To access the console (not only of the browser windows but also of main.js)
 start Quba in a shell, e.g.
 `%AppData%\Local\Programs\quba_viewer\quba_viewer.exe`
 
+On the mac please change in package.json from --win to --mac --linux
+Uninstall 
