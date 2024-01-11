@@ -13,8 +13,12 @@ History
 <details>
 <summary>1.4.0 xx.xx.2023</summary>
 - Online validation works again
+- Corrected validation now possible with personalized account  
 - Be able to visualize Order-X, i.e. CIO
-- Factur-X / ZUGFeRD is now visualized by default and requires no click 
+- be able to display IDs in whatever language
+- Factur-X / ZUGFeRD is now visualized by default and requires no click
+- first attempts intel mac
+- changed translation from 3 files to one, translations provided by the app
 </details>
 
 

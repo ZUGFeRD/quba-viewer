@@ -74,7 +74,7 @@ converted to .sef.json files using the xslt3 utility.
 ```
 npm install --global xslt3
 xslt3 -xsl:cii-xr.xsl -export:cii-xr.sef.json -t
-xslt3 -xsl:xrechnung-html.xsl -export:xrechnung-html.sef.json -t
+xslt3 -xsl:xrechnung-html.uni.xsl -export:xrechnung-html.uni.sef.json -t
 ```
 In MS Windows this only works using cmd.exe, the parameter notation for Powershell might be somewhat different. 
 

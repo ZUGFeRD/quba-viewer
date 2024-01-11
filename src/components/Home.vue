@@ -64,9 +64,10 @@
 <script>
 import Vue3TabsChrome from "vue3-tabs-chrome";
 import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
-import {reactive, ref, isProxy, toRaw} from "vue";
+import {reactive, ref, isProxy, toRaw, onMounted} from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import {useI18n} from "vue-i18n";
+import $ from 'jquery';
 
 export default {
   name: "Home",
@@ -118,6 +119,12 @@ export default {
       window.api.sendOpenMenu();
     };
 
+    const afterTabShow = () => {
+      $( document ).ready(function() {
+        $("#"+b[0]).siblings().removeClass("tab").removeClass("btnAnaktiv").addClass("btnInaktiv");
+        $("#"+b[0]).removeClass("tab").removeClass("btnInaktiv").addClass("btnAktiv");
+      });
+    };
     const handleRemove = () => {
       tabRef.value.removeTab(tab.value);
     };
@@ -144,6 +151,8 @@ export default {
         path: args[0],
       });
       tab.value = key;
+
+      afterTabShow();
     });
 
     window.api.onXmlOpen((event, args) => {
@@ -169,7 +178,7 @@ export default {
       });
 
       tab.value = key;
-      document.getElementById(b[0]).setAttribute("class", "btnAktiv");
+      afterTabShow();
     });
 
     window.api.onValidateComplete((event, args) => {
@@ -400,6 +409,7 @@ export default {
     document.addEventListener("dragleave", (event) => {
       event.preventDefault();
     }, false);
+
   },
 
   methods: {
