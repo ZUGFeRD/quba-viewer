@@ -24,7 +24,7 @@
       </button>
     </template>
   </vue3-tabs-chrome>
-  <div v-if="currentTab" style="flex-grow: 1;overflow:auto;display: flex;flex-direction: row">
+  <div v-if="currentTab" style="flex-grow: 1;overflow:hidden;display: flex;flex-direction: row">
     <div class="loader" v-if="showLoader">
       <div id="loading"></div>
       <h1>{{ t("validatingFile", {}, {locale: lang}) }}</h1>
@@ -36,7 +36,7 @@
     </div>
     <div v-if="currentTab?.isShowXML || currentTab?.isXML" class="full-height" style="flex: 1"
          :class="{ rightPart: (currentTab?.isPdf)&&(currentTab?.isShowXML) }">
-      <div class="xmlViewer full-height" id="xmlViewer" name="xmlViewer" v-html="currentTab?.content">
+      <div  class="xmlViewer full-height" id="xmlViewer" name="xmlViewer" v-html="currentTab?.content">
       </div>
     </div>
   </div>
