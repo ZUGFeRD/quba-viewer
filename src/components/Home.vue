@@ -543,6 +543,7 @@ window.downloadData = downloadData; // make function available to inline javascr
 
 .xmlViewer {
   overflow: auto;
+  background-color: #EBF2F7;
 }
 
 .full-height {
