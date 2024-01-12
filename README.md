@@ -11,7 +11,7 @@ History
 =============
 
 <details>
-<summary>1.4.0 xx.xx.2023</summary>
+<summary>1.4.0 15.01.2023</summary>
 - Online validation works again
 - Corrected validation now possible with personalized account  
 - Be able to visualize Order-X, i.e. CIO #30
