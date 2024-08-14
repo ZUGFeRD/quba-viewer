@@ -31,7 +31,6 @@ function buildMenu(app, mainWindow, i18n, openFile) {
   const mainSubMenu = [
     {
       label: i18n.t("Open File"),
-      accelerator: "CmdOrCtrl+O",
       click() {
         openFile();
       },
