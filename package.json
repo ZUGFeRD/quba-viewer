@@ -42,12 +42,16 @@
     "@vue/cli-service": "5.0.4",
     "@vue/compiler-sfc": "3.2.36",
     "electron": "20.0.0",
-    "electron-builder": "23.0.3",
+    "electron-builder": "24.13.3",
     "vue-cli-plugin-i18n": "2.3.1"
   },
   "build": {
     "appId": "org.quba-viewer.viewer",
     "mac": {
+      "identity": "Jochen Staerk (W92KCRC9LM)",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "notarize": true,
       "category": "Document",
       "icon": "./assets/img/logo_small_icon_only.png"
     },
