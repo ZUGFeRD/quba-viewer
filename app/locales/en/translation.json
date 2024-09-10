@@ -246,6 +246,7 @@
   "historySubject" :"Subject",
   "historyText" :"Text",
   "historyDetails" :"Details:",
+  "licenseText": "Apache 2 license",
   "payment" :"Payment details",
   "contract_information" :"Contract Information",
   "preceding_invoice_reference" :"Previous invoices"

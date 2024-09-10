@@ -11,7 +11,7 @@ function MenuFactoryService(menuList) {
   this.buildMenu = buildMenu;
 }
 
-function buildMenu(app, mainWindow, i18n, openFile) {
+function buildMenu(app, mainWindow, i18n, openFile, openDir) {
   initializeTranslation(app, i18n);
   const languageMenu = config.languages.map((languageCode) => {
     return {
@@ -74,7 +74,31 @@ function buildMenu(app, mainWindow, i18n, openFile) {
           id: "file-print-xml",
           enabled: false,
           click() {
-            mainWindow.webContents.send("file-print-xml");
+            /*
+            mainWindow.webContents.print will only print a part of the first page->copy the xmlViewer html contents
+            into a separate window
+            * */
+            mainWindow.webContents.executeJavaScript("document.getElementById('xmlViewer').innerHTML").then( (result) => {
+              let newWindow = new BrowserWindow({
+                show: false,
+                height: 185,
+                resizable: false,
+                width: 400,
+                parent: mainWindow,
+                modal: true,
+                minimizable: false,
+                fullscreenable: false,
+                webPreferences: {
+                  nodeIntegration: true,
+                  contextIsolation: false,
+                },
+              });
+
+              newWindow.loadURL('data:text/html;charset=utf-8,'+encodeURIComponent(result));
+              newWindow.webContents.print();
+           //   newWindow.close();
+            });
+
           },
         },
       ],
@@ -139,7 +163,6 @@ function buildMenu(app, mainWindow, i18n, openFile) {
     {
       label: i18n.t("File"),
       id: "file-open",
-      accelerator: "CmdOrCtrl+O",
       submenu: mainSubMenu,
     },
     {
@@ -176,6 +199,7 @@ function initializeTranslation(app, i18n) {
     title: i18n.t("About") + " " + "Quba",
     validationTitle: i18n.t("Validate"),
     appName: i18n.t("appName"),
+    license: i18n.t("licenseText"),
     version: i18n.t("version") + " " + app.getVersion(),
   };
 

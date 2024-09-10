@@ -52,9 +52,6 @@ const API = {
   onUpdateDownloaded: (callback) => {
     ipcRenderer.on("update_downloaded", (event, ...args) => callback(event, ...args));
   },
-  onFilePrintXml: (callback) => {
-    ipcRenderer.on("file-print-xml", (event, ...args) => callback(event, ...args));
-  },
   onFilePrintPdf: (callback) => {
     ipcRenderer.on("file-print-pdf", (event, ...args) => callback(event, ...args));
   },

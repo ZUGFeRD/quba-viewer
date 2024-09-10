@@ -50,7 +50,10 @@
 
       #stats {
         margin-top: 10px;
-        font-size: 12px;
+      }
+
+      .smallfont {
+          font-size: 12px;
       }
 
       #close {
@@ -242,10 +245,11 @@
     <div id='info'>
       <div id='label'></div>
       <div id='description'></div>
-      <div id='stats ver'>
+      <div id='stats ver' class="smallfont">
         <div id="version"></div>
         <div></div>
       </div>
+      <div id='license' class="smallfont"></div>
     </div>
 
     <script>
@@ -259,6 +263,7 @@
         ipcRenderer.removeAllListeners('about-info');
         version.innerText = arg.version;
         label.innerText = arg.title;
+        license.innerText = arg.license;
         description.innerText = arg.appName;
       });
     </script>

@@ -248,6 +248,7 @@
   "historySubject" :"Betreff",
   "historyText" :"Text",
   "historyDetails" :"Details",
+  "licenseText": "Apache 2 Lizenz",
   "payment" :"Zahlungsdaten",
   "contract_information" :"Vertragsdaten",
   "preceding_invoice_reference" :"Vorausgegangene Rechnungen"
