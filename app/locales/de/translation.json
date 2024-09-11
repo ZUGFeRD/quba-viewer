@@ -153,7 +153,7 @@
   "bt146" :"Preis pro Einheit (netto)",
   "bt131" :"Gesamtpreis (netto)",
   "bt147" :"Rabatt (netto)",
-  "bt148" :"Listenpreis (netto)",
+  "bt148" :"Listenpreis (brutto)",
   "bt149" :"Anzahl der Einheit",
   "bt150" :"Code der Maßeinheit",
   "bt151" :"Umsatzsteuer",
