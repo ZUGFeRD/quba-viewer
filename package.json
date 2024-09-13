@@ -53,7 +53,13 @@
       "gatekeeperAssess": false,
       "notarize": true,
       "category": "Document",
-      "icon": "./assets/img/logo_small_icon_only.png"
+      "icon": "./assets/img/logo_small_icon_only.png",
+      "target": {
+        "target": "dmg",
+        "arch": [
+          "universal"
+        ]
+      }
     },
     "win": {
       "icon": "./assets/img/logo_small_icon_only.png"
