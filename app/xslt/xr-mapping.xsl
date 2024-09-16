@@ -654,7 +654,7 @@
         <nummer>BT-147</nummer>
       </xsl:when>
       <xsl:when test="$identifier = 'xr:Item_gross_price'">
-        <label>Listenpreis (netto)</label>
+        <label>Listenpreis (brutto)</label>
         <nummer>BT-148</nummer>
       </xsl:when>
       <xsl:when test="$identifier = 'xr:Item_price_base_quantity'">
