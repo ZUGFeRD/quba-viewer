@@ -241,9 +241,7 @@ export default {
       this.message = this.t("updateDownloadedNote", {}, {locale: this.lang});
       this.showRestartButton = true;
     });
-    window.api.onFilePrintXml((event, args) => {
-      window.print();
-    });
+
     window.api.onFilePrintPdf((event, args) => {
       if (window.frames["viewer"]) {
         window.frames["viewer"].focus();

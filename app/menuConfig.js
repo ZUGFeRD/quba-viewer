@@ -95,7 +95,9 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir) {
               });
 
               newWindow.loadURL('data:text/html;charset=utf-8,'+encodeURIComponent(result));
-              newWindow.webContents.print();
+              newWindow.webContents.print({}, (success, failureReason) => {
+                newWindow.close();
+              });
            //   newWindow.close();
             });
 
