@@ -223,6 +223,11 @@ function listenEvents() {
                   embeddedFiles["factur-x.xml"]["content"]
                 );
               }
+              if (embeddedFiles["Embedded XML"]["filename"]=="factur-x.xml") {
+                embeddedXML = new TextDecoder().decode(
+                    embeddedFiles["Embedded XML"]["content"]
+                );
+              }
               if (embeddedFiles["zugferd-invoice.xml"]) {
                 // the embedded file can also be named zugferd-invoice.xml
                 // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
