@@ -11,6 +11,15 @@ History
 =============
 
 <details>
+<summary>1.4.1 15.10.2024</summary>
+- #78
+- #68
+- #23
+- #63
+
+</details>
+
+<details>
 <summary>1.4.0 15.01.2024</summary>
 - Online validation works again
 - Corrected validation now possible with personalized account  
