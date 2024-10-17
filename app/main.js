@@ -30,7 +30,11 @@ const path = require("path");
 const store = new Store();
 
 let mainWindow;
-let currentLanguage = store.get("language") || config.fallbackLng;
+let eligibleSysLanguage=null;
+if ((app.getLocale()=="de")||(app.getLocale()=="en")||(app.getLocale()=="fr")) {
+    eligibleSysLanguage = app.getLocale();
+}
+let currentLanguage = store.get("language") || eligibleSysLanguage || config.fallbackLng;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
