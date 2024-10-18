@@ -1,8 +1,12 @@
 const config = require("./app.config");
 const path = require("path");
 const Store = require('electron-store');
+const {app} = require("electron");
 const store = new Store();
-let currentLanguage = store.get("language") || config.fallbackLng;
+if ((app.getLocale()=="de")||(app.getLocale()=="en")||(app.getLocale()=="fr")) {
+  eligibleSysLanguage = app.getLocale();
+}
+let currentLanguage = store.get("language") || eligibleSysLanguage || config.fallbackLng;
 
 const i18nextOptions = {
   debug :false,

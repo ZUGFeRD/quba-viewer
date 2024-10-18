@@ -103,7 +103,7 @@ function createWindow() {
 
     menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
     i18next.on("languageChanged", (lng) => {
-        currentLanguage = lng;
+        i18next.options.lng = lng;
         store.set("language", lng);
         mainWindow.webContents.send("language-change", lng);
         menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
