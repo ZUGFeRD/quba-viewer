@@ -79,3 +79,9 @@ start Quba in a shell, e.g.
 
 On the mac please change in package.json from --win to --mac --linux
 Uninstall 
+
+
+https://stackoverflow.com/questions/55460379/how-to-parameterize-msi-file-from-electron-builder
+
+
+MsiExec /i "Quba 1.4.1.msi" AUTOUPDATE=false /L*v Install.log

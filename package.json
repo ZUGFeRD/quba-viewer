@@ -24,6 +24,7 @@
     "fast-xml-parser": "3.19.0",
     "i18next": "21.8.5",
     "i18next-fs-backend": "1.1.4",
+    "ini": "^5.0.0",
     "jquery": "^3.7.1",
     "jsdom": "^23.0.1",
     "node-localstorage": "^2.2.1",
@@ -62,7 +63,10 @@
       }
     },
     "win": {
-      "icon": "./assets/img/logo_small_icon_only.png"
+      "icon": "./assets/img/logo_small_icon_only.png",
+      "target": [
+        "msi"
+      ]
     },
     "directories": {
       "output": "release"
