@@ -11,11 +11,11 @@ History
 =============
 
 <details>
-<summary>1.4.1 15.10.2024</summary>
-- #78
-- #68
-- #23
-- #63
+<summary>1.4.1 30.10.2024</summary>
+- #78 default language to OS language, if de|en|fr
+- #68 structured invoice data won't get parsed from zugferd-file
+- #23 Does not work on intel macs
+- #63 Mention license in about window
 - #58 electron 20 to 33
 - #53 MSI version
 
