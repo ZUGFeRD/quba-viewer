@@ -135,7 +135,6 @@ app.on("ready", async () => {
 
 
 app.on("window-all-closed", function () {
-console.log("deb wac");
     const tempPath = path.join(app.getPath("temp"), app.getName());
     //store.clear();
     //store.delete("access_token");
@@ -148,9 +147,7 @@ console.log("deb wac");
     } else {
     }
     if (process.platform !== "darwin") {
-        console.log("deb q1");
         app.quit();
-        console.log("deb q2");
     }
 });
 
@@ -365,7 +362,6 @@ function initApp() {
 async function readInstallerConfigAndPerformAutoUpdate() {
 
     let doUpdate=true;
-    console.log("deb trying on "+app.getAppPath() + `\\..\\..\\AppConfig.ini`);
     // getAppPath() returns resources/asar
     try {
         let text = await readFile(app.getAppPath() + `\\..\\..\\AppConfig.ini`, {
@@ -380,10 +376,9 @@ async function readInstallerConfigAndPerformAutoUpdate() {
         console.error(err);
     };
     if (doUpdate) {
-        console.log("deb  I would now ");
         autoUpdater.checkForUpdatesAndNotify();
     } else {
-        console.log("deb  I wouldnt");
+//        console.log("deb  I wouldnt");
     }
 
 }
