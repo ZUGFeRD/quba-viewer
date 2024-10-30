@@ -12,6 +12,7 @@ History
 
 <details>
 <summary>1.4.1 30.10.2024</summary>
+- #54 print only prints first page
 - #78 default language to OS language, if de|en|fr
 - #68 structured invoice data won't get parsed from zugferd-file
 - #23 Does not work on intel macs
