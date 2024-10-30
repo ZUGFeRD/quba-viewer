@@ -65,7 +65,7 @@
     "win": {
       "icon": "./assets/img/logo_small_icon_only.png",
       "target": [
-        "msi"
+        "nsis","msi"
       ]
     },
     "directories": {
