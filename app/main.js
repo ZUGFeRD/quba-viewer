@@ -18,7 +18,9 @@ const isDev = require("electron-is-dev");
 const https = require("https");
 const menuFactoryService = require("./menuConfig");
 const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
+const { JSDOM } = jsdom;
+const { parse } = require("ini");
+const  { readFile} = require("node:fs/promises")
 
 const i18next = require("i18next");
 const Backend = require("i18next-fs-backend");
@@ -34,6 +36,17 @@ let eligibleSysLanguage=null;
 if ((app.getLocale()=="de")||(app.getLocale()=="en")||(app.getLocale()=="fr")) {
     eligibleSysLanguage = app.getLocale();
 }
+
+
+//alert(text);
+/*
+
+//  Read INI file as text
+
+
+//  Parse text data to object
+
+ */
 let currentLanguage = store.get("language") || eligibleSysLanguage || config.fallbackLng;
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -52,8 +65,9 @@ function createWindow() {
         //store.clear();
         //store.delete("access_token");
         //store.delete("isLoggedIn");
-        mainWindow = null;
+         mainWindow = null;
     });
+
 
     mainWindow.webContents.on(
         "new-window",
@@ -91,7 +105,6 @@ function createWindow() {
 
     mainWindow.once("ready-to-show", () => {
         mainWindow.webContents.send("language-change", currentLanguage);
-        autoUpdater.checkForUpdatesAndNotify();
 
         const appArgv = process.argv.slice(isDev ? 2 : 1);
         if (appArgv[0] && appArgv[0].toLowerCase().endsWith(".pdf")) {
@@ -120,10 +133,9 @@ app.on("ready", async () => {
     registerShortcuts();
 });
 
-function validation() {
-}
 
 app.on("window-all-closed", function () {
+console.log("deb wac");
     const tempPath = path.join(app.getPath("temp"), app.getName());
     //store.clear();
     //store.delete("access_token");
@@ -135,7 +147,11 @@ app.on("window-all-closed", function () {
         }
     } else {
     }
-    if (process.platform !== "darwin") app.quit();
+    if (process.platform !== "darwin") {
+        console.log("deb q1");
+        app.quit();
+        console.log("deb q2");
+    }
 });
 
 app.on("activate", function () {
@@ -155,10 +171,11 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
     app.quit();
 } else {
-    listenEvents();
+    initApp();
 }
 
-function listenEvents() {
+function initApp() {
+    readInstallerConfigAndPerformAutoUpdate();
     app.on("second-instance", (event, commandLine) => {
         if (mainWindow) {
             if (mainWindow.isMinimized()) {
@@ -311,6 +328,64 @@ function listenEvents() {
             }
         );
     });
+
+    ipcMain.on("open-link", (event) => {
+        let exWin = new BrowserWindow({
+            width: 800,
+            height: 600,
+            icon:
+                process.platform === "win32"
+                    ? "../assets/img/favicon.ico"
+                    : "../assets/img/logoonly.svg",
+        });
+        exWin.setMenu(null);
+        exWin.loadURL(
+            "https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application"
+        );
+    });
+
+    ipcMain.on("open-dragged-file", (event, filePath) => {
+        if (filePath.toLowerCase().includes(".pdf")) {
+            mainWindow.webContents.send("pdf-open", [filePath, null]);
+        } else if (filePath.toLowerCase().includes(".xml")) {
+            loadAndDisplayXML(filePath);
+        }
+    });
+    ipcMain.on("open-menu", (event, arg) => {
+        openFile();
+    });
+
+
+}
+
+/***
+ the installer config is the local AppConfig.ini, which has been filled with entries depending on the
+ parameters passed to the *installer*
+ */
+async function readInstallerConfigAndPerformAutoUpdate() {
+
+    let doUpdate=true;
+    console.log("deb trying on "+app.getAppPath() + `\\..\\..\\AppConfig.ini`);
+    // getAppPath() returns resources/asar
+    try {
+        let text = await readFile(app.getAppPath() + `\\..\\..\\AppConfig.ini`, {
+            encoding: 'utf-8'
+        });
+        const config = parse(text)
+        doUpdate= config.AutoUpdate.performOnStartup;
+
+    } catch (err){
+        // Here you get the error when the file was not found,
+        // but you also get any other error
+        console.error(err);
+    };
+    if (doUpdate) {
+        console.log("deb  I would now ");
+        autoUpdater.checkForUpdatesAndNotify();
+    } else {
+        console.log("deb  I wouldnt");
+    }
+
 }
 
 function openFile() {
@@ -563,30 +638,3 @@ function validateFile(xmlFilePath) {
             });
     });
 }
-
-ipcMain.on("open-link", (event) => {
-    let exWin = new BrowserWindow({
-        width: 800,
-        height: 600,
-        icon:
-            process.platform === "win32"
-                ? "../assets/img/favicon.ico"
-                : "../assets/img/logoonly.svg",
-    });
-    exWin.setMenu(null);
-    exWin.loadURL(
-        "https://quba-viewer.org/beispiele/?pk_campaign=examples&pk_source=application"
-    );
-});
-
-ipcMain.on("open-dragged-file", (event, filePath) => {
-    if (filePath.toLowerCase().includes(".pdf")) {
-        mainWindow.webContents.send("pdf-open", [filePath, null]);
-    } else if (filePath.toLowerCase().includes(".xml")) {
-        loadAndDisplayXML(filePath);
-    }
-});
-ipcMain.on("open-menu", (event, arg) => {
-    openFile();
-});
-

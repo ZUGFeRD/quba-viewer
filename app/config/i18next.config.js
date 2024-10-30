@@ -3,6 +3,8 @@ const path = require("path");
 const Store = require('electron-store');
 const {app} = require("electron");
 const store = new Store();
+let eligibleSysLanguage=null;
+
 if ((app.getLocale()=="de")||(app.getLocale()=="en")||(app.getLocale()=="fr")) {
   eligibleSysLanguage = app.getLocale();
 }

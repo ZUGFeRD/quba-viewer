@@ -16,7 +16,8 @@ History
 - #68
 - #23
 - #63
-- electron 20 to 33
+- #58 electron 20 to 33
+- #53 MSI version
 
 </details>
 

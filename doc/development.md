@@ -59,6 +59,7 @@ For unknown reasons there is a  src/transaltion/de.json and a app/locales/de/tra
 https://github.com/ZUGFeRD/quba-viewer/issues/36
 
 uninstall %AppData%/Roaming/Quba
+
 Deployment
 =============
 The final update can then be deployed by Github users who have been granted access
@@ -69,6 +70,11 @@ $env:GH_TOKEN = '<private github access token>'
 npm run publish
 ```
 Actually only the Mac can build all three versions, there and on Linux use `export GH_TOKEN=<your token>`. 
+Also 
+```
+cp doc/template.xml node_modules/app-builder-lib/templates/msi
+```
+
 Since there is an error in the build please use `npm run build` afterwards to also create the
 autoupdate files `latest.yml`, `latest-mac.yml` and `latest-linux.yml` and upload them manually to
 the release in Github.
@@ -79,6 +85,7 @@ start Quba in a shell, e.g.
 
 On the mac please change in package.json from --win to --mac --linux
 Uninstall 
+
 
 
 https://stackoverflow.com/questions/55460379/how-to-parameterize-msi-file-from-electron-builder
