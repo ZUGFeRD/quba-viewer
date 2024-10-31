@@ -79,6 +79,7 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir) {
             into a separate window
             * */
             mainWindow.webContents.executeJavaScript("document.getElementById('xmlViewer').innerHTML").then( (result) => {
+              // get HTML into result, create invisible window
               let newWindow = new BrowserWindow({
                 show: false,
                 height: 185,
@@ -93,14 +94,17 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir) {
                   contextIsolation: false,
                 },
               });
-
+              // start loading from result
               newWindow.loadURL('data:text/html;charset=utf-8,'+encodeURIComponent(result));
-              newWindow.webContents.print({}, (success, failureReason) => {
-                newWindow.close();
+              // wait for load
+              newWindow.webContents.on('did-finish-load', () => {
+                // after load start printing
+                newWindow.webContents.print({}, (success, failureReason) => {
+                  // after printing dispose invisible window
+                  newWindow.close();
+                });
               });
-           //   newWindow.close();
             });
-
           },
         },
       ],

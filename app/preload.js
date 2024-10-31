@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, Menu, app, remote } = require('electron');
+const { contextBridge, ipcRenderer, Menu, app, remote, webUtils  } = require('electron');
 
 
 const API = {
@@ -16,7 +16,7 @@ const API = {
     ipcRenderer.send('app_version');
   },
   sendOpenDraggedFile: (path) => {
-    ipcRenderer.send('open-dragged-file', path);
+    ipcRenderer.send('open-dragged-file', webUtils.getPathForFile(path));
   },
   sendRestartApp: () => {
     ipcRenderer.send('restart_app');

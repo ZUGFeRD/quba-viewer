@@ -10,9 +10,17 @@ general and some Electron and E-Invoice peculiarities like [interprocess (IPC) c
 History
 =============
 
+
+<details>
+<summary>1.4.2 .2024</summary>
+- #54 print only prints first page
+- #83 NaN for VAT amount and rounding amount 
+- #82 Drag&Drop does not work
+
+</details>
+
 <details>
 <summary>1.4.1 30.10.2024</summary>
-- #54 print only prints first page
 - #78 default language to OS language, if de|en|fr
 - #68 structured invoice data won't get parsed from zugferd-file
 - #23 Does not work on intel macs

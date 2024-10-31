@@ -383,12 +383,12 @@ export default {
           }
         });
 
-    document.addEventListener("drop", (event) => {
+
+    window.addEventListener("drop", (event) => {
       event.preventDefault();
       //event.stopPropagation();
-
       for (const f of event.dataTransfer.files) {
-        window.api.sendOpenDraggedFile(f.path);
+        window.api.sendOpenDraggedFile(f);
       }
       return false;
     }, false);

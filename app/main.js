@@ -344,7 +344,7 @@ function initApp() {
     ipcMain.on("open-dragged-file", (event, filePath) => {
         if (filePath.toLowerCase().includes(".pdf")) {
             mainWindow.webContents.send("pdf-open", [filePath, null]);
-        } else if (filePath.toLowerCase().includes(".xml")) {
+        } else /*if (filePath.toLowerCase().includes(".xml"))*/ {
             loadAndDisplayXML(filePath);
         }
     });
