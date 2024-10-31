@@ -2,6 +2,7 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:fn="http://www.w3.org/2005/xpath-functions"
                 xmlns:xr="urn:ce.eu:en16931:2017:xoev-de:kosit:standard:xrechnung-1"
                 xmlns:xrv="http://www.example.org/XRechnung-Viewer">
     <xsl:param name="i18n" as="map(*)"/>
@@ -1430,7 +1431,7 @@ function downloadData (element_id) {
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1"><xsl:value-of select="$i18n?bt110"/><xsl:if test="$showIds"> BT-110</xsl:if></div>
                         <div class="boxdaten rechnungSp2 color2"></div>
-                        <div id="BT-110" title="BT-110" class="boxdaten rechnungSp3"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount,'###.##0,00','decimal')"/></div>
+                        <div id="BT-110" title="BT-110" class="boxdaten rechnungSp3"><xsl:value-of select="if (xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount!='') then format-number(xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount,'###.##0,00','decimal') else ('0,00')"/></div>
                     </div>
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1 paddingBottom line1Bottom"><xsl:value-of select="$i18n?bt111"/><xsl:if test="$showIds"> BT-111</xsl:if></div>
@@ -1452,7 +1453,7 @@ function downloadData (element_id) {
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1 paddingBottom line2Bottom"><xsl:value-of select="$i18n?bt114"/><xsl:if test="$showIds"> BT-114</xsl:if></div>
                         <div class="boxdaten rechnungSp2 paddingBottom line2Bottom color2">brutto</div>
-                        <div id="BT-114" title="BT-114" class="boxdaten rechnungSp3 paddingBottom line2Bottom"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Rounding_amount,'###.##0,00','decimal')"/></div>
+                        <div id="BT-114" title="BT-114" class="boxdaten rechnungSp3 paddingBottom line2Bottom"><xsl:value-of select="if (xr:DOCUMENT_TOTALS/xr:Rounding_amount!='') then format-number(xr:DOCUMENT_TOTALS/xr:Rounding_amount,'###.##0,00','decimal') else ('0,00')"/></div>
                     </div>
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1 paddingTop bold"><xsl:value-of select="$i18n?bt115"/><xsl:if test="$showIds"> BT-115</xsl:if></div>

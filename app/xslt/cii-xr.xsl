@@ -1691,7 +1691,7 @@
         </xr:Invoice_total_amount_without_VAT>
     </xsl:template>
     <xsl:template mode="BT-110"
-                  match="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TaxTotalAmount[@currencyID = parent::ram:SpecifiedTradeSettlementHeaderMonetarySummation/preceding-sibling::ram:TaxCurrencyCode]">
+                  match="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:SpecifiedTradeSettlementHeaderMonetarySummation/ram:TaxTotalAmount">
         <xr:Invoice_total_VAT_amount>
             <xsl:attribute name="xr:id" select="'BT-110'"/>
             <xsl:attribute name="xr:src" select="xr:src-path(.)"/>
