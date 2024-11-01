@@ -12,7 +12,7 @@ History
 
 
 <details>
-<summary>1.4.2 .2024</summary>
+<summary>1.4.2 01.11.2024</summary>
 - #54 print only prints first page
 - #83 NaN for VAT amount and rounding amount 
 - #82 Drag&Drop does not work
