@@ -1416,7 +1416,7 @@ function downloadData (element_id) {
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1"><xsl:value-of select="$i18n?bt107"/><xsl:if test="$showIds"> BT-107</xsl:if></div>
                         <div class="boxdaten rechnungSp2 color2">netto</div>
-                        <div id="BT-107" title="BT-107" class="boxdaten rechnungSp3"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Sum_of_allowances_on_document_level,'###.##0,00','decimal')"/></div>
+                        <div id="BT-107" title="BT-107" class="boxdaten rechnungSp3"><xsl:value-of select="if (xr:DOCUMENT_TOTALS/xr:Sum_of_allowances_on_document_level!='') then format-number(xr:DOCUMENT_TOTALS/xr:Sum_of_allowances_on_document_level,'###.##0,00','decimal') else ('0,00')"/></div>
                     </div>
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1 paddingBottom line1Bottom"><xsl:value-of select="$i18n?bt108"/><xsl:if test="$showIds"> BT-108</xsl:if></div>
