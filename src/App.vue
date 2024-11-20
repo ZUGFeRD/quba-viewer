@@ -39,4 +39,22 @@ body {
   text-align: center;
   cursor: pointer;
 }
+
+.vue3-tabs-chrome .tabs-after {
+  top: 50%;
+  display: flex;
+  position: absolute;
+  overflow: hidden;
+  transform: translateY(-50%);
+  justify-content: space-between;
+  width: 86%;
+}
+
+/*for xml search*/
+.highlight {
+  background-color: yellow !important;
+  color: black !important;
+  font-weight: bold !important;
+}
+
 </style>

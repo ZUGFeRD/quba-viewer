@@ -1,13 +1,13 @@
 <template>
-  <vue3-tabs-chrome  style="flex-shrink: 1"
-      :ref="setTabRef"
-      :tabs="tabs"
-      v-model="tab"
-      :dragable="true"
-      :swappable="true"
-      :click="onClick"
-      :class="[tabs?.length ? '' : 'display-none']"
-      :on-close="onClose"
+  <vue3-tabs-chrome style="flex-shrink: 1"
+                    :ref="setTabRef"
+                    :tabs="tabs"
+                    v-model="tab"
+                    :dragable="true"
+                    :swappable="true"
+                    :click="onClick"
+                    :class="[tabs?.length ? '' : 'display-none']"
+                    :on-close="onClose"
   >
     <template v-slot:after>
       <button
@@ -22,24 +22,82 @@
       >
         +
       </button>
+
+      <!-- Layout- Resize Buttons aligned to the right -->
+      <div class="view-buttons">
+        <button @click="setLayout('50-50')" class="layout-btn">
+          <i class="ph ph-square-split-horizontal"></i>
+        </button>
+
+        <button @click="toggle30_70" class="layout-btn">
+          <i class="ph ph-arrows-left-right"></i>
+        </button>
+
+        <button @click="setLayout('100-0')" class="layout-btn">
+          <i class="ph ph-file-pdf"></i>
+        </button>
+
+        <button @click="setLayout('0-100')" class="layout-btn" style="margin-right: 10px">
+          <i class="ph ph-file-code"></i>
+        </button>
+      </div>
+
     </template>
+
   </vue3-tabs-chrome>
-  <div v-if="currentTab" style="flex-grow: 1;overflow:hidden;display: flex;flex-direction: row">
+
+  <!--  Search Field-->
+  <div v-if="showSearchInput" class="search-overlay">
+    <div class="search-container">
+      <i class="ph ph-magnifying-glass search-icon"></i>
+      <input
+          ref="searchInput"
+          v-model="searchText"
+          type="text"
+          placeholder="Suchbegriff eingeben..."
+          @keypress.enter="handleSearch"
+      />
+      <div class="action-button" @click="handleSearch">
+        <i class="ph ph-magnifying-glass"></i>
+      </div>
+      <div class="action-button" @click="closeSearch">
+        <i class="ph ph-x-circle"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start PDF/XML sections -->
+  <div v-if="currentTab" style="flex-grow: 1;overflow: hidden; display: flex;flex-direction: row">
     <div class="loader" v-if="showLoader">
       <div id="loading"></div>
       <h1>{{ t("validatingFile", {}, {locale: lang}) }}</h1>
     </div>
-    <div v-if="currentTab.isPdf" class="full-height" style="flex: 1" :class="[currentTab?.isShowXML ? 'leftPart' : '']" >
-      <div class="pdfViewer full-height">
-        <PDFJSViewer v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
+
+    <!-- Splitter -->
+    <div class="splitter-container" ref="container">
+      <div class="pane" :style="{ flexBasis: leftPaneWidth + '%' }">
+        <div v-if="currentTab.isPdf" class="full-height" style="flex: 1"
+             :class="[currentTab?.isShowXML ? 'leftPart' : '']">
+          <div id="pdfContainer" class="pdfViewer full-height">
+            <PDFJSViewer ref="pdfViewer" v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
+          </div>
+        </div>
+      </div>
+      <!-- Splitter line -->
+      <div class="splitter" @mousedown="startDragging">
+        <i class="ph ph-dots-three-vertical" id="spliter-icon"></i>
+      </div>
+      <div class="pane" id="xmll" :style="{ flexBasis: 100 - leftPaneWidth + '%' }">
+        <div v-if="currentTab?.isShowXML || currentTab?.isXML" class="full-height" style="flex: 1"
+             :class="{ rightPart: (currentTab?.isPdf)&&(currentTab?.isShowXML) }">
+          <div ref="xmlViewer" class="xmlViewer full-height" id="xmlViewer" v-html="currentTab?.content">
+          </div>
+        </div>
       </div>
     </div>
-    <div v-if="currentTab?.isShowXML || currentTab?.isXML" class="full-height" style="flex: 1"
-         :class="{ rightPart: (currentTab?.isPdf)&&(currentTab?.isShowXML) }">
-      <div  class="xmlViewer full-height" id="xmlViewer" name="xmlViewer" v-html="currentTab?.content">
-      </div>
-    </div>
+
   </div>
+  <!-- End PDF/XML sections-->
   <div v-if="!currentTab" class="center" id="drag-box">
     <img src="../assets/img/logo_whitetext.svg"/><br/>
 
@@ -64,11 +122,10 @@
 <script>
 import Vue3TabsChrome from "vue3-tabs-chrome";
 import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
-import {reactive, ref, isProxy, toRaw, onMounted} from "vue";
+import {reactive, ref} from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import {useI18n} from "vue-i18n";
 import $ from 'jquery';
-
 export default {
   name: "Home",
   props: {},
@@ -78,12 +135,17 @@ export default {
   },
   data() {
     return {
+      leftPaneWidth: 50, // Initial width of the left pane in percentage
+      isDragging: false, // Status indicating if dragging is currently active
+      searchText: "", // Text entered for search
+      showSearchInput: false, // Controls the visibility of the search input field
       lang: "en",
       version: undefined,
       showNofification: false,
       message: undefined,
       showRestartButton: false,
       showLoader: false,
+      currentTab: null,
     };
   },
   setup() {
@@ -98,12 +160,12 @@ export default {
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
 
       if (currentTabObj.length) {
-          if ((currentTabObj[0] != null) && (typeof currentTabObj[0].isPdf !== "undefined")) {
-            window.api.sendDocChange(currentTabObj[0].isPdf, currentTabObj[0].isShowXML);
-          }
+        if ((currentTabObj[0] != null) && (typeof currentTabObj[0].isPdf !== "undefined")) {
+          window.api.sendDocChange(currentTabObj[0].isPdf, currentTabObj[0].isShowXML);
         }
-        currentTab.value = currentTabObj[0];
       }
+      currentTab.value = currentTabObj[0];
+    }
 
 
     const handleAdd = () => {
@@ -120,9 +182,9 @@ export default {
     };
 
     const afterTabShow = () => {
-      $( document ).ready(function() {
-        $("#"+b[0]).siblings().removeClass("tab").removeClass("btnAnaktiv").addClass("btnInaktiv");
-        $("#"+b[0]).removeClass("tab").removeClass("btnInaktiv").addClass("btnAktiv");
+      $(document).ready(function () {
+        $("#" + b[0]).siblings().removeClass("tab").removeClass("btnAnaktiv").addClass("btnInaktiv");
+        $("#" + b[0]).removeClass("tab").removeClass("btnInaktiv").addClass("btnAktiv");
       });
     };
     const handleRemove = () => {
@@ -222,6 +284,10 @@ export default {
     };
   },
   mounted() {
+    // Add event listener for Ctrl + F
+    document.addEventListener("keydown", this.handleKeydown);
+    // Attach the keydown event listener when the component is mounted
+    window.addEventListener("keydown", this.handleEscKey);
     window.api.onLanguageChange((event, args) => {
       this.lang = args;
       window.api.updateMenuLanguage(this.t("appName", {}, {locale: this.lang}));
@@ -407,10 +473,256 @@ export default {
     document.addEventListener("dragleave", (event) => {
       event.preventDefault();
     }, false);
+    window.addEventListener("resize", this.handleResize);
 
   },
+  beforeUnmount() {
+    // Remove event listeners to avoid memory leaks
+    document.removeEventListener("keydown", this.handleKeydown);
+    window.removeEventListener("keydown", this.handleEscKey);
 
+  },
   methods: {
+    startDragging(event) {
+      this.isDragging = true;
+
+      // Disable pointer events for the iframe to allow mouse events to propagate
+      const iframe = this.$refs.pdfViewer?.$el.querySelector("iframe");
+      if (iframe) iframe.style.pointerEvents = "none";
+
+      document.addEventListener("mousemove", this.onMouseMove);
+      document.addEventListener("mouseup", this.stopDragging);
+
+      event.preventDefault(); // Prevent default behavior
+    },
+    onMouseMove(event) {
+      // Resize the widht for probably working of splitter
+      document.getElementById("xmll").style.width = '0';
+      if (!this.isDragging) return;
+
+      // Get container bounds
+      const container = this.$refs.container;
+      const containerRect = container.getBoundingClientRect();
+
+      // Calculate the new width for the left pane
+      const offsetX = event.clientX - containerRect.left;
+      const newWidthPercentage = (offsetX / containerRect.width) * 100;
+
+      // Constrain the width between 0% and 100% (recommended 10% 90%)
+      this.leftPaneWidth = Math.max(0, Math.min(100, newWidthPercentage));
+    },
+    stopDragging() {
+      this.isDragging = false;
+
+      // Re-enable pointer events for the iframe
+      const iframe = this.$refs.pdfViewer?.$el.querySelector("iframe");
+      if (iframe) iframe.style.pointerEvents = "auto";
+
+      document.removeEventListener("mousemove", this.onMouseMove);
+      document.removeEventListener("mouseup", this.stopDragging);
+    },
+    handleKeydown(event) {
+      // Check if Ctrl+F (or Cmd+F on macOS) is pressed
+      if ((event.ctrlKey || event.metaKey) && event.key === "f") {
+        event.preventDefault(); // Prevent the default browser search functionality
+        this.showSearchInput = true; // Display the search field
+
+        // Wait for the search input to render and focus on it
+        this.$nextTick(() => {
+          const searchInput = this.$refs.searchInput; // Reference to the input field
+          if (searchInput) {
+            searchInput.focus();
+          }
+        });
+      }
+    },
+    closeSearch() {
+      this.showSearchInput = false; // Hide search field
+    },
+    handleEscKey(event) {
+      if (event.key === "Escape") {
+        this.closeSearch();
+      }
+    },
+    handleSearch() {
+      this.searchPDF();  // Perform search in the PDF
+      this.searchXML();  // Perform search in the XML
+    },
+    /*searchPDF() {
+      const iframe = document.getElementById("viewer"); // Access the iframe
+      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document; // Get the iframe's document
+
+      if (iframeDocument && iframeDocument.defaultView.PDFViewerApplication) {
+        const pdfViewerApp = iframeDocument.defaultView.PDFViewerApplication;
+        const findController = pdfViewerApp.findController;
+
+        if (pdfViewerApp && findController) {
+          // Trigger PDF search
+          findController.executeCommand("find", {
+            query: this.searchText,
+            caseSensitive: false,  // Ignore case
+            highlightAll: true,    // Highlight all matches
+            findPrevious: false,   // Search forward
+          });
+
+          // Monitor for search result updates
+          const checkMatch = setInterval(() => {
+            const currentPage = findController._selected.pageIdx;
+
+            if (currentPage >= 0) {
+              clearInterval(checkMatch); // Stop checking after match found
+
+              const page = pdfViewerApp.pdfViewer.getPageView(currentPage);
+
+              if (page && page.div) {
+                // Smooth scroll to the matched page
+                page.div.scrollIntoView({behavior: "smooth", block: "center"});
+              }
+            }
+          }, 100); // Check every 100ms
+        } else {
+          console.error("PDFViewerApplication or FindController not found.");
+        }
+      } else {
+        console.error("iframe or PDFViewerApplication unavailable.");
+      }
+    },*/
+    searchPDF() {
+      const iframe = document.getElementById("viewer"); // Zugriff auf das iframe
+      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document; // Zugriff auf das iframe-Dokument
+
+      if (iframeDocument && iframeDocument.defaultView.PDFViewerApplication) {
+        const pdfViewerApp = iframeDocument.defaultView.PDFViewerApplication;
+        const findController = pdfViewerApp.findController;
+
+        if (pdfViewerApp && findController) {
+          // Sicherstellen, dass der Suchtext ordnungsgemäß verarbeitet wird
+          const searchText = this.searchText.trim();
+
+          // PDF-Suche auslösen
+          findController.executeCommand("find", {
+            query: searchText,
+            caseSensitive: false,  // Groß-/Kleinschreibung ignorieren
+            highlightAll: true,    // Alle Treffer markieren
+            findPrevious: false,   // Vorwärts suchen
+          });
+
+          // Überwache die Suchergebnisse und scrolle bei Treffer
+          const checkMatch = setInterval(() => {
+            const currentPage = findController._selected.pageIdx;
+
+            if (currentPage >= 0) {
+              clearInterval(checkMatch); // Stoppe das Überprüfen nach gefundenem Treffer
+
+              const page = pdfViewerApp.pdfViewer.getPageView(currentPage);
+
+              if (page && page.div) {
+                // Weiches Scrollen zur gefundenen Seite
+                page.div.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+            }
+          }, 100); // Alle 100ms nach Ergebnissen suchen
+        } else {
+          console.error("PDFViewerApplication oder FindController nicht gefunden.");
+        }
+      } else {
+        console.error("iframe oder PDFViewerApplication nicht verfügbar.");
+      }
+    },
+    searchXML() {
+      const xmlViewer = this.$refs.xmlViewer;
+      if (!xmlViewer || !this.searchText) {
+        console.error("XML Viewer oder Suchtext fehlt.");
+        return;
+      }
+
+      // Entferne vorherige Markierungen
+      this.removeHighlights(xmlViewer);
+
+      // Stelle sicher, dass der Suchtext korrekt behandelt wird
+      const searchQuery = this.searchText.trim();
+
+      // Suche und markiere den gesamten Suchbegriff
+      const matchFound = this.searchAndHighlight(xmlViewer, searchQuery);
+
+      if (!matchFound) {
+        console.warn("Kein Treffer gefunden.");
+      }
+    },
+    removeHighlights(element) {
+      const highlights = element.querySelectorAll(".highlight");
+      highlights.forEach((highlight) => {
+        const parent = highlight.parentNode;
+        if (parent) {
+          parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+        }
+      });
+    },
+    searchAndHighlight(node, searchText) {
+      let matchFound = false;
+
+      // Prüfe, ob es ein Textknoten ist
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const searchIndex = text.toLowerCase().indexOf(searchText.toLowerCase());
+
+        if (searchIndex !== -1) {
+          matchFound = true;
+
+          // Text in Knoten aufteilen und Highlight einfügen
+          const beforeText = text.substring(0, searchIndex);
+          const highlightedText = text.substring(searchIndex, searchIndex + searchText.length);
+          const afterText = text.substring(searchIndex + searchText.length);
+
+          // Erstellt die neuen Knoten mit Hervorhebung
+          const beforeNode = document.createTextNode(beforeText);
+          const highlightNode = document.createElement("span");
+          highlightNode.className = "highlight";
+          highlightNode.textContent = highlightedText;
+          console.log("Highlight Node: ", highlightNode); // Debug
+
+          const afterNode = document.createTextNode(afterText);
+
+          // Ersetze den ursprünglichen Textknoten
+          const parent = node.parentNode;
+          if (parent) {
+            parent.replaceChild(afterNode, node);
+            parent.insertBefore(highlightNode, afterNode);
+            parent.insertBefore(beforeNode, highlightNode);
+            console.log("Parent after insertions: ", parent); // Debug
+
+            // Scrolle zur ersten Hervorhebung
+            highlightNode.scrollIntoView({behavior: "smooth", block: "center"});
+          }
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE && node.childNodes.length > 0) {
+        // Rekursive Durchsuchung für Knoten mit Kindern
+        node.childNodes.forEach((child) => {
+          const childMatch = this.searchAndHighlight(child, searchText);
+          if (childMatch) {
+            matchFound = true;
+          }
+        });
+      }
+
+      return matchFound;
+    },
+    // Set layout based on predefined options ( for Resizing Buttons)
+    setLayout(layout) {
+      // reset the width
+      document.getElementById("xmll").style.width = '0';
+      if (layout === '50-50') {
+        this.leftPaneWidth = 50; // Both 50%
+      } else if (layout === '100-0') {
+        this.leftPaneWidth = 100; // Full PDF, no XML
+      } else if (layout === '0-100') {
+        this.leftPaneWidth = 0; // Full XML, no PDF
+      }
+    },
+    // Toggle between 30% and 70% for PDF and XML
+    toggle30_70() {
+      this.leftPaneWidth = this.leftPaneWidth === 30 ? 70 : 30; // Switch between 30-70 and 70-30
+    },
     closeNotification() {
       this.showNofification = false;
     },
@@ -436,10 +748,8 @@ export default {
       });
       title.parentNode.insertBefore(text, title.nextSibling);
     },
-
-  }
+  },
 };
-
 
 /* Tab-Container aufbauen **************************************************/
 
@@ -519,6 +829,173 @@ window.downloadData = downloadData; // make function available to inline javascr
 </script>
 
 <style scoped>
+
+
+.splitter-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.splitter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+#spliter-icon {
+  font-weight: bold;
+  font-size: 1.5rem;
+  position: relative;
+  animation: flash 1.5s infinite; /* Blitz-Animation */
+}
+
+/* Hover-Effekt */
+.splitter:hover {
+  background-color: #333; /* Dunkler Hintergrund */
+}
+
+.splitter:hover #spliter-icon {
+  animation: none; /* Animation stoppen beim Hover */
+  transform: scale(1.2); /* Optional: Vergrößern beim Hover */
+  color: #fff; /* Farbe ändern */
+}
+
+/* Blitz-Animation */
+@keyframes flash {
+  0%, 100% {
+    opacity: 1; /* Volle Sichtbarkeit */
+  }
+  50% {
+    opacity: 0; /* Unsichtbar für Blitz */
+  }
+}
+.pane {
+  height: 100%;
+}
+
+.splitter {
+  width: 5px;
+  background: #ccc;
+  cursor: ew-resize;
+  height: 100%;
+}
+
+.search-overlay {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 10px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  z-index: 99999;
+  max-width: 500px;
+  width: 100%;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-container input {
+  flex: 1;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 30px;
+  background: #f5f5f5;
+  outline: none;
+  margin-right: 10px;
+  color: #333;
+}
+
+.search-container input::placeholder {
+  color: #aaa;
+}
+
+.search-icon {
+  margin-right: 8px;
+  font-size: 18px;
+  color: #666;
+}
+
+.action-button {
+  background: none;
+  border: none;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.action-button:hover {
+  background: #f0f0f0;
+  color: #000;
+}
+
+.action-button i {
+  font-size: 20px;
+}
+
+
+.view-buttons {
+  display: flex;
+
+}
+
+.layout-btn {
+  //background-color: #c6c4c4;
+  color: black;
+  border: none;
+  padding: 6px; /* Kleinere Polsterung */
+  font-size: 16px; /* Kleinere Schriftgröße für das Icon */
+  border-radius: 5px; /* Runde Buttons */
+  transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  width: 25px; /* Kleinere Breite */
+  height: 30px; /* Kleinere Höhe */
+}
+
+.layout-btn i {
+  font-size: 18px; /* Größe der Icons */
+}
+
+.layout-btn:hover {
+  background-color: #45a049;
+  transform: scale(1.1); /* Vergrößert den Button bei Hover */
+}
+
+.layout-btn:active {
+  background-color: #3e8e41;
+}
+
+.layout-btn:focus {
+  outline: none;
+}
+
+.layout-btn:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+}
+
 .display-none {
   display: none;
 }
@@ -549,6 +1026,7 @@ window.downloadData = downloadData; // make function available to inline javascr
 }
 
 .leftPart {
+
 }
 
 .rightPart {
@@ -653,26 +1131,25 @@ a.example {
   }
 }
 
-@media print
-{
-  .vue3-tabs-chrome
-  {
+@media print {
+  .vue3-tabs-chrome {
     display: none !important;
   }
+
   .pdfViewer {
     display: none !important;
   }
+
   .xmlViewer {
     overflow: visible;
   }
+
   .divHide {
-    display: block!important;
+    display: block !important;
   }
   .rightPart {
     width: 100%;
   }
-
-
 }
 
 </style>
