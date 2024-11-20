@@ -119,6 +119,7 @@
   </div>
 </template>
 
+
 <script>
 import Vue3TabsChrome from "vue3-tabs-chrome";
 import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
