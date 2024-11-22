@@ -1,7 +1,7 @@
 Quba-Viewer
 =============
 
-Quba-Viewer ([homepage](https://www.quba-viewer.org)) is a cross platform open source application to display 
+Quba-Viewer ([homepage](https://quba-viewer.org)) is a cross platform open source application to display 
 structured (i.e., XML) and hybrid (Factur-X/ZUGFeRD PDF) electronic invoices.
 
 Documentation-wise there is a doc RE [Architecture, Development, Debugging and testing](doc/development.md) in 
