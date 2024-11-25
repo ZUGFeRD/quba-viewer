@@ -151,7 +151,7 @@
   "bt146" :"Unit price (net)",
   "bt131" :"Total price (net)",
   "bt147" :"Discount (net)",
-  "bt148" :"Net list price",
+  "bt148" :"list price (gross)",
   "bt149" :"Number of units",
   "bt150" :"Unit of measure code",
   "bt151" :"VAT",
