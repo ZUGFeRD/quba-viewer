@@ -1414,15 +1414,33 @@ function downloadData (element_id) {
                         <div id="BT-106" title="BT-106" class="boxdaten rechnungSp3"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Sum_of_Invoice_line_net_amount,'###.##0,00','decimal')"/></div>
                     </div>
                     <div class="rechnungsZeile">
-                        <div class="boxdaten rechnungSp1"><xsl:value-of select="$i18n?bt107"/><xsl:if test="$showIds"> BT-107</xsl:if></div>
+                        <div class="boxdaten rechnungSp1">
+                            <xsl:value-of select="$i18n?bt107"/>
+                            <xsl:if test="$showIds"> BT-107</xsl:if>
+                        </div>
                         <div class="boxdaten rechnungSp2 color2">netto</div>
-                        <div id="BT-107" title="BT-107" class="boxdaten rechnungSp3"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Sum_of_allowances_on_document_level,'###.##0,00','decimal')"/></div>
+                        <div id="BT-107" title="BT-107" class="boxdaten rechnungSp3">
+                            <xsl:value-of select="if (xr:DOCUMENT_TOTALS/xr:Sum_of_allowances_on_document_level!='' and number(xr:DOCUMENT_TOTALS/xr:Sum_of_allowances_on_document_level) = number(xr:DOCUMENT_TOTALS/xr:Sum_of_allowances_on_document_level))
+                                then format-number(xr:DOCUMENT_TOTALS/xr:Sum_of_allowances_on_document_level, '###.##0,00', 'decimal')
+                                else '0,00'"/>
+                        </div>
                     </div>
+
                     <div class="rechnungsZeile">
-                        <div class="boxdaten rechnungSp1 paddingBottom line1Bottom"><xsl:value-of select="$i18n?bt108"/><xsl:if test="$showIds"> BT-108</xsl:if></div>
+                        <div class="boxdaten rechnungSp1 paddingBottom line1Bottom">
+                            <xsl:value-of select="$i18n?bt108"/>
+                            <xsl:if test="$showIds">BT-108</xsl:if>
+                        </div>
                         <div class="boxdaten rechnungSp2 paddingBottom line1Bottom color2">netto</div>
-                        <div id="BT-108" title="BT-108" class="boxdaten rechnungSp3 paddingBottom line1Bottom"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Sum_of_charges_on_document_level,'###.##0,00','decimal')"/></div>
+                        <div id="BT-108" title="BT-108" class="boxdaten rechnungSp3 paddingBottom line1Bottom">
+                            <xsl:value-of
+                                    select="if (xr:DOCUMENT_TOTALS/xr:Sum_of_charges_on_document_level!=''
+                        and number(xr:DOCUMENT_TOTALS/xr:Sum_of_charges_on_document_level) = number(xr:DOCUMENT_TOTALS/xr:Sum_of_charges_on_document_level))
+                   then format-number(xr:DOCUMENT_TOTALS/xr:Sum_of_charges_on_document_level, '###.##0,00', 'decimal')
+                   else '0,00'"/>
+                        </div>
                     </div>
+
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1 paddingTop"><xsl:value-of select="$i18n?bt109"/><xsl:if test="$showIds"> BT-109</xsl:if></div>
                         <div class="boxdaten rechnungSp2 paddingTop color2">netto</div>
@@ -1434,21 +1452,42 @@ function downloadData (element_id) {
                         <div id="BT-110" title="BT-110" class="boxdaten rechnungSp3"><xsl:value-of select="if (xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount!='') then format-number(xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount,'###.##0,00','decimal') else ('0,00')"/></div>
                     </div>
                     <div class="rechnungsZeile">
-                        <div class="boxdaten rechnungSp1 paddingBottom line1Bottom"><xsl:value-of select="$i18n?bt111"/><xsl:if test="$showIds"> BT-111</xsl:if></div>
+                        <div class="boxdaten rechnungSp1 paddingBottom line1Bottom">
+                            <xsl:value-of select="$i18n?bt111"/>
+                            <xsl:if test="$showIds">BT-111</xsl:if>
+                        </div>
                         <div class="boxdaten rechnungSp2 paddingBottom line1Bottom color2"></div>
-                        <div id="BT-111" title="BT-111" class="boxdaten rechnungSp3 paddingBottom line1Bottom"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount_in_accounting_currency,'###.##0,00','decimal')"/></div>
+                        <div id="BT-111" title="BT-111" class="boxdaten rechnungSp3 paddingBottom line1Bottom">
+                            <xsl:value-of
+                                    select="if (xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount_in_accounting_currency != ''
+                        and number(xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount_in_accounting_currency)
+                        = number(xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount_in_accounting_currency))
+                   then format-number(xr:DOCUMENT_TOTALS/xr:Invoice_total_VAT_amount_in_accounting_currency, '###.##0,00', 'decimal')
+                   else '0,00'"/>
+                        </div>
                     </div>
+
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1 paddingTop"><xsl:value-of select="$i18n?bt112"/><xsl:if test="$showIds"> BT-112</xsl:if></div>
                         <div class="boxdaten rechnungSp2 paddingTop color2">brutto</div>
                         <div id="BT-112" title="BT-112" class="boxdaten rechnungSp3 paddingTop"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Invoice_total_amount_with_VAT,'###.##0,00','decimal')"/></div>
                     </div>
                     <xsl:if test="fn:not($isOrder)">
-                    <div class="rechnungsZeile">
-                        <div class="boxdaten rechnungSp1"><xsl:value-of select="$i18n?bt113"/><xsl:if test="$showIds"> BT-113</xsl:if></div>
-                        <div class="boxdaten rechnungSp2 color2">brutto</div>
-                        <div id="BT-113" title="BT-113" class="boxdaten rechnungSp3"><xsl:value-of select="format-number(xr:DOCUMENT_TOTALS/xr:Paid_amount,'###.##0,00','decimal')"/></div>
-                    </div>
+                        <div class="rechnungsZeile">
+                            <div class="boxdaten rechnungSp1">
+                                <xsl:value-of select="$i18n?bt113"/>
+                                <xsl:if test="$showIds">BT-113</xsl:if>
+                            </div>
+                            <div class="boxdaten rechnungSp2 color2">brutto</div>
+                            <div id="BT-113" title="BT-113" class="boxdaten rechnungSp3">
+                                <xsl:value-of
+                                        select="if (xr:DOCUMENT_TOTALS/xr:Paid_amount != ''
+                        and number(xr:DOCUMENT_TOTALS/xr:Paid_amount) = number(xr:DOCUMENT_TOTALS/xr:Paid_amount))
+                   then format-number(xr:DOCUMENT_TOTALS/xr:Paid_amount, '###.##0,00', 'decimal')
+                   else '0,00'"/>
+                            </div>
+                        </div>
+
                     </xsl:if>
                     <div class="rechnungsZeile">
                         <div class="boxdaten rechnungSp1 paddingBottom line2Bottom"><xsl:value-of select="$i18n?bt114"/><xsl:if test="$showIds"> BT-114</xsl:if></div>
