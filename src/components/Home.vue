@@ -24,7 +24,7 @@
       </button>
 
       <!-- Layout- Resize Buttons aligned to the right -->
-      <div class="view-buttons">
+      <div class="view-buttons" v-if="isBothAvailable">
         <button @click="setLayout('50-50')" class="layout-btn">
           <i class="ph ph-square-split-horizontal"></i>
         </button>
@@ -74,7 +74,7 @@
     </div>
 
     <!-- Splitter -->
-    <div class="splitter-container" ref="container">
+    <div class="splitter-container" ref="container" v-if="isBothAvailable">
       <div class="pane" :style="{ flexBasis: leftPaneWidth + '%' }">
         <div v-if="currentTab.isPdf" class="full-height" style="flex: 1"
              :class="[currentTab?.isShowXML ? 'leftPart' : '']">
@@ -95,6 +95,19 @@
         </div>
       </div>
     </div>
+
+    <!-- Full PDF or XML View when only one is present -->
+    <div v-else-if="currentTab.isPdf" style="flex: 1">
+      <div id="pdfContainer" class="pdfViewer full-height">
+        <PDFJSViewer ref="pdfViewer" v-bind:fileName="`${currentTab?.link}`"></PDFJSViewer>
+      </div>
+    </div>
+
+    <div v-else-if="currentTab.isXML" style="flex: 1">
+      <div ref="xmlViewer" class="xmlViewer full-height" id="xmlViewer" v-html="currentTab?.content">
+      </div>
+    </div>
+    <!-- Full PDF or XML View when only one is present -->
 
   </div>
   <!-- End PDF/XML sections-->
@@ -126,6 +139,7 @@ import {reactive, ref} from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import {useI18n} from "vue-i18n";
 import $ from 'jquery';
+
 export default {
   name: "Home",
   props: {},
@@ -157,16 +171,14 @@ export default {
 
     const setTabRef = (el) => {
       tabRef.value = el;
+
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
-
       if (currentTabObj.length) {
-        if ((currentTabObj[0] != null) && (typeof currentTabObj[0].isPdf !== "undefined")) {
-          window.api.sendDocChange(currentTabObj[0].isPdf, currentTabObj[0].isShowXML);
-        }
+        currentTab.value = currentTabObj[0]; // currentTab wird gesetzt
+        console.log("Aktueller Tab nach setTabRef:", currentTab.value); // Debugging
+        window.api.sendDocChange(currentTab.value.isPdf, currentTab.value.isShowXML);
       }
-      currentTab.value = currentTabObj[0];
-    }
-
+    };
 
     const handleAdd = () => {
       const key = "tab" + Date.now();
@@ -207,13 +219,14 @@ export default {
         favico: require("../assets/icons/pdf.svg"),
         link: `lib/pdfjs/web/viewer.html?file=${args[0]}`,
         isPdf: true,
+        isXML: !!res, // Dies überprüft, ob XML vorhanden ist
         isShowXML: !!res,
         isShowingXMLSection: true,
         content: res,
         path: args[0],
       });
       tab.value = key;
-
+      currentTab.value = tabs.find(tab => tab.key === key);  // Update currentTab
       afterTabShow();
     });
 
@@ -240,6 +253,8 @@ export default {
       });
 
       tab.value = key;
+      currentTab.value = tabs.find(tab => tab.key === key);  // Update currentTab
+
       afterTabShow();
     });
 
@@ -482,6 +497,15 @@ export default {
     window.removeEventListener("keydown", this.handleEscKey);
 
   },
+  computed: {
+    // Computed property to check if both PDF and XML are available
+    isBothAvailable() {
+      console.log("isPdf:", this.currentTab.isPdf);
+      console.log("isXML:", this.currentTab.isXML);
+      console.log("isBothAvailable:", this.currentTab.isPdf && this.currentTab.isXML);
+      return this.currentTab.isPdf && this.currentTab.isXML;
+    }
+  },
   methods: {
     startDragging(event) {
       this.isDragging = true;
@@ -587,6 +611,23 @@ export default {
         console.error("iframe or PDFViewerApplication unavailable.");
       }
     },*/
+    /*    searchXML() {
+      const xmlViewer = this.$refs.xmlViewer;
+      if (!xmlViewer || !this.searchText) {
+        console.error("XML Viewer oder Suchtext fehlt.");
+        return;
+      }
+
+      // Remove previous highlights
+      this.removeHighlights(xmlViewer);
+
+      // Search and highlight
+      const matchFound = this.searchAndHighlight(xmlViewer, this.searchText);
+
+      if (!matchFound) {
+        console.warn("Kein Treffer gefunden.");
+      }
+    },*/
     searchPDF() {
       const iframe = document.getElementById("viewer"); // Zugriff auf das iframe
       const iframeDocument = iframe.contentDocument || iframe.contentWindow.document; // Zugriff auf das iframe-Dokument
@@ -618,7 +659,7 @@ export default {
 
               if (page && page.div) {
                 // Weiches Scrollen zur gefundenen Seite
-                page.div.scrollIntoView({ behavior: "smooth", block: "center" });
+                page.div.scrollIntoView({behavior: "smooth", block: "center"});
               }
             }
           }, 100); // Alle 100ms nach Ergebnissen suchen
@@ -709,6 +750,9 @@ export default {
     },
     // Set layout based on predefined options ( for Resizing Buttons)
     setLayout(layout) {
+      console.log("isPdf:", this.currentTab.isPdf);
+      console.log("isXML:", this.currentTab.isXML);
+      console.log("isBothAvailable:", this.currentTab.isPdf && this.currentTab.isXML);
       // reset the width
       document.getElementById("xmll").style.width = '0';
       if (layout === '50-50') {
@@ -837,6 +881,7 @@ window.downloadData = downloadData; // make function available to inline javascr
   width: 100%;
   overflow: hidden;
 }
+
 .splitter {
   display: flex;
   justify-content: center;
@@ -871,6 +916,7 @@ window.downloadData = downloadData; // make function available to inline javascr
     opacity: 0; /* Unsichtbar für Blitz */
   }
 }
+
 .pane {
   height: 100%;
 }
@@ -1147,6 +1193,7 @@ a.example {
   .divHide {
     display: block !important;
   }
+
   .rightPart {
     width: 100%;
   }
