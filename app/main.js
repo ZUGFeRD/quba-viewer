@@ -162,6 +162,11 @@ function registerShortcuts() {
     electronLocalShortcut.register(mainWindow, "CommandOrControl+O", () => {
         openFile();
     });
+    electronLocalShortcut.register(mainWindow, "Command+Q", () => {
+        if (process.platform === "darwin") {
+            app.quit();
+        }
+    });
 }
 
 const gotTheLock = app.requestSingleInstanceLock();
