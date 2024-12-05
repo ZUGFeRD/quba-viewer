@@ -12,6 +12,15 @@ History
 
 
 <details>
+<summary>1.4.3 </summary>
+- #100 support ZF1
+- #98 Correctly translate bt148 to gross instead of net
+- #99 Register shortcut to close app by using cmd+q
+- #88 Splash window "About" ("Info" in German) can not be closed on MacOS
+
+</details>
+
+<details>
 <summary>1.4.2 01.11.2024</summary>
 - #54 print only prints first page
 - #83 NaN for VAT amount and rounding amount 
