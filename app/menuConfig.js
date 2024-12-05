@@ -239,6 +239,12 @@ function openAboutWindow(mainWindow, app, i18n) {
   });
   newWindow.setMenuBarVisibility(false);
 
+  // this hack is necessary, because of a mac specific bug in electron: https://github.com/electron/electron/issues/27160#issuecomment-1325840197
+  if (process.platform === "darwin") {
+    newWindow.modal = false;
+    newWindow.closable = true;
+  }
+
   ipcMain.on("about-info", (event) => {
     event.sender.send("about-info", { ...aboutWindowTranslation });
   });
