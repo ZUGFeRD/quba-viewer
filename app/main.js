@@ -430,7 +430,10 @@ function loadAndDisplayXML(filename) {
                 transformAndDisplayUBL(filename, content, true);
             } else if (key.includes("CreditNote")) {
                 transformAndDisplayUBLCN(filename, content, true);
-            } else {
+            }else if (key.includes("CrossIndustryDocument")){
+                transformAndDisplayZF1(filename, content, true);
+            }
+            else {
                 displayError(
                     "File format not recognized",
                     "Is it a UBL 2.1 or UN/CEFACT 2016b XML file or PDF you are trying to open?"
@@ -469,6 +472,36 @@ function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
         path.join(__dirname, "xslt", "ubl-xr.sef.json"),
         shouldDisplay
     );
+}
+
+function transformAndDisplayZF1(sourceFileName, content, shouldDisplay) {
+
+    const dom = new JSDOM(content, {contentType: "application/xml"});
+    const doc = dom.window.document;
+
+    return SaxonJS.transform(
+        {
+            stylesheetFileName:'ZUGFeRD_1p0_c1p0_s1p0.sef.json',
+            sourceText: content,
+            destination: "serialized"
+        },
+        "async"
+    )
+        .then((output) => {
+                    let HTML = output.principalResult;
+                    if (shouldDisplay) {
+                        mainWindow.webContents.send("xml-open", [
+                            sourceFileName,
+                            HTML
+                        ]);
+                    }
+                    return HTML;
+                })
+        .catch((output) => {
+            const errMessage = output?.message ? output.message : output;
+            displayError("Exception", errMessage);
+        });
+
 }
 
 function transformAndDisplayUBLCN(sourceFileName, content, shouldDisplay) {
