@@ -78,6 +78,13 @@
       "!package.json",
       "!package-lock.json"
     ],
+    "fileAssociations": [
+      {
+        "ext": "pdf",
+        "name": "PDF File",
+        "role": "Viewer"
+      }
+    ],
     "publish": [
       {
         "provider": "github",
