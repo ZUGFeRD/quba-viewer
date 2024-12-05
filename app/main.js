@@ -18,9 +18,9 @@ const isDev = require("electron-is-dev");
 const https = require("https");
 const menuFactoryService = require("./menuConfig");
 const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { parse } = require("ini");
-const  { readFile} = require("node:fs/promises")
+const {JSDOM} = jsdom;
+const {parse} = require("ini");
+const {readFile} = require("node:fs/promises")
 
 const i18next = require("i18next");
 const Backend = require("i18next-fs-backend");
@@ -32,8 +32,8 @@ const path = require("path");
 const store = new Store();
 
 let mainWindow;
-let eligibleSysLanguage=null;
-if ((app.getLocale()=="de")||(app.getLocale()=="en")||(app.getLocale()=="fr")) {
+let eligibleSysLanguage = null;
+if ((app.getLocale() == "de") || (app.getLocale() == "en") || (app.getLocale() == "fr")) {
     eligibleSysLanguage = app.getLocale();
 }
 
@@ -48,6 +48,7 @@ if ((app.getLocale()=="de")||(app.getLocale()=="en")||(app.getLocale()=="fr")) {
 
  */
 let currentLanguage = store.get("language") || eligibleSysLanguage || config.fallbackLng;
+
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
@@ -65,7 +66,7 @@ function createWindow() {
         //store.clear();
         //store.delete("access_token");
         //store.delete("isLoggedIn");
-         mainWindow = null;
+        mainWindow = null;
     });
 
 
@@ -244,6 +245,7 @@ function initApp() {
                     pdf.getAttachments().then(function (embeddedFiles) {
                         let embeddedXML = null;
                         let isOrderX = false;
+                        let isZF1 = false;
                         if (typeof embeddedFiles == "object" && embeddedFiles !== null) {
                             if (embeddedFiles["factur-x.xml"]) {
                                 embeddedXML = new TextDecoder().decode(
@@ -254,7 +256,7 @@ function initApp() {
                             if ((typeof embeddedFiles["Embedded XML"] != "undefined") && (typeof embeddedFiles["Embedded XML"]["filename"] != "undefined")
                                 && (
                                     (embeddedFiles["Embedded XML"]["filename"] == "factur-x.xml")
-                                    || (embeddedFiles["Embedded XML"]["filename"] == "zugferd-invoice.xml")
+                                    || (embeddedFiles["Embedded XML"]["filename"].lowercase() == "zugferd-invoice.xml")
                                     || (embeddedFiles["Embedded XML"]["filename"] == "xrechnung.xml")
                                     || (embeddedFiles["Embedded XML"]["filename"] == "order-x.xml")
                                 )) {
@@ -262,7 +264,7 @@ function initApp() {
                                     embeddedFiles["Embedded XML"]["content"]
                                 );
                                 if (embeddedFiles["Embedded XML"]["filename"] == "order-x.xml") {
-                                   isOrderX=true;
+                                    isOrderX = true;
                                 }
 
                             } else {
@@ -274,13 +276,21 @@ function initApp() {
                                         embeddedFiles["zugferd-invoice.xml"]["content"]
                                     );
                                 }
+                                if (embeddedFiles["ZUGFeRD-invoice.xml"]) {
+                                    // the embedded file can also be named zugferd-invoice.xml
+                                    // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
+                                    embeddedXML = new TextDecoder().decode(
+                                        embeddedFiles["ZUGFeRD-invoice.xml"]["content"]
+                                    );
+                                    isZF1 = true;
+                                }
                                 if (embeddedFiles["xrechnung.xml"]) {
                                     embeddedXML = new TextDecoder().decode(
                                         embeddedFiles["xrechnung.xml"]["content"]
                                     );
                                 }
                                 if (embeddedFiles["order-x.xml"]) {
-                                    isOrderX=true;
+                                    isOrderX = true;
                                     embeddedXML = new TextDecoder().decode(
                                         embeddedFiles["order-x.xml"]["content"]
                                     );
@@ -296,6 +306,15 @@ function initApp() {
                                 ).then((res) => {
                                     event.returnValue = res ? res : undefined;
                                 });
+                            } else if (isZF1) {
+                                transformAndDisplayZF1(
+                                    filePath + " (embedded xml)",
+                                    embeddedXML,
+                                    false
+                                ).then((res) => {
+                                    event.returnValue = res ? res : undefined;
+                                });
+
                             } else {
                                 transformAndDisplayCII(
                                     filePath + " (embedded xml)",
@@ -304,6 +323,7 @@ function initApp() {
                                 ).then((res) => {
                                     event.returnValue = res ? res : undefined;
                                 });
+
                             }
                         } else {
                             event.returnValue = undefined;
@@ -366,20 +386,21 @@ function initApp() {
  */
 async function readInstallerConfigAndPerformAutoUpdate() {
 
-    let doUpdate=true;
+    let doUpdate = true;
     // getAppPath() returns resources/asar
     try {
         let text = await readFile(app.getAppPath() + `\\..\\..\\AppConfig.ini`, {
             encoding: 'utf-8'
         });
         const config = parse(text)
-        doUpdate= config.AutoUpdate.performOnStartup;
+        doUpdate = config.AutoUpdate.performOnStartup;
 
-    } catch (err){
+    } catch (err) {
         // Here you get the error when the file was not found,
         // but you also get any other error
         console.error(err);
-    };
+    }
+    ;
     if (doUpdate) {
         autoUpdater.checkForUpdatesAndNotify();
     } else {
@@ -430,10 +451,9 @@ function loadAndDisplayXML(filename) {
                 transformAndDisplayUBL(filename, content, true);
             } else if (key.includes("CreditNote")) {
                 transformAndDisplayUBLCN(filename, content, true);
-            }else if (key.includes("CrossIndustryDocument")){
+            } else if (key.includes("CrossIndustryDocument")) {
                 transformAndDisplayZF1(filename, content, true);
-            }
-            else {
+            } else {
                 displayError(
                     "File format not recognized",
                     "Is it a UBL 2.1 or UN/CEFACT 2016b XML file or PDF you are trying to open?"
@@ -475,28 +495,27 @@ function transformAndDisplayUBL(sourceFileName, content, shouldDisplay) {
 }
 
 function transformAndDisplayZF1(sourceFileName, content, shouldDisplay) {
-
     const dom = new JSDOM(content, {contentType: "application/xml"});
     const doc = dom.window.document;
 
     return SaxonJS.transform(
         {
-            stylesheetFileName:'ZUGFeRD_1p0_c1p0_s1p0.sef.json',
+            stylesheetFileName: path.join(__dirname, "xslt", 'ZUGFeRD_1p0_c1p0_s1p0.sef.json'),
             sourceText: content,
             destination: "serialized"
         },
         "async"
     )
         .then((output) => {
-                    let HTML = output.principalResult;
-                    if (shouldDisplay) {
-                        mainWindow.webContents.send("xml-open", [
-                            sourceFileName,
-                            HTML
-                        ]);
-                    }
-                    return HTML;
-                })
+            let HTML = output.principalResult;
+            if (shouldDisplay) {
+                mainWindow.webContents.send("xml-open", [
+                    sourceFileName,
+                    HTML
+                ]);
+            }
+            return HTML;
+        })
         .catch((output) => {
             const errMessage = output?.message ? output.message : output;
             displayError("Exception", errMessage);
@@ -525,7 +544,6 @@ function transformAndDisplay(
 //cbc:InvoiceTypeCode for bis biling, ubl order would be <cbc:ProfileID>urn:fdc:peppol.eu:poacc:bis:ordering:3</cbc:ProfileID>
     const typecode = doc.evaluate("//rsm:ExchangedDocument/ram:TypeCode", doc, null, 2, null).stringValue;
     const isOrder = (typecode == 220) || (typecode == 231);
-
     return SaxonJS.transform(
         {
             stylesheetFileName,
@@ -580,7 +598,7 @@ function transformAndDisplay(
                 });
         })
         .catch((output) => {
-            d
+
             const errMessage = output?.message ? output.message : output;
             displayError("Exception", errMessage);
         });

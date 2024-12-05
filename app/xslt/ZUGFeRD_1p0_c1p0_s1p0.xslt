@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
 
-Nutzungsrechte 
+Nutzungsrechte
 ZUGFeRD Datenformat Version 1.0, 25.6.2014
 
-Zweck des Forums für elektronische Rechnungen bei der AWV e.V („FeRD“) ist u.a. die Schaffung und Spezifizierung 
-eines offenen Datenformats für strukturierten elektronischen Datenaustausch auf der Grundlage offener und nicht 
+Zweck des Forums für elektronische Rechnungen bei der AWV e.V („FeRD“) ist u.a. die Schaffung und Spezifizierung
+eines offenen Datenformats für strukturierten elektronischen Datenaustausch auf der Grundlage offener und nicht
 diskriminierender, standardisierter Technologien („ZUGFeRD Datenformat“)
 
-Das ZUGFeRD Datenformat wird nach Maßgabe des FeRD sowohl Unternehmen als auch der öffentlichen Verwaltung 
-frei zugänglich gemacht. Hierfür bietet FeRD allen Unternehmen und Organisationen der öffentlichen Verwaltung eine 
-Lizenz für die Nutzung des urheberrechtlich geschützten ZUGFeRD-Datenformats zu fairen, sachgerechten und nicht 
+Das ZUGFeRD Datenformat wird nach Maßgabe des FeRD sowohl Unternehmen als auch der öffentlichen Verwaltung
+frei zugänglich gemacht. Hierfür bietet FeRD allen Unternehmen und Organisationen der öffentlichen Verwaltung eine
+Lizenz für die Nutzung des urheberrechtlich geschützten ZUGFeRD-Datenformats zu fairen, sachgerechten und nicht
 diskriminierenden Bedingungen an.
 
-Die Spezifikation des FeRD zur Implementierung des ZUGFeRD Datenformats ist in ihrer jeweils geltenden Fassung 
+Die Spezifikation des FeRD zur Implementierung des ZUGFeRD Datenformats ist in ihrer jeweils geltenden Fassung
 abrufbar unter www.ferd-net.de.
 
-Im Einzelnen schließt die Nutzungsgewährung ein: 
+Im Einzelnen schließt die Nutzungsgewährung ein:
 =====================================
 
-FeRD räumt eine Lizenz für die Nutzung des urheberrechtlich geschützten ZUGFeRD Datenformats in der jeweils 
-geltenden und akzeptierten Fassung (www.ferd-net.de) ein. 
-Die Lizenz beinhaltet ein unwiderrufliches Nutzungsrecht einschließlich des Rechts der Weiterentwicklung, 
+FeRD räumt eine Lizenz für die Nutzung des urheberrechtlich geschützten ZUGFeRD Datenformats in der jeweils
+geltenden und akzeptierten Fassung (www.ferd-net.de) ein.
+Die Lizenz beinhaltet ein unwiderrufliches Nutzungsrecht einschließlich des Rechts der Weiterentwicklung,
 Weiterbearbeitung und Verbindung mit anderen Produkten.
-Die Lizenz gilt insbesondere für die Entwicklung, die Gestaltung, die Herstellung, den Verkauf, die Nutzung oder 
-anderweitige Verwendung des ZUGFeRD Datenformats für Hardware- und/oder Softwareprodukte sowie sonstige 
-Anwendungen und Dienste. 
-Diese Lizenz schließt nicht die wesentlichen Patente der Mitglieder von FeRD ein. Als wesentliche Patente sind Patente 
-und Patentanmeldungen weltweit zu verstehen, die einen oder mehrere Patentansprüche beinhalten, bei denen es sich um 
-notwendige Ansprüche handelt. Notwendige Ansprüche sind lediglich jene Ansprüche der Wesentlichen Patente, die durch 
-die Implementierung des ZUGFeRD Datenformats notwendigerweise verletzt würden. 
-Der Lizenznehmer ist berechtigt, seinen jeweiligen Konzerngesellschaften ein unbefristetes, weltweites, nicht übertragbares, 
-unwiderrufliches Nutzungsrecht einschließlich des Rechts der Weiterentwicklung, Weiterbearbeitung und Verbindung mit 
-anderen Produkten einzuräumen. 
+Die Lizenz gilt insbesondere für die Entwicklung, die Gestaltung, die Herstellung, den Verkauf, die Nutzung oder
+anderweitige Verwendung des ZUGFeRD Datenformats für Hardware- und/oder Softwareprodukte sowie sonstige
+Anwendungen und Dienste.
+Diese Lizenz schließt nicht die wesentlichen Patente der Mitglieder von FeRD ein. Als wesentliche Patente sind Patente
+und Patentanmeldungen weltweit zu verstehen, die einen oder mehrere Patentansprüche beinhalten, bei denen es sich um
+notwendige Ansprüche handelt. Notwendige Ansprüche sind lediglich jene Ansprüche der Wesentlichen Patente, die durch
+die Implementierung des ZUGFeRD Datenformats notwendigerweise verletzt würden.
+Der Lizenznehmer ist berechtigt, seinen jeweiligen Konzerngesellschaften ein unbefristetes, weltweites, nicht übertragbares,
+unwiderrufliches Nutzungsrecht einschließlich des Rechts der Weiterentwicklung, Weiterbearbeitung und Verbindung mit
+anderen Produkten einzuräumen.
 
-Die Lizenz wird kostenfrei zur Verfügung gestellt. 
+Die Lizenz wird kostenfrei zur Verfügung gestellt.
 
-Außer im Falle vorsätzlichen Verschuldens oder grober Fahrlässigkeit haftet FeRD weder für Nutzungsausfall, entgangenen 
-Gewinn, Datenverlust, Kommunikationsverlust, Einnahmeausfall, Vertragseinbußen, Geschäftsausfall oder für Kosten, 
-Schäden, Verluste oder Haftpflichten im Zusammenhang mit einer Unterbrechung der Geschäftstätigkeit, noch für konkrete, 
-beiläufig entstandene, mittelbare Schäden, Straf- oder Folgeschäden und zwar auch dann nicht, wenn die Möglichkeit der 
+Außer im Falle vorsätzlichen Verschuldens oder grober Fahrlässigkeit haftet FeRD weder für Nutzungsausfall, entgangenen
+Gewinn, Datenverlust, Kommunikationsverlust, Einnahmeausfall, Vertragseinbußen, Geschäftsausfall oder für Kosten,
+Schäden, Verluste oder Haftpflichten im Zusammenhang mit einer Unterbrechung der Geschäftstätigkeit, noch für konkrete,
+beiläufig entstandene, mittelbare Schäden, Straf- oder Folgeschäden und zwar auch dann nicht, wenn die Möglichkeit der
 Kosten, Verluste bzw. Schäden hätte normalerweise vorhergesehen werden können.
 
 -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:altova="http://www.altova.com" xmlns:altovaext="http://www.altova.com/xslt-extensions" xmlns:clitype="clitype" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:ix="http://www.xbrl.org/2008/inlineXBRL" xmlns:java="java" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:qdt="urn:un:unece:uncefact:data:standard:QualifiedDataType:12" xmlns:ram="urn:un:unece:uncefact:data:standard:ReusableAggregateBusinessInformationEntity:12" xmlns:rsm="urn:ferd:CrossIndustryDocument:invoice:1p0" xmlns:sps="http://www.altova.com/StyleVision/user-xpath-functions" xmlns:udt="urn:un:unece:uncefact:data:standard:UnqualifiedDataType:15" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exclude-result-prefixes="#all">
-	<xsl:output version="4.0" method="html" indent="no" encoding="UTF-8" use-character-maps="spaces" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd"/>
+	<xsl:output indent="yes" method="html" encoding="UTF-8" include-content-type="no" media-type="text/html" undeclare-prefixes="yes"/>
+
 	<xsl:character-map name="spaces">
 		<xsl:output-character character="&#160;" string="&amp;nbsp;"/>
 	</xsl:character-map>
@@ -2624,7 +2625,7 @@ Kosten, Verluste bzw. Schäden hätte normalerweise vorhergesehen werden können
 	</xsl:template>
 	<xsl:template name="ram:Datum">
 		<span>
-			<xsl:value-of select="if ( @format = &apos;102&apos;) then concat(substring(.,7,2),&apos;.&apos;,substring(.,5,2),&apos;.&apos;,substring(.,1,4)) else 
+			<xsl:value-of select="if ( @format = &apos;102&apos;) then concat(substring(.,7,2),&apos;.&apos;,substring(.,5,2),&apos;.&apos;,substring(.,1,4)) else
 if ( @format = &apos;610&apos;) then concat(substring(.,5,2),&apos;-&apos;,substring(.,1,4)) else
 if ( @format = &apos;616&apos;) then concat(&apos;KW &apos;,substring(.,5,2),&apos; &apos;,substring(.,1,4)) else
 concat(&apos;Ungültiges Datumsformat für: &apos;, .)"/>
@@ -2648,7 +2649,7 @@ if(. eq &apos;SHIPMENT_REFERENCE&apos;) then &apos;Sendungs-/Ladungsbezugsnummer
 		<span>
 			<xsl:value-of select="if (. eq &apos;0021&apos;) then &apos;BIC&apos; else
 if (. eq &apos;0060&apos;) then &apos;DUNS&apos; else
-if (. eq &apos;0088&apos;) then &apos;GTIN&apos; else 
+if (. eq &apos;0088&apos;) then &apos;GTIN&apos; else
 if (. eq &apos;0160&apos;) then &apos;GLN&apos; else
 if (. eq &apos;0177&apos;) then &apos;OSCAR&apos; else
 ."/>
@@ -2670,7 +2671,7 @@ if (. eq &apos;0177&apos;) then &apos;OSCAR&apos; else
 				<xsl:text>&#160;</xsl:text>
 			</span>
 			<span>
-				<xsl:value-of select="if (. eq &apos;C62&apos;) then &apos;Stk&apos; else 
+				<xsl:value-of select="if (. eq &apos;C62&apos;) then &apos;Stk&apos; else
 if (. eq &apos;DAY&apos;) then &apos;Tag(e)&apos; else
 if (. eq &apos;HAR&apos;) then &apos;ha&apos; else
 if (. eq &apos;HUR&apos;) then &apos;Std&apos; else
@@ -2696,7 +2697,7 @@ if (. eq &apos;WEE&apos;) then &apos;Woche(n)&apos; else
 	</xsl:template>
 	<xsl:template name="ram:TaxRegistration">
 		<span>
-			<xsl:value-of select="if ( @schemeID = &apos;FC&apos;) then concat(&apos;Steuernummer  : &apos;, .) else 
+			<xsl:value-of select="if ( @schemeID = &apos;FC&apos;) then concat(&apos;Steuernummer  : &apos;, .) else
 if ( @schemeID = &apos;VA&apos;) then concat(&apos;USt.-Id.-Nr.  : &apos;, .) else
 concat(&apos;Unbekannte Steuernummer (&apos;, @schemeID , &apos;): &apos;, .)"/>
 		</span>
@@ -2771,18 +2772,18 @@ if (. eq &apos;VN&apos;) then &apos;Auftragsnummer (Lieferant)&apos; else
 					<xsl:text>&#160;</xsl:text>
 				</span>
 				<span>
-					<xsl:value-of select="if (. eq &apos;BA&apos;) then &apos;Tonne&apos; else 
-if (. eq &apos;BC&apos;) then &apos;Getränkekiste&apos;  else 
-if (. eq &apos;BG&apos;) then &apos;Tüte, Beutel&apos;  else 
-if (. eq &apos;BO&apos;) then &apos;Flasche&apos;  else 
-if (. eq &apos;BX&apos;) then &apos;Schachtel&apos;  else 
-if (. eq &apos;CS&apos;) then &apos;Kiste&apos;  else 
-if (. eq &apos;CT&apos;) then &apos;Karton&apos;  else 
-if (. eq &apos;CX&apos;) then &apos;Dose&apos;  else 
-if (. eq &apos;NE&apos;) then &apos;Unverpackt oder ausgepackt&apos;  else 
-if (. eq &apos;PX&apos;) then &apos;Palette&apos;  else 
-if (. eq &apos;RO&apos;) then &apos;Rolle&apos;  else 
-if (. eq &apos;SA&apos;) then &apos;Sack&apos;  
+					<xsl:value-of select="if (. eq &apos;BA&apos;) then &apos;Tonne&apos; else
+if (. eq &apos;BC&apos;) then &apos;Getränkekiste&apos;  else
+if (. eq &apos;BG&apos;) then &apos;Tüte, Beutel&apos;  else
+if (. eq &apos;BO&apos;) then &apos;Flasche&apos;  else
+if (. eq &apos;BX&apos;) then &apos;Schachtel&apos;  else
+if (. eq &apos;CS&apos;) then &apos;Kiste&apos;  else
+if (. eq &apos;CT&apos;) then &apos;Karton&apos;  else
+if (. eq &apos;CX&apos;) then &apos;Dose&apos;  else
+if (. eq &apos;NE&apos;) then &apos;Unverpackt oder ausgepackt&apos;  else
+if (. eq &apos;PX&apos;) then &apos;Palette&apos;  else
+if (. eq &apos;RO&apos;) then &apos;Rolle&apos;  else
+if (. eq &apos;SA&apos;) then &apos;Sack&apos;
 else ."/>
 				</span>
 			</xsl:for-each>
@@ -2812,7 +2813,7 @@ else ."/>
 			<span>
 				<xsl:value-of select="if (. eq &apos;GPC&apos;) then &apos;Global Product Classification (GS1)&apos; else
 if (. eq &apos;ECL&apos;) then &apos;eCl@ass&apos; else
-if (. eq &apos;UNSPSC&apos;) then &apos;United Nations Standard Products and Services Code® (UNSPSC®)&apos; else 
+if (. eq &apos;UNSPSC&apos;) then &apos;United Nations Standard Products and Services Code® (UNSPSC®)&apos; else
 if (. eq &apos;HS&apos;) then &apos;Zolltarifnummer (Harmonised System)&apos; else
 if (. eq &apos;CBV&apos;) then &apos;Gemeinsames Vokabular für öffentliche Aufträge (Common Procurement Vocabulary - CPV)&apos; else
 if (. eq &apos;SELLER_ASSIGNED&apos;) then &apos;vom Verkäufer vergeben&apos; else
@@ -2825,7 +2826,7 @@ if (. eq &apos;BUYER_ASSIGNED&apos;) then &apos;vom Käufer vergeben&apos; else
 		<span>
 			<xsl:value-of select="if (. eq &apos;XW&apos;) then &apos;ab Werk&apos; else
 if (. eq &apos;FCA&apos;) then &apos;frei Frachtführer&apos; else
-if (. eq &apos;FAS&apos;) then &apos;frei längsseits Schiff&apos; else 
+if (. eq &apos;FAS&apos;) then &apos;frei längsseits Schiff&apos; else
 if (. eq &apos;FOB&apos;) then &apos;frei an Bord&apos; else
 if (. eq &apos;CFR&apos;) then &apos;Kosten und Fracht&apos; else
 if (. eq &apos;CIF&apos;) then &apos;Kosten, Versicherung und Fracht bis zum Bestimmungshafen&apos; else
@@ -2844,7 +2845,7 @@ if (. eq &apos;DDP&apos;) then &apos;geliefert Zoll bezahlt&apos; else
 		<span>
 			<xsl:value-of select="if (. eq &apos;AA&apos;) then &apos;Werbekostenzuschuß&apos; else
 if (. eq &apos;ADR&apos;) then &apos;Andere Dienste&apos; else
-if (. eq &apos;AEO&apos;) then &apos;Sammel- und Recyclingservice&apos; else 
+if (. eq &apos;AEO&apos;) then &apos;Sammel- und Recyclingservice&apos; else
 if (. eq &apos;DI&apos;) then &apos;Abzug (Rabatt)&apos; else
 if (. eq &apos;EAB&apos;) then &apos;Skonto&apos; else
 if (. eq &apos;FC&apos;) then &apos;Frachtgebühren&apos; else
