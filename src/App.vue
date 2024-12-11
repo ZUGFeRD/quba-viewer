@@ -15,6 +15,13 @@ export default {
 </script>
 
 <style>
+/*for xml search*/
+.highlight {
+  background-color: yellow !important;
+  color: black !important;
+  font-weight: bold !important;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

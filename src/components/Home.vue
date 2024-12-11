@@ -1,50 +1,51 @@
 <template>
-  <vue3-tabs-chrome style="flex-shrink: 1"
-                    :ref="setTabRef"
-                    :tabs="tabs"
-                    v-model="tab"
-                    :dragable="true"
-                    :swappable="true"
-                    :click="onClick"
-                    :class="[tabs?.length ? '' : 'display-none']"
-                    :on-close="onClose"
-  >
-    <template v-slot:after>
-      <button
-          class="btn"
-          style="
+  <div class="container" style="display: flex;align-items: flex-end; background-color: #dee1e6">
+    <vue3-tabs-chrome style="flex-shrink: 1; width: 100%"
+                      :ref="setTabRef"
+                      :tabs="tabs"
+                      v-model="tab"
+                      :dragable="true"
+                      :swappable="true"
+                      :click="onClick"
+                      :class="[tabs?.length ? '' : 'display-none']"
+                      :on-close="onClose"
+    >
+      <template v-slot:after>
+        <button
+            class="btn"
+            style="
           height: 20px;
           line-height: 20px;
           padding: 0 10px;
           margin-left: 0px;
         "
-          @click="handleAdd"
-      >
-        +
+            @click="handleAdd"
+        >
+          +
+        </button>
+      </template>
+
+    </vue3-tabs-chrome>
+
+    <!-- Layout- Resize Buttons aligned to the right -->
+    <div class="view-buttons"  v-if="currentTab?.isPdf && currentTab?.isXML">
+      <button @click="setLayout('50-50')" class="layout-btn">
+        <i class="ph ph-square-split-horizontal"></i>
       </button>
 
-      <!-- Layout- Resize Buttons aligned to the right -->
-      <div class="view-buttons" v-if="isBothAvailable">
-        <button @click="setLayout('50-50')" class="layout-btn">
-          <i class="ph ph-square-split-horizontal"></i>
-        </button>
+      <button @click="toggle30_70" class="layout-btn">
+        <i class="ph ph-arrows-left-right"></i>
+      </button>
 
-        <button @click="toggle30_70" class="layout-btn">
-          <i class="ph ph-arrows-left-right"></i>
-        </button>
+      <button @click="setLayout('100-0')" class="layout-btn">
+        <i class="ph ph-file-pdf"></i>
+      </button>
 
-        <button @click="setLayout('100-0')" class="layout-btn">
-          <i class="ph ph-file-pdf"></i>
-        </button>
-
-        <button @click="setLayout('0-100')" class="layout-btn" style="margin-right: 10px">
-          <i class="ph ph-file-code"></i>
-        </button>
-      </div>
-
-    </template>
-
-  </vue3-tabs-chrome>
+      <button @click="setLayout('0-100')" class="layout-btn" style="margin-right: 10px">
+        <i class="ph ph-file-code"></i>
+      </button>
+    </div>
+  </div>
 
   <!--  Search Field-->
   <div v-if="showSearchInput" class="search-overlay">
@@ -56,15 +57,18 @@
           type="text"
           placeholder="Suchbegriff eingeben..."
           @keypress.enter="handleSearch"
+          @input="handleInput"
       />
       <div class="action-button" @click="handleSearch">
         <i class="ph ph-magnifying-glass"></i>
       </div>
+
       <div class="action-button" @click="closeSearch">
         <i class="ph ph-x-circle"></i>
       </div>
     </div>
   </div>
+  <!--  End Search Field-->
 
   <!-- Start PDF/XML sections -->
   <div v-if="currentTab" style="flex-grow: 1;overflow: hidden; display: flex;flex-direction: row">
@@ -135,7 +139,7 @@
 <script>
 import Vue3TabsChrome from "vue3-tabs-chrome";
 import "vue3-tabs-chrome/dist/vue3-tabs-chrome.css";
-import {reactive, ref} from "vue";
+import {reactive, ref, isProxy, toRaw, onMounted} from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import {useI18n} from "vue-i18n";
 import $ from 'jquery';
@@ -149,17 +153,23 @@ export default {
   },
   data() {
     return {
-      leftPaneWidth: 50, // Initial width of the left pane in percentage
-      isDragging: false, // Status indicating if dragging is currently active
-      searchText: "", // Text entered for search
-      showSearchInput: false, // Controls the visibility of the search input field
       lang: "en",
       version: undefined,
       showNofification: false,
       message: undefined,
       showRestartButton: false,
       showLoader: false,
+
+      leftPaneWidth: 50, // Initial width of the left pane in percentage
+      isDragging: false, // Status indicating if dragging is currently active
+      showSearchInput: false, // Controls the visibility of the search input field
       currentTab: null,
+      searchText: "", // Der Suchtext aus dem Eingabefeld
+      xmlMatches: [], // Liste der Treffer im XML
+      currentXMLMatchIndex: -1, // Index des aktuellen Treffers im XML
+      currentPDFMatchIndex: -1, // Index des aktuellen Treffers im PDF
+      findEventListenerAdded: false, // Verhindert mehrfaches Hinzufügen von Events
+      isSearchActive: false, // Status der aktiven Suche
     };
   },
   setup() {
@@ -171,14 +181,23 @@ export default {
 
     const setTabRef = (el) => {
       tabRef.value = el;
-
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
+
+      /*
+          if (currentTabObj.length) {
+            if ((currentTabObj[0] != null) && (typeof currentTabObj[0].isPdf !== "undefined")) {
+              window.api.sendDocChange(currentTabObj[0].isPdf, currentTabObj[0].isShowXML);
+            }
+          }
+          currentTab.value = currentTabObj[0];
+        }*/
       if (currentTabObj.length) {
         currentTab.value = currentTabObj[0]; // currentTab wird gesetzt
         console.log("Aktueller Tab nach setTabRef:", currentTab.value); // Debugging
         window.api.sendDocChange(currentTab.value.isPdf, currentTab.value.isShowXML);
       }
-    };
+    }
+
 
     const handleAdd = () => {
       const key = "tab" + Date.now();
@@ -253,8 +272,6 @@ export default {
       });
 
       tab.value = key;
-      currentTab.value = tabs.find(tab => tab.key === key);  // Update currentTab
-
       afterTabShow();
     });
 
@@ -298,7 +315,8 @@ export default {
       locale,
     };
   },
-  mounted() {
+  mounted
+      () {
     // Add event listener for Ctrl + F
     document.addEventListener("keydown", this.handleKeydown);
     // Attach the keydown event listener when the component is mounted
@@ -488,15 +506,9 @@ export default {
     document.addEventListener("dragleave", (event) => {
       event.preventDefault();
     }, false);
-    window.addEventListener("resize", this.handleResize);
 
-  },
-  beforeUnmount() {
-    // Remove event listeners to avoid memory leaks
-    document.removeEventListener("keydown", this.handleKeydown);
-    window.removeEventListener("keydown", this.handleEscKey);
-
-  },
+  }
+  ,
   computed: {
     // Computed property to check if both PDF and XML are available
     isBothAvailable() {
@@ -505,7 +517,8 @@ export default {
       console.log("isBothAvailable:", this.currentTab.isPdf && this.currentTab.isXML);
       return this.currentTab.isPdf && this.currentTab.isXML;
     }
-  },
+  }
+  ,
   methods: {
     startDragging(event) {
       this.isDragging = true;
@@ -518,7 +531,8 @@ export default {
       document.addEventListener("mouseup", this.stopDragging);
 
       event.preventDefault(); // Prevent default behavior
-    },
+    }
+    ,
     onMouseMove(event) {
       // Resize the widht for probably working of splitter
       document.getElementById("xmll").style.width = '0';
@@ -534,7 +548,8 @@ export default {
 
       // Constrain the width between 0% and 100% (recommended 10% 90%)
       this.leftPaneWidth = Math.max(0, Math.min(100, newWidthPercentage));
-    },
+    }
+    ,
     stopDragging() {
       this.isDragging = false;
 
@@ -544,7 +559,8 @@ export default {
 
       document.removeEventListener("mousemove", this.onMouseMove);
       document.removeEventListener("mouseup", this.stopDragging);
-    },
+    }
+    ,
     handleKeydown(event) {
       // Check if Ctrl+F (or Cmd+F on macOS) is pressed
       if ((event.ctrlKey || event.metaKey) && event.key === "f") {
@@ -559,137 +575,251 @@ export default {
           }
         });
       }
-    },
-    closeSearch() {
-      this.showSearchInput = false; // Hide search field
-    },
+    }
+    ,
     handleEscKey(event) {
       if (event.key === "Escape") {
         this.closeSearch();
       }
-    },
+    }
+    ,
     handleSearch() {
-      this.searchPDF();  // Perform search in the PDF
-      this.searchXML();  // Perform search in the XML
+      if (!this.isSearchActive) {
+        // Starte eine neue Suche
+        this.isSearchActive = true;
+        this.currentXMLMatchIndex = -1;
+        this.currentPDFMatchIndex = -1;
+        //this.searchPDF(); // Suche im PDF starten
+        this.searchXML(); // Suche im XML starten
+      } else {
+        // Springe zu den nächsten Treffern
+        //this.nextPDFMatch();
+        this.nextXMLMatch();
+      }
     },
-    /*searchPDF() {
-      const iframe = document.getElementById("viewer"); // Access the iframe
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document; // Get the iframe's document
+    closeSearch() {
+      // Beendet die Suche und setzt alle Treffer zurück
+      this.showSearchInput = false;
+      this.isSearchActive = false;
+      this.searchText = "";
+      this.xmlMatches = [];
+      this.currentXMLMatchIndex = -1;
+      this.currentPDFMatchIndex = -1;
+      const xmlViewer = this.$refs.xmlViewer;
+      if (xmlViewer) {
+        this.removeHighlights(xmlViewer);
+      }
 
+      // Entfernt Highlights aus dem PDF-Viewer
+      const iframe = document.getElementById("viewer");
+      const iframeDocument = iframe?.contentDocument || iframe?.contentWindow?.document;
       if (iframeDocument && iframeDocument.defaultView.PDFViewerApplication) {
-        const pdfViewerApp = iframeDocument.defaultView.PDFViewerApplication;
-        const findController = pdfViewerApp.findController;
-
-        if (pdfViewerApp && findController) {
-          // Trigger PDF search
+        const findController = iframeDocument.defaultView.PDFViewerApplication.findController;
+        if (findController) {
           findController.executeCommand("find", {
-            query: this.searchText,
-            caseSensitive: false,  // Ignore case
-            highlightAll: true,    // Highlight all matches
-            findPrevious: false,   // Search forward
+            query: "", // Leere Suchabfrage, um alle Highlights zu entfernen
+            caseSensitive: false,
+            highlightAll: false,
+            findPrevious: false,
           });
-
-          // Monitor for search result updates
-          const checkMatch = setInterval(() => {
-            const currentPage = findController._selected.pageIdx;
-
-            if (currentPage >= 0) {
-              clearInterval(checkMatch); // Stop checking after match found
-
-              const page = pdfViewerApp.pdfViewer.getPageView(currentPage);
-
-              if (page && page.div) {
-                // Smooth scroll to the matched page
-                page.div.scrollIntoView({behavior: "smooth", block: "center"});
-              }
-            }
-          }, 100); // Check every 100ms
-        } else {
-          console.error("PDFViewerApplication or FindController not found.");
+          console.log("PDF-Highlights entfernt.");
         }
       } else {
-        console.error("iframe or PDFViewerApplication unavailable.");
+        console.warn("PDF-Viewer nicht verfügbar.");
       }
-    },*/
-    /*    searchXML() {
-      const xmlViewer = this.$refs.xmlViewer;
-      if (!xmlViewer || !this.searchText) {
-        console.error("XML Viewer oder Suchtext fehlt.");
-        return;
+    },
+    handleInput() {
+      if (!this.searchText.trim()) { // Wenn das Eingabefeld leer ist
+        this.closeSearch();
+        this.showSearchInput = true;
+
       }
-
-      // Remove previous highlights
-      this.removeHighlights(xmlViewer);
-
-      // Search and highlight
-      const matchFound = this.searchAndHighlight(xmlViewer, this.searchText);
-
-      if (!matchFound) {
-        console.warn("Kein Treffer gefunden.");
-      }
-    },*/
+    },
     searchPDF() {
       const iframe = document.getElementById("viewer"); // Zugriff auf das iframe
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document; // Zugriff auf das iframe-Dokument
+      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
       if (iframeDocument && iframeDocument.defaultView.PDFViewerApplication) {
         const pdfViewerApp = iframeDocument.defaultView.PDFViewerApplication;
         const findController = pdfViewerApp.findController;
 
-        if (pdfViewerApp && findController) {
-          // Sicherstellen, dass der Suchtext ordnungsgemäß verarbeitet wird
+        if (findController) {
           const searchText = this.searchText.trim();
 
-          // PDF-Suche auslösen
+          // Event-Listener nur einmal hinzufügen
+          if (!this.findEventListenerAdded) {
+            this.findEventListenerAdded = true;
+            iframeDocument.addEventListener("updatefindcontrolstate", (event) => {
+              const {state, matchesCount, selected} = event.detail;
+              if (state === 2) {
+                // Treffer gefunden
+                const currentMatchIndex = selected?.pageIdx ?? -1;
+                if (currentMatchIndex >= 0) {
+                  this.currentPDFMatchIndex = currentMatchIndex;
+                  const page = pdfViewerApp.pdfViewer.getPageView(currentMatchIndex);
+                  if (page && page.div) {
+                    page.div.scrollIntoView({behavior: "smooth", block: "center"});
+                  }
+                }
+              }
+            });
+          }
+
+          // Erste Suche
           findController.executeCommand("find", {
             query: searchText,
-            caseSensitive: false,  // Groß-/Kleinschreibung ignorieren
-            highlightAll: true,    // Alle Treffer markieren
-            findPrevious: false,   // Vorwärts suchen
+            caseSensitive: false,
+            highlightAll: true,
+            findPrevious: false,
           });
-
-          // Überwache die Suchergebnisse und scrolle bei Treffer
-          const checkMatch = setInterval(() => {
-            const currentPage = findController._selected.pageIdx;
-
-            if (currentPage >= 0) {
-              clearInterval(checkMatch); // Stoppe das Überprüfen nach gefundenem Treffer
-
-              const page = pdfViewerApp.pdfViewer.getPageView(currentPage);
-
-              if (page && page.div) {
-                // Weiches Scrollen zur gefundenen Seite
-                page.div.scrollIntoView({behavior: "smooth", block: "center"});
-              }
-            }
-          }, 100); // Alle 100ms nach Ergebnissen suchen
         } else {
-          console.error("PDFViewerApplication oder FindController nicht gefunden.");
+          console.error("FindController nicht gefunden.");
         }
       } else {
-        console.error("iframe oder PDFViewerApplication nicht verfügbar.");
+        console.error("PDFViewerApplication nicht verfügbar.");
+      }
+    },
+    nextPDFMatch() {
+      const iframe = document.getElementById("viewer");
+      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+      if (iframeDocument && iframeDocument.defaultView.PDFViewerApplication) {
+        const findController = iframeDocument.defaultView.PDFViewerApplication.findController;
+
+        if (findController) {
+          // Springe zum nächsten Treffer
+          findController.executeCommand("findagain", {
+            findPrevious: false,
+          });
+        }
       }
     },
     searchXML() {
       const xmlViewer = this.$refs.xmlViewer;
-      if (!xmlViewer || !this.searchText) {
+      if (!xmlViewer || !this.searchText.trim()) {
         console.error("XML Viewer oder Suchtext fehlt.");
         return;
       }
 
+      // Suche den Container mit der spezifischen Klasse
+      const searchContainer = xmlViewer.querySelector(".divShow");
+      if (!searchContainer) {
+        console.error("Kein passender Container gefunden.");
+        return;
+      }
+
       // Entferne vorherige Markierungen
-      this.removeHighlights(xmlViewer);
+      this.removeHighlights(searchContainer);
 
-      // Stelle sicher, dass der Suchtext korrekt behandelt wird
       const searchQuery = this.searchText.trim();
+      this.xmlMatches = [];
+      this.currentXMLMatchIndex = -1;
 
-      // Suche und markiere den gesamten Suchbegriff
-      const matchFound = this.searchAndHighlight(xmlViewer, searchQuery);
+      this.collectXMLMatches(searchContainer, searchQuery);
 
-      if (!matchFound) {
+      if (this.xmlMatches.length === 0) {
         console.warn("Kein Treffer gefunden.");
+      } else {
+        this.nextXMLMatch(); // Springe sofort zum ersten Treffer
       }
     },
+
+    collectXMLMatches(node, searchText) {
+      // Funktion zur Überprüfung, ob ein Knoten oder ein Vorfahre die Klasse "divHide" enthält
+      const isHidden = (el) => {
+        while (el) {
+          if (el.classList && el.classList.contains('divHide')) {
+            return true;
+          }
+          el = el.parentNode;
+        }
+        return false;
+      };
+
+      // Überspringe Knoten, die versteckt sind
+      if (isHidden(node)) {
+        return;
+      }
+
+      // Überspringe Knoten, die bereits hervorgehoben sind
+      if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains("highlight")) {
+        return;
+      }
+
+      // Stelle sicher, dass der Knoten ein Textknoten ist und der Text nicht leer ist
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent.trim(); // Entferne führende/nachfolgende Leerzeichen
+
+        // Falls der Text leer ist, überspringe ihn
+        if (text.length === 0) {
+          return;
+        }
+
+        // Suche den Textinhalt nach dem Suchbegriff
+        const searchIndex = text.toLowerCase().indexOf(searchText.toLowerCase());
+        if (searchIndex !== -1) {
+          // Text in drei Teile aufteilen: vor dem Treffer, der markierte Text und nach dem Treffer
+          const beforeText = text.substring(0, searchIndex);
+          const highlightedText = text.substring(searchIndex, searchIndex + searchText.length);
+          const afterText = text.substring(searchIndex + searchText.length);
+
+          // Erstelle die neuen Knoten für diese Teile
+          const beforeNode = document.createTextNode(beforeText);
+          const highlightNode = document.createElement("span");
+          highlightNode.className = "highlight"; // CSS-Klasse für das Highlight
+          highlightNode.textContent = highlightedText;
+
+          const afterNode = document.createTextNode(afterText);
+
+          const parent = node.parentNode;
+          if (parent) {
+            // Ersetze den ursprünglichen Textknoten durch die neuen Knoten
+            parent.replaceChild(afterNode, node);
+            parent.insertBefore(highlightNode, afterNode);
+            parent.insertBefore(beforeNode, highlightNode);
+
+            // Füge den markierten Text nur zur Trefferliste hinzu, wenn er noch nicht drin ist
+            if (!this.xmlMatches.includes(highlightNode)) {
+              console.log("highlightNode", highlightNode);
+              this.xmlMatches.push(highlightNode);
+            }
+          }
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Gehe rekursiv durch Kindknoten, falls es sich um ein Element handelt
+        node.childNodes.forEach((child) => {
+          this.collectXMLMatches(child, searchText);
+        });
+      }
+    },
+
+    nextXMLMatch() {
+      if (!this.xmlMatches || this.xmlMatches.length === 0) {
+        console.warn("Keine Treffer verfügbar.");
+        return;
+      }
+
+      // Wenn wir den letzten Treffer erreicht haben, zurück zum ersten
+      this.currentXMLMatchIndex = (this.currentXMLMatchIndex + 1) % this.xmlMatches.length;
+
+      console.log("currentXMLMatchIndex", this.currentXMLMatchIndex)
+      console.log("this.xmlMatches.length", this.xmlMatches.length)
+
+      const nextMatch = this.xmlMatches[this.currentXMLMatchIndex];
+
+      if (nextMatch) {
+        nextMatch.scrollIntoView({behavior: "smooth", block: "center"});
+        nextMatch.classList.add("active-highlight");
+
+        // Entferne vorherige Hervorhebungen
+        this.xmlMatches.forEach((match, index) => {
+          if (index !== this.currentXMLMatchIndex) {
+            match.classList.remove("active-highlight");
+          }
+        });
+      }
+    },
+
     removeHighlights(element) {
       const highlights = element.querySelectorAll(".highlight");
       highlights.forEach((highlight) => {
@@ -698,56 +828,9 @@ export default {
           parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
         }
       });
+      this.xmlMatches = [];
     },
-    searchAndHighlight(node, searchText) {
-      let matchFound = false;
 
-      // Prüfe, ob es ein Textknoten ist
-      if (node.nodeType === Node.TEXT_NODE) {
-        const text = node.textContent;
-        const searchIndex = text.toLowerCase().indexOf(searchText.toLowerCase());
-
-        if (searchIndex !== -1) {
-          matchFound = true;
-
-          // Text in Knoten aufteilen und Highlight einfügen
-          const beforeText = text.substring(0, searchIndex);
-          const highlightedText = text.substring(searchIndex, searchIndex + searchText.length);
-          const afterText = text.substring(searchIndex + searchText.length);
-
-          // Erstellt die neuen Knoten mit Hervorhebung
-          const beforeNode = document.createTextNode(beforeText);
-          const highlightNode = document.createElement("span");
-          highlightNode.className = "highlight";
-          highlightNode.textContent = highlightedText;
-          console.log("Highlight Node: ", highlightNode); // Debug
-
-          const afterNode = document.createTextNode(afterText);
-
-          // Ersetze den ursprünglichen Textknoten
-          const parent = node.parentNode;
-          if (parent) {
-            parent.replaceChild(afterNode, node);
-            parent.insertBefore(highlightNode, afterNode);
-            parent.insertBefore(beforeNode, highlightNode);
-            console.log("Parent after insertions: ", parent); // Debug
-
-            // Scrolle zur ersten Hervorhebung
-            highlightNode.scrollIntoView({behavior: "smooth", block: "center"});
-          }
-        }
-      } else if (node.nodeType === Node.ELEMENT_NODE && node.childNodes.length > 0) {
-        // Rekursive Durchsuchung für Knoten mit Kindern
-        node.childNodes.forEach((child) => {
-          const childMatch = this.searchAndHighlight(child, searchText);
-          if (childMatch) {
-            matchFound = true;
-          }
-        });
-      }
-
-      return matchFound;
-    },
     // Set layout based on predefined options ( for Resizing Buttons)
     setLayout(layout) {
       console.log("isPdf:", this.currentTab.isPdf);
@@ -762,21 +845,25 @@ export default {
       } else if (layout === '0-100') {
         this.leftPaneWidth = 0; // Full XML, no PDF
       }
-    },
+    }
+    ,
     // Toggle between 30% and 70% for PDF and XML
     toggle30_70() {
       this.leftPaneWidth = this.leftPaneWidth === 30 ? 70 : 30; // Switch between 30-70 and 70-30
-    },
+    }
+    ,
     closeNotification() {
       this.showNofification = false;
-    },
+    }
+    ,
     restartApp() {
       window.api.sendRestartApp();
-    },
+    }
+    ,
     openLink(link) {
-
       window.api.sendOpenLink(link);
-    },
+    }
+    ,
     addErrorToPopup(errorMessage) {
       let title = document.getElementById("swal2-title");
       let text = document.createElement("p");
@@ -791,9 +878,12 @@ export default {
         text.style.display = "none";
       });
       title.parentNode.insertBefore(text, title.nextSibling);
-    },
-  },
+    }
+    ,
+  }
+  ,
 };
+
 
 /* Tab-Container aufbauen **************************************************/
 
@@ -873,8 +963,6 @@ window.downloadData = downloadData; // make function available to inline javascr
 </script>
 
 <style scoped>
-
-
 .splitter-container {
   display: flex;
   height: 100%;
@@ -887,6 +975,10 @@ window.downloadData = downloadData; // make function available to inline javascr
   justify-content: center;
   align-items: center;
   transition: background-color 0.3s ease;
+  width: 5px;
+  background: #ccc;
+  cursor: ew-resize;
+  height: 100%;
 }
 
 #spliter-icon {
@@ -918,13 +1010,6 @@ window.downloadData = downloadData; // make function available to inline javascr
 }
 
 .pane {
-  height: 100%;
-}
-
-.splitter {
-  width: 5px;
-  background: #ccc;
-  cursor: ew-resize;
   height: 100%;
 }
 
@@ -1042,6 +1127,7 @@ window.downloadData = downloadData; // make function available to inline javascr
   cursor: not-allowed;
 }
 
+
 .display-none {
   display: none;
 }
@@ -1072,7 +1158,6 @@ window.downloadData = downloadData; // make function available to inline javascr
 }
 
 .leftPart {
-
 }
 
 .rightPart {
@@ -1197,6 +1282,8 @@ a.example {
   .rightPart {
     width: 100%;
   }
+
+
 }
 
 </style>
