@@ -315,8 +315,7 @@ export default {
       locale,
     };
   },
-  mounted
-      () {
+  mounted() {
     // Add event listener for Ctrl + F
     document.addEventListener("keydown", this.handleKeydown);
     // Attach the keydown event listener when the component is mounted
@@ -507,8 +506,7 @@ export default {
       event.preventDefault();
     }, false);
 
-  }
-  ,
+  },
   computed: {
     // Computed property to check if both PDF and XML are available
     isBothAvailable() {
@@ -589,12 +587,30 @@ export default {
         this.isSearchActive = true;
         this.currentXMLMatchIndex = -1;
         this.currentPDFMatchIndex = -1;
-        //this.searchPDF(); // Suche im PDF starten
-        this.searchXML(); // Suche im XML starten
+        if (this.isBothAvailable){
+          this.searchPDF(); // Suche im PDF starten
+          this.searchXML(); // Suche im XML starten
+        }
+        if (this.currentTab.isXML){
+          this.searchXML(); // Suche im XML starten
+        }
+        if (this.currentTab.isPdf){
+          this.searchPDF(); // Suche im PDF starten
+        }
+
       } else {
         // Springe zu den nächsten Treffern
-        //this.nextPDFMatch();
-        this.nextXMLMatch();
+        if (this.isBothAvailable){
+          this.nextPDFMatch();
+          this.nextXMLMatch();
+        }
+        if (this.currentTab.isXML){
+          this.nextXMLMatch();
+        }
+        if (this.currentTab.isPdf){
+          this.nextPDFMatch();
+        }
+
       }
     },
     closeSearch() {
@@ -723,7 +739,6 @@ export default {
         this.nextXMLMatch(); // Springe sofort zum ersten Treffer
       }
     },
-
     collectXMLMatches(node, searchText) {
       // Funktion zur Überprüfung, ob ein Knoten oder ein Vorfahre die Klasse "divHide" enthält
       const isHidden = (el) => {
@@ -792,7 +807,6 @@ export default {
         });
       }
     },
-
     nextXMLMatch() {
       if (!this.xmlMatches || this.xmlMatches.length === 0) {
         console.warn("Keine Treffer verfügbar.");
@@ -819,7 +833,6 @@ export default {
         });
       }
     },
-
     removeHighlights(element) {
       const highlights = element.querySelectorAll(".highlight");
       highlights.forEach((highlight) => {
@@ -830,7 +843,6 @@ export default {
       });
       this.xmlMatches = [];
     },
-
     // Set layout based on predefined options ( for Resizing Buttons)
     setLayout(layout) {
       console.log("isPdf:", this.currentTab.isPdf);
