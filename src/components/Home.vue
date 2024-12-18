@@ -121,7 +121,7 @@ export default {
 
     const afterTabShow = () => {
       $( document ).ready(function() {
-        $("#"+b[0]).siblings().removeClass("tab").removeClass("btnAnaktiv").addClass("btnInaktiv");
+        $("#"+b[0]).siblings().removeClass("tab").removeClass("btnAktiv").addClass("btnInaktiv");
         $("#"+b[0]).removeClass("tab").removeClass("btnInaktiv").addClass("btnAktiv");
       });
     };
