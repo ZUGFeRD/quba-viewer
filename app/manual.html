@@ -1,0 +1,117 @@
+<body>
+<div id="manualContent">
+    <h2>1. Warnung beim Herunterladen im Edge deaktivieren</h2>
+    <p>
+        Wenn ich mit dem Edge Browser Dateien herunterlade, bekomme ich oft die Warnung
+        <strong>"Diese Datei wird nicht oft heruntergeladen"</strong> und ich muss zwei Mal bestätigen,
+        bis ich sie laden kann. Wie kann ich das abstellen?
+    </p>
+    <ol>
+        <li>Öffne den Microsoft Edge Browser auf deinem Computer.</li>
+        <li>Klicke auf das Menüsymbol (drei Punkte) oben rechts.</li>
+        <li>Wähle <strong>"Einstellungen"</strong>.</li>
+        <li>Scrolle nach unten und klicke auf <strong>"Erweiterte Einstellungen anzeigen"</strong>.</li>
+        <li>Suche den Bereich <strong>"Downloads"</strong>.</li>
+        <li>Deaktiviere <strong>"Schutz vor gefährlichen Dateien aktivieren"</strong>.</li>
+    </ol>
+    <p style="background-color: #fff3cd; color: #856404; padding: 10px; border-radius: 5px;">
+        ⚠️ Hinweis: Diese Option zu deaktivieren kann das Sicherheitsrisiko erhöhen. Lade nur aus vertrauenswürdigen
+        Quellen herunter.
+    </p>
+
+    <hr style="margin: 30px 0;">
+
+    <h2>2. Wie kann ich das Fenster in Windows wieder resizable machen?</h2>
+    <p>
+        Wenn dein Programmfenster in Windows nicht mehr in der Größe veränderbar ist, kannst du das
+        <strong>über den Code</strong> in Electron steuern.
+    </p>
+    <p>Suche in deiner Electron-Konfiguration den Abschnitt, wo das Fenster erstellt wird – z.B.:</p>
+
+    <hr style="margin: 30px 0;">
+
+    <h2>3. Validierung & Datenschutz beim Softwareupdate</h2>
+    <p>
+        Beim (abschaltbaren) automatischen Softwareupdate wird lediglich die <strong>IP-Adresse</strong> übermittelt.
+        Vor expliziten Validierungsversuchen erscheint ein Hinweis, der davor warnt, nur <strong>Testdaten</strong> zu übertragen.
+    </p>
+
+    <p>
+        Da die Validierung <strong>online</strong> erfolgt, wird der <strong>Rechnungsinhalt</strong> an den Server gesendet.
+        Dieser kann personenbezogene Daten wie <em>Absender</em>, <em>Empfänger</em> oder <em>Bankdaten</em> enthalten, sofern keine Testdaten verwendet werden.
+    </p>
+
+    <p>
+        Diese Daten werden <strong>SSL-verschlüsselt</strong> an einen Server in Deutschland übertragen.
+        Die Rechnungen werden <strong>nach der Verarbeitung gelöscht</strong>, es werden lediglich statistische Informationen gespeichert:
+    </p>
+    <ul>
+        <li>Wann wurde validiert?</li>
+        <li>Wie viele Validierungen wurden durchgeführt?</li>
+    </ul>
+
+    <p>
+        Wer <strong>offline validieren oder XML in PDF umwandeln</strong> möchte, kann das mit unserem Schwesterprojekt
+        <a href="https://www.mustangproject.org/" target="_blank">Mustangproject</a> tun.
+    </p>
+
+    <h3>Datenschutz & Infrastruktur</h3>
+    <ul>
+        <li>SSL-Verschlüsselung</li>
+        <li>Serverstandort: Deutschland</li>
+        <li>Keine Speicherung der Rechnungen nach der Validierung</li>
+        <li>Nur anonymisierte Statistikdaten werden erfasst</li>
+    </ul>
+
+    <p>
+        Die Validierungsengine basiert auf offiziellen Quellen wie:
+    </p>
+    <ul>
+        <li>CEN-Prüfartefakte</li>
+        <li>AWV (Factur-X/ZUGFeRD)</li>
+        <li>VeraPDF</li>
+        <li>Kosit</li>
+    </ul>
+    <p>
+        Sie wird unter anderem auch auf <a href="https://portinvoice.com" target="_blank">portinvoice.com</a> eingesetzt.
+    </p>
+
+    <h3>Verträge & Anonymisierung</h3>
+    <p>
+        TOM, ADV und SLAs können dem Mustervertrag entnommen werden:
+        <a href="https://www.mustangproject.org/files/wartungsvertrag_muster.pdf" target="_blank">Mustervertrag (PDF)</a>.
+    </p>
+    <p>
+        Diese gelten ab dem Moment, in dem ein entsprechender Vertrag abgeschlossen wurde.
+    </p>
+    <p>
+        Bis dahin empfehlen wir die Verwendung von <strong>Testrechnungen</strong> oder anonymisierten Rechnungen, z. B. über den
+        <a href="https://github.com/ZUGFeRD/einvoice-anonymizer" target="_blank">ZUGFeRD Anonymizer auf GitHub</a>.
+    </p>
+
+    <h3>Weitere Validierungsmöglichkeiten</h3>
+    <p>
+        Der <strong>Mustangserver</strong> unterstützt zusätzlich:
+    </p>
+    <ul>
+        <li>Peppol-Validierung (gleiche Engine wie bei <a href="https://ecosio.com/de/peppol-und-xml-dokumente-online-validieren/" target="_blank">Ecosio</a>)</li>
+        <li>Zusatzkostenpflichtige Hochvolumen-Validierung mit deutscher Rückmeldung über <a href="https://validool.org/" target="_blank">Validool</a></li>
+    </ul>
+
+</div>
+</body>
+<style>
+    #manualContent {
+        max-width: 800px;
+        margin: auto;
+        padding-bottom: 100px;
+    }
+</style>
+
+<script>
+    new BrowserWindow({
+        width: 800,
+        height: 600,
+        resizable: false, // das hier muss geändert werden!
+    })
+</script>

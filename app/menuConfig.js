@@ -4,7 +4,7 @@ const config = require("./config/app.config");
 const Store = require("electron-store");
 const store = new Store();
 const menu = null;
-let loginWindow, aboutWindowTranslation, loginWindowTranslation;
+let loginWindow, aboutWindowTranslation, manualWindowTranslation, loginWindowTranslation;
 
 function MenuFactoryService(menuList) {
   this.menu = menuList;
@@ -192,6 +192,12 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir) {
             openAboutWindow(mainWindow, app, i18n);
           },
         },
+        {
+          label: i18n.t("Have a manual"),
+          click() {
+            openManualWindow(mainWindow, app, i18n);
+          },
+        },
       ],
     },
   ];
@@ -203,6 +209,14 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir) {
 function initializeTranslation(app, i18n) {
   aboutWindowTranslation = {
     title: i18n.t("About") + " " + "Quba",
+    validationTitle: i18n.t("Validate"),
+    appName: i18n.t("appName"),
+    license: i18n.t("licenseText"),
+    version: i18n.t("version") + " " + app.getVersion(),
+  };
+
+  manualWindowTranslation = {
+    title: i18n.t("Manual") + " " + "Quba",
     validationTitle: i18n.t("Validate"),
     appName: i18n.t("appName"),
     license: i18n.t("licenseText"),
@@ -253,6 +267,39 @@ function openAboutWindow(mainWindow, app, i18n) {
 
   newWindow.on("closed", function () {
     newWindow = null;
+  });
+}
+function openManualWindow(mainWindow, app, i18n) {
+  let newManualWindow = new BrowserWindow({
+    height: 600,
+    width: 500,
+    resizable: true,
+    title: manualWindowTranslation.title,
+    parent: mainWindow,
+    modal: true,
+    minimizable: false,
+    fullscreenable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+  newManualWindow.setMenuBarVisibility(false);
+
+  // this hack is necessary, because of a mac specific bug in electron: https://github.com/electron/electron/issues/27160#issuecomment-1325840197
+  if (process.platform === "darwin") {
+    newWindow.modal = false;
+    newWindow.closable = true;
+  }
+
+  ipcMain.on("manual-info", (event) => {
+    event.sender.send("manual-info", { ...manualWindowTranslation });
+  });
+
+  newManualWindow.loadFile("./app/manual.html");
+
+  newManualWindow.on("closed", function () {
+    newManualWindow = null;
   });
 }
 function openLogin(mainWindow, app, i18n) {
