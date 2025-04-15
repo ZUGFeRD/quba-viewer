@@ -192,6 +192,12 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir) {
             openAboutWindow(mainWindow, app, i18n);
           },
         },
+        {
+          label: i18n.t("Help"),
+          click() {
+            openHelpWindow(mainWindow, app, i18n);
+          },
+        },
       ],
     },
   ];
@@ -255,6 +261,41 @@ function openAboutWindow(mainWindow, app, i18n) {
     newWindow = null;
   });
 }
+
+function openHelpWindow(mainWindow, app, i18n) {
+  let newWindow = new BrowserWindow({
+    height: 185,
+    resizable: true,
+    width: 400,
+    title: aboutWindowTranslation.title,
+    parent: mainWindow,
+    modal: true,
+    minimizable: false,
+    fullscreenable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+  newWindow.setMenuBarVisibility(false);
+
+  // this hack is necessary, because of a mac specific bug in electron: https://github.com/electron/electron/issues/27160#issuecomment-1325840197
+  if (process.platform === "darwin") {
+    newWindow.modal = false;
+    newWindow.closable = true;
+  }
+
+  ipcMain.on("about-info", (event) => {
+    event.sender.send("about-info", { ...aboutWindowTranslation });
+  });
+
+  newWindow.loadFile("./app/help.html");
+
+  newWindow.on("closed", function () {
+    newWindow = null;
+  });
+}
+
 function openLogin(mainWindow, app, i18n) {
   if (loginWindow && loginWindow.close) {
     loginWindow.close();
