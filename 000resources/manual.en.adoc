@@ -1,0 +1,183 @@
+= Quba Viewer Manual
+:doctype: book
+:toc: macro
+:toclevels: 3
+
+[%noheader%nofooter]
+toc::[]
+
+:title-page:
+:sectnums:
+:chapter-signifier: Chapter
+
+== Preconditions
+
+=== Scope
+
+==== General
+Quba-Viewer is a open-source Mac-OS, Windows and Linux software in english, french and german to display structured and hybrid electronic invoices offline. "structured" usually means XML (Quba supports parts of Oasis' UBL 2.1 and UN/CEFACTS Cross Industry Invoice, CII, 1.0/2016b) and "hybrid" means XML embedded in PDF
+files, i.e. Factur-X/ZUGFeRD. We at least cover the EN16931 part of UBL and CII, thus, XRechnung. We try to support Factur-X 1/ZUGFeRD 2.x as good as possible even in the "Extended" profile and we do support Order-X.
+
+
+==== Legal
+*No tax or legal advice can or will be given or should be deducted from using this software*. But coincidentially the scope covers most if not all kinds of e-invoices you have to be able to process in Germany (since 01.01.2025 according to link:https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&v=2[Wachstumschancengesetz, p.23f, Art 23]).
+
+
+==== Hybrid invoices
+
+Authors of e-invoices may use this software during development to check if the information in the XML mirrors the information in PDF correctly. Recipients are usually not oblidged to do so. But they may be obliged to use the XML-part even if a human readable PDF is available. In particular it may be a good idea to check the version you process pay, e.g. on the ZUGFeRD Entwicklertage 2025 an incident was mentioned where someone checked the visual PDF of a hybrid invoice, but then paid the fraudulent XML and lost 60,000€.
+
+==== Archival
+
+Upon receipt of your first e-invoice you may be subject to additional digital archival obligation like in the  link:https://ao.bundesfinanzministerium.de/ao/2023/Anhaenge/BMF-Schreiben-und-gleichlautende-Laendererlasse/Anhang-64/inhalt.html[german GoBD].
+Unfortunately, Quba does yet help you with these obligations.
+
+We casually try to keep an archive of old Quba-Viewer versions we released but if you base critical decisions on certain software it may be a good idea to archive this software yourself.
+
+quba-viewer/files/ e.g. contains
+
+* Quba-1.4.0.0.dmg
+* Quba_1.4.0_amd64.snap
+* Quba-1.4.0.AppImage
+* Quba-1.4.0-arm64.dmg
+* Quba Setup 1.4.0.exe
+* Quba-1.4.1.msi
+* Quba-1.4.1.AppImage
+* Quba_1.4.1.msi
+* Quba-1.4.1-universal.dmg
+* Quba-Setup-1.4.1.exe
+* Quba-1.4.2.AppImage
+* Quba-1.4.2.msi
+* Quba-1.4.2-universal.dmg
+* Quba-Setup-1.4.2.exe
+
+
+
+=== Support
+You can obtain community support via link:https://github.com/ZUGFeRD/quba-viewer/[Github] (to raise issues or submit improvements) and the generic "mailing list" i.e. the link:https://groups.google.com/g/zugferd[Google Group] (e.g. for e-invoice questions), as well as obtain commercial support from link:http://www.mustangproject.org/support/[usegroup via Mustangproject].
+
+In particular for community support it may be required to anonymize your invoices which can be done using Andreas Starke's link:https://github.com/ZUGFeRD/einvoice-anonymizer[python script].
+
+
+=== Supported OSes
+Under
+
+* Windows it will run on x64 versions
+  ** 10 and
+  ** 11 as well as
+  ** Server 2022 and
+  ** Server 2025
+* Linux it will e.g. run on x64
+  ** Debian 12
+  ** Ubuntu
+    *** 24.04.2
+    *** 24.10
+
+* Mac OS
+** 14.x (Sonoma)
+** 15.x (Sequoia)
+
+Please report if it runs on other platforms as well. Actually please also report if you run it successfully on Windows server.
+
+=== License
+
+You can use this open source software free of charge, also commercially, as well as for derivative works under the conditions of the
+link:https://www.apache.org/licenses/LICENSE-2.0[Apache Public License 2]. Please note that as with all open-source software we do not guarantee anything, in particularly not that Quba works at all, displays correct or complete information, or causes no harm to your computer.
+
+=== Data protection
+
+The fact that you download Quba may be tracked anonymously for
+statistical purposes as per site privacy.
+Quba-viewer is a offline application which does not require internet connectivity. No usage data whatsoever is collected.
+
+If there is connectivity, it may check for a new version on start, if not disabled. Technically this requires submission of your IP address to a Github server. We do not monitor, evaluate or in any other way use data from these update checks.
+
+The validation feature will present you a extended data protection agreement: it currently requires a submission of the whole invoice to a server in the internet. We will not use any of the data and the files will be deleted immediately after the request but we may statistically and anonymously log that there was a request and unless you have a subscription to Mustangserver you have no ADV with us and should submit only test or anonymized invoices. For anonymization you may try e.g. link:https://github.com/ZUGFeRD/einvoice-anonymizer[einvoice-anonymizer].
+
+
+A Mustangserver subscription may be interesting for some users but this is an entirely different and only very loosely integrated product and not the "Pro" version we're trying to sell. As a matter of fact, there currently *is* no "Pro" or commercial version of Quba-Viewer.
+
+Even when validation is performed the data will be transmitted
+SSL-encrypted to a german server and the invoice XML, PDF source and PDF output files will be deleted after transmission. Statistical records
+as of when how many validations of which profile and hash
+has been performed with which results may be kept.
+
+
+TOM, ADV und SLAs können Sie grundsätzlich dem
+Mustervertrag  ersehen, diese gelten sobald Sie einen entsprechenden Vertrag abschließen.
+Unless a commercial contract has been agreed upon of course no
+
+technical/organisational measures,
+data processing agreement or service level agreements are in place but  link:https://www.mustangproject.org/files/wartungsvertrag_muster_EN.pdf[this] is how they look for Mustangserver.
+
+
+=== Alternatives
+
+Other great work is e.g. the link:https://jcthiele.github.io/OpenXRechnungToolbox/[Open XRechnung Toolbox], which is, like Quba, originally based on the link:https://github.com/itplr-kosit/xrechnung-visualization/[xrechnung-visualization], but does not even attempt to cover Factur-X Extended features.
+
+
+Our sister project link:https://www.mustangproject.org/[Mustang] contains a command line utility with which you can convert to PDF, or validate e-invoices offline.
+
+
+Based on Mustang, the independent link:https://github.com/OpenIndex/ZUGFeRD-Manager[ZUGFeRD-Manager] can also be used as a graphical user interface to write and validate Factur-X.
+
+If you can absolutely not run any software you may still submit your invoices through online visualizers like
+link:https://www.elster.de/eportal/e-rechnung[Elster] (also based on the xrechnung-visualization).
+
+== Download and launch
+
+=== Admin privileges
+
+You can run the Windows version without requiring admin privileges by extracting the exe (quba-setup...exe) using
+the open source software link:https://www.7-zip.org/[7-zip].
+Afterwards, switch into $PLUGINSDIR and extract again, this time the file app-64.7z. Then start quba.exe in the resulting directory.
+
+=== Command line arguments
+
+You can pass the name of a file to be opened as argument to Quba, this allows you to install Quba as default viewer for those files on most operating systems. Unfortunately there no dedicated Mime-Type or file extension has yet been assigned to electronic invoices, i.e. you would have to make it a default viewer for *.xml and/or *.pdf.
+
+=== Switching languages
+Currently (link:https://github.com/ZUGFeRD/quba-viewer/issues/135[#135]) Quba must be restarted after changing the language to english, french or german.
+
+=== Printing XML and PDF
+
+Mustangs print feature originally had been designed with hybrid invoices in mind, i.e. Print|XML prints the visualization of the XML part and Print|PDF prints the human readable PDF part
+*of a hybrid invoice like Factur-X*. There is not yet a conversion feature from XML to PDF so the Print|PDF feature will be disabled if no PDF is available (e.g. for XRechnung).
+
+=== Validation
+
+== Enterprise features
+=== Installation on terminal servers/for all users
+Usually, on Windows Quba is installed only for the current user.
+This can be problematic e.g. when distributing access to the software on a terminal server.
+On link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] you will find a .MSI-releases of this software. This can be installed for all users the following command:
+----
+MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
+----
+=== Headless installation
+After an MSI-Installation Quba is by default started.
+
+If you distribute software packages in your enterprise and you would like a silent install you can edit the MSI e.g. with link:http://www.instedit.com/[instedit] and remove the custom Action `runAfterFinish`.
+=== Disabling Auto-Update
+
+In
+\AppData\Local\Programs\Quba\AppConfig.ini
+set `performOnStartup=false` in
+----
+[AutoUpdate]
+performOnStartup=true
+----
+
+to disable the check at each startup of the software if new versions exist. This may be useful e.g. if you distribute
+Quba as software packages certified by your team.
+
+
+
+[index]
+== Index
+
+[glossary]
+== Glossar
+
+[glossary]
+MSI:: Microsoft Installer
