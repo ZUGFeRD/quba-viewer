@@ -1,0 +1,183 @@
+= Quba Viewer-Handbuch
+:doctype: book
+:toc: macro
+:toclevels: 3
+
+[%noheader%nofooter]
+toc::[]
+
+:title-page:
+:sectnums:
+:chapter-signifier: Chapter
+
+== Voraussetzungen
+
+=== Umfang
+
+==== Allgemein
+Quba-Viewer ist eine Open-Source-Software für Mac OS, Windows und Linux in Englisch, Französisch und Deutsch zum Offline-Anzeigen strukturierter und hybrider elektronischer Rechnungen. „strukturiert“ bedeutet in der Regel XML (Quba unterstützt Teile von Oasis‘ UBL 2.1 und UN/CEFACTS Cross Industry Invoice, CII, 1.0/2016b) und „hybrid“ bedeutet XML eingebettet in PDF
+Dateien, zB Factur-X/ZUGFeRD. Wir decken zumindest den EN16931-Teil von UBL und CII ab, also XRechnung. Wir versuchen Factur-X 1/ZUGFeRD 2.x auch im Profil „Extended“ so gut wie möglich zu unterstützen und wir unterstützen Order-X.
+
+
+==== Rechtliches
+*Aus der Nutzung dieser Software kann und wird keine Steuer- oder Rechtsberatung abgeleitet werden.* Zufälligerweise deckt der Geltungsbereich die meisten, wenn nicht alle Arten von E-Rechnungen ab, die Sie in Deutschland verarbeiten können müssen (seit dem 01.01.2025 gemäß link:https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&v=2 [Wachstumschancengesetz, S. 23f, Art. 23]).
+
+
+==== Hybridrechnungen
+
+Autoren von E-Rechnungen können diese Software während der Entwicklung verwenden, um zu überprüfen, ob die Informationen im XML die Informationen im PDF korrekt widerspiegeln. Eine Verpflichtung hierzu besteht für die Empfänger in der Regel nicht. Sie sind jedoch möglicherweise verpflichtet, den XML-Teil zu verwenden, auch wenn ein für Menschen lesbares PDF verfügbar ist. Insbesondere kann es sinnvoll sein, die Version zu überprüfen, mit der Sie Zahlungen verarbeiten. Beispielsweise wurde auf den ZUGFeRD-Entwicklertagen 2025 ein Vorfall erwähnt, bei dem jemand das visuelle PDF einer Hybridrechnung überprüfte, dann aber die betrügerische XML-Datei bezahlte und 60.000 € verlor.
+
+==== Archivierung
+
+Mit Erhalt Ihrer ersten E-Rechnung unterliegen Sie möglicherweise einer zusätzlichen digitalen Archivierungspflicht wie im Link:https://ao.bundesfinanzministerium.de/ao/2023/Anhaenge/BMF-Schreiben-und-gleichlautende-Laendererlasse/Anhang-64/inhalt.html[deutsche GoBD].
+Leider unterstützt Sie Quba bei diesen Verpflichtungen noch nicht.
+
+Wir versuchen nebenbei, ein Archiv der alten von uns veröffentlichten Quba-Viewer-Versionen zu führen. Wenn Sie jedoch kritische Entscheidungen auf der Grundlage bestimmter Software treffen, ist es möglicherweise eine gute Idee, diese Software selbst zu archivieren.
+
+quba-viewer/files/ zB enthält
+
+* Quba-1.4.0.0.dmg
+* Quba_1.4.0_amd64.snap
+* Quba-1.4.0.AppImage
+* Quba-1.4.0-arm64.dmg
+* Quba Setup 1.4.0.exe
+* Quba-1.4.1.msi
+* Quba-1.4.1.AppImage
+* Quba_1.4.1.msi
+* Quba-1.4.1-universal.dmg
+* Quba-Setup-1.4.1.exe
+* Quba-1.4.2.AppImage
+* Quba-1.4.2.msi
+* Quba-1.4.2-universal.dmg
+* Quba-Setup-1.4.2.exe
+
+
+
+=== Unterstützung
+Sie können Community-Support über den Link:https://github.com/ZUGFeRD/quba-viewer/[Github] (um Probleme zu melden oder Verbesserungen einzureichen) und die allgemeine „Mailingliste“, d. h. den Link:https://groups.google.com/g/zugferd[Google Group] (z. B. für Fragen zu elektronischen Rechnungen), erhalten. Kommerziellen Support erhalten Sie außerdem über den Link:http://www.mustangproject.org/support/[usegroup via Mustangproject].
+
+Insbesondere für den Community-Support kann es erforderlich sein, Ihre Rechnungen zu anonymisieren. Dies können Sie über den Link von Andreas Starke tun: https://github.com/ZUGFeRD/einvoice-anonymizer[Python-Skript].
+
+
+=== Unterstützte Betriebssysteme
+Unter
+
+* Windows läuft auf allen x64-Versionen
+  ** 10 und
+  ** 11 sowie
+  ** Server 2022 und
+  ** Server 2025
+* Linux, es läuft zB auf x64
+  ** Debian 12
+  ** Ubuntu
+    *** 24.04.2
+    *** 24.10
+
+* Mac OS
+** 14.x (Sonoma)
+** 15.x (Sequoia)
+
+Bitte melden Sie, ob es auch auf anderen Plattformen läuft. Bitte melden Sie auch, ob Sie es erfolgreich auf einem Windows-Server ausführen.
+
+=== Lizenz
+
+Sie können diese Open Source-Software kostenlos nutzen, auch kommerziell, sowie für abgeleitete Werke unter den Bedingungen der
+link:https://www.apache.org/licenses/LICENSE-2.0 [Apache Public License 2]. Bitte beachten Sie, dass wir wie bei jeder Open-Source-Software keinerlei Garantie dafür übernehmen, dass Quba überhaupt funktioniert, richtige oder vollständige Informationen anzeigt oder Ihrem Computer keinen Schaden zufügt.
+
+=== Datenschutz
+
+Die Tatsache, dass Sie Quba herunterladen, kann anonym verfolgt werden für
+für statistische Zwecke gemäß der Datenschutzrichtlinie der Website.
+Quba-Viewer ist eine Offline-Anwendung, die keine Internetverbindung erfordert. Es werden keinerlei Nutzungsdaten erhoben.
+
+Wenn eine Verbindung besteht, wird beim Start möglicherweise nach einer neuen Version gesucht, sofern dies nicht deaktiviert ist. Technisch erfordert dies die Übermittlung Ihrer IP-Adresse an einen Github-Server. Eine Überwachung, Auswertung oder sonstige Nutzung der Daten aus diesen Aktualitätsprüfungen durch uns erfolgt nicht.
+
+Mit der Validierungsfunktion erhalten Sie eine erweiterte Datenschutzerklärung: Sie erfordert aktuell die Übermittlung der gesamten Rechnung an einen Server im Internet. Wir verwenden keine der Daten und die Dateien werden unmittelbar nach der Anfrage gelöscht. Wir können jedoch statistisch und anonym protokollieren, dass eine Anfrage gestellt wurde. Sofern Sie kein Abonnement für Mustangserver haben, haben Sie bei uns keinen ADV und sollten nur Testrechnungen oder anonymisierte Rechnungen einreichen. Zur Anonymisierung können Sie beispielsweise den Link https://github.com/ZUGFeRD/einvoice-anonymizer[einvoice-anonymizer] ausprobieren.
+
+
+Ein Mustangserver-Abonnement könnte für einige Benutzer interessant sein, aber dies ist ein völlig anderes und nur sehr lose integriertes Produkt und nicht die „Pro“-Version, die wir verkaufen möchten. Tatsächlich gibt es derzeit keine „Pro“- oder kommerzielle Version von Quba-Viewer.
+
+Auch wenn eine Validierung durchgeführt wird, werden die Daten übermittelt
+SSL-verschlüsselt an einen deutschen Server und die Rechnungs-XML-, PDF-Quell- und PDF-Ausgabedateien werden nach der Übertragung gelöscht. Statistische Aufzeichnungen
+ab wann wie viele Validierungen von welchem Profil und Hash
+durchgeführt, mit denen die Ergebnisse festgehalten werden können.
+
+
+TOM, ADV und SLAs können Sie grundsätzlich dem
+Mustervertrag ersehen, diese gelten, sobald Sie einen entsprechenden Vertrag abschließen.
+Sofern kein Handelsvertrag abgeschlossen wurde,
+
+technische/organisatorische Maßnahmen,
+Es liegen zwar ein Auftragsverarbeitungsvertrag oder Service Level Agreements vor, aber Link:https://www.mustangproject.org/files/wartungsvertrag_muster_EN.pdf[so] sehen sie für Mustangserver aus.
+
+
+=== Alternativen
+
+Eine weitere großartige Arbeit ist beispielsweise der Link:https://jcthiele.github.io/OpenXRechnungToolbox/[Open XRechnung Toolbox], der wie Quba ursprünglich auf dem Link:https://github.com/itplr-kosit/xrechnung-visualization/[xrechnung-visualization] basiert, aber nicht einmal versucht, die erweiterten Funktionen von Factur-X abzudecken.
+
+
+Der Link zu unserem Schwesterprojekt: https://www.mustangproject.org/[Mustang] enthält ein Befehlszeilenprogramm, mit dem Sie in PDF konvertieren oder E-Rechnungen offline validieren können.
+
+
+Basierend auf Mustang kann der unabhängige Link:https://github.com/OpenIndex/ZUGFeRD-Manager[ZUGFeRD-Manager] auch als grafische Benutzeroberfläche zum Schreiben und Validieren von Factur-X verwendet werden.
+
+Wenn Sie absolut keine Software ausführen können, können Sie Ihre Rechnungen immer noch über Online-Visualisierer einreichen, wie
+Link:https://www.elster.de/eportal/e-rechnung[Elster] (auch basierend auf der xrechnung-visualisierung).
+
+== Herunterladen und starten
+
+=== Administratorrechte
+
+Sie können die Windows-Version ohne Administratorrechte ausführen, indem Sie die EXE-Datei (quba-setup...exe) mit
+Link zur Open-Source-Software: https://www.7-zip.org/[7-zip].
+Wechseln Sie anschließend in $PLUGINSDIR und extrahieren Sie erneut, diesmal die Datei app-64.7z. Starten Sie anschließend quba.exe im resultierenden Verzeichnis.
+
+=== Befehlszeilenargumente
+
+Sie können den Namen einer zu öffnenden Datei als Argument an Quba übergeben. Dadurch können Sie Quba auf den meisten Betriebssystemen als Standard-Viewer für diese Dateien installieren. Leider ist den elektronischen Rechnungen bisher kein dedizierter Mime-Typ bzw. keine dedizierte Dateierweiterung zugewiesen, d. h. Sie müssten es als Standard-Viewer für *.xml und/oder *.pdf festlegen.
+
+=== Sprachen wechseln
+Derzeit (Link: https://github.com/ZUGFeRD/quba-viewer/issues/135[#135]) muss Quba nach dem Ändern der Sprache auf Englisch, Französisch oder Deutsch neu gestartet werden.
+
+=== Drucken von XML und PDF
+
+Die Druckfunktion von Mustang wurde ursprünglich für hybride Rechnungen entwickelt, d. h. Print|XML druckt die Visualisierung des XML-Teils und Print|PDF druckt den menschenlesbaren PDF-Teil
+*einer Hybridrechnung wie Factur-X*. Eine Konvertierungsfunktion von XML nach PDF ist noch nicht vorhanden, daher wird die Funktion Drucken|PDF deaktiviert, wenn kein PDF verfügbar ist (z. B. für XRechnung).
+
+=== Validierung
+
+== Enterprise-Funktionen
+=== Installation auf Terminalservern/für alle Benutzer
+Normalerweise wird Quba unter Windows nur für den aktuellen Benutzer installiert.
+Dies kann beispielsweise bei der Verteilung des Zugriffs auf die Software auf einem Terminalserver problematisch sein.
+Unter dem Link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] finden Sie eine .MSI-Version dieser Software. Dies kann für alle Benutzer mit folgendem Befehl installiert werden:
+----
+MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
+----
+=== Headless-Installation
+Nach einer MSI-Installation wird Quba standardmäßig gestartet.
+
+Wenn Sie Softwarepakete in Ihrem Unternehmen verteilen und eine automatische Installation wünschen, können Sie die MSI beispielsweise mit dem Link: http://www.instedit.com/[instedit] bearbeiten und die benutzerdefinierte Aktion „runAfterFinish“ entfernen.
+=== Automatische Aktualisierung deaktivieren
+
+In
+\AppData\Local\Programs\Quba\AppConfig.ini
+setzen Sie `performOnStartup=false` in
+----
+[AutoUpdate]
+performOnStartup=true
+----
+
+um die Prüfung bei jedem Start der Software zu deaktivieren, ob neue Versionen vorhanden sind. Dies kann beispielsweise nützlich sein, wenn Sie 
+Quba als von Ihrem Team zertifizierte Softwarepakete verteilen.
+
+
+
+[Index]
+== Index
+
+[glossary]
+== Glossar
+
+[glossary]
+MSI:: Microsoft Installer

@@ -1,0 +1,14 @@
+23.04.25, 14:16
+Projektstatistiken
+
+                     	Segmente	Wörter	Zeichen (ohne Leerzeichen)	Zeichen (mit Leerzeichen)	Dateien	
+Gesamt:              	     142	  1408	                      7994	                     9160	      1	
+Verbleibend:         	       0	     0	                         0	                        0	      0	
+Einmalig:            	     138	  1407	                      7972	                     9138	      1	
+Verbleibend einmalig:	       0	     0	                         0	                        0	      0	
+
+
+Statistik einzelner Dateien:
+
+Dateiname     	Segmente Gesamt	Verbleibende Segmente	Einmalige Segmente	Verbleibende einmalige Segmente	Wörter Gesamt	Verbleibende Wörter	Einmalige Wörter	Verbleibende einmalige Wörter	Zeichen Gesamt (ohne Leerzeichen)	Verbleibende Zeichen (ohne Leerzeichen)	Einmalige Zeichen (ohne Leerzeichen)	Verbleibende einmalige Zeichen (ohne Leerzeichen)	Zeichen Gesamt (mit Leerzeichen)	Verbleibende Zeichen (mit Leerzeichen)	Einmalige Zeichen (mit Leerzeichen)	Verbleibende einmalige Zeichen (mit Leerzeichen)	
+manual.en.adoc	            142	                    0	               138	                              0	         1408	                  0	            1407	                            0	                             7994	                                      0	                                7972	                                                0	                            9160	                                     0	                               9138	                                               0	

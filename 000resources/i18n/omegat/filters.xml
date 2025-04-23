@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<filters removeTags="true" removeSpacesNonseg="true" preserveSpaces="false" ignoreFileContext="false">
+    <filter className="org.omegat.filters3.xml.xliff.XLIFFFilter" enabled="false">
+        <files sourceFilenameMask="*.xlf" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.xliff" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.sdlxliff" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.text.TextFilter" enabled="true">
+        <files sourceFilenameMask="*.txt" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.txt1" targetFilenamePattern="${filename}" sourceEncoding="ISO-8859-1" targetEncoding="ISO-8859-1"/>
+        <files sourceFilenameMask="*.txt2" targetFilenamePattern="${filename}" sourceEncoding="ISO-8859-2" targetEncoding="ISO-8859-2"/>
+        <files sourceFilenameMask="*.utf8" targetFilenamePattern="${filename}" sourceEncoding="UTF-8" targetEncoding="UTF-8"/>
+        <files sourceFilenameMask="*.en.adoc" targetFilenamePattern="${nameOnly}.${targetLocale}.adoc" sourceEncoding="UTF-8" targetEncoding="UTF-8"/>
+        <option name="lineLength" value="0"/>
+        <option name="maxLineLength" value="0"/>
+        <option name="segmentOn" value="BREAKS"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.resx.ResXFilter" enabled="false">
+        <files sourceFilenameMask="*.??-??.resx" targetFilenamePattern="${nameOnly}.${targetLocaleLCID}.resx"/>
+        <files sourceFilenameMask="*.??.resx" targetFilenamePattern="${nameOnly}.${targetLocaleLCID}.resx"/>
+        <files sourceFilenameMask="*.resx" targetFilenamePattern="${nameOnly}.${targetLocaleLCID}.resx"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.xhtml.XHTMLFilter" enabled="false">
+        <files sourceFilenameMask="*.html" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.xhtml" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.xht" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.visio.VisioFilter" enabled="false">
+        <files sourceFilenameMask="*.vdx" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.xtagqxp.XtagFilter" enabled="false">
+        <files sourceFilenameMask="*.tag" targetFilenamePattern="${filename}" sourceEncoding="UTF-16LE" targetEncoding="UTF-16LE"/>
+        <files sourceFilenameMask="*.xtg" targetFilenamePattern="${filename}" sourceEncoding="UTF-16LE" targetEncoding="UTF-16LE"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.properties.PropertiesFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters4.xml.xliff.Xliff2Filter" enabled="false">
+        <files sourceFilenameMask="*.xlf" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.xliff" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.flash.FlashFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.schematron.SchematronFilter" enabled="false">
+        <files sourceFilenameMask="*.sch" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.latex.LatexFilter" enabled="false">
+        <files sourceFilenameMask="*.tex" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.latex" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.docbook.DocBookFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.dbk" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.pdf.PdfFilter" enabled="false">
+        <files sourceFilenameMask="*.pdf" targetFilenamePattern="${nameOnly}.txt"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.svg.SvgFilter" enabled="false">
+        <files sourceFilenameMask="*.svg" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.mozlang.MozillaLangFilter" enabled="false">
+        <files sourceFilenameMask="*.lang" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters4.xml.xliff.SdlProject" enabled="false">
+        <files sourceFilenameMask="*.sdlppx" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.txml.TXMLFilter" enabled="false">
+        <files sourceFilenameMask="*.txml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.l10nmgr.L10nmgrFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.helpandmanual.HelpAndManualFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.hmxp" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.po.PoFilter" enabled="false">
+        <files sourceFilenameMask="*.po" targetFilenamePattern="${filename}" sourceEncoding="UTF-8" targetEncoding="UTF-8"/>
+        <files sourceFilenameMask="*.pot" targetFilenamePattern="${filename}" sourceEncoding="UTF-8" targetEncoding="UTF-8"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.xmlspreadsheet.XMLSpreadsheetFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.rc.RcFilter" enabled="false">
+        <files sourceFilenameMask="*.rc" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.text.ilias.ILIASFilter" enabled="false">
+        <files sourceFilenameMask="*.lang" targetFilenamePattern="ilias_${targetLanguageCode}.${extension}" targetEncoding="UTF-8"/>
+        <files sourceFilenameMask="*.lang.local" targetFilenamePattern="ilias_${targetLanguageCode}.${extension}" targetEncoding="UTF-8"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.typo3.Typo3Filter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.subtitles.WebVttFilter" enabled="false">
+        <files sourceFilenameMask="*.vtt" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.infix.InfixFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.text.ini.INIFilter" enabled="false">
+        <files sourceFilenameMask="*.ini" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.lng" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.strings" targetFilenamePattern="${filename}" sourceEncoding="UTF-8" targetEncoding="UTF-8"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.openxml.OpenXMLFilter" enabled="false">
+        <files sourceFilenameMask="*.doc?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.dotx" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.xls?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.ppt?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.vsdx" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.android.AndroidFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.hhc.HHCFilter2" enabled="false">
+        <files sourceFilenameMask="*.hhc" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.hhk" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.scribus.ScribusFilter" enabled="false">
+        <files sourceFilenameMask="*.sla" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.html2.HTMLFilter2" enabled="false">
+        <files sourceFilenameMask="*.htm" targetFilenamePattern="${filename}" targetEncoding="UTF-8"/>
+        <files sourceFilenameMask="*.html" targetFilenamePattern="${filename}" targetEncoding="UTF-8"/>
+        <files sourceFilenameMask="*.xhtml" targetFilenamePattern="${filename}" targetEncoding="UTF-8"/>
+        <files sourceFilenameMask="*.xht" targetFilenamePattern="${filename}" targetEncoding="UTF-8"/>
+    </filter>
+    <filter className="org.omegat.filters4.xml.xliff.Xliff1Filter" enabled="false">
+        <files sourceFilenameMask="*.xlf" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.xliff" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.relaxng.RelaxNGFilter" enabled="false">
+        <files sourceFilenameMask="*.rng" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters4.xml.xliff.SdlXliff" enabled="false">
+        <files sourceFilenameMask="*.sdlxliff" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.wordpress.WordpressFilter" enabled="false">
+        <files sourceFilenameMask="*.xml" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.camtasiawindows.CamtasiaWindowsFilter" enabled="false">
+        <files sourceFilenameMask="*.camproj" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.subtitles.SbvFilter" enabled="false">
+        <files sourceFilenameMask="*.sbv" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.text.mozftl.MozillaFTLFilter" enabled="false">
+        <files sourceFilenameMask="*.ftl" targetFilenamePattern="${filename}" sourceEncoding="UTF-8" targetEncoding="UTF-8"/>
+    </filter>
+    <filter className="org.omegat.filters4.xml.openxml.MsOfficeFileFilter" enabled="false">
+        <files sourceFilenameMask="*.doc?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.dotx" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.xls?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.ppt?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.vsdx" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.subtitles.SrtFilter" enabled="false">
+        <files sourceFilenameMask="*.srt" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.mozdtd.MozillaDTDFilter" enabled="false">
+        <files sourceFilenameMask="*.dtd" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.wix.WiXFilter" enabled="false">
+        <files sourceFilenameMask="*.wxl" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.text.magento.MagentoFilter" enabled="false">
+        <files sourceFilenameMask="*.csv" targetFilenamePattern="${filename}" targetEncoding="UTF-8"/>
+    </filter>
+    <filter className="org.omegat.filters2.moodlephp.MoodlePHPFilter" enabled="false">
+        <files sourceFilenameMask="*.php" targetFilenamePattern="${filename}"/>
+    </filter>
+    <filter className="org.omegat.filters2.text.bundles.ResourceBundleFilter" enabled="false">
+        <files sourceFilenameMask="*.properties" targetFilenamePattern="${nameOnly}_${targetLocale}.${extension}" sourceEncoding="UTF-8" targetEncoding="UTF-8"/>
+    </filter>
+    <filter className="org.omegat.filters2.text.dokuwiki.DokuWikiFilter" enabled="false">
+        <files sourceFilenameMask="*.txt" targetFilenamePattern="${filename}" sourceEncoding="UTF-8" targetEncoding="UTF-8"/>
+    </filter>
+    <filter className="org.omegat.filters3.xml.opendoc.OpenDocFilter" enabled="false">
+        <files sourceFilenameMask="*.sx?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.st?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.od?" targetFilenamePattern="${filename}"/>
+        <files sourceFilenameMask="*.ot?" targetFilenamePattern="${filename}"/>
+    </filter>
+</filters>

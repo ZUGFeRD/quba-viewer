@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tmx SYSTEM "tmx14.dtd">
+<tmx version="1.4">
+  <header creationtool="OmegaT" o-tmf="OmegaT TMX" adminlang="EN-US" datatype="plaintext" creationtoolversion="6.0.1_0_42ef0143" segtype="sentence" srclang="en"/>
+  <body>
+<!-- Default translations -->
+    <tu>
+      <tuv xml:lang="en">
+        <seg>"structured" usually means XML (Quba supports parts of Oasis' UBL 2.1 and UN/CEFACTS Cross Industry Invoice, CII, 1.0/2016b) and "hybrid" means XML embedded in PDF</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115346Z" creationid="jstaerk" creationdate="20250423T115346Z">
+        <seg>„strukturiert“ bedeutet in der Regel XML (Quba unterstützt Teile von Oasis‘ UBL 2.1 und UN/CEFACTS Cross Industry Invoice, CII, 1.0/2016b) und „hybrid“ bedeutet XML eingebettet in PDF</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Linux it will e.g. run on x64</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115601Z" creationid="jstaerk" creationdate="20250423T115601Z">
+        <seg>* Linux, es läuft zB auf x64</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Mac OS</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115610Z" creationid="jstaerk" creationdate="20250423T115610Z">
+        <seg>* Mac OS</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba Setup 1.4.0.exe</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115446Z" creationid="jstaerk" creationdate="20250423T115446Z">
+        <seg>* Quba Setup 1.4.0.exe</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.0-arm64.dmg</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115444Z" creationid="jstaerk" creationdate="20250423T115444Z">
+        <seg>* Quba-1.4.0-arm64.dmg</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.0.0.dmg</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115434Z" creationid="jstaerk" creationdate="20250423T115434Z">
+        <seg>* Quba-1.4.0.0.dmg</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.0.AppImage</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115442Z" creationid="jstaerk" creationdate="20250423T115442Z">
+        <seg>* Quba-1.4.0.AppImage</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.1-universal.dmg</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115454Z" creationid="jstaerk" creationdate="20250423T115454Z">
+        <seg>* Quba-1.4.1-universal.dmg</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.1.AppImage</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115451Z" creationid="jstaerk" creationdate="20250423T115451Z">
+        <seg>* Quba-1.4.1.AppImage</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.1.msi</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115449Z" creationid="jstaerk" creationdate="20250423T115449Z">
+        <seg>* Quba-1.4.1.msi</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.2-universal.dmg</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115502Z" creationid="jstaerk" creationdate="20250423T115502Z">
+        <seg>* Quba-1.4.2-universal.dmg</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.2.AppImage</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115457Z" creationid="jstaerk" creationdate="20250423T115457Z">
+        <seg>* Quba-1.4.2.AppImage</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-1.4.2.msi</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115500Z" creationid="jstaerk" creationdate="20250423T115500Z">
+        <seg>* Quba-1.4.2.msi</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-Setup-1.4.1.exe</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115456Z" creationid="jstaerk" creationdate="20250423T115456Z">
+        <seg>* Quba-Setup-1.4.1.exe</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba-Setup-1.4.2.exe</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115504Z" creationid="jstaerk" creationdate="20250423T115504Z">
+        <seg>* Quba-Setup-1.4.2.exe</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba_1.4.0_amd64.snap</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115436Z" creationid="jstaerk" creationdate="20250423T115436Z">
+        <seg>* Quba_1.4.0_amd64.snap</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Quba_1.4.1.msi</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115452Z" creationid="jstaerk" creationdate="20250423T115452Z">
+        <seg>* Quba_1.4.1.msi</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>* Windows it will run on x64 versions</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115551Z" creationid="jstaerk" creationdate="20250423T115551Z">
+        <seg>* Windows läuft auf allen x64-Versionen</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>** 10 and</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115554Z" creationid="jstaerk" creationdate="20250423T115554Z">
+        <seg>** 10 und</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>** 11 as well as</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115556Z" creationid="jstaerk" creationdate="20250423T115556Z">
+        <seg>** 11 sowie</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>** 14.x (Sonoma)</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115615Z" creationid="jstaerk" creationdate="20250423T115615Z">
+        <seg>** 14.x (Sonoma)</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>** 15.x (Sequoia)</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115617Z" creationid="jstaerk" creationdate="20250423T115617Z">
+        <seg>** 15.x (Sequoia)</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>** Debian 12</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115603Z" creationid="jstaerk" creationdate="20250423T115603Z">
+        <seg>** Debian 12</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>** Server 2022 and</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115557Z" creationid="jstaerk" creationdate="20250423T115557Z">
+        <seg>** Server 2022 und</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>** Server 2025</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115559Z" creationid="jstaerk" creationdate="20250423T115559Z">
+        <seg>** Server 2025</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>** Ubuntu</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115604Z" creationid="jstaerk" creationdate="20250423T115604Z">
+        <seg>** Ubuntu</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>*** 24.04.2</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115607Z" creationid="jstaerk" creationdate="20250423T115607Z">
+        <seg>*** 24.04.2</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>*** 24.10</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115609Z" creationid="jstaerk" creationdate="20250423T115609Z">
+        <seg>*** 24.10</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>*No tax or legal advice can or will be given or should be deducted from using this software*.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115359Z" creationid="jstaerk" creationdate="20250423T115359Z">
+        <seg>*Aus der Nutzung dieser Software kann und wird keine Steuer- oder Rechtsberatung abgeleitet werden.*</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>*of a hybrid invoice like Factur-X*.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115726Z" creationid="jstaerk" creationdate="20250423T115726Z">
+        <seg>*einer Hybridrechnung wie Factur-X*.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>----</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115744Z" creationid="jstaerk" creationdate="20250423T115744Z">
+        <seg>----</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>:chapter-signifier: Chapter</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115326Z" creationid="jstaerk" creationdate="20250423T115326Z">
+        <seg>:chapter-signifier: Chapter</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>:doctype: book</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115258Z" creationid="jstaerk" creationdate="20250423T115258Z">
+        <seg>:doctype: book</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>:sectnums:</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115324Z" creationid="jstaerk" creationdate="20250423T115324Z">
+        <seg>:sectnums:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>:title-page:</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115322Z" creationid="jstaerk" creationdate="20250423T115322Z">
+        <seg>:title-page:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>:toc: macro</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115302Z" creationid="jstaerk" creationdate="20250423T115302Z">
+        <seg>:toc: macro</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>:toclevels: 3</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115306Z" creationid="jstaerk" creationdate="20250423T115306Z">
+        <seg>:toclevels: 3</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>= Quba Viewer Manual</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115242Z" creationid="jstaerk" creationdate="20250423T115242Z">
+        <seg>= Quba Viewer-Handbuch</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>== Download and launch</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115716Z" creationid="jstaerk" creationdate="20250423T115716Z">
+        <seg>== Herunterladen und starten</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>== Enterprise features</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115733Z" creationid="jstaerk" creationdate="20250423T115733Z">
+        <seg>== Enterprise-Funktionen</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>== Glossar</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115913Z" creationid="jstaerk" creationdate="20250423T115913Z">
+        <seg>== Glossar</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>== Index</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115904Z" creationid="jstaerk" creationdate="20250423T115904Z">
+        <seg>== Index</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>== Preconditions</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115330Z" creationid="jstaerk" creationdate="20250423T115330Z">
+        <seg>== Voraussetzungen</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Admin privileges</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115717Z" creationid="jstaerk" creationdate="20250423T115717Z">
+        <seg>=== Administratorrechte</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Alternatives</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115711Z" creationid="jstaerk" creationdate="20250423T115711Z">
+        <seg>=== Alternativen</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Command line arguments</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115721Z" creationid="jstaerk" creationdate="20250423T115721Z">
+        <seg>=== Befehlszeilenargumente</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Data protection</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115649Z" creationid="jstaerk" creationdate="20250423T115649Z">
+        <seg>=== Datenschutz</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Disabling Auto-Update</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115806Z" creationid="jstaerk" creationdate="20250423T115806Z">
+        <seg>=== Automatische Aktualisierung deaktivieren</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Headless installation</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115759Z" creationid="jstaerk" creationdate="20250423T115759Z">
+        <seg>=== Headless-Installation</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Installation on terminal servers/for all users</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115734Z" creationid="jstaerk" creationdate="20250423T115734Z">
+        <seg>=== Installation auf Terminalservern/für alle Benutzer</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== License</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115629Z" creationid="jstaerk" creationdate="20250423T115629Z">
+        <seg>=== Lizenz</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Printing XML and PDF</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115725Z" creationid="jstaerk" creationdate="20250423T115725Z">
+        <seg>=== Drucken von XML und PDF</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Scope</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115333Z" creationid="jstaerk" creationdate="20250423T115333Z">
+        <seg>=== Umfang</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Support</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115509Z" creationid="jstaerk" creationdate="20250423T115509Z">
+        <seg>=== Unterstützung</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Supported OSes</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115533Z" creationid="jstaerk" creationdate="20250423T115533Z">
+        <seg>=== Unterstützte Betriebssysteme</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Switching languages</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115723Z" creationid="jstaerk" creationdate="20250423T115723Z">
+        <seg>=== Sprachen wechseln</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>=== Validation</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115732Z" creationid="jstaerk" creationdate="20250423T115732Z">
+        <seg>=== Validierung</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>==== Archival</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115426Z" creationid="jstaerk" creationdate="20250423T115416Z">
+        <seg>==== Archivierung</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>==== General</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115334Z" creationid="jstaerk" creationdate="20250423T115334Z">
+        <seg>==== Allgemein</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>==== Hybrid invoices</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115405Z" creationid="jstaerk" creationdate="20250423T115405Z">
+        <seg>==== Hybridrechnungen</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>==== Legal</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115356Z" creationid="jstaerk" creationdate="20250423T115356Z">
+        <seg>==== Rechtliches</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>A Mustangserver subscription may be interesting for some users but this is an entirely different and only very loosely integrated product and not the "Pro" version we're trying to sell.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115657Z" creationid="jstaerk" creationdate="20250423T115657Z">
+        <seg>Ein Mustangserver-Abonnement könnte für einige Benutzer interessant sein, aber dies ist ein völlig anderes und nur sehr lose integriertes Produkt und nicht die „Pro“-Version, die wir verkaufen möchten.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Actually please also report if you run it successfully on Windows server.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115623Z" creationid="jstaerk" creationdate="20250423T115623Z">
+        <seg>Bitte melden Sie auch, ob Sie es erfolgreich auf einem Windows-Server ausführen.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>After an MSI-Installation Quba is by default started.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115802Z" creationid="jstaerk" creationdate="20250423T115802Z">
+        <seg>Nach einer MSI-Installation wird Quba standardmäßig gestartet.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Afterwards, switch into $PLUGINSDIR and extract again, this time the file app-64.7z.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115719Z" creationid="jstaerk" creationdate="20250423T115719Z">
+        <seg>Wechseln Sie anschließend in $PLUGINSDIR und extrahieren Sie erneut, diesmal die Datei app-64.7z.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>As a matter of fact, there currently *is* no "Pro" or commercial version of Quba-Viewer.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115703Z" creationid="jstaerk" creationdate="20250423T115703Z">
+        <seg>Tatsächlich gibt es derzeit keine „Pro“- oder kommerzielle Version von Quba-Viewer.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Authors of e-invoices may use this software during development to check if the information in the XML mirrors the information in PDF correctly.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115408Z" creationid="jstaerk" creationdate="20250423T115408Z">
+        <seg>Autoren von E-Rechnungen können diese Software während der Entwicklung verwenden, um zu überprüfen, ob die Informationen im XML die Informationen im PDF korrekt widerspiegeln.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Based on Mustang, the independent link:https://github.com/OpenIndex/ZUGFeRD-Manager[ZUGFeRD-Manager] can also be used as a graphical user interface to write and validate Factur-X.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115714Z" creationid="jstaerk" creationdate="20250423T115714Z">
+        <seg>Basierend auf Mustang kann der unabhängige Link:https://github.com/OpenIndex/ZUGFeRD-Manager[ZUGFeRD-Manager] auch als grafische Benutzeroberfläche zum Schreiben und Validieren von Factur-X verwendet werden.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>But coincidentially the scope covers most if not all kinds of e-invoices you have to be able to process in Germany (since 01.01.2025 according to link:https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&amp;v=2[Wachstumschancengesetz, p.23f, Art 23]).</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T120253Z" creationid="jstaerk" creationdate="20250423T115404Z">
+        <seg>Zufälligerweise deckt der Geltungsbereich die meisten, wenn nicht alle Arten von E-Rechnungen ab, die Sie in Deutschland verarbeiten können müssen (seit dem 01.01.2025 gemäß link:https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&amp;v=2 [Wachstumschancengesetz, S. 23f, Art. 23]).</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>But they may be obliged to use the XML-part even if a human readable PDF is available.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115411Z" creationid="jstaerk" creationdate="20250423T115411Z">
+        <seg>Sie sind jedoch möglicherweise verpflichtet, den XML-Teil zu verwenden, auch wenn ein für Menschen lesbares PDF verfügbar ist.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Currently (link:https://github.com/ZUGFeRD/quba-viewer/issues/135[#135]) Quba must be restarted after changing the language to english, french or german.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115724Z" creationid="jstaerk" creationdate="20250423T115724Z">
+        <seg>Derzeit (Link: https://github.com/ZUGFeRD/quba-viewer/issues/135[#135]) muss Quba nach dem Ändern der Sprache auf Englisch, Französisch oder Deutsch neu gestartet werden.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Even when validation is performed the data will be transmitted</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115659Z" creationid="jstaerk" creationdate="20250423T115659Z">
+        <seg>Auch wenn eine Validierung durchgeführt wird, werden die Daten übermittelt</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>For anonymization you may try e.g. link:https://github.com/ZUGFeRD/einvoice-anonymizer[einvoice-anonymizer].</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115656Z" creationid="jstaerk" creationdate="20250423T115656Z">
+        <seg>Zur Anonymisierung können Sie beispielsweise den Link https://github.com/ZUGFeRD/einvoice-anonymizer[einvoice-anonymizer] ausprobieren.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>If there is connectivity, it may check for a new version on start, if not disabled.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115653Z" creationid="jstaerk" creationdate="20250423T115653Z">
+        <seg>Wenn eine Verbindung besteht, wird beim Start möglicherweise nach einer neuen Version gesucht, sofern dies nicht deaktiviert ist.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>If you can absolutely not run any software you may still submit your invoices through online visualizers like</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115714Z" creationid="jstaerk" creationdate="20250423T115714Z">
+        <seg>Wenn Sie absolut keine Software ausführen können, können Sie Ihre Rechnungen immer noch über Online-Visualisierer einreichen, wie</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>If you distribute software packages in your enterprise and you would like a silent install you can edit the MSI e.g. with link:http://www.instedit.com/[instedit] and remove the custom Action `runAfterFinish`.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115804Z" creationid="jstaerk" creationdate="20250423T115804Z">
+        <seg>Wenn Sie Softwarepakete in Ihrem Unternehmen verteilen und eine automatische Installation wünschen, können Sie die MSI beispielsweise mit dem Link: http://www.instedit.com/[instedit] bearbeiten und die benutzerdefinierte Aktion „runAfterFinish“ entfernen.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>In</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115808Z" creationid="jstaerk" creationdate="20250423T115808Z">
+        <seg>In</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>In particular for community support it may be required to anonymize your invoices which can be done using Andreas Starke's link:https://github.com/ZUGFeRD/einvoice-anonymizer[python script].</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115531Z" creationid="jstaerk" creationdate="20250423T115531Z">
+        <seg>Insbesondere für den Community-Support kann es erforderlich sein, Ihre Rechnungen zu anonymisieren. Dies können Sie über den Link von Andreas Starke tun: https://github.com/ZUGFeRD/einvoice-anonymizer[Python-Skript].</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>In particular it may be a good idea to check the version you process pay, e.g. on the ZUGFeRD Entwicklertage 2025 an incident was mentioned where someone checked the visual PDF of a hybrid invoice, but then paid the fraudulent XML and lost 60,000€.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115415Z" creationid="jstaerk" creationdate="20250423T115415Z">
+        <seg>Insbesondere kann es sinnvoll sein, die Version zu überprüfen, mit der Sie Zahlungen verarbeiten. Beispielsweise wurde auf den ZUGFeRD-Entwicklertagen 2025 ein Vorfall erwähnt, bei dem jemand das visuelle PDF einer Hybridrechnung überprüfte, dann aber die betrügerische XML-Datei bezahlte und 60.000 € verlor.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>MSI:: Microsoft Installer</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115919Z" creationid="jstaerk" creationdate="20250423T115919Z">
+        <seg>MSI:: Microsoft Installer</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115751Z" creationid="jstaerk" creationdate="20250423T115751Z">
+        <seg>MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Mustangs print feature originally had been designed with hybrid invoices in mind, i.e. Print|XML prints the visualization of the XML part and Print|PDF prints the human readable PDF part</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115725Z" creationid="jstaerk" creationdate="20250423T115725Z">
+        <seg>Die Druckfunktion von Mustang wurde ursprünglich für hybride Rechnungen entwickelt, d. h. Print|XML druckt die Visualisierung des XML-Teils und Print|PDF druckt den menschenlesbaren PDF-Teil</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Mustervertrag  ersehen, diese gelten sobald Sie einen entsprechenden Vertrag abschließen.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115708Z" creationid="jstaerk" creationdate="20250423T115708Z">
+        <seg>Mustervertrag ersehen, diese gelten, sobald Sie einen entsprechenden Vertrag abschließen.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>No usage data whatsoever is collected.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115652Z" creationid="jstaerk" creationdate="20250423T115652Z">
+        <seg>Es werden keinerlei Nutzungsdaten erhoben.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>On link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] you will find a .MSI-releases of this software.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115740Z" creationid="jstaerk" creationdate="20250423T115740Z">
+        <seg>Unter dem Link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] finden Sie eine .MSI-Version dieser Software.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Other great work is e.g. the link:https://jcthiele.github.io/OpenXRechnungToolbox/[Open XRechnung Toolbox], which is, like Quba, originally based on the link:https://github.com/itplr-kosit/xrechnung-visualization/[xrechnung-visualization], but does not even attempt to cover Factur-X Extended features.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115712Z" creationid="jstaerk" creationdate="20250423T115712Z">
+        <seg>Eine weitere großartige Arbeit ist beispielsweise der Link:https://jcthiele.github.io/OpenXRechnungToolbox/[Open XRechnung Toolbox], der wie Quba ursprünglich auf dem Link:https://github.com/itplr-kosit/xrechnung-visualization/[xrechnung-visualization] basiert, aber nicht einmal versucht, die erweiterten Funktionen von Factur-X abzudecken.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Our sister project link:https://www.mustangproject.org/[Mustang] contains a command line utility with which you can convert to PDF, or validate e-invoices offline.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115713Z" creationid="jstaerk" creationdate="20250423T115713Z">
+        <seg>Der Link zu unserem Schwesterprojekt: https://www.mustangproject.org/[Mustang] enthält ein Befehlszeilenprogramm, mit dem Sie in PDF konvertieren oder E-Rechnungen offline validieren können.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Please note that as with all open-source software we do not guarantee anything, in particularly not that Quba works at all, displays correct or complete information, or causes no harm to your computer.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115648Z" creationid="jstaerk" creationdate="20250423T115648Z">
+        <seg>Bitte beachten Sie, dass wir wie bei jeder Open-Source-Software keinerlei Garantie dafür übernehmen, dass Quba überhaupt funktioniert, richtige oder vollständige Informationen anzeigt oder Ihrem Computer keinen Schaden zufügt.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Please report if it runs on other platforms as well.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115621Z" creationid="jstaerk" creationdate="20250423T115621Z">
+        <seg>Bitte melden Sie, ob es auch auf anderen Plattformen läuft.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Quba as software packages certified by your team.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115901Z" creationid="jstaerk" creationdate="20250423T115901Z">
+        <seg>Quba als von Ihrem Team zertifizierte Softwarepakete verteilen.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Quba-Viewer is a open-source Mac-OS, Windows and Linux software in english, french and german to display structured and hybrid electronic invoices offline.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115341Z" creationid="jstaerk" creationdate="20250423T115341Z">
+        <seg>Quba-Viewer ist eine Open-Source-Software für Mac OS, Windows und Linux in Englisch, Französisch und Deutsch zum Offline-Anzeigen strukturierter und hybrider elektronischer Rechnungen.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Quba-viewer is a offline application which does not require internet connectivity.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115651Z" creationid="jstaerk" creationdate="20250423T115651Z">
+        <seg>Quba-Viewer ist eine Offline-Anwendung, die keine Internetverbindung erfordert.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Recipients are usually not oblidged to do so.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115410Z" creationid="jstaerk" creationdate="20250423T115410Z">
+        <seg>Eine Verpflichtung hierzu besteht für die Empfänger in der Regel nicht.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>SSL-encrypted to a german server and the invoice XML, PDF source and PDF output files will be deleted after transmission.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115704Z" creationid="jstaerk" creationdate="20250423T115704Z">
+        <seg>SSL-verschlüsselt an einen deutschen Server und die Rechnungs-XML-, PDF-Quell- und PDF-Ausgabedateien werden nach der Übertragung gelöscht.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Statistical records</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115705Z" creationid="jstaerk" creationdate="20250423T115705Z">
+        <seg>Statistische Aufzeichnungen</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>TOM, ADV und SLAs können Sie grundsätzlich dem</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115707Z" creationid="jstaerk" creationdate="20250423T115707Z">
+        <seg>TOM, ADV und SLAs können Sie grundsätzlich dem</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Technically this requires submission of your IP address to a Github server.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115653Z" creationid="jstaerk" creationdate="20250423T115653Z">
+        <seg>Technisch erfordert dies die Übermittlung Ihrer IP-Adresse an einen Github-Server.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>The fact that you download Quba may be tracked anonymously for</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115650Z" creationid="jstaerk" creationdate="20250423T115650Z">
+        <seg>Die Tatsache, dass Sie Quba herunterladen, kann anonym verfolgt werden für</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>The validation feature will present you a extended data protection agreement: it currently requires a submission of the whole invoice to a server in the internet.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115655Z" creationid="jstaerk" creationdate="20250423T115655Z">
+        <seg>Mit der Validierungsfunktion erhalten Sie eine erweiterte Datenschutzerklärung: Sie erfordert aktuell die Übermittlung der gesamten Rechnung an einen Server im Internet.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Then start quba.exe in the resulting directory.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115720Z" creationid="jstaerk" creationdate="20250423T115720Z">
+        <seg>Starten Sie anschließend quba.exe im resultierenden Verzeichnis.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>There is not yet a conversion feature from XML to PDF so the Print|PDF feature will be disabled if no PDF is available (e.g. for XRechnung).</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115727Z" creationid="jstaerk" creationdate="20250423T115727Z">
+        <seg>Eine Konvertierungsfunktion von XML nach PDF ist noch nicht vorhanden, daher wird die Funktion Drucken|PDF deaktiviert, wenn kein PDF verfügbar ist (z. B. für XRechnung).</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>This can be installed for all users the following command:</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115742Z" creationid="jstaerk" creationdate="20250423T115742Z">
+        <seg>Dies kann für alle Benutzer mit folgendem Befehl installiert werden:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>This can be problematic e.g. when distributing access to the software on a terminal server.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115737Z" creationid="jstaerk" creationdate="20250423T115737Z">
+        <seg>Dies kann beispielsweise bei der Verteilung des Zugriffs auf die Software auf einem Terminalserver problematisch sein.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>This may be useful e.g. if you distribute</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115855Z" creationid="jstaerk" creationdate="20250423T115855Z">
+        <seg>Dies kann beispielsweise nützlich sein, wenn Sie </seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Under</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115543Z" creationid="jstaerk" creationdate="20250423T115543Z">
+        <seg>Unter</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Unfortunately there no dedicated Mime-Type or file extension has yet been assigned to electronic invoices, i.e. you would have to make it a default viewer for *.xml and/or *.pdf.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115722Z" creationid="jstaerk" creationdate="20250423T115722Z">
+        <seg>Leider ist den elektronischen Rechnungen bisher kein dedizierter Mime-Typ bzw. keine dedizierte Dateierweiterung zugewiesen, d. h. Sie müssten es als Standard-Viewer für *.xml und/oder *.pdf festlegen.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Unfortunately, Quba does yet help you with these obligations.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115430Z" creationid="jstaerk" creationdate="20250423T115430Z">
+        <seg>Leider unterstützt Sie Quba bei diesen Verpflichtungen noch nicht.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Unless a commercial contract has been agreed upon of course no</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115709Z" creationid="jstaerk" creationdate="20250423T115709Z">
+        <seg>Sofern kein Handelsvertrag abgeschlossen wurde,</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Upon receipt of your first e-invoice you may be subject to additional digital archival obligation like in the  link:https://ao.bundesfinanzministerium.de/ao/2023/Anhaenge/BMF-Schreiben-und-gleichlautende-Laendererlasse/Anhang-64/inhalt.html[german GoBD].</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115420Z" creationid="jstaerk" creationdate="20250423T115420Z">
+        <seg>Mit Erhalt Ihrer ersten E-Rechnung unterliegen Sie möglicherweise einer zusätzlichen digitalen Archivierungspflicht wie im Link:https://ao.bundesfinanzministerium.de/ao/2023/Anhaenge/BMF-Schreiben-und-gleichlautende-Laendererlasse/Anhang-64/inhalt.html[deutsche GoBD].</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>Usually, on Windows Quba is installed only for the current user.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115735Z" creationid="jstaerk" creationdate="20250423T115735Z">
+        <seg>Normalerweise wird Quba unter Windows nur für den aktuellen Benutzer installiert.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>We at least cover the EN16931 part of UBL and CII, thus, XRechnung.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115351Z" creationid="jstaerk" creationdate="20250423T115351Z">
+        <seg>Wir decken zumindest den EN16931-Teil von UBL und CII ab, also XRechnung.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>We casually try to keep an archive of old Quba-Viewer versions we released but if you base critical decisions on certain software it may be a good idea to archive this software yourself.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115432Z" creationid="jstaerk" creationdate="20250423T115432Z">
+        <seg>Wir versuchen nebenbei, ein Archiv der alten von uns veröffentlichten Quba-Viewer-Versionen zu führen. Wenn Sie jedoch kritische Entscheidungen auf der Grundlage bestimmter Software treffen, ist es möglicherweise eine gute Idee, diese Software selbst zu archivieren.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>We do not monitor, evaluate or in any other way use data from these update checks.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115654Z" creationid="jstaerk" creationdate="20250423T115654Z">
+        <seg>Eine Überwachung, Auswertung oder sonstige Nutzung der Daten aus diesen Aktualitätsprüfungen durch uns erfolgt nicht.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>We try to support Factur-X 1/ZUGFeRD 2.x as good as possible even in the "Extended" profile and we do support Order-X.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115353Z" creationid="jstaerk" creationdate="20250423T115353Z">
+        <seg>Wir versuchen Factur-X 1/ZUGFeRD 2.x auch im Profil „Extended“ so gut wie möglich zu unterstützen und wir unterstützen Order-X.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>We will not use any of the data and the files will be deleted immediately after the request but we may statistically and anonymously log that there was a request and unless you have a subscription to Mustangserver you have no ADV with us and should submit only test or anonymized invoices.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115656Z" creationid="jstaerk" creationdate="20250423T115656Z">
+        <seg>Wir verwenden keine der Daten und die Dateien werden unmittelbar nach der Anfrage gelöscht. Wir können jedoch statistisch und anonym protokollieren, dass eine Anfrage gestellt wurde. Sofern Sie kein Abonnement für Mustangserver haben, haben Sie bei uns keinen ADV und sollten nur Testrechnungen oder anonymisierte Rechnungen einreichen.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>You can obtain community support via link:https://github.com/ZUGFeRD/quba-viewer/[Github] (to raise issues or submit improvements) and the generic "mailing list" i.e. the link:https://groups.google.com/g/zugferd[Google Group] (e.g. for e-invoice questions), as well as obtain commercial support from link:http://www.mustangproject.org/support/[usegroup via Mustangproject].</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115527Z" creationid="jstaerk" creationdate="20250423T115527Z">
+        <seg>Sie können Community-Support über den Link:https://github.com/ZUGFeRD/quba-viewer/[Github] (um Probleme zu melden oder Verbesserungen einzureichen) und die allgemeine „Mailingliste“, d. h. den Link:https://groups.google.com/g/zugferd[Google Group] (z. B. für Fragen zu elektronischen Rechnungen), erhalten. Kommerziellen Support erhalten Sie außerdem über den Link:http://www.mustangproject.org/support/[usegroup via Mustangproject].</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>You can pass the name of a file to be opened as argument to Quba, this allows you to install Quba as default viewer for those files on most operating systems.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115722Z" creationid="jstaerk" creationdate="20250423T115722Z">
+        <seg>Sie können den Namen einer zu öffnenden Datei als Argument an Quba übergeben. Dadurch können Sie Quba auf den meisten Betriebssystemen als Standard-Viewer für diese Dateien installieren.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>You can run the Windows version without requiring admin privileges by extracting the exe (quba-setup...exe) using</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115717Z" creationid="jstaerk" creationdate="20250423T115717Z">
+        <seg>Sie können die Windows-Version ohne Administratorrechte ausführen, indem Sie die EXE-Datei (quba-setup...exe) mit</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>You can use this open source software free of charge, also commercially, as well as for derivative works under the conditions of the</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115634Z" creationid="jstaerk" creationdate="20250423T115634Z">
+        <seg>Sie können diese Open Source-Software kostenlos nutzen, auch kommerziell, sowie für abgeleitete Werke unter den Bedingungen der</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>[%noheader%nofooter]</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115311Z" creationid="jstaerk" creationdate="20250423T115311Z">
+        <seg>[%noheader%nofooter]</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>[AutoUpdate]</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115829Z" creationid="jstaerk" creationdate="20250423T115829Z">
+        <seg>[AutoUpdate]</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>[glossary]</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115910Z" creationid="jstaerk" creationdate="20250423T115910Z">
+        <seg>[glossary]</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>[index]</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115902Z" creationid="jstaerk" creationdate="20250423T115902Z">
+        <seg>[Index]</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>\AppData\Local\Programs\Quba\AppConfig.ini</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115811Z" creationid="jstaerk" creationdate="20250423T115811Z">
+        <seg>\AppData\Local\Programs\Quba\AppConfig.ini</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>as of when how many validations of which profile and hash</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115706Z" creationid="jstaerk" creationdate="20250423T115706Z">
+        <seg>ab wann wie viele Validierungen von welchem Profil und Hash</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>data processing agreement or service level agreements are in place but  link:https://www.mustangproject.org/files/wartungsvertrag_muster_EN.pdf[this] is how they look for Mustangserver.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115710Z" creationid="jstaerk" creationdate="20250423T115710Z">
+        <seg>Es liegen zwar ein Auftragsverarbeitungsvertrag oder Service Level Agreements vor, aber Link:https://www.mustangproject.org/files/wartungsvertrag_muster_EN.pdf[so] sehen sie für Mustangserver aus.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>files, i.e. Factur-X/ZUGFeRD.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115349Z" creationid="jstaerk" creationdate="20250423T115349Z">
+        <seg>Dateien, zB Factur-X/ZUGFeRD.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>has been performed with which results may be kept.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115707Z" creationid="jstaerk" creationdate="20250423T115707Z">
+        <seg>durchgeführt, mit denen die Ergebnisse festgehalten werden können.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>link:https://www.apache.org/licenses/LICENSE-2.0[Apache Public License 2].</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115645Z" creationid="jstaerk" creationdate="20250423T115645Z">
+        <seg>link:https://www.apache.org/licenses/LICENSE-2.0 [Apache Public License 2].</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>link:https://www.elster.de/eportal/e-rechnung[Elster] (also based on the xrechnung-visualization).</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115715Z" creationid="jstaerk" creationdate="20250423T115715Z">
+        <seg>Link:https://www.elster.de/eportal/e-rechnung[Elster] (auch basierend auf der xrechnung-visualisierung).</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>performOnStartup=true</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115837Z" creationid="jstaerk" creationdate="20250423T115837Z">
+        <seg>performOnStartup=true</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>quba-viewer/files/ e.g. contains</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115433Z" creationid="jstaerk" creationdate="20250423T115433Z">
+        <seg>quba-viewer/files/ zB enthält</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>set `performOnStartup=false` in</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115820Z" creationid="jstaerk" creationdate="20250423T115820Z">
+        <seg>setzen Sie `performOnStartup=false` in</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>statistical purposes as per site privacy.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115650Z" creationid="jstaerk" creationdate="20250423T115650Z">
+        <seg>für statistische Zwecke gemäß der Datenschutzrichtlinie der Website.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>technical/organisational measures,</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115710Z" creationid="jstaerk" creationdate="20250423T115710Z">
+        <seg>technische/organisatorische Maßnahmen,</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>the open source software link:https://www.7-zip.org/[7-zip].</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115718Z" creationid="jstaerk" creationdate="20250423T115718Z">
+        <seg>Link zur Open-Source-Software: https://www.7-zip.org/[7-zip].</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>to disable the check at each startup of the software if new versions exist.</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115850Z" creationid="jstaerk" creationdate="20250423T115850Z">
+        <seg>um die Prüfung bei jedem Start der Software zu deaktivieren, ob neue Versionen vorhanden sind.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv xml:lang="en">
+        <seg>toc::[]</seg>
+      </tuv>
+      <tuv xml:lang="de" changeid="jstaerk" changedate="20250423T115318Z" creationid="jstaerk" creationdate="20250423T115318Z">
+        <seg>toc::[]</seg>
+      </tuv>
+    </tu>
+<!-- Alternative translations -->
+  </body>
+</tmx>
