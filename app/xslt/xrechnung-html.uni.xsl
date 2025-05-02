@@ -1812,7 +1812,7 @@ function downloadData (element_id) {
                         </div>
                         <div class="rechnungsZeile">
                             <div class="boxdaten detailSp1 line1Bottom color2"><xsl:value-of select="$i18n?bt146"/><xsl:if test="$showIds"> BT-146</xsl:if></div>
-                            <div id="BT-146" title="BT-146" class="boxdaten detailSp2 line1Bottom"><xsl:value-of select="format-number(xr:PRICE_DETAILS/xr:Item_net_price,'###.##0,00','decimal')"/></div>
+                            <div id="BT-146" title="BT-146" class="boxdaten detailSp2 line1Bottom"><xsl:value-of select="xr:PRICE_DETAILS/xr:Item_net_price"/></div>
                         </div>
                         <div class="rechnungsZeile">
                             <div class="boxdaten detailSp1 color2"><xsl:value-of select="$i18n?bt131"/><xsl:if test="$showIds"> BT-131</xsl:if></div>
