@@ -269,7 +269,22 @@ function openAboutWindow(mainWindow, app, i18n) {
     newWindow = null;
   });
 }
+
+
+// Event um den Sprachwechsel-Button zu aktivieren/deaktivieren
+ipcMain.on('manual-window-status', (event, isOpen) => {
+  const menu = Menu.getApplicationMenu();
+  const switchLanguageItem = menu.items
+      .find(item => item.label === i18n.t('menu.help'))
+      ?.submenu.items.find(item => item.label === i18n.t('menu.manual.switchLanguage'));
+
+  if (switchLanguageItem) {
+    switchLanguageItem.enabled = isOpen;
+  }
+});
 function openManualWindow(mainWindow, app, i18n) {
+
+
   let newManualWindow = new BrowserWindow({
     height: 600,
     width: 500,
@@ -296,7 +311,7 @@ function openManualWindow(mainWindow, app, i18n) {
     event.sender.send("manual-info", { ...manualWindowTranslation });
   });
 
-  newManualWindow.loadFile("./app/manual.html");
+  newManualWindow.loadFile("./000resources/manual/manual.html");
 
   newManualWindow.on("closed", function () {
     newManualWindow = null;
