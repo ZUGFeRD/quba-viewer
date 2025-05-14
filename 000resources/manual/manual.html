@@ -2068,6 +2068,9 @@
             .show-for-print {
                 display: inherit !important
             }
+
+
+
         }
 
         @media amzn-kf8, print {
@@ -2091,6 +2094,7 @@
                 color: rgba(0, 0, 0, .6);
                 font-size: .9em
             }
+
         }
 
         @media amzn-kf8 {
@@ -2100,442 +2104,42 @@
         }
     </style>
 </head>
-<body class="book">
-<div id="header">
-    <h1>Quba Viewer Manual</h1>
-</div>
-<div id="content">
-    <div id="preamble">
-        <div class="sectionbody">
-            <div id="toc" class="toc">
-                <div id="toctitle" class="title">Table of Contents</div>
-                <ul class="sectlevel1">
-                    <li><a href="#_preconditions">1. Preconditions</a>
-                        <ul class="sectlevel2">
-                            <li><a href="#_scope">1.1. Scope</a>
-                                <ul class="sectlevel3">
-                                    <li><a href="#_general">1.1.1. General</a></li>
-                                    <li><a href="#_legal">1.1.2. Legal</a></li>
-                                    <li><a href="#_hybrid_invoices">1.1.3. Hybrid invoices</a></li>
-                                    <li><a href="#_archival">1.1.4. Archival</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#_support">1.2. Support</a></li>
-                            <li><a href="#_supported_oses">1.3. Supported OSes</a></li>
-                            <li><a href="#_license">1.4. License</a></li>
-                            <li><a href="#_data_protection">1.5. Data protection</a></li>
-                            <li><a href="#_alternatives">1.6. Alternatives</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#_download_and_launch">2. Download and launch</a>
-                        <ul class="sectlevel2">
-                            <li><a href="#_admin_privileges">2.1. Admin privileges</a></li>
-                            <li><a href="#_command_line_arguments">2.2. Command line arguments</a></li>
-                            <li><a href="#_switching_languages">2.3. Switching languages</a></li>
-                            <li><a href="#_printing_xml_and_pdf">2.4. Printing XML and PDF</a></li>
-                            <li><a href="#_validation">2.5. Validation</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#_enterprise_features">3. Enterprise features</a>
-                        <ul class="sectlevel2">
-                            <li><a href="#_installation_on_terminal_serversfor_all_users">3.1. Installation on terminal
-                                servers/for all users</a></li>
-                            <li><a href="#_headless_installation">3.2. Headless installation</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#_index">Index</a></li>
-                    <li><a href="#_glossar">Glossar</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="sect1">
-        <h2 id="_preconditions">Chapter 1. Preconditions</h2>
-        <div class="sectionbody">
-            <div class="sect2">
-                <h3 id="_scope">1.1. Scope</h3>
-                <div class="sect3">
-                    <h4 id="_general">1.1.1. General</h4>
-                    <div class="paragraph">
-                        <p>Quba-Viewer is a open-source Mac-OS, Windows and Linux software in english, french and german
-                            to display structured and hybrid electronic invoices offline. "structured" usually means XML
-                            (Quba supports parts of Oasis' UBL 2.1 and UN/CEFACTS Cross Industry Invoice, CII,
-                            1.0/2016b) and "hybrid" means XML embedded in PDF
-                            files, i.e. Factur-X/ZUGFeRD. We at least cover the EN16931 part of UBL and CII, thus,
-                            XRechnung. We try to support Factur-X 1/ZUGFeRD 2.x as good as possible even in the
-                            "Extended" profile and we do support Order-X.</p>
-                    </div>
-                </div>
-                <div class="sect3">
-                    <h4 id="_legal">1.1.2. Legal</h4>
-                    <div class="paragraph">
-                        <p><strong>No tax or legal advice can or will be given or should be deducted from using this
-                            software</strong>. But coincidentially the scope covers most if not all kinds of e-invoices
-                            you have to be able to process in Germany (since 01.01.2025 according to <a
-                                    href="https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&amp;v=2">Wachstumschancengesetz,
-                                p.23f, Art 23</a>).</p>
-                    </div>
-                </div>
-                <div class="sect3">
-                    <h4 id="_hybrid_invoices">1.1.3. Hybrid invoices</h4>
-                    <div class="paragraph">
-                        <p>Authors of e-invoices may use this software during development to check if the information in
-                            the XML mirrors the information in PDF correctly. Recipients are usually not oblidged to do
-                            so. But they may be obliged to use the XML-part even if a human readable PDF is available.
-                            In particular it may be a good idea to check the version you process pay, e.g. on the
-                            ZUGFeRD Entwicklertage 2025 an incident was mentioned where someone checked the visual PDF
-                            of a hybrid invoice, but then paid the fraudulent XML and lost 60,000€.</p>
-                    </div>
-                </div>
-                <div class="sect3">
-                    <h4 id="_archival">1.1.4. Archival</h4>
-                    <div class="paragraph">
-                        <p>Upon receipt of your first e-invoice you may be subject to additional digital archival
-                            obligation like in the <a
-                                    href="https://ao.bundesfinanzministerium.de/ao/2023/Anhaenge/BMF-Schreiben-und-gleichlautende-Laendererlasse/Anhang-64/inhalt.html">german
-                                GoBD</a>.
-                            Unfortunately, Quba does yet help you with these obligations.</p>
-                    </div>
-                    <div class="paragraph">
-                        <p>We casually try to keep an archive of old Quba-Viewer versions we released but if you base
-                            critical decisions on certain software it may be a good idea to archive this software
-                            yourself.</p>
-                    </div>
-                    <div class="paragraph">
-                        <p>quba-viewer/files/ e.g. contains</p>
-                    </div>
-                    <div class="ulist">
-                        <ul>
-                            <li>
-                                <p>Quba-1.4.0.0.dmg</p>
-                            </li>
-                            <li>
-                                <p>Quba_1.4.0_amd64.snap</p>
-                            </li>
-                            <li>
-                                <p>Quba-1.4.0.AppImage</p>
-                            </li>
-                            <li>
-                                <p>Quba-1.4.0-arm64.dmg</p>
-                            </li>
-                            <li>
-                                <p>Quba Setup 1.4.0.exe</p>
-                            </li>
-                            <li>
-                                <p>Quba-1.4.1.msi</p>
-                            </li>
-                            <li>
-                                <p>Quba-1.4.1.AppImage</p>
-                            </li>
-                            <li>
-                                <p>Quba_1.4.1.msi</p>
-                            </li>
-                            <li>
-                                <p>Quba-1.4.1-universal.dmg</p>
-                            </li>
-                            <li>
-                                <p>Quba-Setup-1.4.1.exe</p>
-                            </li>
-                            <li>
-                                <p>Quba-1.4.2.AppImage</p>
-                            </li>
-                            <li>
-                                <p>Quba-1.4.2.msi</p>
-                            </li>
-                            <li>
-                                <p>Quba-1.4.2-universal.dmg</p>
-                            </li>
-                            <li>
-                                <p>Quba-Setup-1.4.2.exe</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_support">1.2. Support</h3>
-                <div class="paragraph">
-                    <p>You can obtain community support via <a href="https://github.com/ZUGFeRD/quba-viewer/">Github</a>
-                        (to raise issues or submit improvements) and the generic "mailing list" i.e. the <a
-                                href="https://groups.google.com/g/zugferd">Google Group</a> (e.g. for e-invoice
-                        questions), as well as obtain commercial support from <a
-                                href="http://www.mustangproject.org/support/">usegroup via Mustangproject</a>.</p>
-                </div>
-                <div class="paragraph">
-                    <p>In particular for community support it may be required to anonymize your invoices which can be
-                        done using Andreas Starke&#8217;s <a href="https://github.com/ZUGFeRD/einvoice-anonymizer">python
-                            script</a>.</p>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_supported_oses">1.3. Supported OSes</h3>
-                <div class="paragraph">
-                    <p>Under</p>
-                </div>
-                <div class="ulist">
-                    <ul>
-                        <li>
-                            <p>Windows it will run on x64 versions</p>
-                            <div class="ulist">
-                                <ul>
-                                    <li>
-                                        <p>10 and</p>
-                                    </li>
-                                    <li>
-                                        <p>11 as well as</p>
-                                    </li>
-                                    <li>
-                                        <p>Server 2022 and</p>
-                                    </li>
-                                    <li>
-                                        <p>Server 2025</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <p>Linux it will e.g. run on x64</p>
-                            <div class="ulist">
-                                <ul>
-                                    <li>
-                                        <p>Debian 12</p>
-                                    </li>
-                                    <li>
-                                        <p>Ubuntu</p>
-                                        <div class="ulist">
-                                            <ul>
-                                                <li>
-                                                    <p>24.04.2</p>
-                                                </li>
-                                                <li>
-                                                    <p>24.10</p>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <p>Mac OS</p>
-                            <div class="ulist">
-                                <ul>
-                                    <li>
-                                        <p>14.x (Sonoma)</p>
-                                    </li>
-                                    <li>
-                                        <p>15.x (Sequoia)</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="paragraph">
-                    <p>Please report if it runs on other platforms as well. Actually please also report if you run it
-                        successfully on Windows server.</p>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_license">1.4. License</h3>
-                <div class="paragraph">
-                    <p>You can use this open source software free of charge, also commercially, as well as for
-                        derivative works under the conditions of the
-                        <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache Public License 2</a>. Please note
-                        that as with all open-source software we do not guarantee anything, in particularly not that
-                        Quba works at all, displays correct or complete information, or causes no harm to your computer.
-                    </p>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_data_protection">1.5. Data protection</h3>
-                <div class="paragraph">
-                    <p>The fact that you download Quba may be tracked anonymously for
-                        statistical purposes as per site privacy.
-                        Quba-viewer is a offline application which does not require internet connectivity. No usage data
-                        whatsoever is collected.</p>
-                </div>
-                <div class="paragraph">
-                    <p>If there is connectivity, it may check for a new version on start, if not disabled. Technically
-                        this requires submission of your IP address to a Github server. We do not monitor, evaluate or
-                        in any other way use data from these update checks.</p>
-                </div>
-                <div class="paragraph">
-                    <p>The validation feature will present you a extended data protection agreement: it currently
-                        requires a submission of the whole invoice to a server in the internet. We will not use any of
-                        the data and the files will be deleted immediately after the request but we may statistically
-                        and anonymously log that there was a request and unless you have a subscription to Mustangserver
-                        you have no ADV with us and should submit only test or anonymized invoices. For anonymization
-                        you may try e.g. <a
-                                href="https://github.com/ZUGFeRD/einvoice-anonymizer">einvoice-anonymizer</a>.</p>
-                </div>
-                <div class="paragraph">
-                    <p>A Mustangserver subscription may be interesting for some users but this is an entirely different
-                        and only very loosely integrated product and not the "Pro" version we&#8217;re trying to sell.
-                        As a matter of fact, there currently <strong>is</strong> no "Pro" or commercial version of
-                        Quba-Viewer.</p>
-                </div>
-                <div class="paragraph">
-                    <p>Even when validation is performed the data will be transmitted
-                        SSL-encrypted to a german server and the invoice XML, PDF source and PDF output files will be
-                        deleted after transmission. Statistical records
-                        as of when how many validations of which profile and hash
-                        has been performed with which results may be kept.</p>
-                </div>
-                <div class="paragraph">
-                    <p>TOM, ADV und SLAs können Sie grundsätzlich dem
-                        Mustervertrag ersehen, diese gelten sobald Sie einen entsprechenden Vertrag abschließen.
-                        Unless a commercial contract has been agreed upon of course no</p>
-                </div>
-                <div class="paragraph">
-                    <p>technical/organisational measures,
-                        data processing agreement or service level agreements are in place but <a
-                                href="https://www.mustangproject.org/files/wartungsvertrag_muster_EN.pdf">this</a> is
-                        how they look for Mustangserver.</p>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_alternatives">1.6. Alternatives</h3>
-                <div class="paragraph">
-                    <p>Other great work is e.g. the <a href="https://jcthiele.github.io/OpenXRechnungToolbox/">Open
-                        XRechnung Toolbox</a>, which is, like Quba, originally based on the <a
-                            href="https://github.com/itplr-kosit/xrechnung-visualization/">xrechnung-visualization</a>,
-                        but does not even attempt to cover Factur-X Extended features.</p>
-                </div>
-                <div class="paragraph">
-                    <p>Our sister project <a href="https://www.mustangproject.org/">Mustang</a> contains a command line
-                        utility with which you can convert to PDF, or validate e-invoices offline.</p>
-                </div>
-                <div class="paragraph">
-                    <p>Based on Mustang, the independent <a href="https://github.com/OpenIndex/ZUGFeRD-Manager">ZUGFeRD-Manager</a>
-                        can also be used as a graphical user interface to write and validate Factur-X.</p>
-                </div>
-                <div class="paragraph">
-                    <p>If you can absolutely not run any software you may still submit your invoices through online
-                        visualizers like
-                        <a href="https://www.elster.de/eportal/e-rechnung">Elster</a> (also based on the
-                        xrechnung-visualization).</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="sect1">
-        <h2 id="_download_and_launch">Chapter 2. Download and launch</h2>
-        <div class="sectionbody">
-            <div class="sect2">
-                <h3 id="_admin_privileges">2.1. Admin privileges</h3>
-                <div class="paragraph">
-                    <p>You can run the Windows version without requiring admin privileges by extracting the exe
-                        (quba-setup&#8230;&#8203;exe) using
-                        the open source software <a href="https://www.7-zip.org/">7-zip</a>.
-                        Afterwards, switch into $PLUGINSDIR and extract again, this time the file app-64.7z. Then start
-                        quba.exe in the resulting directory.</p>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_command_line_arguments">2.2. Command line arguments</h3>
-                <div class="paragraph">
-                    <p>You can pass the name of a file to be opened as argument to Quba, this allows you to install Quba
-                        as default viewer for those files on most operating systems. Unfortunately there no dedicated
-                        Mime-Type or file extension has yet been assigned to electronic invoices, i.e. you would have to
-                        make it a default viewer for *.xml and/or *.pdf.</p>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_switching_languages">2.3. Switching languages</h3>
-                <div class="paragraph">
-                    <p>Currently (<a href="https://github.com/ZUGFeRD/quba-viewer/issues/135">#135</a>) Quba must be
-                        restarted after changing the language to english, french or german.</p>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_printing_xml_and_pdf">2.4. Printing XML and PDF</h3>
-                <div class="paragraph">
-                    <p>Mustangs print feature originally had been designed with hybrid invoices in mind, i.e. Print|XML
-                        prints the visualization of the XML part and Print|PDF prints the human readable PDF part
-                        <strong>of a hybrid invoice like Factur-X</strong>. There is not yet a conversion feature from
-                        XML to PDF so the Print|PDF feature will be disabled if no PDF is available (e.g. for
-                        XRechnung).</p>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_validation">2.5. Validation</h3>
+<body>
+<button class="switchLang" id="switchLang"
+        style="padding: 8px 16px;
+        margin: 5px;
+                background-color: #e9ebee;
+                color: black;
+                border: none;
+                border-radius: 4px;
+                font-size: 14px;
+                cursor: pointer;">
+Deutsch</button>
+<div id="content">Loading...</div>
 
-            </div>
-        </div>
-    </div>
-    <div class="sect1">
-        <h2 id="_enterprise_features">Chapter 3. Enterprise features</h2>
-        <div class="sectionbody">
-            <div class="sect2">
-                <h3 id="_installation_on_terminal_serversfor_all_users">3.1. Installation on terminal servers/for all
-                    users</h3>
-                <div class="paragraph">
-                    <p>Usually, on Windows Quba is installed only for the current user.
-                        This can be problematic e.g. when distributing access to the software on a terminal server.
-                        On <a href="https://github.com/ZUGFeRD/quba-viewer/releases">Github</a> you will find a
-                        .MSI-releases of this software. This can be installed for all users the following command:</p>
-                </div>
-                <div class="listingblock">
-                    <div class="content">
-                        <pre>MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log</pre>
-                    </div>
-                </div>
-            </div>
-            <div class="sect2">
-                <h3 id="_headless_installation">3.2. Headless installation</h3>
-                <div class="paragraph">
-                    <p>After an MSI-Installation Quba is by default started.</p>
-                </div>
-                <div class="paragraph">
-                    <p>If you distribute software packages in your enterprise and you would like a silent install you
-                        can edit the MSI e.g. with <a href="http://www.instedit.com/">instedit</a> and remove the custom
-                        Action <code>runAfterFinish</code>.
-                        === Disabling Auto-Update</p>
-                </div>
-                <div class="paragraph">
-                    <p>In
-                        \AppData\Local\Programs\Quba\AppConfig.ini
-                        set <code>performOnStartup=false</code> in</p>
-                </div>
-                <div class="listingblock">
-                    <div class="content">
-<pre>[AutoUpdate]
-performOnStartup=true</pre>
-                    </div>
-                </div>
-                <div class="paragraph">
-                    <p>to disable the check at each startup of the software if new versions exist. This may be useful
-                        e.g. if you distribute
-                        Quba as software packages certified by your team.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="sect1">
-        <h2 id="_index">Index</h2>
-        <div class="sectionbody">
+<script>
+    let currentLang = 'en';
+    const content = document.getElementById('content');
+    const switchBtn = document.getElementById('switchLang');
 
-        </div>
-    </div>
-    <div class="sect1">
-        <h2 id="_glossar">Glossar</h2>
-        <div class="sectionbody">
-            <div class="dlist glossary">
-                <dl>
-                    <dt>MSI</dt>
-                    <dd>
-                        <p>Microsoft Installer</p>
-                    </dd>
-                </dl>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="footer">
-    <div id="footer-text">
-        Last updated 2025-04-22 13:31:41 +0200
-    </div>
-</div>
+    function loadManual(lang) {
+        fetch(`manual.${lang}.html`)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const bodyContent = doc.body.innerHTML;
+                content.innerHTML = bodyContent;
+            });
+    }
+
+    switchBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'de' : 'en';
+        switchBtn.textContent = currentLang === 'en' ? 'Deutsch' : 'English';
+        loadManual(currentLang);
+    });
+
+    loadManual(currentLang); // Initial load
+</script>
 </body>
 </html>
