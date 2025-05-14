@@ -390,6 +390,14 @@
     </tu>
     <tu>
       <tuv lang="en">
+        <seg>=== Display indexterm2:[Business Terms] (indexterm2:[BTs])</seg>
+      </tuv>
+      <tuv lang="de" changeid="jstaerk" changedate="20250514T113230Z" creationid="jstaerk" creationdate="20250514T113230Z">
+        <seg>=== Anzeige der indexterm2:[Business Terms] (indexterm2:[BTs])</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en">
         <seg>=== Headless installation</seg>
       </tuv>
       <tuv lang="de" changeid="jstaerk" changedate="20250423T115759Z" creationid="jstaerk" creationdate="20250423T115759Z">
@@ -426,6 +434,14 @@
       </tuv>
       <tuv lang="de" changeid="jstaerk" changedate="20250423T115333Z" creationid="jstaerk" creationdate="20250423T115333Z">
         <seg>=== Umfang</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en">
+        <seg>=== Search</seg>
+      </tuv>
+      <tuv lang="de" changeid="jstaerk" changedate="20250514T113304Z" creationid="jstaerk" creationdate="20250514T113304Z">
+        <seg>=== Suche</seg>
       </tuv>
     </tu>
     <tu>
@@ -542,6 +558,14 @@
     </tu>
     <tu>
       <tuv lang="en">
+        <seg>BT:: Business Term</seg>
+      </tuv>
+      <tuv lang="de" changeid="jstaerk" changedate="20250514T113334Z" creationid="jstaerk" creationdate="20250514T113334Z">
+        <seg>BT:: Business Term</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en">
         <seg>Based on Mustang, the independent link:https://github.com/OpenIndex/ZUGFeRD-Manager[ZUGFeRD-Manager] can also be used as a graphical user interface to write and validate Factur-X.</seg>
       </tuv>
       <tuv lang="de" changeid="jstaerk" changedate="20250423T115714Z" creationid="jstaerk" creationdate="20250423T115714Z">
@@ -562,6 +586,14 @@
       </tuv>
       <tuv lang="de" changeid="jstaerk" changedate="20250423T115411Z" creationid="jstaerk" creationdate="20250423T115411Z">
         <seg>Sie sind jedoch möglicherweise verpflichtet, den XML-Teil zu verwenden, auch wenn ein für Menschen lesbares PDF verfügbar ist.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en">
+        <seg>CII:: Business Term</seg>
+      </tuv>
+      <tuv lang="de" changeid="jstaerk" changedate="20250514T113346Z" creationid="jstaerk" creationdate="20250514T113346Z">
+        <seg>CII:: Cross Industry Invoice</seg>
       </tuv>
     </tu>
     <tu>
@@ -678,10 +710,10 @@
     </tu>
     <tu>
       <tuv lang="en">
-        <seg>On link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] you will find a .MSI-releases of this software.</seg>
+        <seg>On link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] you will find a .indexterm2:[MSI]-releases of this software.</seg>
       </tuv>
-      <tuv lang="de" changeid="jstaerk" changedate="20250423T115740Z" creationid="jstaerk" creationdate="20250423T115740Z">
-        <seg>Unter dem Link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] finden Sie eine .MSI-Version dieser Software.</seg>
+      <tuv lang="de" changeid="jstaerk" changedate="20250514T113321Z" creationid="jstaerk" creationdate="20250514T113321Z">
+        <seg>Unter link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] finden Sie eine .indexterm2:[MSI]-Version dieser Software.</seg>
       </tuv>
     </tu>
     <tu>
@@ -838,6 +870,14 @@
     </tu>
     <tu>
       <tuv lang="en">
+        <seg>UBL:: Business Term</seg>
+      </tuv>
+      <tuv lang="de" changeid="jstaerk" changedate="20250514T113405Z" creationid="jstaerk" creationdate="20250514T113405Z">
+        <seg>UBL:: Universal Business Language</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en">
         <seg>Under</seg>
       </tuv>
       <tuv lang="de" changeid="jstaerk" changedate="20250423T115543Z" creationid="jstaerk" creationdate="20250423T115543Z">
@@ -874,6 +914,22 @@
       </tuv>
       <tuv lang="de" changeid="jstaerk" changedate="20250423T115420Z" creationid="jstaerk" creationdate="20250423T115420Z">
         <seg>Mit Erhalt Ihrer ersten E-Rechnung unterliegen Sie möglicherweise einer zusätzlichen digitalen Archivierungspflicht wie im Link:https://ao.bundesfinanzministerium.de/ao/2023/Anhaenge/BMF-Schreiben-und-gleichlautende-Laendererlasse/Anhang-64/inhalt.html[deutsche GoBD].</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en">
+        <seg>Use `CTRL+F` to open a prompt to indexterm2:[search] for terms (or, if display is enabled, for BTs) in your invoices.</seg>
+      </tuv>
+      <tuv lang="de" changeid="jstaerk" changedate="20250514T113313Z" creationid="jstaerk" creationdate="20250514T113313Z">
+        <seg>Verwenden Sie „STRG+F“, um eine Eingabeaufforderung zum Indexieren von Term2:[Suche] nach Begriffen (oder, wenn die Anzeige aktiviert ist, nach BTs) in Ihren Rechnungen zu öffnen.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="en">
+        <seg>Using File|Show IDs you can display the BT-IDs next to the textfields with the output when loading the next invoice.</seg>
+      </tuv>
+      <tuv lang="de" changeid="jstaerk" changedate="20250514T113301Z" creationid="jstaerk" creationdate="20250514T113301Z">
+        <seg>Über Datei|IDs anzeigen können Sie ab der nächsten geladenen Rechnung die BT-IDs neben den Textfeldern anzeigen.</seg>
       </tuv>
     </tu>
     <tu>

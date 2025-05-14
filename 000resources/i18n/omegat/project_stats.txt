@@ -1,14 +1,14 @@
-23.04.25, 14:16
+14.05.25, 13:37
 Projektstatistiken
 
                      	Segmente	Wörter	Zeichen (ohne Leerzeichen)	Zeichen (mit Leerzeichen)	Dateien	
-Gesamt:              	     142	  1408	                      7994	                     9160	      1	
+Gesamt:              	     149	  1469	                      8315	                     9530	      1	
 Verbleibend:         	       0	     0	                         0	                        0	      0	
-Einmalig:            	     138	  1407	                      7972	                     9138	      1	
+Einmalig:            	     145	  1468	                      8293	                     9508	      1	
 Verbleibend einmalig:	       0	     0	                         0	                        0	      0	
 
 
 Statistik einzelner Dateien:
 
 Dateiname     	Segmente Gesamt	Verbleibende Segmente	Einmalige Segmente	Verbleibende einmalige Segmente	Wörter Gesamt	Verbleibende Wörter	Einmalige Wörter	Verbleibende einmalige Wörter	Zeichen Gesamt (ohne Leerzeichen)	Verbleibende Zeichen (ohne Leerzeichen)	Einmalige Zeichen (ohne Leerzeichen)	Verbleibende einmalige Zeichen (ohne Leerzeichen)	Zeichen Gesamt (mit Leerzeichen)	Verbleibende Zeichen (mit Leerzeichen)	Einmalige Zeichen (mit Leerzeichen)	Verbleibende einmalige Zeichen (mit Leerzeichen)	
-manual.en.adoc	            142	                    0	               138	                              0	         1408	                  0	            1407	                            0	                             7994	                                      0	                                7972	                                                0	                            9160	                                     0	                               9138	                                               0	
+manual.en.adoc	            149	                    0	               145	                              0	         1469	                  0	            1468	                            0	                             8315	                                      0	                                8293	                                                0	                            9530	                                     0	                               9508	                                               0	

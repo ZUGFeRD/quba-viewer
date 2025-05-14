@@ -144,13 +144,21 @@ Derzeit (Link: https://github.com/ZUGFeRD/quba-viewer/issues/135[#135]) muss Qub
 Die Druckfunktion von Mustang wurde ursprünglich für hybride Rechnungen entwickelt, d. h. Print|XML druckt die Visualisierung des XML-Teils und Print|PDF druckt den menschenlesbaren PDF-Teil
 *einer Hybridrechnung wie Factur-X*. Eine Konvertierungsfunktion von XML nach PDF ist noch nicht vorhanden, daher wird die Funktion Drucken|PDF deaktiviert, wenn kein PDF verfügbar ist (z. B. für XRechnung).
 
+=== Anzeige der indexterm2:[Business Terms] (indexterm2:[BTs])
+
+Über Datei|IDs anzeigen können Sie ab der nächsten geladenen Rechnung die BT-IDs neben den Textfeldern anzeigen.
+
+=== Suche
+
+Verwenden Sie „STRG+F“, um eine Eingabeaufforderung zum Indexieren von Term2:[Suche] nach Begriffen (oder, wenn die Anzeige aktiviert ist, nach BTs) in Ihren Rechnungen zu öffnen.
+
 === Validierung
 
 == Enterprise-Funktionen
 === Installation auf Terminalservern/für alle Benutzer
 Normalerweise wird Quba unter Windows nur für den aktuellen Benutzer installiert.
 Dies kann beispielsweise bei der Verteilung des Zugriffs auf die Software auf einem Terminalserver problematisch sein.
-Unter dem Link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] finden Sie eine .MSI-Version dieser Software. Dies kann für alle Benutzer mit folgendem Befehl installiert werden:
+Unter link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] finden Sie eine .indexterm2:[MSI]-Version dieser Software. Dies kann für alle Benutzer mit folgendem Befehl installiert werden:
 ----
 MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
 ----
@@ -180,4 +188,7 @@ Quba als von Ihrem Team zertifizierte Softwarepakete verteilen.
 == Glossar
 
 [glossary]
+BT:: Business Term
+CII:: Cross Industry Invoice
 MSI:: Microsoft Installer
+UBL:: Universal Business Language
