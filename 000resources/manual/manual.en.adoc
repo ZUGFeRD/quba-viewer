@@ -144,13 +144,21 @@ Currently (link:https://github.com/ZUGFeRD/quba-viewer/issues/135[#135]) Quba mu
 Mustangs print feature originally had been designed with hybrid invoices in mind, i.e. Print|XML prints the visualization of the XML part and Print|PDF prints the human readable PDF part
 *of a hybrid invoice like Factur-X*. There is not yet a conversion feature from XML to PDF so the Print|PDF feature will be disabled if no PDF is available (e.g. for XRechnung).
 
+=== Display indexterm2:[Business Terms] (indexterm2:[BTs])
+
+Using File|Show IDs you can display the BT-IDs next to the textfields with the output when loading the next invoice.
+
+=== Search
+
+Use `CTRL+F` to open a prompt to indexterm2:[search] for terms (or, if display is enabled, for BTs) in your invoices.
+
 === Validation
 
 == Enterprise features
 === Installation on terminal servers/for all users
 Usually, on Windows Quba is installed only for the current user.
 This can be problematic e.g. when distributing access to the software on a terminal server.
-On link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] you will find a .MSI-releases of this software. This can be installed for all users the following command:
+On link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] you will find a .indexterm2:[MSI]-releases of this software. This can be installed for all users the following command:
 ----
 MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
 ----
@@ -180,4 +188,7 @@ Quba as software packages certified by your team.
 == Glossar
 
 [glossary]
+BT:: Business Term
+CII:: Cross Industry Invoice
 MSI:: Microsoft Installer
+UBL:: Universal Business Language
