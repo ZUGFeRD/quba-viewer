@@ -377,8 +377,7 @@ function initApp() {
         openFile();
     });
 
-
-}
+  }
 
 /***
  the installer config is the local AppConfig.ini, which has been filled with entries depending on the
