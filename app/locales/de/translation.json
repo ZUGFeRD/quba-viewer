@@ -1,10 +1,11 @@
 {
+  "Content": "Inhalt",
   "File": "Datei",
-  "Print": "Drucken",
+    "Print": "Drucken",
   "Exit": "Beenden",
   "Edit": "Bearbeiten",
   "Help": "Hilfe",
-  "About": "Info",
+  "About": "Über",
   "Open File": "Datei öffnen",
   "Language": "Sprachen",
   "English": "Englisch ",

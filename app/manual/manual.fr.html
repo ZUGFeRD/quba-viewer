@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Asciidoctor 2.0.21">
-    <title>Quba Viewer Manual</title>
+    <title>Manuel de Quba Viewer</title>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
     <style>
@@ -2068,9 +2068,6 @@
             .show-for-print {
                 display: inherit !important
             }
-
-
-
         }
 
         @media amzn-kf8, print {
@@ -2094,7 +2091,6 @@
                 color: rgba(0, 0, 0, .6);
                 font-size: .9em
             }
-
         }
 
         @media amzn-kf8 {
@@ -2104,62 +2100,337 @@
         }
     </style>
 </head>
-<body>
-<button class="switchLang" id="switchLang"
-        style="padding: 8px 16px;
-        margin: 5px;
-                background-color: #e9ebee;
-                color: black;
-                border: none;
-                border-radius: 4px;
-                font-size: 14px;
-                cursor: pointer;">
-Deutsch</button>
-<div id="content">Loading...</div>
+<body class="book">
+<div id="header">
+    <h1>Manuel de Quba Viewer</h1>
+</div>
+<div id="content">
+    <div id="preamble">
+        <div class="sectionbody">
+            <div id="toc" class="toc">
+                <div id="toctitle" class="title">Table des matières</div>
+                <ul class="sectlevel1">
+                    <li><a href="#_preconditions">1. Conditions préalables</a>
+                        <ul class="sectlevel2">
+                            <li><a href="#_scope">1.1. Portée</a>
+                                <ul class="sectlevel3">
+                                    <li><a href="#_general">1.1.1. Général</a></li>
+                                    <li><a href="#_legal">1.1.2. Juridique</a></li>
+                                    <li><a href="#_hybrid_invoices">1.1.3. Factures hybrides</a></li>
+                                    <li><a href="#_archival">1.1.4. Archivage</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#_support">1.2. Assistance</a></li>
+                            <li><a href="#_supported_oses">1.3. Systèmes d’exploitation pris en charge</a></li>
+                            <li><a href="#_license">1.4. Licence</a></li>
+                            <li><a href="#_data_protection">1.5. Protection des données</a></li>
+                            <li><a href="#_alternatives">1.6. Alternatives</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#_download_and_launch">2. Téléchargement et lancement</a>
+                        <ul class="sectlevel2">
+                            <li><a href="#_admin_privileges">2.1. Privilèges administrateur</a></li>
+                            <li><a href="#_command_line_arguments">2.2. Arguments de ligne de commande</a></li>
+                            <li><a href="#_switching_languages">2.3. Changement de langue</a></li>
+                            <li><a href="#_printing_xml_and_pdf">2.4. Impression XML et PDF</a></li>
+                            <li><a href="#_display_business_terms_bts">2.5. Affichage des termes commerciaux (BTs)</a></li>
+                            <li><a href="#_search">2.6. Recherche</a></li>
+                            <li><a href="#_validation">2.7. Validation</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#_enterprise_features">3. Fonctionnalités d’entreprise</a>
+                        <ul class="sectlevel2">
+                            <li><a href="#_installation_on_terminal_serversfor_all_users">3.1. Installation sur les serveurs
+                                terminaux/pour tous les utilisateurs</a></li>
+                            <li><a href="#_headless_installation">3.2. Installation sans interface graphique</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#_index">Index</a></li>
+                    <li><a href="#_glossar">Glossaire</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="sect1">
+        <h2 id="_preconditions">Chapitre 1. Conditions préalables</h2>
+        <div class="sectionbody">
+            <div class="sect2">
+                <h3 id="_scope">1.1. Portée</h3>
+                <div class="sect3">
+                    <h4 id="_general">1.1.1. Généralités</h4>
+                    <div class="paragraph">
+                        <p>Quba-Viewer est un logiciel open-source pour Mac-OS, Windows et Linux en anglais, français et allemand permettant d'afficher des factures électroniques structurées et hybrides hors ligne. "Structurées" signifie généralement XML (Quba prend en charge des parties de l’UBL 2.1 d’Oasis et de la Cross Industry Invoice, CII, 1.0/2016b de l’UN/CEFACT), et "hybrides" signifie XML intégré dans des fichiers PDF, c’est-à-dire Factur-X/ZUGFeRD. Nous couvrons au moins la partie EN16931 de l’UBL et de la CII, donc XRechnung. Nous essayons de prendre en charge Factur-X 1/ZUGFeRD 2.x aussi bien que possible, même dans le profil "Étendu", et nous prenons en charge Order-X.</p>
+                    </div>
+                </div>
+                <div class="sect3">
+                    <h4 id="_legal">1.1.2. Aspects juridiques</h4>
+                    <div class="paragraph">
+                        <p><strong>Aucun conseil fiscal ou juridique ne peut ou ne sera donné, ni ne doit être déduit de l’utilisation de ce logiciel</strong>. Mais par coïncidence, la portée couvre la plupart, voire la totalité, des types de factures électroniques que vous devez être capable de traiter en Allemagne (à partir du 01.01.2025 selon la <a href="https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&amp;v=2">loi sur les opportunités de croissance, p.23f, Art 23</a>).</p>
+                    </div>
+                </div>
+                <div class="sect3">
+                    <h4 id="_hybrid_invoices">1.1.3. Factures hybrides</h4>
+                    <div class="paragraph">
+                        <p>Les auteurs de factures électroniques peuvent utiliser ce logiciel pendant le développement pour vérifier si les informations dans le XML reflètent correctement celles dans le PDF. Les destinataires ne sont généralement pas obligés de le faire. Mais ils peuvent être tenus d’utiliser la partie XML même si un PDF lisible est disponible. Il peut notamment être judicieux de vérifier la version que vous traitez pour le paiement. Par exemple, lors des ZUGFeRD Entwicklertage 2025, un incident a été mentionné où quelqu’un a vérifié le PDF visuel d’une facture hybride, mais a ensuite payé le XML frauduleux et a perdu 60 000€.</p>
+                    </div>
+                </div>
+                <div class="sect3">
+                    <h4 id="_archival">1.1.4. Archivage</h4>
+                    <div class="paragraph">
+                        <p>Dès réception de votre première facture électronique, vous pouvez être soumis à des obligations supplémentaires d’archivage numérique, comme dans les <a href="https://ao.bundesfinanzministerium.de/ao/2023/Anhaenge/BMF-Schreiben-und-gleichlautende-Laendererlasse/Anhang-64/inhalt.html">GoBD allemandes</a>. Malheureusement, Quba ne vous aide pas encore avec ces obligations.</p>
+                    </div>
+                    <div class="paragraph">
+                        <p>Nous essayons occasionnellement de conserver une archive des anciennes versions de Quba-Viewer que nous avons publiées, mais si vous basez des décisions critiques sur un certain logiciel, il peut être judicieux de l’archiver vous-même.</p>
+                    </div>
+                    <div class="paragraph">
+                        <p>quba-viewer/files/ contient par exemple :</p>
+                    </div>
+                    <div class="ulist">
+                        <ul>
+                            <li><p>Quba-1.4.0.0.dmg</p></li>
+                            <li><p>Quba_1.4.0_amd64.snap</p></li>
+                            <li><p>Quba-1.4.0.AppImage</p></li>
+                            <li><p>Quba-1.4.0-arm64.dmg</p></li>
+                            <li><p>Quba Setup 1.4.0.exe</p></li>
+                            <li><p>Quba-1.4.1.msi</p></li>
+                            <li><p>Quba-1.4.1.AppImage</p></li>
+                            <li><p>Quba_1.4.1.msi</p></li>
+                            <li><p>Quba-1.4.1-universal.dmg</p></li>
+                            <li><p>Quba-Setup-1.4.1.exe</p></li>
+                            <li><p>Quba-1.4.2.AppImage</p></li>
+                            <li><p>Quba-1.4.2.msi</p></li>
+                            <li><p>Quba-1.4.2-universal.dmg</p></li>
+                            <li><p>Quba-Setup-1.4.2.exe</p></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_support">1.2. Support</h3>
+                <div class="paragraph">
+                    <p>Vous pouvez obtenir un support communautaire via <a href="https://github.com/ZUGFeRD/quba-viewer/">Github</a> (pour signaler des problèmes ou proposer des améliorations) et la liste de diffusion générique, c’est-à-dire le <a href="https://groups.google.com/g/zugferd">Groupe Google</a> (par ex. pour des questions sur la facture électronique), ainsi qu’un support commercial via <a href="http://www.mustangproject.org/support/">usegroup via Mustangproject</a>.</p>
+                </div>
+                <div class="paragraph">
+                    <p>En particulier pour le support communautaire, il peut être nécessaire d’anonymiser vos factures, ce qui peut être fait avec le <a href="https://github.com/ZUGFeRD/einvoice-anonymizer">script python d’Andreas Starke</a>.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_supported_oses">1.3. Systèmes d’exploitation supportés</h3>
+                <div class="paragraph">
+                    <p>Sous</p>
+                </div>
+                <div class="ulist">
+                    <ul>
+                        <li>
+                            <p>Windows, il fonctionne sur les versions x64</p>
+                            <div class="ulist">
+                                <ul>
+                                    <li><p>10 et</p></li>
+                                    <li><p>11 ainsi que</p></li>
+                                    <li><p>Server 2022 et</p></li>
+                                    <li><p>Server 2025</p></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <p>Linux, il fonctionne par ex. sur x64</p>
+                            <div class="ulist">
+                                <ul>
+                                    <li><p>Debian 12</p></li>
+                                    <li>
+                                        <p>Ubuntu</p>
+                                        <div class="ulist">
+                                            <ul>
+                                                <li><p>24.04.2</p></li>
+                                                <li><p>24.10</p></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <p>Mac OS</p>
+                            <div class="ulist">
+                                <ul>
+                                    <li><p>14.x (Sonoma)</p></li>
+                                    <li><p>15.x (Sequoia)</p></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="paragraph">
+                    <p>Merci de signaler si cela fonctionne également sur d’autres plateformes. Merci aussi de signaler si vous l’utilisez avec succès sur Windows Server.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_license">1.4. Licence</h3>
+                <div class="paragraph">
+                    <p>Vous pouvez utiliser ce logiciel open-source gratuitement, aussi à des fins commerciales, ainsi que pour des œuvres dérivées sous les conditions de la <a href="https://www.apache.org/licenses/LICENSE-2.0">Licence Apache 2.0</a>. Veuillez noter que, comme pour tout logiciel open-source, nous ne garantissons rien, notamment pas que Quba fonctionne du tout, affiche des informations correctes ou complètes, ou n’endommage pas votre ordinateur.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_data_protection">1.5. Protection des données</h3>
+                <div class="paragraph">
+                    <p>Le fait que vous téléchargiez Quba peut être suivi de manière anonyme à des fins statistiques selon la politique de confidentialité du site. Quba-viewer est une application hors ligne qui ne nécessite pas de connexion internet. Aucune donnée d’utilisation n’est collectée.</p>
+                </div>
+                <div class="paragraph">
+                    <p>En cas de connexion, l’application peut vérifier au démarrage s’il existe une nouvelle version, sauf si cela a été désactivé. Cela nécessite techniquement l’envoi de votre adresse IP à un serveur GitHub. Nous ne surveillons, n’évaluons ni n’utilisons d’aucune manière les données issues de ces vérifications.</p>
+                </div>
+                <div class="paragraph">
+                    <p>La fonction de validation vous présentera un accord de protection des données étendu : elle nécessite actuellement l’envoi de toute la facture à un serveur en ligne. Nous n’utiliserons aucune des données et les fichiers seront supprimés immédiatement après la requête, mais nous pouvons consigner statistiquement et anonymement qu’une requête a eu lieu. Sauf si vous avez un abonnement à Mustangserver, vous n’avez pas de contrat ADV avec nous et ne devez soumettre que des factures de test ou anonymisées. Pour anonymiser, vous pouvez par ex. utiliser <a href="https://github.com/ZUGFeRD/einvoice-anonymizer">einvoice-anonymizer</a>.</p>
+                </div>
+                <div class="paragraph">
+                    <p>Un abonnement à Mustangserver peut intéresser certains utilisateurs, mais c’est un produit entièrement différent et très faiblement intégré, et non une version "Pro" que nous cherchons à vendre. En fait, il n’existe actuellement <strong>pas</strong> de version "Pro" ou commerciale de Quba-Viewer.</p>
+                </div>
+                <div class="paragraph">
+                    <p>Même lors de la validation, les données seront transmises de manière chiffrée via SSL à un serveur allemand, et les fichiers XML de facture, PDF source et PDF généré seront supprimés après la transmission. Des enregistrements statistiques anonymes sur les profils validés, leurs résultats et empreintes peuvent être conservés.</p>
+                </div>
+                <div class="paragraph">
+                    <p>Les mesures techniques et organisationnelles (TOM), les contrats de traitement de données (ADV) et les accords de niveau de service (SLA) sont visibles dans le <a href="https://www.mustangproject.org/files/wartungsvertrag_muster_EN.pdf">modèle de contrat</a> et s’appliquent dès que vous concluez un contrat correspondant. Sans contrat commercial, bien entendu, aucun</p>
+                </div>
+                <div class="paragraph">
+                    <p>mesures techniques/organisationnelles, contrats de traitement de données ou SLA ne sont en place, mais <a href="https://www.mustangproject.org/files/wartungsvertrag_muster_EN.pdf">voici</a> à quoi cela ressemble pour Mustangserver.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_alternatives">1.6. Alternatives</h3>
+                <div class="paragraph">
+                    <p>D'autres excellents projets sont par exemple la <a href="https://jcthiele.github.io/OpenXRechnungToolbox/">Open XRechnung Toolbox</a>, qui est, comme Quba, initialement basée sur <a href="https://github.com/itplr-kosit/xrechnung-visualization/">xrechnung-visualization</a>, mais ne tente même pas de couvrir les fonctions Factur-X Étendu.</p>
+                </div>
+                <div class="paragraph">
+                    <p>Notre projet partenaire <a href="https://www.mustangproject.org/">Mustang</a> contient un outil en ligne de commande avec lequel vous pouvez convertir en PDF ou valider des factures électroniques hors ligne.</p>
+                </div>
+                <div class="paragraph">
+                    <p>Basé sur Mustang, l’indépendant <a href="https://github.com/OpenIndex/ZUGFeRD-Manager">ZUGFeRD-Manager</a> peut également être utilisé comme interface graphique pour rédiger et valider Factur-X.</p>
+                </div>
+                <div class="paragraph">
+                    <p>Si vous ne pouvez absolument pas exécuter de logiciel, vous pouvez toujours soumettre vos factures via des visualiseurs en ligne comme <a href="https://www.elster.de/eportal/e-rechnung">Elster</a> (également basé sur xrechnung-visualization).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sect1">
+        <h2 id="_download_and_launch">Chapitre 2. Téléchargement et lancement</h2>
+        <div class="sectionbody">
+            <div class="sect2">
+                <h3 id="_admin_privileges">2.1. Privilèges administrateur</h3>
+                <div class="paragraph">
+                    <p>Vous pouvez exécuter la version Windows sans nécessiter de privilèges administrateur en extrayant le fichier exe (quba-setup…exe) à l'aide du logiciel open source <a href="https://www.7-zip.org/">7-zip</a>. Ensuite, accédez au dossier $PLUGINSDIR et extrayez à nouveau, cette fois le fichier app-64.7z. Puis lancez quba.exe dans le répertoire obtenu.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_command_line_arguments">2.2. Arguments en ligne de commande</h3>
+                <div class="paragraph">
+                    <p>Vous pouvez passer le nom d’un fichier à ouvrir en argument à Quba, ce qui permet d’installer Quba comme visionneuse par défaut pour ces fichiers sur la plupart des systèmes d’exploitation. Malheureusement, aucun type MIME ou extension de fichier dédié n’a encore été assigné aux factures électroniques, c’est-à-dire que vous devrez définir Quba comme visionneuse par défaut pour les fichiers *.xml et/ou *.pdf.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_switching_languages">2.3. Changement de langue</h3>
+                <div class="paragraph">
+                    <p>Actuellement (<a href="https://github.com/ZUGFeRD/quba-viewer/issues/135">#135</a>), Quba doit être redémarré après avoir changé la langue en anglais, français ou allemand.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_printing_xml_and_pdf">2.4. Impression XML et PDF</h3>
+                <div class="paragraph">
+                    <p>La fonction d’impression de Mustang a été initialement conçue pour les factures hybrides, c’est-à-dire que Imprimer|XML imprime la visualisation de la partie XML et Imprimer|PDF imprime la partie PDF lisible par l’humain <strong>d’une facture hybride comme Factur-X</strong>. Il n’existe pas encore de fonction de conversion de XML vers PDF, donc la fonction Imprimer|PDF sera désactivée s’il n’y a pas de PDF disponible (par exemple pour XRechnung).</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_display_business_terms_bts">2.5. Affichage des termes commerciaux (BTs)</h3>
+                <div class="paragraph">
+                    <p>Avec Fichier|Afficher les IDs, vous pouvez afficher les BT-IDs à côté des champs de texte lors du chargement de la facture suivante.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_search">2.6. Recherche</h3>
+                <div class="paragraph">
+                    <p>Utilisez <code>CTRL+F</code> pour ouvrir une invite de recherche de termes (ou, si l’affichage est activé, des BTs) dans vos factures.</p>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_validation">2.7. Validation</h3>
+            </div>
+        </div>
+    </div>
+    <div class="sect1">
+        <h2 id="_enterprise_features">Chapter 3. Enterprise features</h2>
+        <div class="sectionbody">
+            <div class="sect2">
+                <h3 id="_installation_on_terminal_serversfor_all_users">3.1. Installation sur serveurs terminaux/pour tous les utilisateurs</h3>
+                <div class="paragraph">
+                    <p>Habituellement, sous Windows, Quba est installé uniquement pour l’utilisateur actuel. Cela peut poser problème, par exemple lors de la distribution de l’accès au logiciel sur un serveur terminal. Sur <a href="https://github.com/ZUGFeRD/quba-viewer/releases">Github</a>, vous trouverez des versions .MSI de ce logiciel. Celles-ci peuvent être installées pour tous les utilisateurs avec la commande suivante :</p>
+                </div>
+                <div class="listingblock">
+                    <div class="content">
+                        <pre>MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="sect2">
+                <h3 id="_headless_installation">3.2. Installation silencieuse</h3>
+                <div class="paragraph">
+                    <p>Après une installation MSI, Quba est démarré par défaut.</p>
+                </div>
+                <div class="paragraph">
+                    <p>Si vous distribuez des packages logiciels dans votre entreprise et souhaitez une installation silencieuse, vous pouvez éditer le MSI, par exemple avec <a href="http://www.instedit.com/">instedit</a>, et supprimer l’action personnalisée <code>runAfterFinish</code>.
+                        === Désactivation de la mise à jour automatique</p>
+                </div>
+                <div class="paragraph">
+                    <p>Dans
+                        \AppData\Local\Programs\Quba\AppConfig.ini,
+                        définissez <code>performOnStartup=false</code> dans</p>
+                </div>
+                <div class="listingblock">
+                    <div class="content">
+<pre>[AutoUpdate]
+performOnStartup=true</pre>
+                    </div>
+                </div>
+                <div class="paragraph">
+                    <p>pour désactiver la vérification à chaque démarrage du logiciel de l’existence de nouvelles versions. Cela peut être utile, par exemple, si vous distribuez Quba sous forme de packages logiciels certifiés par votre équipe.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sect1">
+        <h2 id="_index">Index</h2>
+        <div class="sectionbody">
 
-<!--<script>
-    let currentLang = 'en';
-    const content = document.getElementById('content');
-    const switchBtn = document.getElementById('switchLang');
-
-    function loadManual(lang) {
-        fetch(`manual.${lang}.html`)
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const bodyContent = doc.body.innerHTML;
-                content.innerHTML = bodyContent;
-            });
-    }
-
-    switchBtn.addEventListener('click', () => {
-        currentLang = currentLang === 'en' ? 'de' : 'en';
-        switchBtn.textContent = currentLang === 'en' ? 'Deutsch' : 'English';
-        loadManual(currentLang);
-    });
-
-    loadManual(currentLang); // Initial load
-</script>-->
-<script>
-    const { ipcRenderer } = require('electron');
-    const currentLang = window.location.pathname.split('.').slice(-2)[0]; // Extrahiert "en" aus "manual.en.html"
-
-    // Initialen Inhalt laden
-    fetch(`manual.${currentLang}.html`)
-        .then(response => response.text())
-        .then(html => {
-            document.getElementById("content").innerHTML = html;
-        });
-
-    // Für spätere Sprachwechsel
-    ipcRenderer.on("manual-change-language", (event, lang) => {
-        fetch(`manual.${lang}.html`)
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById("content").innerHTML = html;
-            });
-    });
-</script>
+        </div>
+    </div>
+    <div class="sect1">
+        <h2 id="_glossar">Glossaire</h2>
+        <div class="sectionbody">
+            <div class="dlist glossary">
+                <dl>
+                    <dt>BT</dt>
+                    <dd>
+                        <p>Terme commercial</p>
+                    </dd>
+                    <dt>CII</dt>
+                    <dd>
+                        <p>Facture intersectorielle</p>
+                    </dd>
+                    <dt>MSI</dt>
+                    <dd>
+                        <p>Microsoft Installer</p>
+                    </dd>
+                    <dt>UBL</dt>
+                    <dd>
+                        <p>Langage universel des affaires</p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div id="footer-text">
+        Dernière mise à jour : 2025-05-18 18:05:46 +0200
+    </div>
+</div>
 </body>
 </html>

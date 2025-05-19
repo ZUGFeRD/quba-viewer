@@ -4,14 +4,15 @@ const config = require("./config/app.config");
 const Store = require("electron-store");
 const store = new Store();
 const menu = null;
-let loginWindow, aboutWindowTranslation, manualWindowTranslation, loginWindowTranslation;
+const fs = require("fs");
+let loginWindow, aboutWindowTranslation, manualWindowTranslation, loginWindowTranslation, manualWindow;
 
 function MenuFactoryService(menuList) {
   this.menu = menuList;
   this.buildMenu = buildMenu;
 }
 
-function buildMenu(app, mainWindow, i18n, openFile, openDir) {
+function buildMenu(app, mainWindow, i18n, openFile, openDir, manualWindow) {
   initializeTranslation(app, i18n);
   const languageMenu = config.languages.map((languageCode) => {
     return {
@@ -20,6 +21,10 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir) {
       checked: i18n.language === languageCode,
       click: () => {
         i18n.changeLanguage(languageCode);
+        // Manual neu laden, falls geöffnet
+        if (manualWindow && !manualWindow.isDestroyed()) {
+          manualWindow.webContents.send("manual-change-language", languageCode);
+        }
       },
     };
   });
@@ -189,11 +194,11 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir) {
         {
           label: i18n.t("About"),
           click() {
-            openAboutWindow(mainWindow, app, i18n);
+            openAboutWindow(mainWindow, app, i18n, true);
           },
         },
         {
-          label: i18n.t("Have a manual"),
+          label: i18n.t("Content"),
           click() {
             openManualWindow(mainWindow, app, i18n);
           },
@@ -215,13 +220,6 @@ function initializeTranslation(app, i18n) {
     version: i18n.t("version") + " " + app.getVersion(),
   };
 
-  manualWindowTranslation = {
-    title: i18n.t("Manual") + " " + "Quba",
-    validationTitle: i18n.t("Validate"),
-    appName: i18n.t("appName"),
-    license: i18n.t("licenseText"),
-    version: i18n.t("version") + " " + app.getVersion(),
-  };
 
   loginWindowTranslation = {
     login: i18n.t("Login"),
@@ -272,7 +270,7 @@ function openAboutWindow(mainWindow, app, i18n) {
 
 
 // Event um den Sprachwechsel-Button zu aktivieren/deaktivieren
-ipcMain.on('manual-window-status', (event, isOpen) => {
+/*ipcMain.on('manual-window-status', (event, isOpen) => {
   const menu = Menu.getApplicationMenu();
   const switchLanguageItem = menu.items
       .find(item => item.label === i18n.t('menu.help'))
@@ -281,41 +279,68 @@ ipcMain.on('manual-window-status', (event, isOpen) => {
   if (switchLanguageItem) {
     switchLanguageItem.enabled = isOpen;
   }
+});*/
+
+
+ipcMain.on("manual-change-language", (event, lang) => {
+  manualWindow.loadFile(`./app/manual/manual.${lang}.html`);
 });
+
+
 function openManualWindow(mainWindow, app, i18n) {
+  // Wenn Fenster bereits existiert, fokussiere es statt neu zu erstellen
+  if (manualWindow && !manualWindow.isDestroyed()) {
+    manualWindow.focus();
+    return;
+  }
 
-
-  let newManualWindow = new BrowserWindow({
+  manualWindow = new BrowserWindow({
     height: 600,
-    width: 500,
+    width: 800,
     resizable: true,
-    title: manualWindowTranslation.title,
+    //title: manualWindowTranslation.title,
     parent: mainWindow,
-    modal: true,
-    minimizable: false,
+    modal: true,  //  modal, damit man zwischen Fenstern wechseln kann
+    minimizable: true,
     fullscreenable: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      enableRemoteModule: true,
+      sandbox: false
     },
+    // icon: path.join(__dirname, '../assets/img/icon.png')
   });
-  newManualWindow.setMenuBarVisibility(false);
 
-  // this hack is necessary, because of a mac specific bug in electron: https://github.com/electron/electron/issues/27160#issuecomment-1325840197
-  if (process.platform === "darwin") {
-    newWindow.modal = false;
-    newWindow.closable = true;
+  manualWindow.setMenuBarVisibility(false);
+
+  // Aktuelle Sprache ermitteln
+  const currentLang = i18n.language || 'en';
+  const manualPath = path.join(__dirname, '..', 'app', 'manual', `manual.${currentLang}.html`);
+
+  // Sicherstellen, dass Datei existiert
+  fs.access(manualPath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error(`Manual file not found for language ${currentLang}, falling back to English`);
+      manualWindow.loadFile(
+          path.join(__dirname, '..', 'app', 'manual', 'manual.en.html')
+      );
+    } else {
+      manualWindow.loadFile(manualPath);
+    }
+  });
+
+
+  // Fenster-Events
+  manualWindow.on('closed', () => {
+    ipcMain.removeAllListeners('manual-change-language');
+    manualWindow = null;
+  });
+
+  // DevTools für Debugging (nur in Entwicklung)
+  if (process.env.NODE_ENV === 'development') {
+    manualWindow.webContents.openDevTools({ mode: 'detach' });
   }
-
-  ipcMain.on("manual-info", (event) => {
-    event.sender.send("manual-info", { ...manualWindowTranslation });
-  });
-
-  newManualWindow.loadFile("./000resources/manual/manual.html");
-
-  newManualWindow.on("closed", function () {
-    newManualWindow = null;
-  });
 }
 function openLogin(mainWindow, app, i18n) {
   if (loginWindow && loginWindow.close) {
