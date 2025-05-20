@@ -17,6 +17,12 @@ History
 - #98 Correctly translate bt148 to gross instead of net
 - #99 Register shortcut to close app by using cmd+q
 - #88 Splash window "About" ("Info" in German) can not be closed on MacOS
+- find
+- #49 [v1.4.0] Actual delivery date is not displayed (BT-72)
+- #58 have a manual
+- #86 2 digits
+- #81 closing main window does not quit the application 
+#120 struc not shown?
 
 </details>
 

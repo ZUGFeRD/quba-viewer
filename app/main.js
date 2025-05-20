@@ -247,12 +247,28 @@ function initApp() {
                         let isOrderX = false;
                         let isZF1 = false;
                         if (typeof embeddedFiles == "object" && embeddedFiles !== null) {
+
+                            /*
+                             [Object: null prototype] {
+  '0000': [Object: null prototype] {
+    filename: 'factur-x.xml',
+    content: Uint8Array(11706) [
+
+
+for (const [key, value] of Object.entries( embeddedFiles)) {
+                            
+                                                        if property filename exists and equals factur-x.xml take conent
+
+                             */
+
                             if (embeddedFiles["factur-x.xml"]) {
+                                // file tree
+                                console.log("test10");
                                 embeddedXML = new TextDecoder().decode(
                                     embeddedFiles["factur-x.xml"]["content"]
                                 );
                             }
-                            // flat file embedding
+                            // flat file list embedding
                             if ((typeof embeddedFiles["Embedded XML"] != "undefined") && (typeof embeddedFiles["Embedded XML"]["filename"] != "undefined")
                                 && (
                                     (embeddedFiles["Embedded XML"]["filename"] == "factur-x.xml")
