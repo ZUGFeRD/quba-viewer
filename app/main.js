@@ -188,6 +188,7 @@ function initApp() {
 
             if (commandLine.length && commandLine[commandLine.length - 1]) {
                 const path = commandLine[commandLine.length - 1];
+                console.log("test1")
                 if (path.toLowerCase().includes(".pdf")) {
                     mainWindow.webContents.send("pdf-open", [path, null]);
                 } else {
@@ -235,9 +236,223 @@ function initApp() {
         autoUpdater.quitAndInstall();
     });
 
-    ipcMain.on("check-xml", async (event, filePath) => {
-        //   check if the PDF contains embedded xml files
+    /*
+        ipcMain.on("check-xml", async (event, filePath) => {
+            //   check if the PDF contains embedded xml files
 
+            try {
+                var loadingTask = pdfjsLib.getDocument(filePath);
+                loadingTask.promise
+                    .then(function (pdf) {
+                        pdf.getAttachments().then(function (embeddedFiles) {
+                            let embeddedXML = null;
+                            let isOrderX = false;
+                            let isZF1 = false;
+                            if (typeof embeddedFiles == "object" && embeddedFiles !== null) {
+
+                                /!*
+                                 [Object: null prototype] {
+      '0000': [Object: null prototype] {
+        filename: 'factur-x.xml',
+        content: Uint8Array(11706) [
+
+
+    for (const [key, value] of Object.entries( embeddedFiles)) {
+
+                                                            if property filename exists and equals factur-x.xml take conent
+
+                                 *!/
+
+                                if (embeddedFiles["factur-x.xml"]) {
+                                    // file tree
+                                    embeddedXML = new TextDecoder().decode(
+                                        embeddedFiles["factur-x.xml"]["content"]
+                                    );
+                                }
+                                // flat file list embedding
+                                if ((typeof embeddedFiles["Embedded XML"] != "undefined") && (typeof embeddedFiles["Embedded XML"]["filename"] != "undefined")
+                                    && (
+                                        (embeddedFiles["Embedded XML"]["filename"] == "factur-x.xml")
+                                        || (embeddedFiles["Embedded XML"]["filename"].lowercase() == "zugferd-invoice.xml")
+                                        || (embeddedFiles["Embedded XML"]["filename"] == "xrechnung.xml")
+                                        || (embeddedFiles["Embedded XML"]["filename"] == "order-x.xml")
+                                    )) {
+                                    embeddedXML = new TextDecoder().decode(
+                                        embeddedFiles["Embedded XML"]["content"]
+                                    );
+                                    if (embeddedFiles["Embedded XML"]["filename"] == "order-x.xml") {
+                                        isOrderX = true;
+                                    }
+
+                                } else {
+                                    // tree file embedding
+                                    if (embeddedFiles["zugferd-invoice.xml"]) {
+                                        // the embedded file can also be named zugferd-invoice.xml
+                                        // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
+                                        embeddedXML = new TextDecoder().decode(
+                                            embeddedFiles["zugferd-invoice.xml"]["content"]
+                                        );
+                                    }
+                                    if (embeddedFiles["ZUGFeRD-invoice.xml"]) {
+                                        // the embedded file can also be named zugferd-invoice.xml
+                                        // if it contained uppercaps like ZUGFeRD-invoice.xml it would be ZF1
+                                        embeddedXML = new TextDecoder().decode(
+                                            embeddedFiles["ZUGFeRD-invoice.xml"]["content"]
+                                        );
+                                        isZF1 = true;
+                                    }
+                                    if (embeddedFiles["xrechnung.xml"]) {
+                                        embeddedXML = new TextDecoder().decode(
+                                            embeddedFiles["xrechnung.xml"]["content"]
+                                        );
+                                    }
+                                    if (embeddedFiles["order-x.xml"]) {
+                                        isOrderX = true;
+                                        embeddedXML = new TextDecoder().decode(
+                                            embeddedFiles["order-x.xml"]["content"]
+                                        );
+                                    }
+                                }
+                            }
+                            if (embeddedXML !== null) {
+                                if (isOrderX) {
+                                    transformAndDisplayCIO(
+                                        filePath + " (embedded xml)",
+                                        embeddedXML,
+                                        false
+                                    ).then((res) => {
+                                        event.returnValue = res ? res : undefined;
+                                    });
+                                } else if (isZF1) {
+                                    transformAndDisplayZF1(
+                                        filePath + " (embedded xml)",
+                                        embeddedXML,
+                                        false
+                                    ).then((res) => {
+                                        event.returnValue = res ? res : undefined;
+                                    });
+
+                                } else {
+                                    transformAndDisplayCII(
+                                        filePath + " (embedded xml)",
+                                        embeddedXML,
+                                        false
+                                    ).then((res) => {
+                                        event.returnValue = res ? res : undefined;
+                                    });
+
+                                }
+                            } else {
+                                event.returnValue = undefined;
+                            }
+                        });
+                    })
+
+                    .catch((error) => {
+                        event.returnValue = undefined;
+                        displayError("Exception", error.getMessage());
+                    });
+            } catch (error) {
+                event.returnValue = undefined;
+            }
+        });
+    */
+
+    // erste Lösung
+    /*
+        ipcMain.on("check-xml", async (event, filePath) => {
+            try {
+                const loadingTask = pdfjsLib.getDocument(filePath);
+                loadingTask.promise
+                    .then(function (pdf) {
+                        return pdf.getAttachments();
+                    })
+                    .then(function (embeddedFiles) {
+                        let embeddedXML = null;
+                        let isOrderX = false;
+                        let isZF1 = false;
+
+                        if (typeof embeddedFiles !== 'object' || embeddedFiles === null) {
+                            event.returnValue = undefined;
+                            return;
+                        }
+
+                        // Normalize the embedded files structure
+                        const files = [];
+                        for (const [key, value] of Object.entries(embeddedFiles)) {
+                            if (typeof value === 'object' && value !== null) {
+                                files.push(value);
+                            }
+                        }
+
+                        // Check all possible XML file names
+                        for (const file of files) {
+                            if (!file.filename) continue;
+
+                            const filename = file.filename.toLowerCase();
+
+                            if (filename === 'factur-x.xml' ||
+                                filename === 'zugferd-invoice.xml' ||
+                                filename === 'xrechnung.xml' ||
+                                filename === 'order-x.xml' ||
+                                filename === 'zugferd-invoice.xml') {
+
+                                embeddedXML = new TextDecoder().decode(file.content);
+
+                                if (filename === 'order-x.xml') {
+                                    isOrderX = true;
+                                }
+                                if (filename === 'zugferd-invoice.xml' && file.filename.includes('ZUGFeRD')) {
+                                    isZF1 = true;
+                                }
+                                break; // Found our XML, no need to check others
+                            }
+                        }
+
+                        if (!embeddedXML) {
+                            event.returnValue = undefined;
+                            return;
+                        }
+
+                        // Process based on XML type
+                        if (isOrderX) {
+                            return transformAndDisplayCIO(
+                                `${filePath} (embedded xml)`,
+                                embeddedXML,
+                                false
+                            );
+                        } else if (isZF1) {
+                            return transformAndDisplayZF1(
+                                `${filePath} (embedded xml)`,
+                                embeddedXML,
+                                false
+                            );
+                        } else {
+                            return transformAndDisplayCII(
+                                `${filePath} (embedded xml)`,
+                                embeddedXML,
+                                false
+                            );
+                        }
+                    })
+                    .then((res) => {
+                        event.returnValue = res || undefined;
+                    })
+                    .catch((error) => {
+                        console.error('Error processing PDF attachments:', error);
+                        event.returnValue = undefined;
+                        displayError("Exception", error.message || String(error));
+                    });
+            } catch (error) {
+                console.error('Error in check-xml handler:', error);
+                event.returnValue = undefined;
+                displayError("Exception", error.message || String(error));
+            }
+        });
+    */
+
+
+    ipcMain.on("check-xml", async (event, filePath) => {
         try {
             var loadingTask = pdfjsLib.getDocument(filePath);
             loadingTask.promise
@@ -248,18 +463,32 @@ function initApp() {
                         let isZF1 = false;
                         if (typeof embeddedFiles == "object" && embeddedFiles !== null) {
 
-                            /*
-                             [Object: null prototype] {
-  '0000': [Object: null prototype] {
-    filename: 'factur-x.xml',
-    content: Uint8Array(11706) [
+                            /*Start neue Code */
+                            // Erste Änderung: Case-insensitive Suche nach XML-Dateien
+                            for (const [key, value] of Object.entries(embeddedFiles)) {
+                                if (typeof value === 'object' && value !== null) {
+                                    const filename = value.filename ? value.filename.toLowerCase() : '';
 
+                                    if (filename === 'factur-x.xml' ||
+                                        filename === 'zugferd-invoice.xml' ||
+                                        filename === 'xrechnung.xml' ||
+                                        filename === 'order-x.xml') {
 
-for (const [key, value] of Object.entries( embeddedFiles)) {
+                                        embeddedXML = new TextDecoder().decode(value.content);
 
-                                                        if property filename exists and equals factur-x.xml take conent
+                                        if (filename === 'order-x.xml') {
+                                            isOrderX = true;
+                                        }
+                                        if (value.filename.includes('ZUGFeRD')) {
+                                            isZF1 = true;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            /* End neue Code*/
 
-                             */
+                            // Behalte den alten Code als Fallback für spezielle Fälle
 
                             if (embeddedFiles["factur-x.xml"]) {
                                 // file tree
@@ -268,12 +497,13 @@ for (const [key, value] of Object.entries( embeddedFiles)) {
                                 );
                             }
                             // flat file list embedding
-                            if ((typeof embeddedFiles["Embedded XML"] != "undefined") && (typeof embeddedFiles["Embedded XML"]["filename"] != "undefined")
-                                && (
-                                    (embeddedFiles["Embedded XML"]["filename"] == "factur-x.xml")
-                                    || (embeddedFiles["Embedded XML"]["filename"].lowercase() == "zugferd-invoice.xml")
-                                    || (embeddedFiles["Embedded XML"]["filename"] == "xrechnung.xml")
-                                    || (embeddedFiles["Embedded XML"]["filename"] == "order-x.xml")
+                            if ((typeof embeddedFiles["Embedded XML"] != "undefined") &&
+                                (typeof embeddedFiles["Embedded XML"]["filename"] != "undefined") &&
+                                (
+                                    (embeddedFiles["Embedded XML"]["filename"] == "factur-x.xml") ||
+                                    (embeddedFiles["Embedded XML"]["filename"].toLowerCase() == "zugferd-invoice.xml") ||
+                                    (embeddedFiles["Embedded XML"]["filename"] == "xrechnung.xml") ||
+                                    (embeddedFiles["Embedded XML"]["filename"] == "order-x.xml")
                                 )) {
                                 embeddedXML = new TextDecoder().decode(
                                     embeddedFiles["Embedded XML"]["content"]
@@ -281,7 +511,6 @@ for (const [key, value] of Object.entries( embeddedFiles)) {
                                 if (embeddedFiles["Embedded XML"]["filename"] == "order-x.xml") {
                                     isOrderX = true;
                                 }
-
                             } else {
                                 // tree file embedding
                                 if (embeddedFiles["zugferd-invoice.xml"]) {
@@ -311,7 +540,10 @@ for (const [key, value] of Object.entries( embeddedFiles)) {
                                     );
                                 }
                             }
+
                         }
+
+                        // Rest des Codes bleibt unverändert
                         if (embeddedXML !== null) {
                             if (isOrderX) {
                                 transformAndDisplayCIO(
@@ -329,7 +561,6 @@ for (const [key, value] of Object.entries( embeddedFiles)) {
                                 ).then((res) => {
                                     event.returnValue = res ? res : undefined;
                                 });
-
                             } else {
                                 transformAndDisplayCII(
                                     filePath + " (embedded xml)",
@@ -338,20 +569,19 @@ for (const [key, value] of Object.entries( embeddedFiles)) {
                                 ).then((res) => {
                                     event.returnValue = res ? res : undefined;
                                 });
-
                             }
                         } else {
                             event.returnValue = undefined;
                         }
                     });
                 })
-
                 .catch((error) => {
                     event.returnValue = undefined;
-                    displayError("Exception", error.getMessage());
+                    displayError("Exception", error.message || String(error));
                 });
         } catch (error) {
             event.returnValue = undefined;
+            displayError("Exception", error.message || String(error));
         }
     });
 
@@ -392,7 +622,7 @@ for (const [key, value] of Object.entries( embeddedFiles)) {
         openFile();
     });
 
-  }
+}
 
 /***
  the installer config is the local AppConfig.ini, which has been filled with entries depending on the
