@@ -816,8 +816,8 @@ export default {
       // Wenn wir den letzten Treffer erreicht haben, zurück zum ersten
       this.currentXMLMatchIndex = (this.currentXMLMatchIndex + 1) % this.xmlMatches.length;
 
-      console.log("currentXMLMatchIndex", this.currentXMLMatchIndex)
-      console.log("this.xmlMatches.length", this.xmlMatches.length)
+//      console.log("currentXMLMatchIndex", this.currentXMLMatchIndex)
+//      console.log("this.xmlMatches.length", this.xmlMatches.length)
 
       const nextMatch = this.xmlMatches[this.currentXMLMatchIndex];
 
