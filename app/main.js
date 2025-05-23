@@ -256,14 +256,13 @@ function initApp() {
 
 
 for (const [key, value] of Object.entries( embeddedFiles)) {
-                            
+
                                                         if property filename exists and equals factur-x.xml take conent
 
                              */
 
                             if (embeddedFiles["factur-x.xml"]) {
                                 // file tree
-                                console.log("test10");
                                 embeddedXML = new TextDecoder().decode(
                                     embeddedFiles["factur-x.xml"]["content"]
                                 );

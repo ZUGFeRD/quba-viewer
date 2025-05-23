@@ -143,6 +143,8 @@ import {reactive, ref, isProxy, toRaw, onMounted} from "vue";
 import PDFJSViewer from "../components/PDFJSViewer.vue";
 import {useI18n} from "vue-i18n";
 import $ from 'jquery';
+import i18next from "i18next";
+
 
 export default {
   name: "Home",
@@ -510,9 +512,7 @@ export default {
   computed: {
     // Computed property to check if both PDF and XML are available
     isBothAvailable() {
-      console.log("isPdf:", this.currentTab.isPdf);
-      console.log("isXML:", this.currentTab.isXML);
-      console.log("isBothAvailable:", this.currentTab.isPdf && this.currentTab.isXML);
+
       return this.currentTab.isPdf && this.currentTab.isXML;
     }
   }
@@ -638,10 +638,10 @@ export default {
             highlightAll: false,
             findPrevious: false,
           });
-          console.log("PDF-Highlights entfernt.");
+          console.log("PDF-Highlights removed.");
         }
       } else {
-        console.warn("PDF-Viewer nicht verfügbar.");
+        console.warn("PDF-Viewer not available.");
       }
     },
     handleInput() {
@@ -689,10 +689,10 @@ export default {
             findPrevious: false,
           });
         } else {
-          console.error("FindController nicht gefunden.");
+          console.error("FindController not found.");
         }
       } else {
-        console.error("PDFViewerApplication nicht verfügbar.");
+        console.error("PDFViewerApplication not available.");
       }
     },
     nextPDFMatch() {
@@ -713,14 +713,14 @@ export default {
     searchXML() {
       const xmlViewer = this.$refs.xmlViewer;
       if (!xmlViewer || !this.searchText.trim()) {
-        console.error("XML Viewer oder Suchtext fehlt.");
+        console.error("XML viewer or search text missing.");
         return;
       }
 
       // Suche den Container mit der spezifischen Klasse
       const searchContainer = xmlViewer.querySelector(".divShow");
       if (!searchContainer) {
-        console.error("Kein passender Container gefunden.");
+        console.error("No matching container found.");
         return;
       }
 
@@ -734,7 +734,7 @@ export default {
       this.collectXMLMatches(searchContainer, searchQuery);
 
       if (this.xmlMatches.length === 0) {
-        console.warn("Kein Treffer gefunden.");
+        console.info("No matches found.");
       } else {
         this.nextXMLMatch(); // Springe sofort zum ersten Treffer
       }
@@ -809,7 +809,7 @@ export default {
     },
     nextXMLMatch() {
       if (!this.xmlMatches || this.xmlMatches.length === 0) {
-        console.warn("Keine Treffer verfügbar.");
+        console.info("No matches available.");
         return;
       }
 
@@ -845,9 +845,6 @@ export default {
     },
     // Set layout based on predefined options ( for Resizing Buttons)
     setLayout(layout) {
-      console.log("isPdf:", this.currentTab.isPdf);
-      console.log("isXML:", this.currentTab.isXML);
-      console.log("isBothAvailable:", this.currentTab.isPdf && this.currentTab.isXML);
       // reset the width
       document.getElementById("xmll").style.width = '0';
       if (layout === '50-50') {
