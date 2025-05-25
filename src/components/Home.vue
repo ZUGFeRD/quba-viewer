@@ -573,14 +573,12 @@ export default {
           }
         });
       }
-    }
-    ,
+    },
     handleEscKey(event) {
       if (event.key === "Escape") {
         this.closeSearch();
       }
-    }
-    ,
+    },
     handleSearch() {
       if (!this.isSearchActive) {
         // Starte eine neue Suche
