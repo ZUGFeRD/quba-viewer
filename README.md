@@ -12,7 +12,7 @@ History
 
 
 <details>
-<summary>1.4.3 </summary>
+<summary>1.5.0 27.05.2025</summary>
 - #100 support ZF1
 - #98 Correctly translate bt148 to gross instead of net
 - #99 Register shortcut to close app by using cmd+q
@@ -22,8 +22,8 @@ History
 - #58 have a manual
 - #43 be able to slide pdf/xml divider 
 - #86 2 digits
-- #81 closing main window does not quit the application 
-#120 struc not shown?
+- #81 closing main window does not quit the application
+- #120 structured data of some hybrid invoices not shown
 
 </details>
 
