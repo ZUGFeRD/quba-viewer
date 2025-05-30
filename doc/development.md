@@ -83,12 +83,12 @@ To access the console (not only of the browser windows but also of main.js)
 start Quba in a shell, e.g.
 `%AppData%\Local\Programs\quba_viewer\quba_viewer.exe`
 
+This will build the msi version. 
+
+To build the exe change package.json and remove the "msi" from "target" from  "win", leaving
+only the "nsis" target and `npm run build` again.
+
+
 On the mac please change in package.json from --win to --mac --linux
-Uninstall 
 
-
-
-https://stackoverflow.com/questions/55460379/how-to-parameterize-msi-file-from-electron-builder
-
-
-MsiExec /i "Quba 1.4.1.msi" AUTOUPDATE=false /L*v Install.log
+To build linux change to --linux, on Linux run git clone, npm i and npm run build
