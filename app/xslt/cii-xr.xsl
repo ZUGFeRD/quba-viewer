@@ -128,7 +128,11 @@
             <xsl:apply-templates mode="BG-11"
                                  select="./rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeAgreement/ram:SellerTaxRepresentativeTradeParty"/>
             <xsl:apply-templates mode="BG-13"
-                                 select="./rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeDelivery/ram:ShipToTradeParty"/>
+                                 select="./rsm:SupplyChainTradeTransaction [ 
+              exists( ram:ApplicableHeaderTradeDelivery/ram:ShipToTradeParty) or
+              exists( ram:ApplicableHeaderTradeDelivery/ram:ActualDeliverySupplyChainEvent/ram:OccurrenceDateTime/udt:DateTimeString) or
+              exists( ram:ApplicableHeaderTradeSettlement/ram:BillingSpecifiedPeriod)
+              ]"/>
             <xsl:apply-templates mode="BG-14"
                                  select="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:BillingSpecifiedPeriod"/>
             <!--Manuell: angepasst für BG-16-->
@@ -1110,18 +1114,21 @@
         </xr:Tax_representative_country_code>
     </xsl:template>
     <xsl:template mode="BG-13"
-                  match="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeDelivery/ram:ShipToTradeParty">
-        <xsl:variable name="bg-contents"
-                      as="item()*"><!--Der Pfad /rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeDelivery/ram:ShipToTradeParty der Instanz in konkreter Syntax wird auf 5 Objekte der EN 16931 abgebildet. -->
-            <xsl:apply-templates mode="BT-70" select="./ram:Name"/>
+                  match="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction [ 
+                   exists( ram:ApplicableHeaderTradeDelivery/ram:ShipToTradeParty) or
+                   exists( ram:ApplicableHeaderTradeDelivery/ram:ActualDeliverySupplyChainEvent/ram:OccurrenceDateTime/udt:DateTimeString) or
+                   exists( ram:ApplicableHeaderTradeSettlement/ram:BillingSpecifiedPeriod)
+                   ]">
+        <xsl:variable name="bg-contents" as="item()*">
+            <xsl:apply-templates mode="BT-70" select="./ram:ApplicableHeaderTradeDelivery/ram:Name"/>
             <xsl:apply-templates mode="BT-71"
-                                 select="./ram:ID[empty(following-sibling::ram:GlobalID/@schemeID)]"/>
-            <xsl:apply-templates mode="BT-71" select="./ram:GlobalID[exists(@schemeID)]"/>
+                                 select="./ram:ApplicableHeaderTradeDelivery/ram:ShipToTradeParty/ram:ID[empty(following-sibling::ram:GlobalID/@schemeID)]"/>
+            <xsl:apply-templates mode="BT-71" select="./ram:ApplicableHeaderTradeDelivery/ram:ShipToTradeParty/ram:GlobalID[exists(@schemeID)]"/>
             <xsl:apply-templates mode="BT-72"
-                                 select="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeDelivery/ram:ActualDeliverySupplyChainEvent/ram:OccurrenceDateTime/udt:DateTimeString[@format = '102']"/>
+                                 select="./ram:ApplicableHeaderTradeDelivery/ram:ActualDeliverySupplyChainEvent/ram:OccurrenceDateTime/udt:DateTimeString[@format = '102']"/>
             <!--<xsl:apply-templates mode="BG-14"
-                                 select="/rsm:CrossIndustryInvoice/rsm:SupplyChainTradeTransaction/ram:ApplicableHeaderTradeSettlement/ram:BillingSpecifiedPeriod"/>-->
-            <xsl:apply-templates mode="BG-15" select="./ram:PostalTradeAddress"/>
+                                 select="./ram:ApplicableHeaderTradeSettlement/ram:BillingSpecifiedPeriod"/>-->
+            <xsl:apply-templates mode="BG-15" select="./ram:ApplicableHeaderTradeDelivery/ram:ShipToTradeParty/ram:PostalTradeAddress"/>
         </xsl:variable>
         <xsl:if test="$bg-contents">
             <xr:DELIVERY_INFORMATION>
