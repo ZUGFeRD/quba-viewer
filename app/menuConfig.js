@@ -5,7 +5,7 @@ const Store = require("electron-store");
 const store = new Store();
 const menu = null;
 const fs = require("fs");
-let loginWindow, aboutWindowTranslation, manualWindowTranslation, loginWindowTranslation, manualWindow;
+let loginWindow, aboutWindowTranslation, manualWindowTranslation, loginWindowTranslation, manualWindow, aboutWindow;
 
 function MenuFactoryService(menuList) {
   this.menu = menuList;
@@ -235,13 +235,19 @@ function initializeTranslation(app, i18n) {
 }
 
 function openAboutWindow(mainWindow, app, i18n) {
-  let newWindow = new BrowserWindow({
+  // Wenn Fenster bereits existiert, fokussiere es statt neu zu erstellen
+  if (aboutWindow && !aboutWindow.isDestroyed()) {
+    aboutWindow.focus();
+    return;
+  }
+
+  aboutWindow = new BrowserWindow({
     height: 185,
     resizable: false,
     width: 400,
     title: aboutWindowTranslation.title,
     parent: mainWindow,
-    modal: true,
+    modal: (process.platform !== "darwin"),  // not modal on macOS to be able to close it
     minimizable: false,
     fullscreenable: false,
     webPreferences: {
@@ -249,22 +255,17 @@ function openAboutWindow(mainWindow, app, i18n) {
       contextIsolation: false,
     },
   });
-  newWindow.setMenuBarVisibility(false);
 
-  // this hack is necessary, because of a mac specific bug in electron: https://github.com/electron/electron/issues/27160#issuecomment-1325840197
-  if (process.platform === "darwin") {
-    newWindow.modal = false;
-    newWindow.closable = true;
-  }
+  aboutWindow.setMenuBarVisibility(false);
 
   ipcMain.on("about-info", (event) => {
     event.sender.send("about-info", { ...aboutWindowTranslation });
   });
 
-  newWindow.loadFile("./app/about.html");
+  aboutWindow.loadFile("./app/about.html");
 
-  newWindow.on("closed", function () {
-    newWindow = null;
+  aboutWindow.on("closed", function () {
+    aboutWindow = null;
   });
 }
 
@@ -300,7 +301,7 @@ function openManualWindow(mainWindow, app, i18n) {
     resizable: true,
     //title: manualWindowTranslation.title,
     parent: mainWindow,
-    modal: true,  //  modal, damit man zwischen Fenstern wechseln kann
+    modal: (process.platform !== "darwin"),  // not modal on macOS to be able to close it
     minimizable: true,
     fullscreenable: false,
     webPreferences: {
