@@ -2171,7 +2171,7 @@ function downloadData (element_id) {
                 </div>
                 <div class="boxzeile">
                     <div class="boxdaten legende"><xsl:value-of select="$i18n?bt72"/><xsl:if test="$showIds"> BT-72</xsl:if>:</div>
-                    <div id="BT-72" title="BT-72" class="boxdaten wert"><xsl:value-of select="format-date(xr:Actual_delivery_date,'[D].[M].[Y]')"/></div>
+                    <div id="BT-72" title="BT-72" class="boxdaten wert"><xsl:value-of select="format-date(xs:date(xr:Actual_delivery_date),'[D].[M].[Y]')"/></div>
                 </div>
                 <div class="boxzeile">
                     <div class="boxdaten legende"><xsl:value-of select="$i18n?bt70"/><xsl:if test="$showIds"> BT-70</xsl:if>:</div>
