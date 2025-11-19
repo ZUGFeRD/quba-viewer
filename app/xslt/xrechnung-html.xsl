@@ -1919,7 +1919,8 @@
                         <xsl:value-of select="xrf:_('xr:Actual_delivery_date')" />:
                     </div>
                     <div data-title="BT-72" class="BT-72 boxdaten wert">
-                        <xsl:value-of select="format-date(xr:Actual_delivery_date,xrf:_('date-format'))" />
+<!--                        <xsl:value-of select="format-date(xr:Actual_delivery_date,xrf:_('date-format'))" />-->
+                        <xsl:value-of select="format-date(xs:date(xr:Actual_delivery_date/text()), xrf:_('date-format'))" />
                     </div>
                 </div>
                 <div class="boxzeile" role="listitem">
