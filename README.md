@@ -12,6 +12,12 @@ History
 
 
 <details>
+<summary>1.5.1 09.11.2025</summary>
+- updated `electron` and `form-data` packages
+
+</details>
+
+<details>
 <summary>1.5.0 27.05.2025</summary>
 - #100 support ZF1
 - #98 Correctly translate bt148 to gross instead of net

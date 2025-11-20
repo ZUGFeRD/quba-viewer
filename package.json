@@ -1,6 +1,6 @@
 {
   "name": "Quba",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Viewer",
   "author": "Quba",
   "scripts": {
@@ -42,7 +42,7 @@
     "@vue/cli-plugin-babel": "5.0.4",
     "@vue/cli-service": "5.0.4",
     "@vue/compiler-sfc": "3.2.36",
-    "electron": "33.0.1",
+    "electron": "37.9.0",
     "electron-builder": "25.1.8",
     "vue-cli-plugin-i18n": "2.3.1"
   },
