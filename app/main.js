@@ -654,6 +654,7 @@ async function readInstallerConfigAndPerformAutoUpdate() {
 }
 
 function openFile() {
+    if (mainWindow === null) createWindow();
     dialog
         .showOpenDialog(BrowserWindow, {
             path: "",
