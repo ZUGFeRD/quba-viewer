@@ -195,6 +195,7 @@ export default {
         }*/
       if (currentTabObj.length) {
         currentTab.value = currentTabObj[0]; // currentTab wird gesetzt
+        window.currentFilePath = currentTab.value.path;
         console.log("Aktueller Tab nach setTabRef:", currentTab.value); // Debugging
         window.api.sendDocChange(currentTab.value.isPdf, currentTab.value.isShowXML);
       }
@@ -230,6 +231,7 @@ export default {
         tabRef.value.removeTab(tab.value);
       }
       window.dispatchEvent(new Event("mousedown")); // Stop opening file with pdf.js shortcut ctrl+O
+      window.currentFilePath = args[0];
 
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
@@ -258,6 +260,7 @@ export default {
         tabRef.value.removeTab(tab.value);
       }
       window.dispatchEvent(new Event("mousedown"));
+      window.currentFilePath = args[0];
       const path = args[0].replace(/^.*[\\\/]/, "");
       const key = "tab" + Date.now();
       tabRef.value.addTab({
@@ -944,11 +947,101 @@ export function base64_to_binary(data) {
 
 window.base64_to_binary = base64_to_binary; // make function available to inline javascript
 
-export function downloadData(element_id) {
+export async function downloadData(element_id) {
   var data_element = document.getElementById(element_id);
-  var mimetype = data_element.getAttribute('mimeType');
+  // Try getting mimetype with different casing
+  var mimetype = data_element.getAttribute('mimeType') || data_element.getAttribute('mimetype');
   var filename = data_element.getAttribute('filename');
+  
+  // Fallback: Try to extract filename from element_id (BT-124) if filename attribute is empty
+  if (!filename || filename.trim() === "") {
+      if (element_id && element_id.includes(".")) {
+          // Check if element_id looks like a filename
+          var potentialName = element_id;
+          if (potentialName.startsWith('#ef=')) {
+              potentialName = potentialName.substring(4);
+          }
+          filename = potentialName;
+      }
+      
+      // Additional Fallback: Check if the filename is displayed in the UI (BT-124)
+      if (!filename || filename.trim() === "") {
+         try {
+             // data_element is the hidden div inside a .boxzeile (or sibling of it)
+             // Structure:
+             // .boxzeile (BT-124) -> .wert (contains filename)
+             // .boxzeile (BT-125) -> .wert (contains link) + hidden div (data_element)
+             
+             // Check if data_element is a sibling of the link container
+             var parent = data_element.parentNode; // .boxzeile (BT-125)
+             if (parent && parent.classList.contains('boxzeile')) {
+                 var previousRow = parent.previousElementSibling;
+                 if (previousRow && previousRow.classList.contains('boxzeile')) {
+                     // Check if this row is BT-124
+                     var label = previousRow.querySelector('.boxdaten.legende');
+                     if (label && label.textContent.includes('BT-124')) {
+                         var valueDiv = previousRow.querySelector('.boxdaten.wert');
+                         if (valueDiv) {
+                             var text = valueDiv.textContent.trim();
+                             if (text.startsWith('#ef=')) text = text.substring(4);
+                             if (text.length > 0) {
+                                 filename = text;
+                             }
+                         }
+                     }
+                 }
+             }
+         } catch(e) {
+             console.error("Error trying to find filename from DOM:", e);
+         }
+      }
+  }
+  
+  // Clean filename if it contains URI fragment like #ef=
+  if (filename && filename.startsWith('#ef=')) {
+      filename = filename.substring(4);
+  }
+
+  // Final fallback: generate filename from mimetype if still empty
+  if (!filename || filename.trim() === "") {
+      var ext = ".bin";
+      if (mimetype) {
+         if (mimetype.includes("pdf")) ext = ".pdf";
+         else if (mimetype.includes("png")) ext = ".png";
+         else if (mimetype.includes("jpeg") || mimetype.includes("jpg")) ext = ".jpg";
+         else if (mimetype.includes("xml")) ext = ".xml";
+         else if (mimetype.includes("text") || mimetype.includes("plain")) ext = ".txt";
+      }
+      filename = "attachment" + ext;
+  }
+
   var text = data_element.innerHTML;
+
+  if (!text || text.trim() === "") {
+      try {
+          const path = window.currentFilePath;
+          if (path && window.api.getAttachment) {
+              const result = await window.api.getAttachment(path, filename);
+              if (result) {
+                  text = result;
+              } else {
+                  console.error("Attachment not found in PDF:", filename);
+                  alert("Der Anhang '" + filename + "' wurde im PDF nicht gefunden.");
+                  return;
+              }
+          }
+      } catch (e) {
+          console.error("Failed to fetch attachment", e);
+          alert("Fehler beim Abrufen des Anhangs: " + e.message);
+          return;
+      }
+  }
+
+  if (window.api && window.api.openAttachment) {
+      await window.api.openAttachment(text, filename, mimetype);
+      return;
+  }
+
   var binary = base64_to_binary(text);
   var blob = new Blob([binary], {
     type: mimetype, size: binary.length
@@ -960,7 +1053,13 @@ export function downloadData(element_id) {
   } else {
     // Non-IE
     var url = window.URL.createObjectURL(blob);
-    window.open(url);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   }
 }
 

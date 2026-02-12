@@ -8,6 +8,7 @@ const {
     ipcMain,
     dialog,
     ipcRenderer,
+    shell,
 } = require("electron");
 const os = require("os");
 const {autoUpdater} = require("electron-updater");
@@ -82,6 +83,9 @@ function createWindow() {
             referrer,
             postBody
         ) {
+            if (url.startsWith('blob:')) {
+                return;
+            }
             event.preventDefault();
             const win = new BrowserWindow({
                 webContents: options ? options.webContents : {},
@@ -622,6 +626,166 @@ function initApp() {
         openFile();
     });
 
+    ipcMain.handle("get-attachment", async (event, filePath, filename) => {
+        try {
+            const loadingTask = pdfjsLib.getDocument(filePath);
+            const pdf = await loadingTask.promise;
+            const embeddedFiles = await pdf.getAttachments();
+
+            if (typeof embeddedFiles !== 'object' || embeddedFiles === null) {
+                return null;
+            }
+
+            // First pass: exact match (case-insensitive)
+            for (const [key, value] of Object.entries(embeddedFiles)) {
+                if (typeof value === 'object' && value !== null) {
+                    const currentFilename = value.filename ? value.filename.toLowerCase() : '';
+                    if (currentFilename === filename.toLowerCase()) {
+                         return Buffer.from(value.content).toString('base64');
+                    }
+                }
+            }
+
+            // Second pass: endsWith match (e.g. "Aufmass.png" matches "EN16931_Elektron_Aufmass.png")
+            for (const [key, value] of Object.entries(embeddedFiles)) {
+                if (typeof value === 'object' && value !== null) {
+                    const currentFilename = value.filename ? value.filename.toLowerCase() : '';
+                    if (currentFilename.endsWith(filename.toLowerCase())) {
+                         return Buffer.from(value.content).toString('base64');
+                    }
+                }
+            }
+
+            // Third pass: filename includes requested name
+             for (const [key, value] of Object.entries(embeddedFiles)) {
+                if (typeof value === 'object' && value !== null) {
+                    const currentFilename = value.filename ? value.filename.toLowerCase() : '';
+                    if (currentFilename.includes(filename.toLowerCase())) {
+                         return Buffer.from(value.content).toString('base64');
+                    }
+                }
+            }
+            
+            // Fourth pass: requested name includes filename (reverse check)
+             for (const [key, value] of Object.entries(embeddedFiles)) {
+                if (typeof value === 'object' && value !== null) {
+                    const currentFilename = value.filename ? value.filename.toLowerCase() : '';
+                    if (filename.toLowerCase().includes(currentFilename) && currentFilename.length > 3) {
+                         return Buffer.from(value.content).toString('base64');
+                    }
+                }
+            }
+
+            // Fifth pass: Aggressive fuzzy match (Longest Common Substring)
+            const requestedExt = path.extname(filename).toLowerCase();
+            // Normalize: remove non-alphanumeric chars to ignore _, -, spaces
+            const requestedBase = path.basename(filename, requestedExt).toLowerCase().replace(/[^a-z0-9]/g, ""); 
+            
+            let bestMatch = null;
+            let maxScore = 0;
+
+            for (const [key, value] of Object.entries(embeddedFiles)) {
+                if (typeof value === 'object' && value !== null && value.filename) {
+                    const currentExt = path.extname(value.filename).toLowerCase();
+                    // Penalty for different extension (unless requested has no extension)
+                    if (requestedExt && currentExt !== requestedExt) continue;
+                    
+                    const currentBase = path.basename(value.filename, currentExt).toLowerCase().replace(/[^a-z0-9]/g, "");
+                    
+                    // Simple LCS implementation
+                    let lcs = 0;
+                    for (let i = 0; i < requestedBase.length; i++) {
+                        for (let j = 0; j < currentBase.length; j++) {
+                            let k = 0;
+                            while (i + k < requestedBase.length && j + k < currentBase.length && requestedBase[i+k] === currentBase[j+k]) {
+                                k++;
+                            }
+                            if (k > lcs) lcs = k;
+                        }
+                    }
+                    
+                    // Score = LCS length
+                    // We require at least 5 chars overlap or 50% of the shorter string
+                    if (lcs >= 5 && lcs > maxScore) {
+                        maxScore = lcs;
+                        bestMatch = value;
+                    }
+                }
+            }
+            
+            if (bestMatch) {
+                 return Buffer.from(bestMatch.content).toString('base64');
+            }
+
+            console.log("Attachment not found. Available files:", Object.values(embeddedFiles).map(f => f.filename));
+            return null;
+        } catch (error) {
+            console.error("Error fetching attachment:", error);
+            return null;
+        }
+    });
+
+    ipcMain.handle("open-attachment", async (event, contentBase64, filename, mimetype) => {
+        try {
+            const tempDir = os.tmpdir();
+            
+            // Validate filename
+            if (!filename || typeof filename !== 'string' || filename.trim() === '') {
+                 // Try to guess extension from mimetype
+                 let ext = '.bin';
+                 if (mimetype) {
+                     if (mimetype.includes('pdf')) ext = '.pdf';
+                     else if (mimetype.includes('png')) ext = '.png';
+                     else if (mimetype.includes('jpeg') || mimetype.includes('jpg')) ext = '.jpg';
+                     else if (mimetype.includes('xml')) ext = '.xml';
+                     else if (mimetype.includes('text') || mimetype.includes('plain')) ext = '.txt';
+                 }
+                 filename = `attachment_${Date.now()}${ext}`;
+            }
+            
+            // Sanitize filename to prevent directory traversal or invalid chars
+            filename = path.basename(filename);
+
+            const tempFilePath = path.join(tempDir, filename);
+            const buffer = Buffer.from(contentBase64, 'base64');
+            
+            // Write file
+            await fs.promises.writeFile(tempFilePath, buffer);
+            
+            // Check extension and open internal preview if supported
+            const ext = path.extname(filename).toLowerCase();
+            const viewableExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pdf', '.txt', '.xml', '.html'];
+
+            if (viewableExtensions.includes(ext)) {
+                let previewWin = new BrowserWindow({
+                    width: 1000,
+                    height: 800,
+                    title: "Vorschau: " + filename,
+                    webPreferences: {
+                        plugins: true, // For PDF viewer
+                        nodeIntegration: false,
+                        contextIsolation: true
+                    },
+                    autoHideMenuBar: true
+                });
+                
+                // Load file via file protocol
+                previewWin.loadURL('file://' + tempFilePath);
+                
+                previewWin.on('closed', () => {
+                    previewWin = null;
+                });
+            } else {
+                // Open file with default application
+                await shell.openPath(tempFilePath);
+            }
+            return true;
+        } catch (error) {
+            console.error("Error opening attachment:", error);
+            return false;
+        }
+    });
+
 }
 
 /***
@@ -642,7 +806,11 @@ async function readInstallerConfigAndPerformAutoUpdate() {
     } catch (err) {
         // Here you get the error when the file was not found,
         // but you also get any other error
-        console.error(err);
+        if (err.code !== 'ENOENT') {
+            console.error(err);
+        } else {
+            console.log("AppConfig.ini not found, skipping auto-update check from config.");
+        }
     }
     ;
     if (doUpdate) {
