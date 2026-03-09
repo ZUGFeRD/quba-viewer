@@ -59,6 +59,7 @@
           @keypress.enter="handleSearch"
           @input="handleInput"
       />
+      <span v-if="searchNoResultsMessage" class="search-no-results">{{ searchNoResultsMessage }}</span>
       <div class="action-button" @click="handleSearch">
         <i class="ph ph-magnifying-glass"></i>
       </div>
@@ -172,6 +173,9 @@ export default {
       currentPDFMatchIndex: -1, // Index des aktuellen Treffers im PDF
       findEventListenerAdded: false, // Verhindert mehrfaches Hinzufügen von Events
       isSearchActive: false, // Status der aktiven Suche
+      lastSearchedText: "", // Letzter gesuchter Text (für Erkennung von Änderungen)
+      searchNoResultsXML: false, // Kein Treffer im HTML/XML
+      searchNoResultsPDF: false, // Kein Treffer im PDF
     };
   },
   setup() {
@@ -515,8 +519,13 @@ export default {
   computed: {
     // Computed property to check if both PDF and XML are available
     isBothAvailable() {
-
       return this.currentTab.isPdf && this.currentTab.isXML;
+    },
+    searchNoResultsMessage() {
+      if (this.searchNoResultsXML && this.searchNoResultsPDF) return "Kein Treffer im HTML und PDF";
+      if (this.searchNoResultsXML) return "Kein Treffer im HTML";
+      if (this.searchNoResultsPDF) return "Kein Treffer im PDF";
+      return null;
     }
   }
   ,
@@ -583,32 +592,36 @@ export default {
       }
     },
     handleSearch() {
+      const currentText = this.searchText.trim();
+      // Wenn Suchtext geändert wurde, Suche zurücksetzen
+      if (this.isSearchActive && currentText !== this.lastSearchedText) {
+        this.isSearchActive = false;
+        this.searchNoResultsXML = false;
+        this.searchNoResultsPDF = false;
+        const xmlViewer = this.$refs.xmlViewer;
+        if (xmlViewer) this.removeHighlights(xmlViewer);
+      }
       if (!this.isSearchActive) {
         // Starte eine neue Suche
         this.isSearchActive = true;
+        this.lastSearchedText = currentText;
+        this.searchNoResultsXML = false;
+        this.searchNoResultsPDF = false;
         this.currentXMLMatchIndex = -1;
         this.currentPDFMatchIndex = -1;
-        if (this.isBothAvailable){
-          this.searchPDF(); // Suche im PDF starten
-          this.searchXML(); // Suche im XML starten
+        if (this.currentTab.isXML) {
+          this.searchXML();
         }
-        if (this.currentTab.isXML){
-          this.searchXML(); // Suche im XML starten
-        }
-        if (this.currentTab.isPdf){
-          this.searchPDF(); // Suche im PDF starten
+        if (this.currentTab.isPdf) {
+          this.searchPDF();
         }
 
       } else {
         // Springe zu den nächsten Treffern
-        if (this.isBothAvailable){
-          this.nextPDFMatch();
+        if (this.currentTab.isXML) {
           this.nextXMLMatch();
         }
-        if (this.currentTab.isXML){
-          this.nextXMLMatch();
-        }
-        if (this.currentTab.isPdf){
+        if (this.currentTab.isPdf) {
           this.nextPDFMatch();
         }
 
@@ -619,6 +632,9 @@ export default {
       this.showSearchInput = false;
       this.isSearchActive = false;
       this.searchText = "";
+      this.lastSearchedText = "";
+      this.searchNoResultsXML = false;
+      this.searchNoResultsPDF = false;
       this.xmlMatches = [];
       this.currentXMLMatchIndex = -1;
       this.currentPDFMatchIndex = -1;
@@ -668,8 +684,12 @@ export default {
             this.findEventListenerAdded = true;
             iframeDocument.addEventListener("updatefindcontrolstate", (event) => {
               const {state, matchesCount, selected} = event.detail;
-              if (state === 2) {
-                // Treffer gefunden
+              if (state === 1) {
+                // NOT_FOUND
+                this.searchNoResultsPDF = true;
+              } else if (state === 0 || state === 2) {
+                // FOUND or WRAPPED
+                this.searchNoResultsPDF = false;
                 const currentMatchIndex = selected?.pageIdx ?? -1;
                 if (currentMatchIndex >= 0) {
                   this.currentPDFMatchIndex = currentMatchIndex;
@@ -718,12 +738,8 @@ export default {
         return;
       }
 
-      // Suche den Container mit der spezifischen Klasse
-      const searchContainer = xmlViewer.querySelector(".divShow");
-      if (!searchContainer) {
-        console.error("No matching container found.");
-        return;
-      }
+      // Gesamten Viewer durchsuchen (nicht nur den ersten .divShow)
+      const searchContainer = xmlViewer;
 
       // Entferne vorherige Markierungen
       this.removeHighlights(searchContainer);
@@ -732,21 +748,23 @@ export default {
       this.xmlMatches = [];
       this.currentXMLMatchIndex = -1;
 
-      this.collectXMLMatches(searchContainer, searchQuery);
+      this.collectXMLMatches(searchContainer, searchQuery, searchContainer);
 
-      if (this.xmlMatches.length === 0) {
-        console.info("No matches found.");
-      } else {
+      this.searchNoResultsXML = this.xmlMatches.length === 0;
+      if (this.xmlMatches.length > 0) {
         this.nextXMLMatch(); // Springe sofort zum ersten Treffer
       }
     },
-    collectXMLMatches(node, searchText) {
-      // Funktion zur Überprüfung, ob ein Knoten oder ein Vorfahre die Klasse "divHide" enthält
+    collectXMLMatches(node, searchText, rootElement) {
+      // Prüft ob ein Knoten oder ein Vorfahre unsichtbar ist.
+      // Inline style.display hat höhere Priorität als CSS-Klasse (divHide):
+      // - style.display === 'none'  → versteckt
+      // - style.display === 'block' → sichtbar (überschreibt divHide-Klasse)
+      // - keine inline style + divHide-Klasse → versteckt
       const isHidden = (el) => {
-        while (el) {
-          if (el.classList && el.classList.contains('divHide')) {
-            return true;
-          }
+        while (el && el !== rootElement) {
+          if (el.style && el.style.display === 'none') return true;
+          if (el.style && el.style.display !== 'block' && el.classList && el.classList.contains('divHide')) return true;
           el = el.parentNode;
         }
         return false;
@@ -804,7 +822,7 @@ export default {
       } else if (node.nodeType === Node.ELEMENT_NODE) {
         // Gehe rekursiv durch Kindknoten, falls es sich um ein Element handelt
         node.childNodes.forEach((child) => {
-          this.collectXMLMatches(child, searchText);
+          this.collectXMLMatches(child, searchText, rootElement);
         });
       }
     },
@@ -1155,6 +1173,13 @@ window.downloadData = downloadData; // make function available to inline javascr
 
 .search-container input::placeholder {
   color: #aaa;
+}
+
+.search-no-results {
+  font-size: 12px;
+  color: #e74c3c;
+  white-space: nowrap;
+  margin-right: 6px;
 }
 
 .search-icon {
