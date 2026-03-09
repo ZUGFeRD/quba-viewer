@@ -68,6 +68,14 @@
         "nsis","msi"
       ]
     },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false
+    },
+    "msi": {
+      "perMachine": false
+    },
     "directories": {
       "output": "release"
     },

@@ -86,6 +86,12 @@ const API = {
   },
   updateMenuLanguage: (appName) => {
   },
+  getAttachment: (path, filename) => {
+      return ipcRenderer.invoke('get-attachment', path, filename);
+  },
+  openAttachment: (content, filename, mimetype) => {
+      return ipcRenderer.invoke('open-attachment', content, filename, mimetype);
+  },
 };
 
 contextBridge.exposeInMainWorld('api', API);
