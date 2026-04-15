@@ -18,6 +18,10 @@
     "search_next":"Next",
     "search_prev":"Previous",
     "display_ids": "Display BT-IDs",
-    "save_credentials": "Save credentials"
+    "save_credentials": "Save credentials",
+    "searchPlaceholder": "Enter search term...",
+    "searchNoResultsHTMLAndPDF": "No match in HTML and PDF",
+    "searchNoResultsHTML": "No match in HTML",
+    "searchNoResultsPDF": "No match in PDF"
 
 }

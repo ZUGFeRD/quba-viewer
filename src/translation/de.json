@@ -18,6 +18,10 @@
     "search_next":"Nächster",
     "search_prev":"Vorheriger",
     "display_ids": "Zeige BT-IDs",
-    "save_credentials": "Zugangsdaten speichern"
+    "save_credentials": "Zugangsdaten speichern",
+    "searchPlaceholder": "Suchbegriff eingeben...",
+    "searchNoResultsHTMLAndPDF": "Kein Treffer im HTML und PDF",
+    "searchNoResultsHTML": "Kein Treffer im HTML",
+    "searchNoResultsPDF": "Kein Treffer im PDF"
 
   }

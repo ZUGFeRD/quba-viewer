@@ -55,7 +55,7 @@
           ref="searchInput"
           v-model="searchText"
           type="text"
-          placeholder="Suchbegriff eingeben..."
+          :placeholder="t('searchPlaceholder', {}, {locale: lang})"
           @keypress.enter="handleSearch"
           @input="handleInput"
       />
@@ -522,9 +522,9 @@ export default {
       return this.currentTab.isPdf && this.currentTab.isXML;
     },
     searchNoResultsMessage() {
-      if (this.searchNoResultsXML && this.searchNoResultsPDF) return "Kein Treffer im HTML und PDF";
-      if (this.searchNoResultsXML) return "Kein Treffer im HTML";
-      if (this.searchNoResultsPDF) return "Kein Treffer im PDF";
+      if (this.searchNoResultsXML && this.searchNoResultsPDF) return this.t('searchNoResultsHTMLAndPDF', {}, {locale: this.lang});
+      if (this.searchNoResultsXML) return this.t('searchNoResultsHTML', {}, {locale: this.lang});
+      if (this.searchNoResultsPDF) return this.t('searchNoResultsPDF', {}, {locale: this.lang});
       return null;
     }
   }

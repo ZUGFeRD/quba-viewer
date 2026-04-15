@@ -13,8 +13,13 @@ History
 
 <details>
 <summary>1.5.1 09.11.2025</summary>
-- updated `electron` and `form-data` packages
-- #156
+- updated `electron` and `form-data` packages (#154)
+- fix window management for MacOS (#155)
+- #156 fix double apostrophe characters
+- #27 multiple discounts per line item (BT-147)
+- #29 fix attachment preview (images/PDFs)
+- #49 fix date not displayed (BT-72)
+- #134 fix BT-72 (contributed by SemikolonDEV)
 
 </details>
 
