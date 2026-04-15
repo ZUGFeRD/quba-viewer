@@ -14,6 +14,7 @@ History
 <details>
 <summary>1.5.1 09.11.2025</summary>
 - updated `electron` and `form-data` packages
+- #156
 
 </details>
 
