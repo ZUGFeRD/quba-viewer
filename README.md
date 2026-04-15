@@ -12,7 +12,7 @@ History
 
 
 <details>
-<summary>1.5.1 09.11.2025</summary>
+<summary>1.5.1 09.11.2025</summary> 
 - updated `electron` and `form-data` packages (#154)
 - fix window management for MacOS (#155)
 - #156 fix double apostrophe characters
