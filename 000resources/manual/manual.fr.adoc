@@ -1,0 +1,239 @@
+= Manuel Quba Viewer
+:doctype: book
+:toc: macro
+:toclevels: 3
+
+[%noheader%nofooter]
+toc::[]
+
+:title-page:
+:sectnums:
+:chapter-signifier: Chapitre
+
+== Prérequis
+
+=== Périmètre
+
+==== Général
+Quba-Viewer est un logiciel open-source pour Mac OS, Windows et Linux, disponible en anglais, français et allemand, permettant d'afficher hors ligne des factures électroniques structurées et hybrides. « Structuré » désigne généralement XML (Quba prend en charge des parties de l'UBL 2.1 d'Oasis et de la Cross Industry Invoice, CII, 1.0/2016b d'UN/CEFACT) et « hybride » désigne du XML intégré dans des fichiers PDF, c'est-à-dire Factur-X/ZUGFeRD. Nous couvrons au moins la partie EN16931 d'UBL et CII, donc XRechnung. Nous essayons de prendre en charge Factur-X 1/ZUGFeRD 2.x aussi bien que possible, même dans le profil « Extended », et nous prenons en charge Order-X.
+
+
+==== Mentions légales
+*Aucun conseil fiscal ou juridique ne peut être fourni ni déduit de l'utilisation de ce logiciel*. Par coïncidence, le périmètre couvre la plupart, sinon la totalité, des types de factures électroniques que vous devez être en mesure de traiter en Allemagne (depuis le 01.01.2025 conformément au link:https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&v=2[Wachstumschancengesetz, p.23f, Art 23]).
+
+
+==== Factures hybrides
+
+Les auteurs de factures électroniques peuvent utiliser ce logiciel lors du développement pour vérifier que les informations du XML correspondent correctement aux informations du PDF. Les destinataires ne sont généralement pas tenus de le faire, mais ils peuvent être obligés d'utiliser la partie XML même si un PDF lisible par un humain est disponible. Il peut notamment être judicieux de vérifier la version que vous traitez et payez — lors des ZUGFeRD Entwicklertage 2025, un incident a été mentionné où quelqu'un avait vérifié le PDF visuel d'une facture hybride, mais avait ensuite payé le XML frauduleux et perdu 60 000 €.
+
+==== Archivage
+
+À réception de votre première facture électronique, vous pouvez être soumis à des obligations d'archivage numérique supplémentaires, comme dans les link:https://ao.bundesfinanzministerium.de/ao/2023/Anhaenge/BMF-Schreiben-und-gleichlautende-Laendererlasse/Anhang-64/inhalt.html[GoBD allemandes].
+Malheureusement, Quba ne vous aide pas encore à remplir ces obligations.
+
+Nous essayons de maintenir une archive des anciennes versions de Quba-Viewer publiées, mais si vous prenez des décisions importantes sur la base d'un logiciel particulier, il peut être judicieux d'archiver ce logiciel vous-même.
+
+quba-viewer/files/ contient par exemple
+
+* Quba-1.4.0.0.dmg
+* Quba_1.4.0_amd64.snap
+* Quba-1.4.0.AppImage
+* Quba-1.4.0-arm64.dmg
+* Quba Setup 1.4.0.exe
+* Quba-1.4.1.msi
+* Quba-1.4.1.AppImage
+* Quba_1.4.1.msi
+* Quba-1.4.1-universal.dmg
+* Quba-Setup-1.4.1.exe
+* Quba-1.4.2.AppImage
+* Quba-1.4.2.msi
+* Quba-1.4.2-universal.dmg
+* Quba-Setup-1.4.2.exe
+* Quba-1.4.3.AppImage
+* Quba-1.4.3.msi
+* Quba-1.4.3-universal.dmg
+* Quba-Setup-1.4.3.exe
+* Quba-1.5.0.AppImage
+* Quba-1.5.0.msi
+* Quba-1.5.0-universal.dmg
+* Quba-Setup-1.5.0.exe
+* Quba-1.5.1.AppImage
+* Quba-1.5.1.msi
+* Quba-1.5.1-universal.dmg
+* Quba-Setup-1.5.1.exe
+
+
+
+=== Assistance
+Vous pouvez obtenir une assistance communautaire via link:https://github.com/ZUGFeRD/quba-viewer/[Github] (pour signaler des problèmes ou soumettre des améliorations) et la « liste de diffusion » générale, c'est-à-dire le link:https://groups.google.com/g/zugferd[Google Group] (par exemple pour des questions sur les factures électroniques), ainsi qu'une assistance commerciale auprès de link:http://www.mustangproject.org/support/[usegroup via Mustangproject].
+
+Pour l'assistance communautaire en particulier, il peut être nécessaire d'anonymiser vos factures, ce qui peut être fait à l'aide du link:https://github.com/ZUGFeRD/einvoice-anonymizer[script Python] d'Andreas Starke.
+
+
+=== Systèmes d'exploitation pris en charge
+Sous
+
+* Windows, il fonctionne sur les versions x64
+  ** 10 et
+  ** 11 ainsi que
+  ** Server 2022 et
+  ** Server 2025
+* Linux, il fonctionne par exemple sur x64
+  ** Debian 12
+  ** Ubuntu
+    *** 24.04.2
+    *** 24.10
+
+* Mac OS
+** 14.x (Sonoma)
+** 15.x (Sequoia)
+
+Veuillez signaler s'il fonctionne également sur d'autres plateformes. Veuillez également signaler si vous le faites fonctionner avec succès sur Windows Server.
+
+=== Licence
+
+Vous pouvez utiliser ce logiciel open source gratuitement, y compris à des fins commerciales, ainsi que pour des œuvres dérivées, dans les conditions de la
+link:https://www.apache.org/licenses/LICENSE-2.0[Apache Public License 2]. Veuillez noter que, comme pour tout logiciel open source, nous ne garantissons rien, en particulier que Quba fonctionne correctement, affiche des informations correctes ou complètes, ou ne cause aucun dommage à votre ordinateur.
+
+=== Protection des données
+
+Le fait que vous téléchargiez Quba peut être suivi de manière anonyme à des fins statistiques conformément à la politique de confidentialité du site.
+Quba-viewer est une application hors ligne qui ne nécessite pas de connexion Internet. Aucune donnée d'utilisation n'est collectée.
+
+En cas de connectivité, il peut vérifier l'existence d'une nouvelle version au démarrage, sauf désactivation. Techniquement, cela nécessite la transmission de votre adresse IP à un serveur Github. Nous ne surveillons, n'évaluons ni n'utilisons d'aucune autre manière les données issues de ces vérifications de mise à jour.
+
+La fonctionnalité de validation vous présentera un accord de protection des données étendu : elle nécessite actuellement la transmission de l'ensemble de la facture à un serveur sur Internet. Nous n'utiliserons aucune des données et les fichiers seront supprimés immédiatement après la requête, mais nous pouvons enregistrer de manière statistique et anonyme qu'une requête a été effectuée. Sauf si vous avez un abonnement Mustangserver, vous n'avez pas d'ADV avec nous et ne devez soumettre que des factures de test ou anonymisées. Pour l'anonymisation, vous pouvez essayer par exemple link:https://github.com/ZUGFeRD/einvoice-anonymizer[einvoice-anonymizer].
+
+
+Un abonnement Mustangserver peut être intéressant pour certains utilisateurs, mais il s'agit d'un produit entièrement différent et seulement très lâchement intégré, et non de la version « Pro » que nous essayons de vendre. En fait, il n'existe actuellement *pas* de version « Pro » ou commerciale de Quba-Viewer.
+
+Même lorsqu'une validation est effectuée, les données sont transmises
+de manière chiffrée SSL vers un serveur allemand et les fichiers XML de facture, PDF source et PDF de sortie seront supprimés après la transmission. Des enregistrements statistiques sur le moment, le nombre de validations, le profil et le hash effectués avec leurs résultats peuvent être conservés.
+
+
+TOM, ADV und SLAs können Sie grundsätzlich dem
+Mustervertrag ersehen, diese gelten sobald Sie einen entsprechenden Vertrag abschließen.
+Sauf accord commercial, aucune mesure technique/organisationnelle, accord de traitement des données ou accord de niveau de service n'est en place, mais link:https://www.mustangproject.org/files/wartungsvertrag_muster_EN.pdf[voici] à quoi ils ressemblent pour Mustangserver.
+
+
+=== Alternatives
+
+Citons notamment link:https://jcthiele.github.io/OpenXRechnungToolbox/[Open XRechnung Toolbox], qui est, comme Quba, basé à l'origine sur link:https://github.com/itplr-kosit/xrechnung-visualization/[xrechnung-visualization], mais ne tente même pas de couvrir les fonctionnalités étendues de Factur-X.
+
+
+Notre projet frère link:https://www.mustangproject.org/[Mustang] contient un utilitaire en ligne de commande permettant de convertir en PDF ou de valider des factures électroniques hors ligne.
+
+
+Basé sur Mustang, le link:https://github.com/OpenIndex/ZUGFeRD-Manager[ZUGFeRD-Manager] indépendant peut également être utilisé comme interface graphique pour écrire et valider Factur-X.
+
+Si vous ne pouvez absolument pas exécuter de logiciel, vous pouvez toujours soumettre vos factures via des visualiseurs en ligne comme
+link:https://www.elster.de/eportal/e-rechnung[Elster] (également basé sur xrechnung-visualization).
+
+== Téléchargement et lancement
+
+=== Droits administrateur
+
+Vous pouvez exécuter la version Windows sans droits administrateur en extrayant l'exe (quba-setup...exe) à l'aide du logiciel open source link:https://www.7-zip.org/[7-zip].
+Ensuite, accédez à $PLUGINSDIR et extrayez à nouveau, cette fois le fichier app-64.7z. Puis démarrez quba.exe dans le répertoire résultant.
+
+=== Arguments de ligne de commande
+
+Vous pouvez passer le nom d'un fichier à ouvrir comme argument à Quba, ce qui vous permet d'installer Quba comme visionneuse par défaut pour ces fichiers sur la plupart des systèmes d'exploitation. Malheureusement, aucun type MIME ni extension de fichier dédié n'a encore été attribué aux factures électroniques, c'est-à-dire que vous devriez en faire la visionneuse par défaut pour *.xml et/ou *.pdf.
+
+=== Ouverture de fichiers
+
+Il existe trois façons d'ouvrir un fichier de facture dans Quba :
+
+* **Menu** : Utilisez `Fichier > Ouvrir` dans la barre de menu.
+* **Raccourci clavier** : Appuyez sur `Ctrl+O` (Windows/Linux) ou `Cmd+O` (Mac OS).
+* **Glisser-déposer** : Faites glisser un fichier XML ou PDF depuis votre gestionnaire de fichiers et déposez-le n'importe où dans la fenêtre Quba.
+
+Quba prend en charge les fichiers XML (XRechnung, UBL, CII, Factur-X) ainsi que les fichiers PDF hybrides avec XML intégré.
+
+=== Onglets
+
+Quba prend en charge l'ouverture simultanée de plusieurs factures dans des onglets. Chaque fichier s'ouvre dans son propre onglet, vous pouvez ainsi passer de l'un à l'autre sans fermer le précédent.
+
+* **Ouvrir un nouvel onglet** : Cliquez sur le bouton `+` dans la barre d'onglets, puis sélectionnez un fichier dans la boîte de dialogue qui apparaît. Si vous annulez la boîte de dialogue, l'onglet vide est automatiquement fermé.
+* **Fermer un onglet** : Cliquez sur l'icône `×` sur l'onglet. Lorsque le dernier onglet est fermé, la vue principale retourne à l'écran d'accueil.
+* **Changer d'onglet** : Cliquez sur n'importe quel onglet pour le mettre en focus.
+
+=== Changer de langue
+
+Quba est disponible en anglais, français et allemand. Pour changer la langue, utilisez le menu `Langue`. L'affichage de la facture se met à jour immédiatement sans nécessiter de redémarrage.
+
+=== Impression XML et PDF
+
+La fonctionnalité d'impression de Mustang a été conçue à l'origine pour les factures hybrides, c'est-à-dire que Impression|XML imprime la visualisation de la partie XML et Impression|PDF imprime la partie PDF lisible par un humain
+*d'une facture hybride comme Factur-X*. Il n'existe pas encore de fonctionnalité de conversion de XML en PDF, donc la fonctionnalité Impression|PDF sera désactivée si aucun PDF n'est disponible (par exemple pour XRechnung).
+
+=== Affichage des indexterm2:[Business Terms] (indexterm2:[BT])
+
+Via Fichier|Afficher les IDs, vous pouvez afficher les IDs de BT à côté des champs de texte lors du chargement de la prochaine facture.
+
+=== Recherche
+
+Utilisez `Ctrl+F` pour ouvrir la barre de recherche en haut de la fenêtre et indexterm2:[rechercher] des termes (ou, si l'affichage des BT est activé, des IDs de BT) dans vos factures.
+
+* **Naviguer dans les résultats** : Utilisez les boutons `>` (suivant) et `<` (précédent) pour parcourir toutes les correspondances.
+* **Périmètre** : La recherche s'effectue sur la visualisation HTML de la facture. Si un PDF est également ouvert, la recherche est également tentée dans la visionneuse PDF.
+* Si aucune correspondance n'est trouvée, Quba affiche un message indiquant si aucun résultat n'a été trouvé dans le HTML, le PDF ou les deux.
+* Fermez la barre de recherche en appuyant sur `Échap`.
+
+=== Pièces jointes
+
+Les factures PDF hybrides (par exemple Factur-X/ZUGFeRD) peuvent contenir des pièces jointes intégrées, telles que des documents supplémentaires ou des fichiers de données lisibles par machine. Quba détecte ces pièces jointes et les affiche dans la vue de la facture. Un clic sur une pièce jointe l'ouvre dans l'application appropriée sur votre système.
+
+Si une pièce jointe est introuvable ou ne peut pas être récupérée depuis le PDF, Quba affiche un message d'erreur.
+
+=== Notifications de mise à jour
+
+Quba vérifie automatiquement les nouvelles versions au démarrage (sauf désactivation, voir <<Désactivation de la mise à jour automatique>>). Lorsqu'une mise à jour est disponible ou a été téléchargée, une bannière de notification apparaît en haut de la fenêtre :
+
+* **Mise à jour disponible** : Une bannière vous informe qu'une version plus récente existe. Vous pouvez la fermer et continuer à travailler.
+* **Mise à jour téléchargée** : La mise à jour a été téléchargée en arrière-plan. Cliquez sur *Redémarrer* dans la bannière pour l'appliquer immédiatement, ou fermez-la et redémarrez manuellement plus tard.
+
+=== Validation
+
+== Fonctionnalités entreprise
+=== Installation sur les serveurs de terminaux / pour tous les utilisateurs
+Habituellement, sous Windows, Quba est installé uniquement pour l'utilisateur courant.
+Cela peut être problématique lors de la distribution de l'accès au logiciel sur un serveur de terminaux.
+Sur link:https://github.com/ZUGFeRD/quba-viewer/releases[Github], vous trouverez des versions .indexterm2:[MSI] de ce logiciel. Celles-ci peuvent être installées pour tous les utilisateurs avec la commande suivante :
+----
+MsiExec /i "Quba_1.5.1.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
+----
+=== Installation silencieuse
+Après une installation MSI, Quba démarre par défaut.
+
+Si vous distribuez des packages logiciels dans votre entreprise et souhaitez une installation silencieuse, vous pouvez modifier le MSI par exemple avec link:http://www.instedit.com/[instedit] et supprimer l'action personnalisée `runAfterFinish`.
+
+=== Désactivation de la mise à jour automatique
+
+Dans
+\AppData\Local\Programs\Quba\AppConfig.ini
+définissez `performOnStartup=false` dans
+----
+[AutoUpdate]
+performOnStartup=true
+----
+
+pour désactiver la vérification à chaque démarrage du logiciel si de nouvelles versions existent. Cela peut être utile par exemple si vous distribuez
+Quba comme packages logiciels certifiés par votre équipe.
+
+
+
+[index]
+== Index
+
+[glossary]
+== Glossaire
+
+[glossary]
+BT:: Business Term (terme métier)
+CII:: Cross Industry Invoice
+Factur-X:: Norme de facture électronique hybride franco-allemande intégrant du XML CII dans un PDF (identique à ZUGFeRD 2.x)
+MSI:: Microsoft Installer
+UBL:: Universal Business Language
+XRechnung:: Norme nationale allemande de facture électronique basée sur EN16931, utilisant UBL ou CII
+ZUGFeRD:: Norme allemande de facture électronique hybride intégrant du XML CII dans un PDF (identique à Factur-X)
