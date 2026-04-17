@@ -50,6 +50,18 @@ quba-viewer/files/ zB enthält
 * Quba-1.4.2.msi
 * Quba-1.4.2-universal.dmg
 * Quba-Setup-1.4.2.exe
+* Quba-1.4.3.AppImage
+* Quba-1.4.3.msi
+* Quba-1.4.3-universal.dmg
+* Quba-Setup-1.4.3.exe
+* Quba-1.5.0.AppImage
+* Quba-1.5.0.msi
+* Quba-1.5.0-universal.dmg
+* Quba-Setup-1.5.0.exe
+* Quba-1.5.1.AppImage
+* Quba-1.5.1.msi
+* Quba-1.5.1-universal.dmg
+* Quba-Setup-1.5.1.exe
 
 
 
@@ -136,8 +148,27 @@ Wechseln Sie anschließend in $PLUGINSDIR und extrahieren Sie erneut, diesmal di
 
 Sie können den Namen einer zu öffnenden Datei als Argument an Quba übergeben. Dadurch können Sie Quba auf den meisten Betriebssystemen als Standard-Viewer für diese Dateien installieren. Leider ist den elektronischen Rechnungen bisher kein dedizierter Mime-Typ bzw. keine dedizierte Dateierweiterung zugewiesen, d. h. Sie müssten es als Standard-Viewer für *.xml und/oder *.pdf festlegen.
 
+=== Dateien öffnen
+
+Es gibt drei Möglichkeiten, eine Rechnungsdatei in Quba zu öffnen:
+
+* **Menü**: Verwenden Sie `Datei > Öffnen` aus der Menüleiste.
+* **Tastenkürzel**: Drücken Sie `Strg+O` (Windows/Linux) oder `Cmd+O` (Mac OS).
+* **Drag & Drop**: Ziehen Sie eine XML- oder PDF-Datei aus Ihrem Dateimanager und legen Sie sie an einer beliebigen Stelle im Quba-Fenster ab.
+
+Quba unterstützt XML-Dateien (XRechnung, UBL, CII, Factur-X) sowie hybride PDF-Dateien mit eingebettetem XML.
+
+=== Tabs
+
+Quba unterstützt das gleichzeitige Öffnen mehrerer Rechnungen in Tabs. Jede Datei wird in einem eigenen Tab geöffnet, sodass Sie zwischen ihnen wechseln können, ohne die vorherige zu schließen.
+
+* **Neuen Tab öffnen**: Klicken Sie auf die Schaltfläche `+` in der Tab-Leiste und wählen Sie dann eine Datei im erscheinenden Dialog. Wenn Sie den Dialog abbrechen, wird der leere Tab automatisch geschlossen.
+* **Tab schließen**: Klicken Sie auf das `×`-Symbol auf dem Tab. Wenn der letzte Tab geschlossen wird, kehrt die Hauptansicht zum Willkommensbildschirm zurück.
+* **Tabs wechseln**: Klicken Sie auf einen beliebigen Tab, um ihn in den Fokus zu bringen.
+
 === Sprachen wechseln
-Derzeit (Link: https://github.com/ZUGFeRD/quba-viewer/issues/135[#135]) muss Quba nach dem Ändern der Sprache auf Englisch, Französisch oder Deutsch neu gestartet werden.
+
+Quba ist auf Englisch, Französisch und Deutsch verfügbar. Um die Sprache zu ändern, verwenden Sie das Menü `Sprache`. Die Rechnungsanzeige aktualisiert sich sofort, ohne dass ein Neustart erforderlich ist.
 
 === Drucken von XML und PDF
 
@@ -150,7 +181,25 @@ Die Druckfunktion von Mustang wurde ursprünglich für hybride Rechnungen entwic
 
 === Suche
 
-Verwenden Sie „STRG+F“, um eine Eingabeaufforderung zum Indexieren von Term2:[Suche] nach Begriffen (oder, wenn die Anzeige aktiviert ist, nach BTs) in Ihren Rechnungen zu öffnen.
+Verwenden Sie `Strg+F`, um die Suchleiste oben im Fenster zu öffnen und indexterm2:[Suche] nach Begriffen (oder, wenn die BT-Anzeige aktiviert ist, nach BT-IDs) in Ihren Rechnungen zu suchen.
+
+* **Ergebnisse navigieren**: Verwenden Sie die Schaltflächen `>` (nächste) und `<` (vorherige), um durch alle Treffer zu blättern.
+* **Suchbereich**: Die Suche läuft über die HTML-Rechnungsvisualisierung. Wenn zusätzlich ein PDF geöffnet ist, wird die Suche auch im PDF-Viewer versucht.
+* Wenn kein Treffer gefunden wird, zeigt Quba eine Meldung an, ob keine Ergebnisse im HTML, im PDF oder in beiden gefunden wurden.
+* Schließen Sie die Suchleiste durch Drücken von `Escape`.
+
+=== Anhänge
+
+Hybride PDF-Rechnungen (z. B. Factur-X/ZUGFeRD) können eingebettete Dateianhänge enthalten, wie zusätzliche Dokumente oder maschinenlesbare Datendateien. Quba erkennt diese Anhänge und zeigt sie in der Rechnungsansicht an. Ein Klick auf einen Anhang öffnet ihn in der entsprechenden Anwendung auf Ihrem System.
+
+Wenn ein Anhang nicht gefunden oder nicht aus dem PDF abgerufen werden kann, zeigt Quba eine Fehlermeldung an.
+
+=== Update-Benachrichtigungen
+
+Quba prüft beim Start automatisch auf neue Versionen (sofern nicht deaktiviert, siehe <<Automatische Aktualisierung deaktivieren>>). Wenn ein Update verfügbar ist oder heruntergeladen wurde, erscheint oben im Fenster ein Hinweisbanner:
+
+* **Update verfügbar**: Ein Banner informiert Sie, dass eine neuere Version existiert. Sie können ihn ausblenden und weiterarbeiten.
+* **Update heruntergeladen**: Das Update wurde im Hintergrund heruntergeladen. Klicken Sie im Banner auf *Neu starten*, um es sofort anzuwenden, oder blenden Sie es aus und starten Sie später manuell neu.
 
 === Validierung
 
@@ -160,7 +209,7 @@ Normalerweise wird Quba unter Windows nur für den aktuellen Benutzer installier
 Dies kann beispielsweise bei der Verteilung des Zugriffs auf die Software auf einem Terminalserver problematisch sein.
 Unter link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] finden Sie eine .indexterm2:[MSI]-Version dieser Software. Dies kann für alle Benutzer mit folgendem Befehl installiert werden:
 ----
-MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
+MsiExec /i "Quba_1.5.1.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
 ----
 === Headless-Installation
 Nach einer MSI-Installation wird Quba standardmäßig gestartet.

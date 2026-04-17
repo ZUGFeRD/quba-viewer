@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.21">
+<meta name="generator" content="Asciidoctor 2.0.20">
 <title>Quba Viewer-Handbuch</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,7 +162,6 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
-body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -328,7 +327,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -465,11 +464,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_administratorrechte">2.1. Administratorrechte</a></li>
 <li><a href="#_befehlszeilenargumente">2.2. Befehlszeilenargumente</a></li>
-<li><a href="#_sprachen_wechseln">2.3. Sprachen wechseln</a></li>
-<li><a href="#_drucken_von_xml_und_pdf">2.4. Drucken von XML und PDF</a></li>
-<li><a href="#_anzeige_der_business_terms_bts">2.5. Anzeige der Business Terms (BTs)</a></li>
-<li><a href="#_suche">2.6. Suche</a></li>
-<li><a href="#_validierung">2.7. Validierung</a></li>
+<li><a href="#_dateien_öffnen">2.3. Dateien öffnen</a></li>
+<li><a href="#_tabs">2.4. Tabs</a></li>
+<li><a href="#_sprachen_wechseln">2.5. Sprachen wechseln</a></li>
+<li><a href="#_drucken_von_xml_und_pdf">2.6. Drucken von XML und PDF</a></li>
+<li><a href="#_anzeige_der_business_terms_bts">2.7. Anzeige der Business Terms (BTs)</a></li>
+<li><a href="#_suche">2.8. Suche</a></li>
+<li><a href="#_anhänge">2.9. Anhänge</a></li>
+<li><a href="#_update_benachrichtigungen">2.10. Update-Benachrichtigungen</a></li>
+<li><a href="#_validierung">2.11. Validierung</a></li>
 </ul>
 </li>
 <li><a href="#_enterprise_funktionen">3. Enterprise-Funktionen</a>
@@ -563,6 +566,42 @@ Leider unterstützt Sie Quba bei diesen Verpflichtungen noch nicht.</p>
 </li>
 <li>
 <p>Quba-Setup-1.4.2.exe</p>
+</li>
+<li>
+<p>Quba-1.4.3.AppImage</p>
+</li>
+<li>
+<p>Quba-1.4.3.msi</p>
+</li>
+<li>
+<p>Quba-1.4.3-universal.dmg</p>
+</li>
+<li>
+<p>Quba-Setup-1.4.3.exe</p>
+</li>
+<li>
+<p>Quba-1.5.0.AppImage</p>
+</li>
+<li>
+<p>Quba-1.5.0.msi</p>
+</li>
+<li>
+<p>Quba-1.5.0-universal.dmg</p>
+</li>
+<li>
+<p>Quba-Setup-1.5.0.exe</p>
+</li>
+<li>
+<p>Quba-1.5.1.AppImage</p>
+</li>
+<li>
+<p>Quba-1.5.1.msi</p>
+</li>
+<li>
+<p>Quba-1.5.1-universal.dmg</p>
+</li>
+<li>
+<p>Quba-Setup-1.5.1.exe</p>
 </li>
 </ul>
 </div>
@@ -720,32 +759,114 @@ Wechseln Sie anschließend in $PLUGINSDIR und extrahieren Sie erneut, diesmal di
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sprachen_wechseln">2.3. Sprachen wechseln</h3>
+<h3 id="_dateien_öffnen">2.3. Dateien öffnen</h3>
 <div class="paragraph">
-<p>Derzeit (Link: <a href="https://github.com/ZUGFeRD/quba-viewer/issues/135">#135</a>) muss Quba nach dem Ändern der Sprache auf Englisch, Französisch oder Deutsch neu gestartet werden.</p>
+<p>Es gibt drei Möglichkeiten, eine Rechnungsdatei in Quba zu öffnen:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Menü</strong>: Verwenden Sie <code>Datei &gt; Öffnen</code> aus der Menüleiste.</p>
+</li>
+<li>
+<p><strong>Tastenkürzel</strong>: Drücken Sie <code>Strg+O</code> (Windows/Linux) oder <code>Cmd+O</code> (Mac OS).</p>
+</li>
+<li>
+<p><strong>Drag &amp; Drop</strong>: Ziehen Sie eine XML- oder PDF-Datei aus Ihrem Dateimanager und legen Sie sie an einer beliebigen Stelle im Quba-Fenster ab.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Quba unterstützt XML-Dateien (XRechnung, UBL, CII, Factur-X) sowie hybride PDF-Dateien mit eingebettetem XML.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_drucken_von_xml_und_pdf">2.4. Drucken von XML und PDF</h3>
+<h3 id="_tabs">2.4. Tabs</h3>
+<div class="paragraph">
+<p>Quba unterstützt das gleichzeitige Öffnen mehrerer Rechnungen in Tabs. Jede Datei wird in einem eigenen Tab geöffnet, sodass Sie zwischen ihnen wechseln können, ohne die vorherige zu schließen.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Neuen Tab öffnen</strong>: Klicken Sie auf die Schaltfläche <code>+</code> in der Tab-Leiste und wählen Sie dann eine Datei im erscheinenden Dialog. Wenn Sie den Dialog abbrechen, wird der leere Tab automatisch geschlossen.</p>
+</li>
+<li>
+<p><strong>Tab schließen</strong>: Klicken Sie auf das <code>×</code>-Symbol auf dem Tab. Wenn der letzte Tab geschlossen wird, kehrt die Hauptansicht zum Willkommensbildschirm zurück.</p>
+</li>
+<li>
+<p><strong>Tabs wechseln</strong>: Klicken Sie auf einen beliebigen Tab, um ihn in den Fokus zu bringen.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sprachen_wechseln">2.5. Sprachen wechseln</h3>
+<div class="paragraph">
+<p>Quba ist auf Englisch, Französisch und Deutsch verfügbar. Um die Sprache zu ändern, verwenden Sie das Menü <code>Sprache</code>. Die Rechnungsanzeige aktualisiert sich sofort, ohne dass ein Neustart erforderlich ist.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_drucken_von_xml_und_pdf">2.6. Drucken von XML und PDF</h3>
 <div class="paragraph">
 <p>Die Druckfunktion von Mustang wurde ursprünglich für hybride Rechnungen entwickelt, d. h. Print|XML druckt die Visualisierung des XML-Teils und Print|PDF druckt den menschenlesbaren PDF-Teil
 <strong>einer Hybridrechnung wie Factur-X</strong>. Eine Konvertierungsfunktion von XML nach PDF ist noch nicht vorhanden, daher wird die Funktion Drucken|PDF deaktiviert, wenn kein PDF verfügbar ist (z. B. für XRechnung).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_anzeige_der_business_terms_bts">2.5. Anzeige der Business Terms (BTs)</h3>
+<h3 id="_anzeige_der_business_terms_bts">2.7. Anzeige der Business Terms (BTs)</h3>
 <div class="paragraph">
 <p>Über Datei|IDs anzeigen können Sie ab der nächsten geladenen Rechnung die BT-IDs neben den Textfeldern anzeigen.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_suche">2.6. Suche</h3>
+<h3 id="_suche">2.8. Suche</h3>
 <div class="paragraph">
-<p>Verwenden Sie „STRG+F“, um eine Eingabeaufforderung zum Indexieren von Term2:[Suche] nach Begriffen (oder, wenn die Anzeige aktiviert ist, nach BTs) in Ihren Rechnungen zu öffnen.</p>
+<p>Verwenden Sie <code>Strg+F</code>, um die Suchleiste oben im Fenster zu öffnen und Suche nach Begriffen (oder, wenn die BT-Anzeige aktiviert ist, nach BT-IDs) in Ihren Rechnungen zu suchen.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Ergebnisse navigieren</strong>: Verwenden Sie die Schaltflächen <code>&gt;</code> (nächste) und <code>&lt;</code> (vorherige), um durch alle Treffer zu blättern.</p>
+</li>
+<li>
+<p><strong>Suchbereich</strong>: Die Suche läuft über die HTML-Rechnungsvisualisierung. Wenn zusätzlich ein PDF geöffnet ist, wird die Suche auch im PDF-Viewer versucht.</p>
+</li>
+<li>
+<p>Wenn kein Treffer gefunden wird, zeigt Quba eine Meldung an, ob keine Ergebnisse im HTML, im PDF oder in beiden gefunden wurden.</p>
+</li>
+<li>
+<p>Schließen Sie die Suchleiste durch Drücken von <code>Escape</code>.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_validierung">2.7. Validierung</h3>
+<h3 id="_anhänge">2.9. Anhänge</h3>
+<div class="paragraph">
+<p>Hybride PDF-Rechnungen (z. B. Factur-X/ZUGFeRD) können eingebettete Dateianhänge enthalten, wie zusätzliche Dokumente oder maschinenlesbare Datendateien. Quba erkennt diese Anhänge und zeigt sie in der Rechnungsansicht an. Ein Klick auf einen Anhang öffnet ihn in der entsprechenden Anwendung auf Ihrem System.</p>
+</div>
+<div class="paragraph">
+<p>Wenn ein Anhang nicht gefunden oder nicht aus dem PDF abgerufen werden kann, zeigt Quba eine Fehlermeldung an.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_benachrichtigungen">2.10. Update-Benachrichtigungen</h3>
+<div class="paragraph">
+<p>Quba prüft beim Start automatisch auf neue Versionen (sofern nicht deaktiviert, siehe <a href="#Automatische Aktualisierung deaktivieren">[Automatische Aktualisierung deaktivieren]</a>). Wenn ein Update verfügbar ist oder heruntergeladen wurde, erscheint oben im Fenster ein Hinweisbanner:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Update verfügbar</strong>: Ein Banner informiert Sie, dass eine neuere Version existiert. Sie können ihn ausblenden und weiterarbeiten.</p>
+</li>
+<li>
+<p><strong>Update heruntergeladen</strong>: Das Update wurde im Hintergrund heruntergeladen. Klicken Sie im Banner auf <strong>Neu starten</strong>, um es sofort anzuwenden, oder blenden Sie es aus und starten Sie später manuell neu.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_validierung">2.11. Validierung</h3>
 
 </div>
 </div>
@@ -762,7 +883,7 @@ Unter <a href="https://github.com/ZUGFeRD/quba-viewer/releases">Github</a> finde
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log</pre>
+<pre>MsiExec /i "Quba_1.5.1.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log</pre>
 </div>
 </div>
 </div>
@@ -827,7 +948,7 @@ Quba als von Ihrem Team zertifizierte Softwarepakete verteilen.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-14 13:34:15 +0200
+Last updated 2026-04-18 01:03:06 +0200
 </div>
 </div>
 </body>
