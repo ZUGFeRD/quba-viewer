@@ -50,6 +50,18 @@ quba-viewer/files/ e.g. contains
 * Quba-1.4.2.msi
 * Quba-1.4.2-universal.dmg
 * Quba-Setup-1.4.2.exe
+* Quba-1.4.3.AppImage
+* Quba-1.4.3.msi
+* Quba-1.4.3-universal.dmg
+* Quba-Setup-1.4.3.exe
+* Quba-1.5.0.AppImage
+* Quba-1.5.0.msi
+* Quba-1.5.0-universal.dmg
+* Quba-Setup-1.5.0.exe
+* Quba-1.5.1.AppImage
+* Quba-1.5.1.msi
+* Quba-1.5.1-universal.dmg
+* Quba-Setup-1.5.1.exe
 
 
 
@@ -136,8 +148,27 @@ Afterwards, switch into $PLUGINSDIR and extract again, this time the file app-64
 
 You can pass the name of a file to be opened as argument to Quba, this allows you to install Quba as default viewer for those files on most operating systems. Unfortunately there no dedicated Mime-Type or file extension has yet been assigned to electronic invoices, i.e. you would have to make it a default viewer for *.xml and/or *.pdf.
 
+=== Opening files
+
+There are three ways to open an invoice file in Quba:
+
+* **Menu**: Use `File > Open` from the menu bar.
+* **Keyboard shortcut**: Press `Ctrl+O` (Windows/Linux) or `Cmd+O` (Mac OS).
+* **Drag & Drop**: Drag an XML or PDF file from your file manager and drop it anywhere onto the Quba window.
+
+Quba supports XML files (XRechnung, UBL, CII, Factur-X) as well as hybrid PDF files with embedded XML.
+
+=== Tabs
+
+Quba supports opening multiple invoices simultaneously in tabs. Each file opens in its own tab so you can switch between them without closing the previous one.
+
+* **Open a new tab**: Click the `+` button in the tab bar, then select a file in the dialog that appears. If you cancel the dialog, the empty tab is automatically closed.
+* **Close a tab**: Click the `×` icon on the tab. When the last tab is closed, the main view returns to the welcome screen.
+* **Switch tabs**: Click any tab to bring it into focus.
+
 === Switching languages
-Currently (link:https://github.com/ZUGFeRD/quba-viewer/issues/135[#135]) Quba must be restarted after changing the language to english, french or german.
+
+Quba is available in English, French and German. To change the language, use the `Language` menu. The invoice display updates immediately without requiring a restart.
 
 === Printing XML and PDF
 
@@ -150,9 +181,25 @@ Using File|Show IDs you can display the BT-IDs next to the textfields with the o
 
 === Search
 
-Use `CTRL+F` to open a prompt to indexterm2:[search] for terms (or, if display is enabled, for BTs) in your invoices.
+Use `Ctrl+F` to open the search bar at the top of the window to indexterm2:[search] for terms (or, if BT display is enabled, for BT IDs) in your invoices.
 
-=== Validation
+* **Navigate results**: Use the `>` (next) and `<` (previous) buttons to step through all matches.
+* **Scope**: The search runs across the HTML invoice visualization. If a PDF is also open, the search is attempted in the PDF viewer as well.
+* If no match is found, Quba displays a message indicating whether no results were found in the HTML, the PDF, or both.
+* Close the search bar by pressing `Escape`.
+
+=== Attachments
+
+Hybrid PDF invoices (e.g. Factur-X/ZUGFeRD) may contain embedded file attachments, such as additional documents or machine-readable data files. Quba detects these attachments and displays them in the invoice view. Clicking an attachment opens it in the appropriate application on your system.
+
+If an attachment cannot be found or cannot be retrieved from the PDF, Quba shows an error message.
+
+=== Update notifications
+
+Quba checks for new versions automatically on startup (unless disabled, see <<Disabling Auto-Update>>). When an update is available or has been downloaded, a notification banner appears at the top of the window:
+
+* **Update available**: A banner informs you that a newer version exists. You can dismiss it and continue working.
+* **Update downloaded**: The update has been downloaded in the background. Click *Restart* in the banner to apply it immediately, or dismiss and restart manually later.
 
 == Enterprise features
 === Installation on terminal servers/for all users
@@ -160,7 +207,7 @@ Usually, on Windows Quba is installed only for the current user.
 This can be problematic e.g. when distributing access to the software on a terminal server.
 On link:https://github.com/ZUGFeRD/quba-viewer/releases[Github] you will find a .indexterm2:[MSI]-releases of this software. This can be installed for all users the following command:
 ----
-MsiExec /i "Quba_1.4.2.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
+MsiExec /i "Quba_1.5.1.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*v Install.log
 ----
 === Headless installation
 After an MSI-Installation Quba is by default started.
@@ -190,5 +237,8 @@ Quba as software packages certified by your team.
 [glossary]
 BT:: Business Term
 CII:: Cross Industry Invoice
+Factur-X:: French/German hybrid e-invoice standard embedding CII XML in PDF (identical to ZUGFeRD 2.x)
 MSI:: Microsoft Installer
 UBL:: Universal Business Language
+XRechnung:: German national e-invoice standard based on EN16931, using UBL or CII
+ZUGFeRD:: German hybrid e-invoice standard embedding CII XML in PDF (identical to Factur-X)
