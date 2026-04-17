@@ -6,7 +6,7 @@
     "Examples":"Exemples",
     "Valid file": "Fichier valide",
     "Invalid file": "Fichier non valide",
-    "Success": "Succès {Connecté avec succès}",
+    "Success": "Succès",
     "validateFiles": "Vous pouvez maintenant valider les fichiers",
     "Show more": "Afficher plus…",
     "Logout success": "Déconnecté avec succès",
@@ -22,5 +22,13 @@
     "searchPlaceholder": "Entrer le terme de recherche...",
     "searchNoResultsHTMLAndPDF": "Aucun résultat dans le HTML et le PDF",
     "searchNoResultsHTML": "Aucun résultat dans le HTML",
-    "searchNoResultsPDF": "Aucun résultat dans le PDF"
+    "searchNoResultsPDF": "Aucun résultat dans le PDF",
+    "Version": "Version",
+    "close": "Fermer",
+    "restart": "Redémarrer",
+    "updateAvailableNote": "Une mise à jour est disponible",
+    "updateDownloadedNote": "Mise à jour téléchargée, redémarrez pour l'appliquer",
+    "attachmentNotFound": "La pièce jointe '{name}' n'a pas été trouvée dans le PDF.",
+    "attachmentError": "Erreur lors de la récupération de la pièce jointe : ",
+    "newTab": "Nouvel onglet"
 }

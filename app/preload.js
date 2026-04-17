@@ -55,6 +55,9 @@ const API = {
   onFilePrintPdf: (callback) => {
     ipcRenderer.on("file-print-pdf", (event, ...args) => callback(event, ...args));
   },
+  onOpenMenuCancelled: (callback) => {
+    ipcRenderer.on("open-menu-cancelled", (event, ...args) => callback(event, ...args));
+  },
   onValidateComplete: (callback) => {
     ipcRenderer.on("validate-complete", (event, ...args) => callback(event, ...args));
   },

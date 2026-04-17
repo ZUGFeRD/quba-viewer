@@ -22,6 +22,14 @@
     "searchPlaceholder": "Suchbegriff eingeben...",
     "searchNoResultsHTMLAndPDF": "Kein Treffer im HTML und PDF",
     "searchNoResultsHTML": "Kein Treffer im HTML",
-    "searchNoResultsPDF": "Kein Treffer im PDF"
+    "searchNoResultsPDF": "Kein Treffer im PDF",
+    "Version": "Version",
+    "close": "Schließen",
+    "restart": "Neu starten",
+    "updateAvailableNote": "Ein Update ist verfügbar",
+    "updateDownloadedNote": "Update heruntergeladen, bitte neu starten",
+    "attachmentNotFound": "Der Anhang '{name}' wurde im PDF nicht gefunden.",
+    "attachmentError": "Fehler beim Abrufen des Anhangs: ",
+    "newTab": "Neuer Tab"
 
   }

@@ -209,8 +209,9 @@ export default {
     const handleAdd = () => {
       const key = "tab" + Date.now();
       tabRef.value.addTab({
-        label: "New Tab",
+        label: t('newTab'),
         key,
+        isNewTab: true,
         favico: require("../assets/icons/pdf.svg"),
         link: "test new",
       });
@@ -231,7 +232,7 @@ export default {
 
     window.api.onPdfOpen((event, args) => {
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
-      if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
+      if (currentTabObj.length && currentTabObj[0].isNewTab === true) {
         tabRef.value.removeTab(tab.value);
       }
       window.dispatchEvent(new Event("mousedown")); // Stop opening file with pdf.js shortcut ctrl+O
@@ -260,7 +261,7 @@ export default {
     window.api.onXmlOpen((event, args) => {
 
       const currentTabObj = tabs.filter((item) => item.key === tab.value);
-      if (currentTabObj.length && currentTabObj[0].label === "New Tab") {
+      if (currentTabObj.length && currentTabObj[0].isNewTab === true) {
         tabRef.value.removeTab(tab.value);
       }
       window.dispatchEvent(new Event("mousedown"));
@@ -282,6 +283,13 @@ export default {
 
       tab.value = key;
       afterTabShow();
+    });
+
+    window.api.onOpenMenuCancelled(() => {
+      const currentTabObj = tabs.filter((item) => item.key === tab.value);
+      if (currentTabObj.length && currentTabObj[0].isNewTab === true) {
+        tabRef.value.removeTab(tab.value);
+      }
     });
 
     window.api.onValidateComplete((event, args) => {
@@ -331,7 +339,14 @@ export default {
     window.addEventListener("keydown", this.handleEscKey);
     window.api.onLanguageChange((event, args) => {
       this.lang = args;
+      this.locale = args;
       window.api.updateMenuLanguage(this.t("appName", {}, {locale: this.lang}));
+      for (const tab of this.tabs) {
+        if (tab.isXML && tab.path) {
+          const res = window.api.sendSyncCheckXml(tab.path);
+          if (res) tab.content = res;
+        }
+      }
     });
     window.api.sendAppVersion();
     window.api.onAppVersion((event, arg) => {
@@ -1044,13 +1059,13 @@ export async function downloadData(element_id) {
                   text = result;
               } else {
                   console.error("Attachment not found in PDF:", filename);
-                  alert("Der Anhang '" + filename + "' wurde im PDF nicht gefunden.");
+                  alert(this.t('attachmentNotFound', {name: filename}, {locale: this.lang}));
                   return;
               }
           }
       } catch (e) {
           console.error("Failed to fetch attachment", e);
-          alert("Fehler beim Abrufen des Anhangs: " + e.message);
+          alert(this.t('attachmentError', {}, {locale: this.lang}) + e.message);
           return;
       }
   }

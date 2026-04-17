@@ -22,6 +22,14 @@
     "searchPlaceholder": "Enter search term...",
     "searchNoResultsHTMLAndPDF": "No match in HTML and PDF",
     "searchNoResultsHTML": "No match in HTML",
-    "searchNoResultsPDF": "No match in PDF"
+    "searchNoResultsPDF": "No match in PDF",
+    "Version": "Version",
+    "close": "Close",
+    "restart": "Restart",
+    "updateAvailableNote": "An update is available",
+    "updateDownloadedNote": "Update downloaded, restart to apply",
+    "attachmentNotFound": "The attachment '{name}' was not found in the PDF.",
+    "attachmentError": "Error retrieving attachment: ",
+    "newTab": "New Tab"
 
 }

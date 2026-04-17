@@ -122,6 +122,7 @@ function createWindow() {
     menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
     i18next.on("languageChanged", (lng) => {
         i18next.options.lng = lng;
+        currentLanguage = lng;
         store.set("language", lng);
         mainWindow.webContents.send("language-change", lng);
         menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
@@ -846,6 +847,8 @@ function openFile() {
 
                     //validateFile(paths[0]);
                 }
+            } else {
+                mainWindow.webContents.send("open-menu-cancelled");
             }
         });
 }
