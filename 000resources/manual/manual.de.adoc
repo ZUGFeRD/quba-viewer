@@ -20,7 +20,7 @@ Dateien, zB Factur-X/ZUGFeRD. Wir decken zumindest den EN16931-Teil von UBL und 
 
 
 ==== Rechtliches
-*Aus der Nutzung dieser Software kann und wird keine Steuer- oder Rechtsberatung abgeleitet werden.* Zufälligerweise deckt der Geltungsbereich die meisten, wenn nicht alle Arten von E-Rechnungen ab, die Sie in Deutschland verarbeiten können müssen (seit dem 01.01.2025 gemäß link:https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&v=2 [Wachstumschancengesetz, S. 23f, Art. 23]).
+*Aus der Nutzung dieser Software kann und wird keine Steuer- oder Rechtsberatung abgeleitet werden.* Zufälligerweise deckt der Geltungsbereich die meisten, wenn nicht alle Arten von E-Rechnungen ab, die Sie in Deutschland verarbeiten können müssen (seit dem 01.01.2025 gemäß link:https://www.recht.bund.de/bgbl/1/2024/108/regelungstext.pdf?__blob=publicationFile&v=2[Wachstumschancengesetz, S. 23f, Art. 23]).
 
 
 ==== Hybridrechnungen
@@ -201,8 +201,6 @@ Quba prüft beim Start automatisch auf neue Versionen (sofern nicht deaktiviert,
 * **Update verfügbar**: Ein Banner informiert Sie, dass eine neuere Version existiert. Sie können ihn ausblenden und weiterarbeiten.
 * **Update heruntergeladen**: Das Update wurde im Hintergrund heruntergeladen. Klicken Sie im Banner auf *Neu starten*, um es sofort anzuwenden, oder blenden Sie es aus und starten Sie später manuell neu.
 
-=== Validierung
-
 == Enterprise-Funktionen
 === Installation auf Terminalservern/für alle Benutzer
 Normalerweise wird Quba unter Windows nur für den aktuellen Benutzer installiert.
@@ -215,6 +213,7 @@ MsiExec /i "Quba_1.5.1.msi" AUTOUPDATE=false MSIINSTALLPERUSER="" ALLUSERS=2 /L*
 Nach einer MSI-Installation wird Quba standardmäßig gestartet.
 
 Wenn Sie Softwarepakete in Ihrem Unternehmen verteilen und eine automatische Installation wünschen, können Sie die MSI beispielsweise mit dem Link: http://www.instedit.com/[instedit] bearbeiten und die benutzerdefinierte Aktion „runAfterFinish“ entfernen.
+
 === Automatische Aktualisierung deaktivieren
 
 In
@@ -225,13 +224,10 @@ setzen Sie `performOnStartup=false` in
 performOnStartup=true
 ----
 
-um die Prüfung bei jedem Start der Software zu deaktivieren, ob neue Versionen vorhanden sind. Dies kann beispielsweise nützlich sein, wenn Sie 
+um die Prüfung bei jedem Start der Software zu deaktivieren, ob neue Versionen vorhanden sind. Dies kann beispielsweise nützlich sein, wenn Sie
 Quba als von Ihrem Team zertifizierte Softwarepakete verteilen.
 
 
-
-[Index]
-== Index
 
 [glossary]
 == Glossar

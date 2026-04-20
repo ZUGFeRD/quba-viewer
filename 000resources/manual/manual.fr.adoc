@@ -223,9 +223,6 @@ Quba comme packages logiciels certifiés par votre équipe.
 
 
 
-[index]
-== Index
-
 [glossary]
 == Glossaire
 
