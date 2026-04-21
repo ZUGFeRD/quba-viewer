@@ -20,6 +20,7 @@ History
 - #29 fix attachment preview (images/PDFs)
 - #49 fix date not displayed (BT-72)
 - #134 fix BT-72 (contributed by SemikolonDEV)
+- #93 translation not switched completely on runtime 
 
 </details>
 
