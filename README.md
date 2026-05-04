@@ -7,6 +7,21 @@ structured (i.e., XML) and hybrid (Factur-X/ZUGFeRD PDF) electronic invoices.
 Documentation-wise there is a doc RE [Architecture, Development, Debugging and testing](doc/development.md) in 
 general and some Electron and E-Invoice peculiarities like [interprocess (IPC) communication, XSLT and codelists](doc/electron.md) in particular.
 
+Flatpak
+=============
+
+To build the app as a Flatpak, make sure you have `flatpak` installed: <https://flatpak.org/setup/>.
+Then, follow these steps:
+
+```shell
+# Build & Install
+cd flatpak
+flatpak-builder build org.quba_viewer.Quba.yml --install-deps-from=flathub --force-clean --user --install
+
+# Run
+flatpak run org.quba_viewer.Quba
+```
+
 History
 =============
 
