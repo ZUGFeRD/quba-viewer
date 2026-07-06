@@ -348,6 +348,16 @@ export default {
         }
       }
     });
+    // Layout-Toggle (technisch/klassisch): offene XML-Tabs mit dem neuen
+    // Stylesheet neu transformieren (gleiche Schleife wie beim Sprachwechsel).
+    window.api.onLayoutChange(() => {
+      for (const tab of this.tabs) {
+        if (tab.isXML && tab.path) {
+          const res = window.api.sendSyncCheckXml(tab.path);
+          if (res) tab.content = res;
+        }
+      }
+    });
     window.api.sendAppVersion();
     window.api.onAppVersion((event, arg) => {
       window.api.removeAllAppVersion();

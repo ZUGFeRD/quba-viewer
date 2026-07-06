@@ -981,12 +981,19 @@ function transformAndDisplay(
                 translations["details"] = i18next.t("details_order");//Rechnungsdaten
             }
 
+            // Additiver Layout-Toggle: bei aktivem klassischem Layout die alternative
+            // Stage-2 (XR -> klassisches HTML) waehlen, sonst die technische KoSIT-Ansicht.
+            // Wert wird bei jedem Transform frisch gelesen (wie showIds), damit ein
+            // Toggle-Wechsel per Re-Render greift.
+            const stage2Sheet = store.get("classicLayout")
+                ? "xrechnung-classic.sef.json"
+                : "xrechnung-html.uni.sef.json";
             return SaxonJS.transform(
                 {
                     stylesheetFileName: path.join(
                         __dirname,
                         "xslt",
-                        "xrechnung-html.uni.sef.json"
+                        stage2Sheet
                     ),
                     sourceText: xrXML,
                     destination: "serialized",

@@ -32,6 +32,10 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir, manualWindow) {
     store.set("showIds",false);
   }
   let doShowIds = store.get("showIds");
+  if (typeof store.get("classicLayout")=="undefined") { // konfigurierbarer Default
+    store.set("classicLayout", config.classicLayoutDefault === true);
+  }
+  let doClassicLayout = store.get("classicLayout");
 
   const mainSubMenu = [
     {
@@ -55,6 +59,19 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir, manualWindow) {
       click() {
         doShowIds=!doShowIds;
         store.set("showIds", doShowIds);
+      },
+    },
+    {
+      label: i18n.t("Classic layout"),
+      type: "checkbox",
+      checked: doClassicLayout,
+      click() {
+        doClassicLayout = !doClassicLayout;
+        store.set("classicLayout", doClassicLayout);
+        // offene Dokumente mit dem gewaehlten Stylesheet neu rendern
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send("layout-change");
+        }
       },
     },
     {
