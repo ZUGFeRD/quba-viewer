@@ -7,3 +7,6 @@ dist
 release
 #Electron-builder output
 /dist_electron
+.flatpak-builder
+build
+/dist
