@@ -27,6 +27,21 @@
 
     </vue3-tabs-chrome>
 
+    <!-- Umschalter technische KoSIT-Ansicht <-> klassische Rechnungsoptik.
+         Gilt fuer jedes Dokument mit XML-Inhalt, auch fuer reine XML-Dateien,
+         die die Resize-Leiste rechts nicht anzeigen. -->
+    <div class="view-buttons" v-if="currentTab?.isXML">
+      <button
+          @click="toggleClassicLayout"
+          class="layout-btn layout-toggle-btn"
+          :class="{ 'layout-toggle-btn-active': classicLayout }"
+          :aria-pressed="classicLayout ? 'true' : 'false'"
+          :title="t('classicLayout', {}, {locale: lang})"
+      >
+        <span class="layout-toggle-check">{{ classicLayout ? "✓" : "" }}</span>{{ t("classicLayout", {}, {locale: lang}) }}
+      </button>
+    </div>
+
     <!-- Layout- Resize Buttons aligned to the right -->
     <div class="view-buttons"  v-if="currentTab?.isPdf && currentTab?.isXML">
       <button @click="setLayout('50-50')" class="layout-btn">
@@ -176,6 +191,7 @@ export default {
       lastSearchedText: "", // Letzter gesuchter Text (für Erkennung von Änderungen)
       searchNoResultsXML: false, // Kein Treffer im HTML/XML
       searchNoResultsPDF: false, // Kein Treffer im PDF
+      classicLayout: false, // Klassische statt technischer KoSIT-Ansicht
     };
   },
   setup() {
@@ -345,7 +361,8 @@ export default {
     });
     // Layout-Toggle (technisch/klassisch): offene XML-Tabs mit dem neuen
     // Stylesheet neu transformieren.
-    window.api.onLayoutChange(() => {
+    window.api.onLayoutChange((event, flag) => {
+      this.classicLayout = flag === true;
       this.retransformOpenTabs();
     });
     // Ergebnis eines Re-Transforms einer eigenstaendigen XML-Datei einhaengen.
@@ -355,6 +372,9 @@ export default {
         if (tab.path === filePath && html) tab.content = html;
       }
     });
+    // Persistierte Layout-Wahl uebernehmen, damit Button und Menue-Checkbox
+    // beim Start denselben Zustand zeigen.
+    this.classicLayout = window.api.sendSyncGetClassicLayout() === true;
     window.api.sendAppVersion();
     window.api.onAppVersion((event, arg) => {
       window.api.removeAllAppVersion();
@@ -566,6 +586,10 @@ export default {
           window.api.sendRelayoutXml(tab.path);
         }
       }
+    },
+    toggleClassicLayout() {
+      this.classicLayout = !this.classicLayout;
+      window.api.sendSetClassicLayout(this.classicLayout);
     },
     startDragging(event) {
       this.isDragging = true;
@@ -1275,6 +1299,29 @@ window.downloadData = downloadData; // make function available to inline javascr
 
 .layout-btn i {
   font-size: 18px; /* Größe der Icons */
+}
+
+/* Der Layout-Umschalter traegt Text statt eines Icons und braucht daher
+   Breite statt der festen 25px der Icon-Buttons. */
+.layout-toggle-btn {
+  width: auto;
+  padding: 0 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+.layout-toggle-btn-active {
+  background-color: #c6c4c4;
+  font-weight: 600;
+}
+
+/* Fester Platz fuer den Haken, damit die Beschriftung beim Umschalten
+   nicht springt. */
+.layout-toggle-check {
+  display: inline-block;
+  width: 12px;
+  text-align: left;
 }
 
 .layout-btn:hover {

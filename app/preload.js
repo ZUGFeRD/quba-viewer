@@ -51,6 +51,12 @@ const API = {
   sendRelayoutXml: (path) => {
     ipcRenderer.send("relayout-xml", path);
   },
+  sendSyncGetClassicLayout: () => {
+    return ipcRenderer.sendSync("get-classic-layout");
+  },
+  sendSetClassicLayout: (flag) => {
+    ipcRenderer.send("set-classic-layout", flag);
+  },
   onAppVersion: (callback) => {
     ipcRenderer.on("app_version", (event, ...args) =>
     callback(event, ...args));

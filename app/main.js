@@ -241,6 +241,25 @@ function initApp() {
         autoUpdater.quitAndInstall();
     });
 
+    // Current layout choice, so the in-window toggle can render the right state.
+    ipcMain.on("get-classic-layout", (event) => {
+        event.returnValue = store.get("classicLayout") === true;
+    });
+
+    // In-window layout toggle. Keeps the menu checkbox in sync and then takes
+    // the same re-render path as the menu item.
+    ipcMain.on("set-classic-layout", (event, flag) => {
+        const enabled = flag === true;
+        store.set("classicLayout", enabled);
+        const menuItem = Menu.getApplicationMenu()?.getMenuItemById("classic-layout");
+        if (menuItem) {
+            menuItem.checked = enabled;
+        }
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send("layout-change", enabled);
+        }
+    });
+
     // Re-render an already open standalone XML document, e.g. after the layout
     // toggle changed. The "check-xml" channel cannot be used for this: it is the
     // PDF path (pdfjsLib.getDocument) and throws "Invalid PDF structure" when it

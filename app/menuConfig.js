@@ -62,15 +62,17 @@ function buildMenu(app, mainWindow, i18n, openFile, openDir, manualWindow) {
       },
     },
     {
+      id: "classic-layout",
       label: i18n.t("Classic layout"),
       type: "checkbox",
       checked: doClassicLayout,
-      click() {
-        doClassicLayout = !doClassicLayout;
-        store.set("classicLayout", doClassicLayout);
+      // Der Zustand kommt aus dem MenuItem selbst, nicht aus einer lokalen
+      // Variablen: der In-Window-Button kann den Wert ebenfalls aendern.
+      click(menuItem) {
+        store.set("classicLayout", menuItem.checked);
         // offene Dokumente mit dem gewaehlten Stylesheet neu rendern
         if (mainWindow && !mainWindow.isDestroyed()) {
-          mainWindow.webContents.send("layout-change");
+          mainWindow.webContents.send("layout-change", menuItem.checked);
         }
       },
     },
