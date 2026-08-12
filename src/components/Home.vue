@@ -341,21 +341,18 @@ export default {
       this.lang = args;
       this.locale = args;
       window.api.updateMenuLanguage(this.t("appName", {}, {locale: this.lang}));
-      for (const tab of this.tabs) {
-        if (tab.isXML && tab.path) {
-          const res = window.api.sendSyncCheckXml(tab.path);
-          if (res) tab.content = res;
-        }
-      }
+      this.retransformOpenTabs();
     });
     // Layout-Toggle (technisch/klassisch): offene XML-Tabs mit dem neuen
-    // Stylesheet neu transformieren (gleiche Schleife wie beim Sprachwechsel).
+    // Stylesheet neu transformieren.
     window.api.onLayoutChange(() => {
+      this.retransformOpenTabs();
+    });
+    // Ergebnis eines Re-Transforms einer eigenstaendigen XML-Datei einhaengen.
+    window.api.onXmlRelayout((event, args) => {
+      const [filePath, html] = args;
       for (const tab of this.tabs) {
-        if (tab.isXML && tab.path) {
-          const res = window.api.sendSyncCheckXml(tab.path);
-          if (res) tab.content = res;
-        }
+        if (tab.path === filePath && html) tab.content = html;
       }
     });
     window.api.sendAppVersion();
@@ -555,6 +552,21 @@ export default {
   }
   ,
   methods: {
+    // Offene Dokumente mit dem aktuell gewaehlten Stylesheet neu rendern.
+    // PDF-Tabs tragen ihr XML eingebettet und laufen ueber den PDF-Pfad;
+    // eigenstaendige XML-Tabs muessen ueber den XML-Pfad neu transformiert
+    // werden - "check-xml" ist PDF-Code und wirft dort "Invalid PDF structure".
+    retransformOpenTabs() {
+      for (const tab of this.tabs) {
+        if (!tab.isXML || !tab.path) continue;
+        if (tab.isPdf) {
+          const res = window.api.sendSyncCheckXml(tab.path);
+          if (res) tab.content = res;
+        } else {
+          window.api.sendRelayoutXml(tab.path);
+        }
+      }
+    },
     startDragging(event) {
       this.isDragging = true;
 
