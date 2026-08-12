@@ -158,6 +158,10 @@ app.on("window-all-closed", function () {
 });
 
 app.on("activate", function () {
+    // On macOS "activate" can be emitted before "ready" (launching from Finder or
+    // the Dock). Creating a BrowserWindow that early throws, so let the "ready"
+    // handler above open the first window.
+    if (!app.isReady()) return;
     if (mainWindow === null) createWindow();
 });
 
@@ -209,6 +213,10 @@ function initApp() {
         }
     });
     app.on("activate", () => {
+        // See the note on the other "activate" handler: this can fire before the
+        // app is ready, and createWindow() would then throw an uncaught exception
+        // in the main process.
+        if (!app.isReady()) return;
         if (BrowserWindow.getAllWindows().length === 0) {
             createWindow();
         }
