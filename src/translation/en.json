@@ -18,6 +18,8 @@
     "search_next":"Next",
     "search_prev":"Previous",
     "display_ids": "Display BT-IDs",
+    "classicLayout": "Classic layout",
+    "print": "Print",
     "save_credentials": "Save credentials",
     "searchPlaceholder": "Enter search term...",
     "searchNoResultsHTMLAndPDF": "No match in HTML and PDF",

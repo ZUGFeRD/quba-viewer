@@ -30,6 +30,7 @@
   "privacyPolicyText": "Please validate only anonymized test data without any personal information (sender, recipient, bank credentials) unless you have a subscription with a contract for commissioned data processing.",
   "version": "Version",
   "Show IDs": "Show IDs",
+  "Classic layout": "Classic layout",
   "searchPlaceholder": "Enter search term...",
   "searchNoResultsHTMLAndPDF": "No match in HTML and PDF",
   "searchNoResultsHTML": "No match in HTML",

@@ -30,6 +30,7 @@
     "privacyPolicyText": "Veuillez valider uniquement les données de test anonymisées sans aucune information personnelle (expéditeur, destinataire, identifiants bancaires) sauf si vous avez un abonnement avec un contrat de traitement de données commandé.",
     "version": "Version",
     "Show IDs": "Afficher les ID",
+    "Classic layout": "Vue classique",
     "searchPlaceholder": "Entrer le terme de recherche...",
     "searchNoResultsHTMLAndPDF": "Aucun résultat dans le HTML et le PDF",
     "searchNoResultsHTML": "Aucun résultat dans le HTML",

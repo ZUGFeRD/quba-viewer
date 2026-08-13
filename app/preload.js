@@ -42,6 +42,24 @@ const API = {
   onLanguageChange: (callback) => {
     ipcRenderer.on("language-change", (event, ...args) => callback(event, ...args));
   },
+  onLayoutChange: (callback) => {
+    ipcRenderer.on("layout-change", (event, ...args) => callback(event, ...args));
+  },
+  onXmlRelayout: (callback) => {
+    ipcRenderer.on("xml-relayout", (event, ...args) => callback(event, ...args));
+  },
+  sendRelayoutXml: (path) => {
+    ipcRenderer.send("relayout-xml", path);
+  },
+  sendPrintXml: () => {
+    ipcRenderer.send("print-xml");
+  },
+  sendSyncGetClassicLayout: () => {
+    return ipcRenderer.sendSync("get-classic-layout");
+  },
+  sendSetClassicLayout: (flag) => {
+    ipcRenderer.send("set-classic-layout", flag);
+  },
   onAppVersion: (callback) => {
     ipcRenderer.on("app_version", (event, ...args) =>
     callback(event, ...args));

@@ -229,6 +229,12 @@ function initApp() {
         Menu.getApplicationMenu().getMenuItemById("validate").enabled = setEnabled && params.xml;
     });
 
+    // Print the current XML view. Same routine the Print > XML menu item uses,
+    // exposed for the print button in the window.
+    ipcMain.on("print-xml", () => {
+        menuFactoryService.printXmlView(mainWindow);
+    });
+
     autoUpdater.on("update-available", () => {
         mainWindow.webContents.send("update_available");
     });
@@ -239,6 +245,41 @@ function initApp() {
 
     ipcMain.on("restart_app", () => {
         autoUpdater.quitAndInstall();
+    });
+
+    // Current layout choice, so the in-window toggle can render the right state.
+    ipcMain.on("get-classic-layout", (event) => {
+        event.returnValue = store.get("classicLayout") === true;
+    });
+
+    // In-window layout toggle. Keeps the menu checkbox in sync and then takes
+    // the same re-render path as the menu item.
+    ipcMain.on("set-classic-layout", (event, flag) => {
+        const enabled = flag === true;
+        store.set("classicLayout", enabled);
+        const menuItem = Menu.getApplicationMenu()?.getMenuItemById("classic-layout");
+        if (menuItem) {
+            menuItem.checked = enabled;
+        }
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send("layout-change", enabled);
+        }
+    });
+
+    // Re-render an already open standalone XML document, e.g. after the layout
+    // toggle changed. The "check-xml" channel cannot be used for this: it is the
+    // PDF path (pdfjsLib.getDocument) and throws "Invalid PDF structure" when it
+    // is handed a plain XML file.
+    ipcMain.on("relayout-xml", (event, filePath) => {
+        const rendered = transformXMLFile(filePath, false);
+        if (!rendered) {
+            return;
+        }
+        Promise.resolve(rendered).then((HTML) => {
+            if (HTML && mainWindow && !mainWindow.isDestroyed()) {
+                mainWindow.webContents.send("xml-relayout", [filePath, HTML]);
+            }
+        });
     });
 
     /*
@@ -854,21 +895,30 @@ function openFile() {
 }
 
 function loadAndDisplayXML(filename) {
+    transformXMLFile(filename, true);
+}
+
+// Runs the stage-1/stage-2 pipeline for a standalone XML file. With
+// shouldDisplay the result is pushed to the renderer as a new tab (the normal
+// open path); without it the HTML is only returned, which is what re-rendering
+// an already open document needs.
+function transformXMLFile(filename, shouldDisplay) {
+    let rendered = null;
     try {
         const content = fs.readFileSync(filename).toString();
         var parser = require("fast-xml-parser");
         let json = parser.parse(content);
         for (let key in json) {
             if (key.includes("CrossIndustryInvoice")) {
-                transformAndDisplayCII(filename, content, true);
+                rendered = transformAndDisplayCII(filename, content, shouldDisplay);
             } else if (key.includes("SCRDMCCBDACIOMessageStructure")) {
-                transformAndDisplayCIO(filename, content, true);
+                rendered = transformAndDisplayCIO(filename, content, shouldDisplay);
             } else if (key.includes("Invoice")) {
-                transformAndDisplayUBL(filename, content, true);
+                rendered = transformAndDisplayUBL(filename, content, shouldDisplay);
             } else if (key.includes("CreditNote")) {
-                transformAndDisplayUBLCN(filename, content, true);
+                rendered = transformAndDisplayUBLCN(filename, content, shouldDisplay);
             } else if (key.includes("CrossIndustryDocument")) {
-                transformAndDisplayZF1(filename, content, true);
+                rendered = transformAndDisplayZF1(filename, content, shouldDisplay);
             } else {
                 displayError(
                     "File format not recognized",
@@ -880,6 +930,7 @@ function loadAndDisplayXML(filename) {
         const errMessage = e?.message ? e.message : e;
         displayError("Exception", errMessage);
     }
+    return rendered;
 }
 
 function transformAndDisplayCII(sourceFileName, content, shouldDisplay) {
@@ -981,12 +1032,19 @@ function transformAndDisplay(
                 translations["details"] = i18next.t("details_order");//Rechnungsdaten
             }
 
+            // Additiver Layout-Toggle: bei aktivem klassischem Layout die alternative
+            // Stage-2 (XR -> klassisches HTML) waehlen, sonst die technische KoSIT-Ansicht.
+            // Wert wird bei jedem Transform frisch gelesen (wie showIds), damit ein
+            // Toggle-Wechsel per Re-Render greift.
+            const stage2Sheet = store.get("classicLayout")
+                ? "xrechnung-classic.sef.json"
+                : "xrechnung-html.uni.sef.json";
             return SaxonJS.transform(
                 {
                     stylesheetFileName: path.join(
                         __dirname,
                         "xslt",
-                        "xrechnung-html.uni.sef.json"
+                        stage2Sheet
                     ),
                     sourceText: xrXML,
                     destination: "serialized",
