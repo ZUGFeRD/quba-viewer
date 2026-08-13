@@ -33,6 +33,10 @@ const path = require("path");
 const store = new Store();
 
 let mainWindow;
+// Which document-dependent menu items should be enabled. Kept here because
+// buildMenu() creates a fresh menu with everything disabled, so the state has
+// to be re-applied after every rebuild instead of living only in the menu.
+let currentDocState = {visible: false, pdf: false, xml: false};
 let eligibleSysLanguage = null;
 if ((app.getLocale() == "de") || (app.getLocale() == "en") || (app.getLocale() == "fr")) {
     eligibleSysLanguage = app.getLocale();
@@ -49,6 +53,30 @@ if ((app.getLocale() == "de") || (app.getLocale() == "en") || (app.getLocale() =
 
  */
 let currentLanguage = store.get("language") || eligibleSysLanguage || config.fallbackLng;
+
+function applyDocMenuState() {
+    const menu = Menu.getApplicationMenu();
+    if (!menu) {
+        return;
+    }
+    const setEnabled = (id, flag) => {
+        const item = menu.getMenuItemById(id);
+        if (item) {
+            item.enabled = flag;
+        }
+    };
+    setEnabled("file-print", currentDocState.visible);
+    setEnabled("file-print-pdf", currentDocState.visible && currentDocState.pdf);
+    setEnabled("file-print-xml", currentDocState.visible && currentDocState.xml);
+    setEnabled("validate", currentDocState.visible && currentDocState.xml);
+}
+
+// Every buildMenu() installs a fresh menu whose document-dependent items are
+// disabled, so the current document state has to be put back afterwards.
+function rebuildMenu() {
+    menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
+    applyDocMenuState();
+}
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -119,18 +147,18 @@ function createWindow() {
         }
     });
 
-    menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
+    rebuildMenu();
     i18next.on("languageChanged", (lng) => {
         i18next.options.lng = lng;
         currentLanguage = lng;
         store.set("language", lng);
         mainWindow.webContents.send("language-change", lng);
-        menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
+        rebuildMenu();
     });
     setTimeout(() => {
         mainWindow.webContents.send("goToHome");
     }, 200);
-    menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
+    rebuildMenu();
 }
 
 app.on("ready", async () => {
@@ -230,11 +258,12 @@ function initApp() {
     });
 
     ipcMain.on("doc-change", (event, params) => {
-        let setEnabled = params.visible;
-        Menu.getApplicationMenu().getMenuItemById("file-print").enabled = setEnabled;
-        Menu.getApplicationMenu().getMenuItemById("file-print-pdf").enabled = setEnabled && params.pdf;
-        Menu.getApplicationMenu().getMenuItemById("file-print-xml").enabled = setEnabled && params.xml;
-        Menu.getApplicationMenu().getMenuItemById("validate").enabled = setEnabled && params.xml;
+        currentDocState = {
+            visible: params.visible,
+            pdf: params.pdf,
+            xml: params.xml,
+        };
+        applyDocMenuState();
     });
 
     autoUpdater.on("update-available", () => {
