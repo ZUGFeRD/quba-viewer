@@ -65,7 +65,8 @@
     "win": {
       "icon": "./assets/img/logo_small_icon_only.png",
       "target": [
-        "nsis","msi"
+        "nsis",
+        "msi"
       ]
     },
     "nsis": {
@@ -90,6 +91,11 @@
       {
         "ext": "pdf",
         "name": "PDF File",
+        "role": "Viewer"
+      },
+      {
+        "ext": "xml",
+        "name": "XML Invoice",
         "role": "Viewer"
       }
     ],

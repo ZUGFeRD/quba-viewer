@@ -33,6 +33,9 @@ const path = require("path");
 const store = new Store();
 
 let mainWindow;
+// Files handed to us by macOS through "open-file" (Dock icon drop, double click
+// in Finder) before the window exists. Opened once it does.
+let pendingOpenFiles = [];
 let eligibleSysLanguage = null;
 if ((app.getLocale() == "de") || (app.getLocale() == "en") || (app.getLocale() == "fr")) {
     eligibleSysLanguage = app.getLocale();
@@ -49,6 +52,29 @@ if ((app.getLocale() == "de") || (app.getLocale() == "en") || (app.getLocale() =
 
  */
 let currentLanguage = store.get("language") || eligibleSysLanguage || config.fallbackLng;
+
+// macOS delivers files dropped on the Dock icon (and files opened from Finder)
+// through "open-file", not through argv. This has to be registered before the
+// app is ready, because the event can arrive that early.
+app.on("open-file", (event, filePath) => {
+    event.preventDefault();
+    if (!filePath) {
+        return;
+    }
+    if (!mainWindow || mainWindow.isDestroyed()) {
+        pendingOpenFiles.push(filePath);
+        return;
+    }
+    openExternalFile(filePath);
+});
+
+function openExternalFile(filePath) {
+    if (filePath.toLowerCase().endsWith(".pdf")) {
+        mainWindow.webContents.send("pdf-open", [filePath, null]);
+    } else {
+        loadAndDisplayXML(filePath);
+    }
+}
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -117,6 +143,11 @@ function createWindow() {
         } else if (appArgv[0] && appArgv[0].toLowerCase().endsWith(".xml")) {
             loadAndDisplayXML(appArgv[0]);
         }
+
+        // Files macOS handed us through "open-file" before the window existed.
+        const queued = pendingOpenFiles;
+        pendingOpenFiles = [];
+        queued.forEach(openExternalFile);
     });
 
     menuFactoryService.buildMenu(app, mainWindow, i18next, openFile);
