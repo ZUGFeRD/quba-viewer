@@ -229,6 +229,12 @@ function initApp() {
         Menu.getApplicationMenu().getMenuItemById("validate").enabled = setEnabled && params.xml;
     });
 
+    // Print the current XML view. Same routine the Print > XML menu item uses,
+    // exposed for the print button in the window.
+    ipcMain.on("print-xml", () => {
+        menuFactoryService.printXmlView(mainWindow);
+    });
+
     autoUpdater.on("update-available", () => {
         mainWindow.webContents.send("update_available");
     });

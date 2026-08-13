@@ -40,6 +40,14 @@
       >
         <span class="layout-toggle-check">{{ classicLayout ? "✓" : "" }}</span>{{ t("classicLayout", {}, {locale: lang}) }}
       </button>
+
+      <button
+          @click="printXmlView"
+          class="layout-btn layout-toggle-btn"
+          :title="t('print', {}, {locale: lang})"
+      >
+        {{ t("print", {}, {locale: lang}) }}
+      </button>
     </div>
 
     <!-- Layout- Resize Buttons aligned to the right -->
@@ -590,6 +598,9 @@ export default {
     toggleClassicLayout() {
       this.classicLayout = !this.classicLayout;
       window.api.sendSetClassicLayout(this.classicLayout);
+    },
+    printXmlView() {
+      window.api.sendPrintXml();
     },
     startDragging(event) {
       this.isDragging = true;

@@ -51,6 +51,9 @@ const API = {
   sendRelayoutXml: (path) => {
     ipcRenderer.send("relayout-xml", path);
   },
+  sendPrintXml: () => {
+    ipcRenderer.send("print-xml");
+  },
   sendSyncGetClassicLayout: () => {
     return ipcRenderer.sendSync("get-classic-layout");
   },
