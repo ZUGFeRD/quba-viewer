@@ -991,7 +991,7 @@ private fun ContentArea(
     pdfContent: @Composable () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val dividerPx = with(LocalDensity.current) { 6.dp.roundToPx() }
+    val dividerPx = with(LocalDensity.current) { 10.dp.roundToPx() }
     val containerWidth = remember { intArrayOf(0) }
     val pendingDelta = remember { floatArrayOf(0f) }
 
@@ -1008,22 +1008,16 @@ private fun ContentArea(
         while (true) { withFrameNanos { applyDelta() } }
     }
 
-    val dividerColor = MaterialTheme.colorScheme.outline
     Layout(
         modifier = modifier.fillMaxSize(),
         content = {
             Box { if (viewMode != ViewMode.PDF_ONLY) codeContent() }
-            Box(
-                modifier = if (viewMode == ViewMode.SPLIT) Modifier
-                    .background(dividerColor)
-                    .pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))
-                    .draggable(
-                        orientation = Orientation.Horizontal,
-                        state = rememberDraggableState { pendingDelta[0] += it },
-                        onDragStopped = { applyDelta() },
-                    )
-                else Modifier
-            )
+            Box {
+                if (viewMode == ViewMode.SPLIT) SplitDivider(
+                    onDrag = { pendingDelta[0] += it },
+                    onDragStopped = { applyDelta() },
+                )
+            }
             Box { if (viewMode != ViewMode.CODE_ONLY) pdfContent() }
         }
     ) { measurables, constraints ->
@@ -1054,3 +1048,44 @@ private fun ContentArea(
     }
 }
 
+// Thin center line with a pill-shaped grip; line and grip turn accent while hovered or dragged.
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun SplitDivider(
+    onDrag: (Float) -> Unit,
+    onDragStopped: () -> Unit,
+) {
+    val colors = LocalQubaColors.current
+    var hovered by remember { mutableStateOf(false) }
+    var dragging by remember { mutableStateOf(false) }
+    val active = hovered || dragging
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))
+            .onPointerEvent(PointerEventType.Enter) { hovered = true }
+            .onPointerEvent(PointerEventType.Exit) { hovered = false }
+            .draggable(
+                orientation = Orientation.Horizontal,
+                state = rememberDraggableState { onDrag(it) },
+                onDragStarted = { dragging = true },
+                onDragStopped = { dragging = false; onDragStopped() },
+            ),
+    ) {
+        Box(
+            Modifier
+                .fillMaxHeight()
+                .width(if (active) 3.dp else 2.dp)
+                .background(if (active) colors.accent else colors.borderStrong)
+        )
+        Box(
+            Modifier
+                .size(width = 10.dp, height = 44.dp)
+                .shadow(3.dp, RoundedCornerShape(5.dp))
+                .background(colors.surface, RoundedCornerShape(5.dp))
+                .border(1.dp, if (active) colors.accent else colors.borderStrong, RoundedCornerShape(5.dp))
+        )
+    }
+}

@@ -22,7 +22,7 @@ Ein zentrales Suchfeld in der Titelleiste, über das man per Tastatur schnell su
 - Tastenkürzel plattformabhängig: `⌘K` auf macOS, `Strg+K` auf Windows/Linux (Anzeige im `KbdChip` entsprechend anpassen)
 - Klick auf das Feld oder Tastenkürzel öffnet ein Overlay mit Eingabe und Trefferliste, ESC schließt
 - Mögliche Suchziele:
-  - Bereiche anspringen (Visualisieren, Prüfen, Erstellen, Einstellungen)
+  - Bereiche anspringen (Visualisieren, Prüfen, Erzeugen, Einstellungen)
   - Geöffnete Tabs in Visualisieren / Prüfen
   - Zuletzt geöffnete Dateien
   - Gespeicherte Kontakte und Rechnungsposten
@@ -69,3 +69,45 @@ private fun CommandBar(modifier: Modifier = Modifier) {
 ```
 
 **Betroffene Datei:** `manager/src/commonMain/kotlin/de/openindex/zugferd/manager/gui/QubaTitleBar.kt`
+
+---
+
+## Tab-Kontextmenü: „In Erzeugen öffnen“
+
+**Status:** Offen.
+
+**Beobachtung**
+Im Kontextmenü eines Dokument-Tabs (Rechtsklick) in Visualisieren gibt es „In Prüfen öffnen“, aber keine Option, das Dokument im Bereich Erzeugen zu öffnen.
+
+**Ziel**
+- Eintrag „In Erzeugen öffnen“ im Tab-Kontextmenü ergänzen
+- Analog in Prüfen jeweils die anderen Bereiche als Ziel anbieten (Visualisieren, Erzeugen)
+
+---
+
+## Erzeugen: Geöffnetes Dokument schließen / Tab-Leiste
+
+**Status:** Offen.
+
+**Beobachtung**
+Wird in Erzeugen ein Dokument geöffnet, kann man es nicht wieder schließen und nicht zum leeren Ausgangszustand zurückkehren.
+
+**Ziel**
+- Schließen-Möglichkeit für das geöffnete Dokument
+- Prüfen, ob eine Tab-Leiste analog zu Visualisieren / Prüfen (Schließen-X, „+“, Kontextmenü) technisch und logisch sinnvoll ist
+
+**Offene Fragen**
+- Mehrere Rechnungen gleichzeitig im Editor (echte Tabs, inkl. Behandlung ungespeicherter Änderungen pro Tab) oder nur ein Dokument mit Schließen-Funktion?
+
+---
+
+## Split-Ansicht: Zurücksetzen auf 50/50
+
+**Status:** Offen.
+
+**Beobachtung**
+In der geteilten Ansicht (HTML/XML links, PDF rechts) lässt sich die Trennlinie manuell verschieben, danach gibt es aber keine Möglichkeit, zur Standardaufteilung 50/50 zurückzukehren.
+
+**Ziel**
+- Erneuter Klick auf den aktiven Split-Button oben rechts setzt die Aufteilung auf 50/50 zurück
+- Optional zusätzlich: Doppelklick auf die Trennlinie setzt ebenfalls auf 50/50 zurück
