@@ -245,7 +245,7 @@ export default {
         label: path,
         key,
         favico: require("../assets/icons/pdf.svg"),
-        link: `lib/pdfjs/web/viewer.html?file=${args[0]}`,
+        link: `lib/pdfjs/web/viewer.html?file=${encodeURIComponent(args[0])}`,
         isPdf: true,
         isXML: !!res, // Dies überprüft, ob XML vorhanden ist
         isShowXML: !!res,
