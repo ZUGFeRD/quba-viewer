@@ -1825,7 +1825,7 @@ function downloadData (element_id) {
                         </div>
                         <div class="boxzeile">
                             <div class="boxdaten legende "><xsl:value-of select="$i18n?bt148"/><xsl:if test="$showIds"> BT-148</xsl:if>:</div>
-                            <div id="BT-148" title="BT-148" class="boxdaten wert"><xsl:value-of select="format-number((xr:PRICE_DETAILS/xr:Item_gross_price)[1],'###.##0,00','decimal')"/></div>
+                            <div id="BT-148" title="BT-148" class="boxdaten wert"><xsl:value-of select="if (xr:PRICE_DETAILS/xr:Item_gross_price) then format-number((xr:PRICE_DETAILS/xr:Item_gross_price)[1],'###.##0,00','decimal') else ''"/></div>
                         </div>
                         <div class="boxzeile">
                             <div class="boxdaten legende "><xsl:value-of select="$i18n?bt149"/><xsl:if test="$showIds"> BT-149</xsl:if>:</div>
