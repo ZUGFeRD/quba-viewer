@@ -2171,9 +2171,13 @@
                         <xsl:apply-templates mode="BT-149"
                                              select="./ram:GrossPriceProductTradePrice/ram:BasisQuantity"/>
                     </xsl:when>
-                    <xsl:otherwise>
+                    <xsl:when test="./ram:NetPriceProductTradePrice/ram:BasisQuantity">
                         <xsl:apply-templates mode="BT-149"
                                              select="./ram:NetPriceProductTradePrice/ram:BasisQuantity"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates mode="BT-149"
+                                             select="./ram:GrossPriceProductTradePrice/ram:BasisQuantity"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xr:Item_price_base_quantity>
