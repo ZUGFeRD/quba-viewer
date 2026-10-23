@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 44 41.327"
+   width="44"
+   height="41.327"
+   version="1.1"
+   id="svg936"
+   sodipodi:docname="logo_small.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs940" />
+  <sodipodi:namedview
+     id="namedview938"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="3.4202899"
+     inkscape:cx="7.4555085"
+     inkscape:cy="34.5"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg936" />
+  <g
+     fill="#ead017"
+     color="#ead017"
+     transform="scale(0.9166667)"
+     id="g932">
+    <svg
+       width="48"
+       height="46"
+       x="0.0"
+       y="0.0"
+       viewBox="0 0 48 46"
+       version="1.1"
+       id="svg930">
+      <path
+         fill="currentColor"
+         fill-rule="evenodd"
+         d="M 17.265,0 0,9.915 v 19.834 l 17.265,9.916 9.094,-5.223 6.159,10.642 L 48,18.326 H 34.53 V 9.915 Z m 4.969,21.326 h 20.563 l -10.28,17.77 z"
+         id="path928" />
+    </svg>
+  </g>
+</svg>

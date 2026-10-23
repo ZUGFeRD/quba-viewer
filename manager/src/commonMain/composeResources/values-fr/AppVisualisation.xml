@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppVisualisation">La facture électronique „%1$s" est en cours de validation…</string>
+    <string name="AppVisualisationPassed">La facture électronique „%1$s" est valide.</string>
+    <string name="AppVisualisationFailed">La facture électronique „%1$s" est invalide.</string>
+
+    <string name="AppVisualisationEmptyTitle">Afficher la facture</string>
+    <string name="AppVisualisationEmptyHint">Déposer PDF ou XML — ou cliquer</string>
+
+    <string name="AppVisualisationSelect">sélectionner une facture</string>
+    <string name="AppVisualisationSelectInfo">Sélectionnez une facture XML ou PDF à afficher.</string>
+    <string name="AppVisualisationSelectMessage">
+        Veuillez sélectionner une facture électronique[br]
+        ou déposer une facture par glisser-déposer dans cette fenêtre.
+    </string>
+    <string name="AppVisualisationSelectFile">sélectionner une facture électronique</string>
+
+    <string name="AppVisualisationSummary">résumé</string>
+    <string name="AppVisualisationSummaryExport">exporter le rapport</string>
+    <string name="AppVisualisationSummaryProfile">profil</string>
+    <string name="AppVisualisationSummaryVersion">version</string>
+    <string name="AppVisualisationSummarySignature">logiciel utilisé</string>
+    <string name="AppVisualisationSummaryUnknown">inconnu</string>
+    <string name="AppVisualisationSummaryMessages">messages</string>
+    <plurals name="AppVisualisationSummaryErrors">
+        <item quantity="one">%1$d erreur</item>
+        <item quantity="other">%1$d erreurs</item>
+    </plurals>
+    <plurals name="AppVisualisationSummaryWarnings">
+        <item quantity="one">%1$d avertissement</item>
+        <item quantity="other">%1$d avertissements</item>
+    </plurals>
+    <plurals name="AppVisualisationSummaryNotices">
+        <item quantity="one">%1$d notice</item>
+        <item quantity="other">%1$d notices</item>
+    </plurals>
+
+    <string name="AppVisualisationMessages">messages</string>
+    <string name="AppVisualisationMessagesFilter">filtrer les messages</string>
+    <string name="AppVisualisationMessagesFilterType">par type</string>
+    <string name="AppVisualisationMessagesFilterSeverity">par gravité</string>
+    <string name="AppVisualisationMessageMessageCopy">copier[br]le message</string>
+
+    <string name="AppVisualisationDetailsPdf">PDF sélectionné</string>
+    <string name="AppVisualisationDetailsHtml">visualisation XML</string>
+    <string name="AppVisualisationDetailsXml">données XML</string>
+
+    <string name="AppVisualisationNoXml">Ce fichier ne contient pas de données de facture électronique (pas de XML ZUGFeRD intégré).</string>
+
+    <string name="AppVisualisationViewPdf">PDF</string>
+    <string name="AppVisualisationViewSplit">partagé</string>
+    <string name="AppVisualisationViewCode">Html/Xml</string>
+
+    <string name="AppVisualisationExportPdfContextMenu">Exporter la visualisation en PDF</string>
+</resources>

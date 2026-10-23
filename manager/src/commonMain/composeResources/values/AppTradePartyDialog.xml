@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppTradePartyDialogGeneral">general information</string>
+    <string name="AppTradePartyDialogGeneralName">name</string>
+    <string name="AppTradePartyDialogGeneralStreet">street</string>
+    <string name="AppTradePartyDialogGeneralAdditionalAddress">additional address line</string>
+    <string name="AppTradePartyDialogGeneralZip">zip</string>
+    <string name="AppTradePartyDialogGeneralLocation">city</string>
+    <string name="AppTradePartyDialogGeneralCountry">country</string>
+    <string name="AppTradePartyDialogGeneralVatId">VAT-ID</string>
+    <string name="AppTradePartyDialogGeneralTaxId">tax-ID</string>
+    <string name="AppTradePartyDialogGeneralRegisterNr">register-nr</string>
+    <string name="AppTradePartyDialogGeneralCustomerId">customer-nr</string>
+
+    <string name="AppTradePartyDialogContact">contact</string>
+    <string name="AppTradePartyDialogContactName">contact person</string>
+    <string name="AppTradePartyDialogContactStreet">street</string>
+    <string name="AppTradePartyDialogContactZip">zip</string>
+    <string name="AppTradePartyDialogContactLocation">city</string>
+    <string name="AppTradePartyDialogContactCountry">country</string>
+    <string name="AppTradePartyDialogContactEmail">e-mail</string>
+    <string name="AppTradePartyDialogContactPhone">telephone</string>
+    <string name="AppTradePartyDialogContactFax">fax</string>
+
+    <string name="AppTradePartyDialogAccount">bank details</string>
+    <string name="AppTradePartyDialogAccountName">account holder</string>
+    <string name="AppTradePartyDialogAccountIBAN">IBAN</string>
+    <string name="AppTradePartyDialogAccountBIC">BIC</string>
+    <string name="AppTradePartyDialogAccountCreditorReferenceId">SEPA-ID</string>
+    <string name="AppTradePartyDialogAccountDirectDebitMandateId">SEPA-mandate</string>
+    <string name="AppTradePartyDialogAccountPreferredPaymentMethod">preferred payment method</string>
+
+    <string name="AppTradePartyDialogNotes">notes</string>
+    <string name="AppTradePartyDialogNotesDescription">description</string>
+    <string name="AppTradePartyDialogNotesImprint">legal info</string>
+    <string name="AppTradePartyDialogNotesImprintInfo">
+        Further "letterhead" company info.[br]
+        E.g.: Complete legal name, type, shareholders, management board, commercial register, register court, etc.
+    </string>
+
+    <string name="AppTradePartyDialogSubmit">apply</string>
+    <string name="AppTradePartyDialogCancel">cancel</string>
+    <string name="AppTradePartyDialogSavePermanently">save permanently</string>
+</resources>

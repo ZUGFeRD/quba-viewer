@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppCheck">E-Rechnung „%1$s“ wird geprüft…</string>
+    <string name="AppCheckPassed">E-Rechnung „%1$s“ ist gültig.</string>
+    <string name="AppCheckFailed">E-Rechnung „%1$s“ ist ungültig.</string>
+
+    <string name="AppCheckEmptyTitle">Rechnung prüfen</string>
+    <string name="AppCheckEmptyHint">PDF oder XML ablegen — oder klicken</string>
+
+    <string name="AppCheckSelect">E-Rechnung wählen</string>
+    <string name="AppCheckSelectInfo">Eine E-Rechnung zur Prüfung auswählen.</string>
+    <string name="AppCheckSelectMessage">
+        Bitte wählen Sie eine E-Rechnung aus[br]
+        oder ziehen Sie eine E-Rechnung per Drag &amp; Drop in dieses Fenster.
+    </string>
+    <string name="AppCheckSelectFile">eine E-Rechnung wählen</string>
+
+    <string name="AppCheckSummary">Zusammenfassung</string>
+    <string name="AppCheckSummaryExport">Bericht exportieren</string>
+    <string name="AppCheckSummaryProfile">Profil</string>
+    <string name="AppCheckSummaryVersion">Version</string>
+    <string name="AppCheckSummarySignature">Signatur</string>
+    <string name="AppCheckSummaryUnknown">unbekannt</string>
+    <string name="AppCheckSummaryMessages">Mitteilungen</string>
+    <plurals name="AppCheckSummaryErrors">
+        <item quantity="one">%1$d Fehler</item>
+        <item quantity="other">%1$d Fehler</item>
+    </plurals>
+    <plurals name="AppCheckSummaryWarnings">
+        <item quantity="one">%1$d Warnung</item>
+        <item quantity="other">%1$d Warnungen</item>
+    </plurals>
+    <plurals name="AppCheckSummaryNotices">
+        <item quantity="one">%1$d Hinweis</item>
+        <item quantity="other">%1$d Hinweise</item>
+    </plurals>
+
+    <string name="AppCheckMessages">Mitteilungen</string>
+    <string name="AppCheckMessagesFilter">Mitteilungen filtern</string>
+    <string name="AppCheckMessagesFilterType">nach Art</string>
+    <string name="AppCheckMessagesFilterSeverity">nach Dringlichkeit</string>
+    <string name="AppCheckMessageMessageCopy">Mitteilung[br]kopieren</string>
+
+    <string name="AppCheckDetailsPdf">gewählte PDF</string>
+    <string name="AppCheckDetailsHtml">XML-Visualisierung</string>
+    <string name="AppCheckDetailsXml">XML-Rohdaten</string>
+</resources>

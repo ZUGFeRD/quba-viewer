@@ -1,0 +1,50 @@
+[versions]
+application-version = "2.0.0"
+application-pkg = "2.0.0"
+application-revision = "1"
+
+androidx-lifecycle = "2.8.4"
+appdirs = "1.4.0"
+buildinfo = "1.0.0"
+commons-lang = "3.17.0"
+compose-multiplatform = "1.7.3"
+filekit = "0.8.8"
+jaxen = "2.0.0"
+#junit = "4.13.2"
+kotlin = "2.1.10"
+kotlinx-coroutines = "1.10.1"
+kotlinx-datetime = "0.6.2"
+kotlinx-serialization = "1.8.0"
+logback = "1.5.17"
+mustang = "2.26.0"
+proguard = "7.6.0"
+slf4j-jul = "2.0.17"
+versions = "0.51.0"
+
+[libraries]
+androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+appdirs = { group = "net.harawata", name = "appdirs", version.ref = "appdirs" }
+commons-lang = { group = "org.apache.commons", name = "commons-lang3", version.ref = "commons-lang" }
+filekit-core = { group = "io.github.vinceglb", name = "filekit-core", version.ref = "filekit" }
+filekit-compose = { group = "io.github.vinceglb", name = "filekit-compose", version.ref = "filekit" }
+jaxen = { group = "jaxen", name = "jaxen", version.ref = "jaxen" }
+#junit = { group = "junit", name = "junit", version.ref = "junit" }
+#kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+#kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
+#kotlinx-datetime-jvm = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime-jvm", version.ref = "kotlinx-datetime" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
+mustang-library = { group = "org.mustangproject", name = "library", version.ref = "mustang" }
+mustang-validator = { group = "org.mustangproject", name = "validator", version.ref = "mustang" }
+slf4j-jul = { group = "org.slf4j", name = "jul-to-slf4j", version.ref = "slf4j-jul" }
+
+[plugins]
+buildinfo = { id = "net.h34t.buildinfo", version.ref = "buildinfo" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }

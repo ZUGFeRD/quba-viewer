@@ -1,179 +1,140 @@
-Quba-Viewer
-=============
+# Mustang Quba 2.0.0
+Based on OpenIndex ZUGFeRD-Manager.
 
-Quba-Viewer ([homepage](https://quba-viewer.org)) is a cross platform open source application to display 
-structured (i.e., XML) and hybrid (Factur-X/ZUGFeRD PDF) electronic invoices.
+<img src="./share/icons/logo_small.svg" align="right" height="125" alt="OpenIndex Quba">
 
-Documentation-wise there is a doc RE [Architecture, Development, Debugging and testing](doc/development.md) in 
-general and some Electron and E-Invoice peculiarities like [interprocess (IPC) communication, XSLT and codelists](doc/electron.md) in particular.
+🇩🇪 Dies ist eine kostenfreie Desktop-Anwendung für Windows, MacOS & Linux zur Erstellung und Überprüfung von E-Rechnungen im ZUGFeRD-Format.
 
-Flatpak
-=============
-
-To build the app as a Flatpak, make sure you have `flatpak` installed: <https://flatpak.org/setup/>.
-Then, follow these steps:
-
-```shell
-# Build & Install
-cd flatpak
-flatpak-builder build org.quba_viewer.Quba.yml --install-deps-from=flathub --force-clean --user --install
-
-# Run
-flatpak run org.quba_viewer.Quba
-```
-
-History
-=============
+🇺🇸 This is a free desktop application for Windows, MacOS & Linux, that creates and validates ZUGFeRD invoices. Please scroll down for information about development in English language.
 
 
-<details>
-<summary>1.5.1 09.11.2025</summary> 
-- updated `electron` and `form-data` packages (#154)
-- fix window management for MacOS (#155)
-- #156 fix double apostrophe characters
-- #27 multiple discounts per line item (BT-147)
-- #29 fix attachment preview (images/PDFs)
-- #49 fix date not displayed (BT-72)
-- #134 fix BT-72 (contributed by SemikolonDEV)
-- #93 translation not switched completely on runtime 
+## Download
 
-</details>
+| Windows                                                                                                                                  | MacOS                                                                                                                                        | Linux                                                                                                                                     |
+|------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| <img src="./share/os-logos/windows.png" width="100" alt="Windows">                                                                       | <img src="./share/os-logos/apple.png" width="90" alt="MacOS">                                                                                | <img src="./share/os-logos/linux.png" width="100" alt="Linux">                                                                            |
+| [EXE-Installer](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-windows-x64.exe)<br>(x86_64) | [DMG-Archiv](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-macos-arm64.dmg)<br>(M1 oder neuer) | [DEB-Installer](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-linux-x64.deb)<br>(x86_64)    |
+| [ZIP-Archiv](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-windows-x64.zip)<br>(x86_64)    | [DMG-Archiv](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-macos-x64.dmg)<br>(Intel)           | [RPM-Installer](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-linux-x64.rpm)<br>(x86_64)    |
+|                                                                                                                                          |                                                                                                                                              | [TAR.GZ-Archiv](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-linux-x64.tar.gz)<br>(x86_64) |
 
-<details>
-<summary>1.5.0 27.05.2025</summary>
-- #100 support ZF1
-- #98 Correctly translate bt148 to gross instead of net
-- #99 Register shortcut to close app by using cmd+q
-- #88 Splash window "About" ("Info" in German) can not be closed on MacOS
-- #139 search 
-- #49 [v1.4.0] Actual delivery date is not displayed (BT-72)
-- #58 have a manual
-- #43 be able to slide pdf/xml divider 
-- #86 2 digits
-- #81 closing main window does not quit the application
-- #120 structured data of some hybrid invoices not shown
-
-</details>
-
-<details>
-<summary>1.4.2 01.11.2024</summary>
-- #54 print only prints first page
-- #83 NaN for VAT amount and rounding amount 
-- #82 Drag&Drop does not work
-
-</details>
-
-<details>
-<summary>1.4.1 30.10.2024</summary>
-- #78 default language to OS language, if de|en|fr
-- #68 structured invoice data won't get parsed from zugferd-file
-- #23 Does not work on intel macs
-- #63 Mention license in about window
-- #58 electron 20 to 33
-- #53 MSI version
-
-</details>
-
-<details>
-<summary>1.4.0 15.01.2024</summary>
-- Online validation works again
-- Corrected validation now possible with personalized account  
-- Be able to visualize Order-X, i.e. CIO #30
-- be able to display IDs in whatever language
-- Factur-X / ZUGFeRD is now visualized by default and requires no click
-- first attempts intel mac
-- be able to load same filename multiple times #35
-- menu item context for print (/xml and /pdf) and validate 
-- get rid off temp files
-- changed translation from 3 files to one, translations provided by the app
-</details>
+Ältere Versionen sind in der [Release-Übersicht](https://github.com/OpenIndex/Quba/releases) zu finden.
 
 
-<details>
-<summary>1.3.0 14.04.2023</summary>
-    - support ubl credit notes
-</details>
+## Zielgruppe
 
-<details>
-<summary>1.2.1 13.10.2022</summary>
-    - upgrade to Electron 20 enabling e.g. newer Mac versions to run it
-</details>
+Die Anwendung richtet sich an **kleine** Unternehmen, die eine einfache und möglichst unkomplizierte Lösung benötigen, um ab 2025 mit E-Rechnungen umgehen zu können.
 
-<details>
-<summary>1.2.0 26.09.2022</summary>
-    - Allow to validate files via Mustangserver
-</details>
 
-<details>
-<summary>1.1.5 15.08.2022</summary>
-    - XML invoice with large PDF (approx. > 1.4 MB) attached can't be opened #16
-</details>
+## Wie erstellt man eine ZUGFeRD-Rechnung?
 
-<details>
-<summary>1.1.4 23.06.2022</summary>
-    - No close button for attachments #15
-</details>
+1. Erstellen Sie weiterhin wie gehabt eine Rechnung im PDF-Dateiformat - z.B. aus Microsoft Word, OpenOffice oder LibreOffice.
 
-<details>
-<summary>1.1.3 28.04.2022</summary>
-    - Accept invoices as command line arguments #12
-</details>
+2. Prüfen Sie vor der PDF-Erzeugung, dass in den Export-Einstellungen (von Microsoft Word, OpenOffice, LibreOffice, etc.) die Option **PDF/A3** (PDF-Archivformat) aktiviert ist.
 
-<details>
-<summary>1.1.2 11.11.2021</summary>
-    - Allow drag&drop of files #9
-</details>
-<details>
-<summary>1.1.1 24.09.2021</summary>
-    - The window for the example files can now be closed
-    - plain pdf without embedded xml not to show button for visualization
-</details>
-<details>
-<summary>1.1.0 20.09.2021</summary>
-    - #6 New document shows still old data / invoice
-    - Switch to vue.js
-    - i18n: Support for EN and FR
-    - support FX Referenzprofil XRechnung
-</details>
-<details>
-<summary>1.0 23.08.2021</summary>
-    - #5 Codelists are now resolved
-    - Support for first FX Extended Element, i.e., Cash Discount in XML 
-</details>
-<details>
-<summary>0.5 27.07.2021</summary>
-    - Support for PDF
-    - Support for Factur-X/ZUGFeRD
-    - Display errors as dialog instead of hiding them 
-</details>
-<details>
-<summary>0.2 10.06.2021</summary>
-    - Support for XRechnung (UBL)
-    - "dark" theming
-    - possibility to open multiple files at the same time in the same viewer (tabs)
-    - print 
-</details> 
-<details>
-<summary>0.1 2021-03-31</summary>
-    - Initial release
-    - Support for XRechnung (UN/CEFACT CII)
-    - release for Windows on 2021-03-31, for Linux on 2101-04-16 and for Mac on 2021-04-27
-</details> 
+   **Beispiel: PDF/A Format beim PDF-Export in LibreOffice aktivieren:**
 
-Pedigree
--------------
+   <img src="./share/screenshots/pdfa-libreoffice.png" width="400" alt="PDF/A Format beim PDF-Export in LibreOffice aktivieren">
 
-![History of Quba](doc/History_of_Quba-02.svg "Pedigree of Quba")
+   **Hinweis:** *Quba* kann auch normale PDF-Dateien verarbeiten und in das PDF-Archivformat umwandeln. Dies kann aber unter Umständen zu Fehlern und ungültigen ZUGFeRD-Rechnungen führen - vor allem, wenn die Rechnungen aufwändige Gestaltungselemente enthalten oder die verwendeten Schriften nicht eingebettet sind.
 
-The FeRD had published visualization XSLTs for ZF1 (~=UN/CEFACT C13B) as open source, unfortunately the ones for the UN/CEFACT C16B-based
-version 2 remains proprietary. The Kosit released XSLT for both CII and UBL of the XRechnung (XR) which has been used for various online viewers
-but also for offline viewers like Ultramarinviewer and Open XRechnung Toolbox. Quba uses this work added translations and
-at least experimental support for Factur-X/ZUGFeRD profiles higher than EN16931.
+3. Öffnen Sie den *Quba*, klicken Sie links auf den Bereich **"Erzeugen"** und dann oben rechts auf **"PDF wählen"**. Wählen Sie die zuvor erzeugte PDF-Datei aus und tragen Sie im *Quba* die Details zur Rechnung ein (Datum Rechnungsempfänger, Rechnungsposten, etc.).
 
-Known issues
-=============
+   <img src="./share/screenshots/create-start.png" width="400" alt="Erzeugung einer ZUGFeRD-Rechnung beginnen">
 
-  * While XRechnung, EN16931 and below should work, not all FX attributes/elements of the Extended Profile have yet been mapped, feel free to [report missing ones](https://github.com/ZUGFeRD/quba-viewer/issues) 
-  * conversion of XSLT to sef.json `xslt3 -xsl:ubl-creditnote-xr.xsl -export:ubl-creditnote-xr.sef.json -t` on windows works only in cmd.exe, not powershell
+4. Wenn alle Pflichteingaben vorgenommen wurden, erscheint oben rechts der Button **"E-Rechnung erzeugen"**. Klicken Sie auf den Button, wählen Sie den Speicherort der E-Rechnung aus und die ZUGFeRD-Rechnung wird als PDF-Datei auf Ihre Festplatte gespeichert.
 
- 
+   <img src="./share/screenshots/create-finish.png" width="400" alt="Erzeugung einer ZUGFeRD-Rechnung abschließen">
+
+**Hinweis:** Die erzeugte ZUGFeRD-Rechnung kann wie eine normale PDF-Datei von Ihren Kunden geöffnet und angesehen werden, enthält aber auch die weiteren maschinenlesbare Informationen, welche Sie im *Quba* eingetragen haben.
+
+
+## Wie prüft man eine ZUGFeRD-Rechnung?
+
+Sie können und sollten Ihre eigenen erzeugten E-Rechnungen sowie auch von Anderen erhaltene E-Rechnungen prüfen, um mögliche Probleme mit dem Finanzamt im späteren Verlaufe zu vermeiden.
+
+1. Öffnen Sie den *Quba*, klicken Sie links auf den Bereich **"Prüfen"** und dann oben rechts auf **"E-Rechnung wählen"**. Wählen Sie eine eigene oder fremde E-Rechnung zur Prüfung aus.
+
+   <img src="./share/screenshots/verify-start.png" width="400" alt="Prüfung einer ZUGFeRD-Rechnung beginnen">
+
+2. Der *Quba* wird die in der E-Rechnung enthaltenen maschinenlesbaren Daten auslesen, auf Gültigkeit prüfen und Ihnen eine Zusammenfassung von ggf. enthaltenen Fehlern anzeigen.
+
+   <img src="./share/screenshots/verify-summary.png" width="400" alt="Zusammenfassung zur Prüfung einer ZUGFeRD-Rechnung">
+
+3. Auf der rechten Seite können Sie sich neben der PDF-Ansicht auch die maschinenlesbaren Daten in aufbereiteter Form oder im XML-Format anzeigen lassen.
+
+   <img src="./share/screenshots/verify-details.png" width="400" alt="Details zum Inhalt einer ZUGFeRD-Rechnung">
+
+
+## Lizenzbedingungen
+
+Die Software steht kostenfrei unter den Bedingungen der [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) zur Verfügung (Open Source). Die Autoren übernehmen keinerlei Haftung für eventuelle Schäden, die aus der Nutzung dieser Software resultieren.
+
+
+## 🇺🇸 Information about development 🇺🇸
+
+The application is written in [Kotlin / JVM](https://kotlinlang.org/) using [Compose Multiplatform for desktop applications](https://www.jetbrains.com/compose-multiplatform/). Common and JVM related code is separated, to make a future port to other platforms hopefully as easy as possible.
+
+
+### Development
+
+The application requires the [Jetbrains JDK (bundled with JCEF)](https://github.com/JetBrains/JetBrainsRuntime). Other JDK's won't work. 
+
+-  Download the *Jetbrains JDK* for your operating system via:
+
+   ```bash
+   ./init-jdk.sh
+   ```
+   
+   This command downloads and extracts the *Jetbrains JDK* into the `jdk` folder and creates an `env.sh` file with preconfigured environment variables. 
+
+-  Load environment variables for *Jetbrains JDK* via:
+
+   ```bash
+   source env.sh
+   ```
+   
+   In case you are using an IDE for development, make sure to register the downloaded JDK within your IDE properly.
+
+-  Clean the development environment from previous builds via:
+
+   ```bash
+   ./gradlew clean
+   ```
+
+-  Compile and run the application with the downloaded JDK via:
+
+   ```bash
+   ./gradlew run
+   ```
+
+-  Create the application with a stripped down JRE via:
+
+   ```bash
+   ./gradlew createDistributable
+   ```
+   
+   Generated files are written into the `manager/build/compose/binaries/main/app` folder.
+
+-  Compile and run the application with a stripped down JRE via:
+
+   ```bash
+   ./gradlew runDistributable
+   ```
+
+-  Package the application with a stripped down JRE for the current operating system via:
+
+   ```bash
+   ./gradlew bundle
+   ```
+   
+   Generated files are written into the `build` folder.
+
+
+### Translations
+
+The application is developed in English and translated into in German language. Translation into other languages are pretty straightforward. Please get in contact with us, if you like to translate the application into another language or help out with existing translations.
+
+
+### Third party components
+
+The application relies on the [Mustang Project](https://www.mustangproject.org) and its [Open Source library and validation tool](https://github.com/ZUGFeRD/mustangproject).

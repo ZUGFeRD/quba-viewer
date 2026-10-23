@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppSettings">Paramètres du programme</string>
+
+    <string name="AppSettingsGeneral">paramètres généraux</string>
+    <string name="AppSettingsGeneralInfo">
+        Les valeurs par défaut sont utilisées comme paramètres automatiques dans différents formulaires afin d'éviter une saisie répétitive.
+    </string>
+    <string name="AppSettingsGeneralLanguage">Langue de l'application</string>
+    <string name="AppSettingsGeneralCountry">Pays par défaut</string>
+    <string name="AppSettingsGeneralVat">Taux d'imposition standard en %</string>
+    <string name="AppSettingsGeneralCurrency">Devise standard</string>
+
+    <string name="AppSettingsSender">Auteur</string>
+    <string name="AppSettingsSenderInfo">
+        Les créateurs de factures récurrents peuvent être saisis ici de manière permanente, afin qu'ils ne soient pas à nouveau saisis chaque fois qu'une nouvelle facture est créée.
+    </string>
+    <string name="AppSettingsSenderAdd">Ajouter un auteur</string>
+    <string name="AppSettingsSenderEdit">Modifier l'auteur</string>
+    <string name="AppSettingsSenderImport">Importer un auteur</string>
+    <string name="AppSettingsSenderImportSelectFile">Sélectionner le fichier à importer</string>
+    <string name="AppSettingsSenderExport">Exporter l'auteur</string>
+    <string name="AppSettingsSenderExportFileName">auteur-facture</string>                <!-- a strings seems to be missing: "delete the one author"   -->
+	    <string name="AppSettingsSenderRemove">supprimer l'auteur</string>             <!-- this is the new string   -->
+    <string name="AppSettingsSenderRemoveAll">supprimer tous les auteurs</string>
+    <string name="AppSettingsSenderRemoveAllConfirm">Êtes-vous sûr de supprimer tous les auteurs?</string>
+
+    <string name="AppSettingsRecipient">Destinataire</string>
+    <string name="AppSettingsRecipientInfo">
+        Les destinataires de factures récurrents peuvent être saisis ici de manière permanente, afin qu'ils ne soient pas à nouveau saisis chaque fois qu'une nouvelle facture est créée.
+    </string>
+    <string name="AppSettingsRecipientAdd">Ajouter un destinataire</string>
+    <string name="AppSettingsRecipientEdit">Modifier le destinataire</string>
+    <string name="AppSettingsRecipientImport">Importer le destinataire</string>
+    <string name="AppSettingsRecipientImportSelectFile">Sélectionner le fichier à importer</string>
+    <string name="AppSettingsRecipientExport">Exporter le destinataire</string>
+    <string name="AppSettingsRecipientExportFileName">destinataire-facture</string>
+	<string name="AppSettingsRecipientRemove">supprimer le destinataire</string>             <!-- new string in analogy to the one of invoice authors    --> 
+    <string name="AppSettingsRecipientRemoveAll">Supprimer tous les destinataires</string>
+    <string name="AppSettingsRecipientRemoveAllConfirm">Êtes-vous sûr de supprimer tous les destinataires?</string>
+	
+    <string name="AppSettingsProduct">Éléments de facturation</string>
+    <string name="AppSettingsProductInfo">
+        Les éléments de facturation récurrents peuvent être saisis ici de manière permanente, afin qu'ils ne soient pas à nouveau saisis chaque fois qu'une nouvelle facture est créée.
+    </string>
+    <string name="AppSettingsProductAdd">Ajouter des éléments de facturation</string>
+    <string name="AppSettingsProductEdit">Modifier des éléments de facturation</string>
+    <string name="AppSettingsProductImport">Importer des éléments</string>
+    <string name="AppSettingsProductImportSelectFile">Sélectionner le fichier à importer</string>
+    <string name="AppSettingsProductExport">Exporter l'élément</string>
+    <string name="AppSettingsProductExportFileName">element-facture</string>
+    <string name="AppSettingsProductRemove">Supprimer l'élément</string>	    <!-- new string in analogy to the ones above     --> 
+    <string name="AppSettingsProductRemoveAll">Supprimer tous les éléments</string>
+    <string name="AppSettingsProductRemoveAllConfirm">Êtes-vous sûr de supprimer tous les éléments?</string>
+
+    <string name="AppSettingsTheme">Affichage</string>
+    <string name="AppSettingsThemeAuto">automatique</string>
+    <string name="AppSettingsThemeLight">clair</string>
+    <string name="AppSettingsThemeDark">foncé</string>
+
+    <string name="AppSettingsCreate">Création de factures électroniques</string>
+    <string name="AppSettingsCreatePdfAutoConvert">
+        Convertir automatiquement les fichiers PDF non supportés en PDF/A-3.
+    </string>
+    <string name="AppSettingsCreatePdfAutoConvertExperimental">fonction expérimentale</string>
+    <string name="AppSettingsCreatePdfAutoConvertWarning">
+        La conversion automatique de factures PDF au format PDF/A-3 peut entraîner la création de factures électroniques erronées. Dans le meilleur des cas, on devrait exporter un fichier PDF au format PDF/A-3 directement depuis Word / LibreOffice etc.        Veuillez contrôler minutieusement les factures électroniques créées en cas cette fonction a été activée.
+    </string>
+    <string name="AppSettingsCreatePdfRemoveAttachments">
+        Supprimer les pièces jointes intégrées dans les fichiers PDF.
+    </string>
+    <string name="AppSettingsCreatePdfRemoveAttachmentsExperimental">fonction expérimentale</string>
+    <string name="AppSettingsCreatePdfRemoveAttachmentsWarning">
+        Si un fichier PDF contient des pièces jointes, celles-ci peuvent être automatiquement supprimées lors de la création de la facture électronique-facture. Cela évitera dans certains cas des problèmes lors de la validation, mais peut également entraîner de nouveaux problèmes. Veuillez donc vérifier soigneusement les factures électroniques créées lorsque cette fonction est activée.
+    </string>
+
+    <string name="AppSettingsChrome">navigateur web intégré</string>
+    <string name="AppSettingsChromeAcceleration">Utiliser l'accélération matérielle</string>
+    <string name="AppSettingsChromeAccelerationRestart">Redémarrage nécessaire en cas de modification</string>
+
+    <string name="AppSettingsItemAdd">ajouter</string>
+    <string name="AppSettingsItemEdit">modifier</string>
+    <string name="AppSettingsItemRemove">supprimer</string>
+
+    <string name="AppSettingsSectionInfo">Afficher / masquer d'autres informations.</string>
+    <string name="AppSettingsSectionMore">Afficher d'autres actions.</string>
+</resources>

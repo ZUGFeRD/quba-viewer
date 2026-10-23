@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppSettings">Einstellungen zum Programm</string>
+
+    <string name="AppSettingsGeneral">allgemeine Einstellungen</string>
+    <string name="AppSettingsGeneralInfo">
+        Die Standardwerte werden in verschiedenen Formularen als automatische Vorgaben verwendet, damit diese nicht
+        regelmäßig neu eingetragen werden müssen.
+    </string>
+    <string name="AppSettingsGeneralLanguage">Sprache der Anwendung</string>
+    <string name="AppSettingsGeneralCountry">Standard-Land</string>
+    <string name="AppSettingsGeneralVat">Standard-Steuersatz in %</string>
+    <string name="AppSettingsGeneralCurrency">Standard-Währung</string>
+
+    <string name="AppSettingsSender">Ersteller</string>
+    <string name="AppSettingsSenderInfo">
+        Hier können wiederkehrende Rechnungsersteller dauerhaft erfasst werden, damit diese nicht bei jeder
+        Rechnungserstellung neu eingetragen werden müssen.
+    </string>
+    <string name="AppSettingsSenderAdd">Ersteller hinzufügen</string>
+    <string name="AppSettingsSenderEdit">Ersteller bearbeiten</string>
+    <string name="AppSettingsSenderImport">Ersteller importieren</string>
+    <string name="AppSettingsSenderImportSelectFile">Datei zum Import wählen</string>
+    <string name="AppSettingsSenderExport">Ersteller exportieren</string>
+    <string name="AppSettingsSenderExportFileName">rechnung-ersteller</string>
+    <string name="AppSettingsSenderRemoveAll">alle Ersteller löschen</string>
+    <string name="AppSettingsSenderRemoveAllConfirm">Sollen wirklich alle Ersteller gelöscht werden?</string>
+
+    <string name="AppSettingsRecipient">Empfänger</string>
+    <string name="AppSettingsRecipientInfo">
+        Hier können wiederkehrende Rechnungsempfänger dauerhaft erfasst werden, damit diese nicht bei jeder
+        Rechnungserstellung neu eingetragen werden müssen.
+    </string>
+    <string name="AppSettingsRecipientAdd">Empfänger hinzufügen</string>
+    <string name="AppSettingsRecipientEdit">Empfänger bearbeiten</string>
+    <string name="AppSettingsRecipientImport">Empfänger importieren</string>
+    <string name="AppSettingsRecipientImportSelectFile">Datei zum Import wählen</string>
+    <string name="AppSettingsRecipientExport">Empfänger exportieren</string>
+    <string name="AppSettingsRecipientExportFileName">rechnung-empfaenger</string>
+    <string name="AppSettingsRecipientRemoveAll">alle Empfänger löschen</string>
+    <string name="AppSettingsRecipientRemoveAllConfirm">Sollen wirklich alle Empfänger gelöscht werden?</string>
+
+    <string name="AppSettingsProduct">Rechnungsposten</string>
+    <string name="AppSettingsProductInfo">
+        Hier können wiederkehrende Rechnungsposten dauerhaft erfasst werden, damit diese nicht bei jeder
+        Rechnungserstellung neu eingetragen werden müssen.
+    </string>
+    <string name="AppSettingsProductAdd">Rechnungsposten hinzufügen</string>
+    <string name="AppSettingsProductEdit">Rechnungsposten bearbeiten</string>
+    <string name="AppSettingsProductImport">Posten importieren</string>
+    <string name="AppSettingsProductImportSelectFile">Datei zum Import wählen</string>
+    <string name="AppSettingsProductExport">Posten exportieren</string>
+    <string name="AppSettingsProductExportFileName">rechnung-posten</string>
+    <string name="AppSettingsProductRemoveAll">alle Posten löschen</string>
+    <string name="AppSettingsProductRemoveAllConfirm">Sollen wirklich alle Rechnungsposten gelöscht werden?</string>
+
+    <string name="AppSettingsTheme">Darstellung</string>
+    <string name="AppSettingsThemeAuto">automatisch</string>
+    <string name="AppSettingsThemeLight">hell</string>
+    <string name="AppSettingsThemeDark">dunkel</string>
+
+    <string name="AppSettingsCreate">Erzeugung von E-Rechnungen</string>
+    <string name="AppSettingsCreatePdfAutoConvert">
+        Nicht unterstützte PDF-Dateien automatisch in PDF/A-3 umwandeln.
+    </string>
+    <string name="AppSettingsCreatePdfAutoConvertExperimental">experimentelle Funktion</string>
+    <string name="AppSettingsCreatePdfAutoConvertWarning">
+        Die automatische Umwandlung von PDF-Rechnungen in das PDF/A-3 Format kann zu fehlerhaft erzeugten E-Rechnungen
+        führen. Im Optimalfall sollte direkt aus Word / LibreOffice etc. eine PDF-Datei im PDF/A-3 Format heraus
+        exportiert werden. Bitte prüfen Sie erzeugte E-Rechnungen ausgiebig, wenn diese Funktion aktiviert wurde.
+    </string>
+    <string name="AppSettingsCreatePdfRemoveAttachments">
+        Eingebettete Anhänge aus PDF-Dateien entfernen.
+    </string>
+    <string name="AppSettingsCreatePdfRemoveAttachmentsExperimental">experimentelle Funktion</string>
+    <string name="AppSettingsCreatePdfRemoveAttachmentsWarning">
+        Falls Dateianhänge in einer PDF-Datei enthalten sind, können diese bei Erzeugung der E-Rechnung automatisch
+        entfernt werden. Dies vermeidet unter Umständen Probleme bei der Validierung, kann aber von Fall zu Fall auch
+        zu neuen Problemen führen. Bitte prüfen Sie erzeugte E-Rechnungen ausgiebig, wenn diese Funktion aktiviert
+        wurde.
+    </string>
+
+    <string name="AppSettingsChrome">integrierter Web-Browser</string>
+    <string name="AppSettingsChromeAcceleration">Hardware-Beschleunigung verwenden</string>
+    <string name="AppSettingsChromeAccelerationRestart">Neustart bei Änderung nötig</string>
+
+    <string name="AppSettingsItemAdd">hinzufügen</string>
+    <string name="AppSettingsItemEdit">bearbeiten</string>
+    <string name="AppSettingsItemRemove">löschen</string>
+
+    <string name="AppSettingsSectionInfo">Weitere Informationen einblenden / ausblenden.</string>
+    <string name="AppSettingsSectionMore">Weitere Aktionen anzeigen.</string>
+</resources>

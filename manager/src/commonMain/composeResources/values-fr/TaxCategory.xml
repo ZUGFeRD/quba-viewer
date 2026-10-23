@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <plurals name="TaxCategory">
+        <item quantity="one">imposition</item>
+        <item quantity="other">imposition</item>
+    </plurals>
+
+    <string name="TaxCategory_S">imposition normale</string>
+    <string name="TaxCategory_Z">pas d'imposition</string>
+    <string name="TaxCategory_Z_DefaultExemptionReason">La marchandise est taxée au taux zéro</string>
+    <string name="TaxCategory_E">exonéré d'impôt (par ex. petites entreprises)</string>
+    <string name="TaxCategory_E_DefaultExemptionReason">Petite entreprise conformément à la loi sur la TVA</string>    <!-- wenn frz Übersetzung ist ein Verweis auf das dt Steuerrecht vielleichth nicht erforderlich; daher der allgemeine Verweis auf das USt-Recht. -->
+    <string name="TaxCategory_AE">Le mécanisme de l'autoliquidation </string>   
+    <string name="TaxCategory_K">Transaktion intercommunautaire</string>
+    <string name="TaxCategory_K_DefaultExemptionReason">Livraison dans un pays de l'UE</string>
+    <string name="TaxCategory_G">Exportation en dehors de l'UE</string>
+    <string name="TaxCategory_G_DefaultExemptionReason">Exportation vers un pays non membre de l'UE</string>
+    <string name="TaxCategory_O">Prestation non imposée</string>
+    <string name="TaxCategory_O_DefaultExemptionReason">Prestation hors du champ d'application de la taxe</string>
+    <string name="TaxCategory_L">Imposition indirecte aux îles Canaries</string>
+    <string name="TaxCategory_M">Production / prestation / importation vers Ceuta et Melilla</string>         <!-- Frage der Groß-/Kleinschreibung des jeweils ersten Wortes dieser Strings ist kontextabhängig  -->
+</resources>
