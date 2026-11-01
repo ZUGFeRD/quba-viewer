@@ -27,6 +27,15 @@ History
 
 
 <details>
+<summary>2.0.0 15.10.2026</summary> 
+- now based on Kotlin, instead of electron
+- now based directly on Mustangproject
+- supports creation of Factur-X/ZUGFeRD files, if a PDF/A basis file is present,
+- now also supports offline validation 
+
+
+</details>
+<details>
 <summary>1.5.1 09.11.2025</summary> 
 - updated `electron` and `form-data` packages (#154)
 - fix window management for MacOS (#155)
