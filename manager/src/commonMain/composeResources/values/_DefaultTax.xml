@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Default tax values for certain countries.
+
+https://europa.eu/youreurope/business/taxation/vat/vat-rules-rates/index_de.htm#inline-nav-8
+https://www.ihk.de/hamburg/produktmarken/beratung-service/recht-und-steuern/steuerrecht/umsatzsteuer-mehrwertsteuer/umsatzsteuer-mehrwertsteuer-international/warenhandel/umsatzsteuersaetze-eu-drittstaaten-1167702
+-->
+
+<resources>
+    <string name="DefaultTax_AT">20</string>
+    <string name="DefaultTax_BA">17</string>
+    <string name="DefaultTax_BE">21</string>
+    <string name="DefaultTax_BG">20</string>
+    <string name="DefaultTax_CA">15</string>
+    <string name="DefaultTax_CH">8.1</string>
+    <string name="DefaultTax_CY">19</string>
+    <string name="DefaultTax_CZ">21</string>
+    <string name="DefaultTax_DE">19</string>
+    <string name="DefaultTax_DK">25</string>
+    <string name="DefaultTax_EE">22</string>
+    <string name="DefaultTax_EL">24</string>
+    <string name="DefaultTax_ES">21</string>
+    <string name="DefaultTax_FI">25.5</string>
+    <string name="DefaultTax_FR">20</string>
+    <string name="DefaultTax_GB">20</string>
+    <string name="DefaultTax_HR">25</string>
+    <string name="DefaultTax_HU">27</string>
+    <string name="DefaultTax_IE">23</string>
+    <string name="DefaultTax_IL">17</string>
+    <string name="DefaultTax_IS">24</string>
+    <string name="DefaultTax_IT">22</string>
+    <string name="DefaultTax_JP">10</string>
+    <string name="DefaultTax_LT">21</string>
+    <string name="DefaultTax_LU">17</string>
+    <string name="DefaultTax_LV">21</string>
+    <string name="DefaultTax_ME">21</string>
+    <string name="DefaultTax_MK">18</string>
+    <string name="DefaultTax_MT">18</string>
+    <string name="DefaultTax_NL">21</string>
+    <string name="DefaultTax_NO">25</string>
+    <string name="DefaultTax_PL">23</string>
+    <string name="DefaultTax_PT">23</string>
+    <string name="DefaultTax_RO">19</string>
+    <string name="DefaultTax_RS">20</string>
+    <string name="DefaultTax_RU">20</string>
+    <string name="DefaultTax_SE">25</string>
+    <string name="DefaultTax_SI">22</string>
+    <string name="DefaultTax_SK">23</string>
+    <string name="DefaultTax_TR">18</string>
+    <string name="DefaultTax_UA">20</string>
+</resources>

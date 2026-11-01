@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <plurals name="UnitOfMeasurement">
+        <item quantity="one">Maßeinheit</item>
+        <item quantity="other">Maßeinheiten</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_LS">Pauschale</string>
+    <plurals name="UnitOfMeasurement_LS_Value">
+        <item quantity="one">pauschal</item>
+        <item quantity="other">pauschal</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_P1">Prozent</string>
+    <plurals name="UnitOfMeasurement_P1_Value">
+        <item quantity="one">Prozent</item>
+        <item quantity="other">Prozent</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_C62">Anzahl</string>
+    <plurals name="UnitOfMeasurement_C62_Value">
+        <item quantity="one">Einheit</item>
+        <item quantity="other">Einheiten</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_H87">Anzahl Stücke</string>
+    <plurals name="UnitOfMeasurement_H87_Value">
+        <item quantity="one">Stück</item>
+        <item quantity="other">Stücke</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_NAR">Anzahl Artikel</string>
+    <plurals name="UnitOfMeasurement_NAR_Value">
+        <item quantity="one">Artikel</item>
+        <item quantity="other">Artikel</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_NPR">Anzahl Paare</string>
+    <plurals name="UnitOfMeasurement_NPR_Value">
+        <item quantity="one">Paar</item>
+        <item quantity="other">Paare</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_SET">Anzahl Sets</string>
+    <plurals name="UnitOfMeasurement_SET_Value">
+        <item quantity="one">Set</item>
+        <item quantity="other">Sets</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_ANN">Jahre</string>
+    <plurals name="UnitOfMeasurement_ANN_Value">
+        <item quantity="one">Jahr</item>
+        <item quantity="other">Jahre</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_MON">Monate</string>
+    <plurals name="UnitOfMeasurement_MON_Value">
+        <item quantity="one">Monat</item>
+        <item quantity="other">Monate</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_WEE">Wochen</string>
+    <plurals name="UnitOfMeasurement_WEE_Value">
+        <item quantity="one">Woche</item>
+        <item quantity="other">Wochen</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_DAY">Tage</string>
+    <plurals name="UnitOfMeasurement_DAY_Value">
+        <item quantity="one">Tag</item>
+        <item quantity="other">Tage</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_HUR">Stunden</string>
+    <plurals name="UnitOfMeasurement_HUR_Value">
+        <item quantity="one">Stunde</item>
+        <item quantity="other">Stunden</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_MIN">Minuten</string>
+    <plurals name="UnitOfMeasurement_MIN_Value">
+        <item quantity="one">Minute</item>
+        <item quantity="other">Minuten</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_SEC">Sekunden</string>
+    <plurals name="UnitOfMeasurement_SEC_Value">
+        <item quantity="one">Sekunde</item>
+        <item quantity="other">Sekunden</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_HAR">Hektar</string>
+    <plurals name="UnitOfMeasurement_HAR_Value">
+        <item quantity="one">Hektar</item>
+        <item quantity="other">Hektar</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_MTK">Quadratmeter</string>
+    <plurals name="UnitOfMeasurement_MTK_Value">
+        <item quantity="one">Quadratmeter</item>
+        <item quantity="other">Quadratmeter</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_MMK">Quadratmillimeter</string>
+    <plurals name="UnitOfMeasurement_MMK_Value">
+        <item quantity="one">Quadratmillimeter</item>
+        <item quantity="other">Quadratmillimeter</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_SMI">Meilen</string>
+    <plurals name="UnitOfMeasurement_SMI_Value">
+        <item quantity="one">Meile</item>
+        <item quantity="other">Meilen</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_KMT">Kilometer</string>
+    <plurals name="UnitOfMeasurement_KMT_Value">
+        <item quantity="one">Kilometer</item>
+        <item quantity="other">Kilometer</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_MTR">Meter</string>
+    <plurals name="UnitOfMeasurement_MTR_Value">
+        <item quantity="one">Meter</item>
+        <item quantity="other">Meter</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_MMT">Millimeter</string>
+    <plurals name="UnitOfMeasurement_MMT_Value">
+        <item quantity="one">Millimeter</item>
+        <item quantity="other">Millimeter</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_MTQ">Kubikmeter</string>
+    <plurals name="UnitOfMeasurement_MTQ_Value">
+        <item quantity="one">Kubikmeter</item>
+        <item quantity="other">Kubikmeter</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_LTR">Liter</string>
+    <plurals name="UnitOfMeasurement_LTR_Value">
+        <item quantity="one">Liter</item>
+        <item quantity="other">Liter</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_TNE">Tonnen (metrisch)</string>
+    <plurals name="UnitOfMeasurement_TNE_Value">
+        <item quantity="one">Tonne</item>
+        <item quantity="other">Tonnen</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_KGM">Kilogramm</string>
+    <plurals name="UnitOfMeasurement_KGM_Value">
+        <item quantity="one">Kilogramm</item>
+        <item quantity="other">Kilogramm</item>
+    </plurals>
+
+    <string name="UnitOfMeasurement_KWH">Kilowattstunden</string>
+    <plurals name="UnitOfMeasurement_KWH_Value">
+        <item quantity="one">Kilowattstunde</item>
+        <item quantity="other">Kilowattstunden</item>
+    </plurals>
+</resources>

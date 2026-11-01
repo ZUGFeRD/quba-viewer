@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppSettings">application settings</string>
+
+    <string name="AppSettingsGeneral">general settings</string>
+    <string name="AppSettingsGeneralInfo">
+        These defaults are used in certain forms automatically, so they don't have to be entered every time.
+    </string>
+    <string name="AppSettingsGeneralLanguage">application language</string>
+    <string name="AppSettingsGeneralCountry">default country</string>
+    <string name="AppSettingsGeneralVat">default tax in %</string>
+    <string name="AppSettingsGeneralCurrency">default currency</string>
+
+    <string name="AppSettingsSender">invoice issuer</string>
+    <string name="AppSettingsSenderInfo">
+        Default issuer data can be entered here, so they don't have to be entered every time.
+    </string>
+    <string name="AppSettingsSenderAdd">add issuer</string>
+    <string name="AppSettingsSenderEdit">edit issuer</string>
+    <string name="AppSettingsSenderImport">import issuer</string>
+    <string name="AppSettingsSenderImportSelectFile">select file for import</string>
+    <string name="AppSettingsSenderExport">export issuer</string>
+    <string name="AppSettingsSenderExportFileName">invoice-issuer</string>
+    <string name="AppSettingsSenderRemoveAll">delete all issuers</string>
+    <string name="AppSettingsSenderRemoveAllConfirm">Shall all issuers really be deleted?</string>
+
+    <string name="AppSettingsRecipient">invoice recipient</string>
+    <string name="AppSettingsRecipientInfo">
+        Default recipient data can be entered here, so they don't have to be entered every time.
+    </string>
+    <string name="AppSettingsRecipientAdd">add recipient</string>
+    <string name="AppSettingsRecipientEdit">edit recipient</string>
+    <string name="AppSettingsRecipientImport">import recipient</string>
+    <string name="AppSettingsRecipientImportSelectFile">select file to import</string>
+    <string name="AppSettingsRecipientExport">export recipient</string>
+    <string name="AppSettingsRecipientExportFileName">invoice-recipients</string>
+    <string name="AppSettingsRecipientRemoveAll">delete all recipients</string>
+    <string name="AppSettingsRecipientRemoveAllConfirm">Shall all recipients really be deleted?</string>
+
+    <string name="AppSettingsProduct">invoice items</string>
+    <string name="AppSettingsProductInfo">
+        Default items can be entered here, so they don't have to be entered every time.
+    </string>
+    <string name="AppSettingsProductAdd">add item</string>
+    <string name="AppSettingsProductEdit">edit item</string>
+    <string name="AppSettingsProductImport">import item</string>
+    <string name="AppSettingsProductImportSelectFile">select file to import</string>
+    <string name="AppSettingsProductExport">export item</string>
+    <string name="AppSettingsProductExportFileName">invoice-items</string>
+    <string name="AppSettingsProductRemoveAll">delete all items</string>
+    <string name="AppSettingsProductRemoveAllConfirm">Shall all items really be deleted?</string>
+
+    <string name="AppSettingsTheme">display options</string>
+    <string name="AppSettingsThemeAuto">automatic</string>
+    <string name="AppSettingsThemeLight">light</string>
+    <string name="AppSettingsThemeDark">dark</string>
+
+    <string name="AppSettingsCreate">generation of e-invoices</string>
+    <string name="AppSettingsCreatePdfAutoConvert">
+        Automatically convert unsupported files to PDF/A-3.
+    </string>
+    <string name="AppSettingsCreatePdfAutoConvertExperimental">experimental feature</string>
+    <string name="AppSettingsCreatePdfAutoConvertWarning">
+        The automatic conversion of PDF to PDF/A-3 files can cause errors in created e-invoices.
+        Ideally export directly from your office software to a PDF/A-1 or A-3 file.
+        Please retrospectively validate the PDF/A result.
+    </string>
+    <string name="AppSettingsCreatePdfRemoveAttachments">
+        Remove embedded files from PDF-files.
+    </string>
+    <string name="AppSettingsCreatePdfRemoveAttachmentsExperimental">experimental feature</string>
+    <string name="AppSettingsCreatePdfRemoveAttachmentsWarning">
+        If additional files are embedded in a PDF-file, they can be removed automatically when creating
+        an e-invoice. This can avoid issues upon validation but may also cause other issues.
+        Please validate created e-invoices after activating this option.
+    </string>
+
+    <string name="AppSettingsChrome">integrated web browser</string>
+    <string name="AppSettingsChromeAcceleration">use hardware acceleration</string>
+    <string name="AppSettingsChromeAccelerationRestart">restart necessary after change</string>
+
+    <string name="AppSettingsItemAdd">add</string>
+    <string name="AppSettingsItemEdit">edit</string>
+    <string name="AppSettingsItemRemove">remove</string>
+
+    <string name="AppSettingsSectionInfo">Show / Hide further information.</string>
+    <string name="AppSettingsSectionMore">Show further actions.</string>
+</resources>

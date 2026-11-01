@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+
+    <string name="AppVisualisation">E-Rechnung „%1$s“ wird überprüft…</string>
+
+    <string name="AppVisualisationPassed">E-Rechnung „%1$s“ ist gültig.</string>
+
+    <string name="AppVisualisationFailed">E-Rechnung „%1$s“ ist ungültig.</string>
+
+
+
+    <string name="AppVisualisationEmptyTitle">Rechnung anzeigen</string>
+    <string name="AppVisualisationEmptyHint">PDF oder XML ablegen — oder klicken</string>
+
+    <string name="AppVisualisationSelect">E-Rechnung auswählen</string>
+
+    <string name="AppVisualisationSelectInfo">Wähle eine XML- oder PDF-Rechnung zur Darstellung aus.</string>
+
+    <string name="AppVisualisationSelectMessage">
+        Bitte wähle eine E-Rechnung aus[br]
+        oder ziehe eine E-Rechnung per Drag &amp; Drop in dieses Fenster.
+    </string>
+
+    <string name="AppVisualisationSelectFile">Eine E-Rechnung auswählen</string>
+
+
+
+    <string name="AppVisualisationSummary">Zusammenfassung</string>
+
+    <string name="AppVisualisationSummaryExport">Bericht exportieren</string>
+
+    <string name="AppVisualisationSummaryProfile">Profil</string>
+
+    <string name="AppVisualisationSummaryVersion">Version</string>
+
+    <string name="AppVisualisationSummarySignature">verwendete Software</string>
+
+    <string name="AppVisualisationSummaryUnknown">unbekannt</string>
+
+    <string name="AppVisualisationSummaryMessages">Nachrichten</string>
+
+    <plurals name="AppVisualisationSummaryErrors">
+        <item quantity="one">%1$d Fehler</item>
+        <item quantity="other">%1$d Fehler</item>
+    </plurals>
+
+    <plurals name="AppVisualisationSummaryWarnings">
+        <item quantity="one">%1$d Warnung</item>
+        <item quantity="other">%1$d Warnungen</item>
+    </plurals>
+
+    <plurals name="AppVisualisationSummaryNotices">
+        <item quantity="one">%1$d Hinweis</item>
+        <item quantity="other">%1$d Hinweise</item>
+    </plurals>
+
+
+
+    <string name="AppVisualisationMessages">Nachrichten</string>
+
+    <string name="AppVisualisationMessagesFilter">Nachrichten filtern</string>
+
+    <string name="AppVisualisationMessagesFilterType">nach Typ</string>
+
+    <string name="AppVisualisationMessagesFilterSeverity">nach Schweregrad</string>
+
+    <string name="AppVisualisationMessageMessageCopy">Nachricht[br]kopieren</string>
+
+
+
+    <string name="AppVisualisationDetailsPdf">Ausgewähltes PDF</string>
+
+    <string name="AppVisualisationDetailsHtml">XML-Visualisierung</string>
+
+    <string name="AppVisualisationDetailsXml">XML-Daten</string>
+
+    <string name="AppVisualisationNoXml">Diese Datei enthält keine E-Rechnung-Daten (kein eingebettetes ZUGFeRD-XML).</string>
+
+    <string name="AppVisualisationViewPdf">PDF</string>
+    <string name="AppVisualisationViewSplit">geteilt</string>
+    <string name="AppVisualisationViewCode">Html/Xml</string>
+
+    <string name="AppVisualisationExportPdfContextMenu">Visualisierung als PDF exportieren</string>
+
+</resources>

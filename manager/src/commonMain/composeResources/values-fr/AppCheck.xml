@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppCheck">La facture „%1$s“ est en  cours de vérification…</string>              <!--Alternative: <string name="AppCheck">La facture électronique  „%1$s“ est en  cours de vérification…</string> -->
+    <string name="AppCheckPassed">La facture „%1$s“ est valide.</string>
+    <string name="AppCheckFailed">La facture „%1$s“ est invalide.</string>
+
+    <string name="AppCheckEmptyTitle">Vérifier la facture</string>
+    <string name="AppCheckEmptyHint">Déposer PDF ou XML — ou cliquer</string>
+
+    <string name="AppCheckSelect">Sélectionner la facture électronique</string>                     <!-- "Wählen" übersetzt im Sinne von "aus verschiedenen Optionen auswählen" -->
+    <string name="AppCheckSelectInfo">Sélectionner une facture pour validation.</string>            <!-- alternativ: Sélectionner une facture pour la valider (eine RE auswählen, um sie zu prüfen) -->
+    <string name="AppCheckSelectMessage">
+        Sélectionnez une facture électronique[br]
+        ou glissez-déposez-la dans cette fenêtre.
+    </string>
+    <string name="AppCheckSelectFile">séléctionner une facture électronique</string>
+
+    <string name="AppCheckSummary">Syntèse</string>
+    <string name="AppCheckSummaryExport">exporter le rapport</string>
+    <string name="AppCheckSummaryProfile">Profil</string>
+    <string name="AppCheckSummaryVersion">Version</string>
+    <string name="AppCheckSummarySignature">Signature</string>
+    <string name="AppCheckSummaryUnknown">inconnu</string>
+    <string name="AppCheckSummaryMessages">Messages</string>                                       <!-- schwirig "Mitteilungen" zu übersetzen, da SEHR kontextabhängig -->
+    <plurals name="AppCheckSummaryErrors">
+        <item quantity="one">%1$d erreur</item>                                                     <!-- singular ("der Fehler") -->
+        <item quantity="other">%1$d erreurs</item>                                                  <!-- plural ("die Fehler") -->
+    </plurals>
+    <plurals name="AppCheckSummaryWarnings">
+        <item quantity="one">%1$d Avertissement</item>                                            <!-- "Warnung" im Sinne von "Hinweis" -->
+        <item quantity="other">%1$d Warnungen</item>
+    </plurals>
+    <plurals name="AppCheckSummaryNotices">
+        <item quantity="one">%1$d Info</item>
+        <item quantity="other">%1$d Infos</item>
+    </plurals>
+
+    <string name="AppCheckMessages">Notifications</string>
+    <string name="AppCheckMessagesFilter">Filtrer les notifications</string>
+    <string name="AppCheckMessagesFilterType">par type</string>
+    <string name="AppCheckMessagesFilterSeverity">par urgence</string>
+    <string name="AppCheckMessageMessageCopy">copier[br]le message</string>
+
+    <string name="AppCheckDetailsPdf">PDF sélectionné</string>
+    <string name="AppCheckDetailsHtml">visualisation XML</string>
+    <string name="AppCheckDetailsXml">données brutes</string>
+</resources>

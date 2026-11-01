@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppCreate">E-Rechnung aus „%1$s“ erstellen.</string>
+
+    <string name="AppCreateEmptyTitle">Rechnung erstellen</string>
+    <string name="AppCreateEmptyHint">PDF ablegen — oder klicken</string>
+
+    <string name="AppCreateSelect">PDF wählen</string>
+    <string name="AppCreateSelectInfo">Eine PDF-Rechnung zur Bearbeitung auswählen.</string>
+    <string name="AppCreateSelectMessage">
+        Bitte wählen Sie eine E-Rechnung aus[br]
+        oder ziehen Sie eine PDF-Datei per Drag &amp; Drop in dieses Fenster.
+    </string>
+    <string name="AppCreateSelectFile">eine PDF-Rechnung wählen</string>
+
+    <string name="AppCreateGenerate">E-Rechnung erzeugen</string>
+    <string name="AppCreateGenerateInfo">
+        E-Rechnung mit gewählter PDF-Datei und eingetragenen Daten erzeugen.
+    </string>
+    <string name="AppCreateGenerateFileSuffix">e-rechnung</string>
+
+    <string name="AppCreateConvert">in PDF/A-3 umwandeln</string>
+    <string name="AppCreateConvertInfo">
+        Dies kann zu Fehlern in der erzeugten E-Rechnung führen.[br]
+        Besser ist es, die Rechnung z.B. aus Word heraus in PDF/A-3 zu exportieren.[br]
+        Bitte die erzeugte E-Rechnung nachträglich prüfen.
+    </string>
+    <string name="AppCreateConvertWarning">
+        Die gewählte Rechnung liegt nicht im PDF/A-1 oder PDF/A-3 Format vor. Damit kann keine E-Rechnung erzeugt
+        werden.
+    </string>
+    <string name="AppCreateConvertExperimental">experimentell</string>
+
+    <string name="AppCreateGeneral">Eckdaten bearbeiten</string>
+    <string name="AppCreateGeneralSender">Ersteller der Rechnung</string>
+    <string name="AppCreateGeneralSenderAdd">neuer Ersteller</string>
+    <string name="AppCreateGeneralSenderEdit">Ersteller bearbeiten</string>
+    <string name="AppCreateGeneralRecipient">Empfänger der Rechnung</string>
+    <string name="AppCreateGeneralRecipientAdd">neuer Empfänger</string>
+    <string name="AppCreateGeneralRecipientEdit">Empfänger bearbeiten</string>
+    <string name="AppCreateGeneralInvoiceNumber">Rechnungsnummer</string>
+    <string name="AppCreateGeneralDeliveryDate">Lieferdatum</string>
+    <string name="AppCreateGeneralDeliveryDateStart">Start der Leistung</string>
+    <string name="AppCreateGeneralDeliveryDateEnd">Ende der Leistung</string>
+    <string name="AppCreateGeneralDeliveryDateInfo">
+        Eine E-Rechnung benötigt entweder ein Lieferdatum und / oder einen Zeitraum für die erbrachte Leistung.
+    </string>
+    <string name="AppCreateGeneralIssueDate">erstellt am</string>
+    <string name="AppCreateGeneralDueDate">fällig am</string>
+
+    <string name="AppCreateItems">Rechnungsposten bearbeiten</string>
+    <string name="AppCreateItemsAdd">hinzufügen</string>
+    <string name="AppCreateItemsEmpty">Es sind noch keine Rechnungsposten hinterlegt.</string>
+    <string name="AppCreateItemsItem">Rechnungsposten</string>
+    <string name="AppCreateItemsItemAdd">neuer Rechnungsposten</string>
+    <string name="AppCreateItemsItemEdit">Rechnungsposten bearbeiten</string>
+    <string name="AppCreateItemsItemPrice">Preis pro %1$s</string>
+    <string name="AppCreateItemsItemQuantity">Anzahl %1$s</string>
+    <string name="AppCreateItemsItemRemove">Den Posten aus der Rechnung entfernen.</string>
+    <string name="AppCreateItemsItemDescription">Anmerkungen</string>
+    <string name="AppCreateItemsItemSummaryNet">Netto-Betrag</string>
+    <string name="AppCreateItemsItemSummaryTax">Steuer</string>
+    <string name="AppCreateItemsItemSummaryGross">Brutto-Betrag</string>
+
+    <string name="AppCreateSummary">Rechnungsposten bearbeiten</string>
+    <string name="AppCreateSummaryNet">Netto-Summe</string>
+    <string name="AppCreateSummaryTax">Steuer-Summe</string>
+    <string name="AppCreateSummaryGross">Brutto-Summe</string>
+
+    <string name="AppCreateDetailsPdf">gewählte PDF</string>
+    <string name="AppCreateDetailsXml">XML-Rohdaten</string>
+
+    <string name="AppCreateErrorInvalidFields">Fehlend: %1$s</string>
+    <string name="AppCreateErrorSenderTaxMissing">USt-Id-Nr / Steuer-Nr (Ersteller)</string>
+    <string name="AppCreateErrorCurrencyMissing">Währung</string>
+    <string name="AppCreateErrorItemsMissing">Rechnungsposten</string>
+
+    <string name="AppCreateErrorInvalid">
+        Die Angaben zur Rechnung sind unvollständig. Eine E-Rechnung kann erst erzeugt werden, wenn alle nötigen Angaben
+        vorhanden sind.
+    </string>
+    <string name="AppCreateErrorIncompatible">
+        Die PDF-Datei liegt im %1$s Format vor. Daraus kann keine ZUGFeRD-Rechnung erzeugt werden. Verwenden Sie bitte
+        eine reguläre PDF-Datei oder das PDF/A-1 bzw. PDF/A-3 Format.
+    </string>
+    <string name="AppCreateErrorConversion">
+        Die PDF-Datei konnte nicht in das PDF/A-3 Format umgewandelt werden.
+    </string>
+</resources>

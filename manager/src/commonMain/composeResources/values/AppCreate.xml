@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppCreate">Create e-invoice from „%1$s“.</string>
+
+    <string name="AppCreateEmptyTitle">Create invoice</string>
+    <string name="AppCreateEmptyHint">Drop PDF — or click</string>
+
+    <string name="AppCreateSelect">select PDF</string>
+    <string name="AppCreateSelectInfo">Select a PDF to edit.</string>
+    <string name="AppCreateSelectMessage">
+        Please select a PDF invoice[br]
+        or move a PDF invoice via drag &amp; drop into this window.
+    </string>
+    <string name="AppCreateSelectFile">select a PDF-invoice</string>
+
+    <string name="AppCreateGenerate">create e-invoice</string>
+    <string name="AppCreateGenerateInfo">
+        Create e-invoice with selected PDF and specified data.
+    </string>
+    <string name="AppCreateGenerateFileSuffix">e-invoice</string>
+
+    <string name="AppCreateConvert">convert to PDF/A-3</string>
+    <string name="AppCreateConvertInfo">
+        This can cause errors in the created e-invoice.[br]
+        It is advisable to directly export to PDF/A, e.g. from office.[br]
+        Please retrospectively validate the PDF/A result.
+    </string>
+    <string name="AppCreateConvertWarning">
+        The selected invoice is not available in PDF/A-1 or PDF/A-3. Without, no e-invoice can be created.
+    </string>
+    <string name="AppCreateConvertExperimental">experimental</string>
+
+    <string name="AppCreateGeneral">edit important data</string>
+    <string name="AppCreateGeneralSender">creator of the invoice</string>
+    <string name="AppCreateGeneralSenderAdd">new creator</string>
+    <string name="AppCreateGeneralSenderEdit">edit sender</string>
+    <string name="AppCreateGeneralRecipient">recipient of the invoice</string>
+    <string name="AppCreateGeneralRecipientAdd">new recipient</string>
+    <string name="AppCreateGeneralRecipientEdit">edit recipient</string>
+    <string name="AppCreateGeneralInvoiceNumber">invoice number</string>
+    <string name="AppCreateGeneralDeliveryDate">delivery date</string>
+    <string name="AppCreateGeneralDeliveryDateStart">delivery from</string>
+    <string name="AppCreateGeneralDeliveryDateEnd">delivery to</string>
+    <string name="AppCreateGeneralDeliveryDateInfo">
+        A e-invoice requires either a delivery date and / or a delivery period.
+    </string>
+    <string name="AppCreateGeneralIssueDate">created at</string>
+    <string name="AppCreateGeneralDueDate">due at</string>
+
+    <string name="AppCreateItems">edit item</string>
+    <string name="AppCreateItemsAdd">add</string>
+    <string name="AppCreateItemsEmpty">No items have been added yet.</string>
+    <string name="AppCreateItemsItem">item</string>
+    <string name="AppCreateItemsItemAdd">new item</string>
+    <string name="AppCreateItemsItemEdit">edit item</string>
+    <string name="AppCreateItemsItemPrice">price per %1$s</string>
+    <string name="AppCreateItemsItemQuantity">quantity %1$s</string>
+    <string name="AppCreateItemsItemRemove">remove item.</string>
+    <string name="AppCreateItemsItemDescription">remarks</string>
+    <string name="AppCreateItemsItemSummaryNet">net amount</string>
+    <string name="AppCreateItemsItemSummaryTax">tax amount</string>
+    <string name="AppCreateItemsItemSummaryGross">gross amount</string>
+
+    <string name="AppCreateSummary">edit item</string>
+    <string name="AppCreateSummaryNet">net amount</string>
+    <string name="AppCreateSummaryTax">tax amount</string>
+    <string name="AppCreateSummaryGross">gross amount</string>
+
+    <string name="AppCreateDetailsPdf">selected PDF</string>
+    <string name="AppCreateDetailsXml">XML data</string>
+
+    <string name="AppCreateErrorInvalidFields">Missing: %1$s</string>
+    <string name="AppCreateErrorSenderTaxMissing">VAT/Tax-ID (creator)</string>
+    <string name="AppCreateErrorCurrencyMissing">currency</string>
+    <string name="AppCreateErrorItemsMissing">items</string>
+
+    <string name="AppCreateErrorInvalid">
+        The invoice data is insufficient. An e-invoice can only be created after all required fields have been filled.
+    </string>
+    <string name="AppCreateErrorIncompatible">
+        The PDF-template is in %1$s format. No Factur-X/ZUGFeRD can be created from that.
+        Please use a regular PDF-file or the PDF/A-1 respectively PDF/A-3 format.
+    </string>
+    <string name="AppCreateErrorConversion">
+        The PDF-file could not be converted to PDF/A-3.
+    </string>
+</resources>

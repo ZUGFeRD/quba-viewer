@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppCreate">Créer une e-facture à partir de „%1$s“.</string>
+
+    <string name="AppCreateEmptyTitle">Créer une facture</string>
+    <string name="AppCreateEmptyHint">Déposer PDF — ou cliquer</string>
+
+    <string name="AppCreateSelect">Selectionner PDF</string>                            <!-- kontextabhängig; könnte auch "choisir" sein -->
+    <string name="AppCreateSelectInfo">Sélectionner une facture PDF à traiter.</string>
+    <string name="AppCreateSelectMessage">
+        Veuillez sélectionner une facture PDF[br]
+        ou glisser-déposer un fichier PDF dans cette fenêtre.
+    </string>
+    <string name="AppCreateSelectFile">sélectionner une facture PDF</string>
+
+    <string name="AppCreateGenerate">Crér une facture électronique</string>
+    <string name="AppCreateGenerateInfo">
+        Créer une facture électronique avec le fichier PDF sélectionné et les données saisies.
+    </string>
+    <string name="AppCreateGenerateFileSuffix">facture électronique</string>
+
+    <string name="AppCreateConvert">convertir en PDF/A-3</string>
+    <string name="AppCreateConvertInfo">
+        Cela peut causer des erreurs dans la facture électronique .[br]
+        Il est préférable d'exporter la facture en PDF/A-3 par exemple à partir de Word. [br]
+        Veuillez donc vérifier la facture électronique après qu'elle a été créée..
+    </string>
+    <string name="AppCreateConvertWarning">
+        La facture sélectionnée n'est pas fournie en format PDF/A-1 ou PDF/A-3. Il n'est donc pas possible de créer une facture électronique..
+    </string>
+    <string name="AppCreateConvertExperimental">expérimental</string>
+
+    <string name="AppCreateGeneral">Modifier les données de référence</string>
+    <string name="AppCreateGeneralSender">Auteur de la facture</string>
+    <string name="AppCreateGeneralSenderAdd">nouveau auteur</string>
+    <string name="AppCreateGeneralSenderEdit">Modifier l'auteur</string>
+    <string name="AppCreateGeneralRecipient">Destinataire de la facture</string>
+    <string name="AppCreateGeneralRecipientAdd">nouveau destinataire</string>
+    <string name="AppCreateGeneralRecipientEdit">Modifier e destinataire</string>
+    <string name="AppCreateGeneralInvoiceNumber">Numéro de facture</string>
+    <string name="AppCreateGeneralDeliveryDate">Date de livraison</string>
+    <string name="AppCreateGeneralDeliveryDateStart">Début de la prestation</string>
+    <string name="AppCreateGeneralDeliveryDateEnd">Fin de la prestation</string>
+    <string name="AppCreateGeneralDeliveryDateInfo">
+        Pour la facture électronique, il faut soit d'une date de livraison voire une période pour la prestation fournie.
+    </string>
+    <string name="AppCreateGeneralIssueDate">créée le</string>               <!-- hier wird angenommen, dass sich das auf  Rechnungen bezieht (im Frz ein Feminimum)  -->
+    <string name="AppCreateGeneralDueDate">due le</string>
+
+    <string name="AppCreateItems">Modifier le poste de facture</string>          <!-- Annahme: "Rechnungsposten" ist Singular   -->
+    <string name="AppCreateItemsAdd">ajouter</string>
+    <string name="AppCreateItemsEmpty">Aucun poste de facture n'a encore été déposé.</string>
+    <string name="AppCreateItemsItem">poste de facture</string>
+    <string name="AppCreateItemsItemAdd">nouveau poste de facture</string>
+    <string name="AppCreateItemsItemEdit">modifier le poste de facture</string>          <!-- Annahme: "Rechnungsposten" ist Singular   -->
+    <string name="AppCreateItemsItemPrice">Prix par %1$s</string>
+    <string name="AppCreateItemsItemQuantity">Quantité %1$s</string>
+    <string name="AppCreateItemsItemRemove">Supprimer ce poste de facture.</string>
+    <string name="AppCreateItemsItemDescription">Notes</string>
+    <string name="AppCreateItemsItemSummaryNet">montant net</string>
+    <string name="AppCreateItemsItemSummaryTax">taxe</string>         <!-- kontextabhängig; wäre zu prüfen: "Steuer " kann taxe oder impôt sein   -->
+    <string name="AppCreateItemsItemSummaryGross">montant brut</string>
+
+    <string name="AppCreateSummary">modifier le poste de facture</string>              <!-- Annahme: "Rechnungsposten" ist Singular   -->
+    <string name="AppCreateSummaryNet">Total net</string>
+    <string name="AppCreateSummaryTax">Total d'impôts</string>
+    <string name="AppCreateSummaryGross">Total brut</string>
+
+    <string name="AppCreateDetailsPdf">PDF choisie</string>
+    <string name="AppCreateDetailsXml">Données XML brutes</string>
+
+    <string name="AppCreateErrorInvalidFields">Manquant : %1$s</string>
+    <string name="AppCreateErrorSenderTaxMissing">N° TVA / N° fiscal (émetteur)</string>
+    <string name="AppCreateErrorCurrencyMissing">devise</string>
+    <string name="AppCreateErrorItemsMissing">postes de facture</string>
+
+    <string name="AppCreateErrorInvalid">
+        Les données relatives à la facture sont incomplètes. Une facture électronique ne peut être créée que si toutes les données requises sont fournies.
+    </string>
+    <string name="AppCreateErrorIncompatible">
+        Le fichier PDF a le format %1$s. Il n'est pas possible de créer une Facture-X à partir de ce fichier. Veuillez utiliser un fichier PDF régulier, ou le format PDF/A-1 voire PDF/A-3.
+    </string>
+    <string name="AppCreateErrorConversion">
+        Il n'était pas possible de convertir le fichier PDF au format PDF/A-3.
+    </string>
+</resources>

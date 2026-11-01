@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <plurals name="TaxCategory">
+        <item quantity="one">taxation</item>
+        <item quantity="other">taxations</item>
+    </plurals>
+
+    <string name="TaxCategory_S">standard rate</string>
+    <string name="TaxCategory_Z">zero rated goods</string>
+    <string name="TaxCategory_Z_DefaultExemptionReason">taxation with 0%</string>
+    <string name="TaxCategory_E">exempt from tax</string>
+    <string name="TaxCategory_E_DefaultExemptionReason">small business</string>
+    <string name="TaxCategory_AE">VAT reverse charge</string>
+    <string name="TaxCategory_K">VAT exempt for EEA intra-community supply</string>
+    <string name="TaxCategory_K_DefaultExemptionReason">intra community supply</string>
+    <string name="TaxCategory_G">free export item</string>
+    <string name="TaxCategory_G_DefaultExemptionReason">export non-EU</string>
+    <string name="TaxCategory_O">services outside scope of tax</string>
+    <string name="TaxCategory_O_DefaultExemptionReason">services exempt taxes</string>
+    <string name="TaxCategory_L">Canary Islands general indirect tax</string>
+    <string name="TaxCategory_M">production, services and imports in and to Ceuta and Melilla</string>
+</resources>

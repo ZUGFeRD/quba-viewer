@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
+
+1. General notes about translation strings.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#strings
+
+2. Be aware, that plural definitions are language specific.
+   According to your language, you might need to set different quantity values.
+   https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources-usage.html#plurals
+
+3. Special handling of long translation texts:
+   - Line separators (\n and \r) are ignored. Multiple lines are combined to a single line seperated by a single space.
+   - Leading and trailing space is removed on each line.
+   - Empty lines are ignored.
+   - Use [br] to enforce a line break within a translation.
+
+4. Always use natural case shift for your language. The application decides, if single words or word groups are written
+   with a capital letter or not.
+
+5. Please do not reorder / rearrange the XML elements in this file and keep empty line intact.
+
+6. Make sure, that the XML files is saved in Unicode / UTF-8 charset.
+-->
+
+<resources>
+    <string name="AppTradePartyDialogGeneral">Générale</string>                            <!-- kontextabhängig; müsste geprüft werden -->
+    <string name="AppTradePartyDialogGeneralName">Nom</string>
+    <string name="AppTradePartyDialogGeneralStreet">Rue</string>
+    <string name="AppTradePartyDialogGeneralAdditionalAddress">Supplément d'adresse</string>
+    <string name="AppTradePartyDialogGeneralZip">Code Postal</string>
+    <string name="AppTradePartyDialogGeneralLocation">Ville</string>
+    <string name="AppTradePartyDialogGeneralCountry">Pays</string>
+    <string name="AppTradePartyDialogGeneralVatId">Numéro d'identification TVA</string>
+    <string name="AppTradePartyDialogGeneralTaxId">Numéro fiscale</string>
+    <string name="AppTradePartyDialogGeneralCustomerId">N° de client</string>
+
+    <string name="AppTradePartyDialogContact">Contact</string>
+    <string name="AppTradePartyDialogContactName">Personne à contacter</string>
+    <string name="AppTradePartyDialogContactStreet">Rue</string>
+    <string name="AppTradePartyDialogContactZip">Code Postal</string>
+    <string name="AppTradePartyDialogContactLocation">Ville</string>
+    <string name="AppTradePartyDialogContactCountry">Pays</string>
+    <string name="AppTradePartyDialogContactEmail">E-Mail</string>
+    <string name="AppTradePartyDialogContactPhone">Téléphone</string>
+    <string name="AppTradePartyDialogContactFax">Facsimile</string>
+
+    <string name="AppTradePartyDialogAccount">Compte</string>
+    <string name="AppTradePartyDialogAccountName">Titulaire de compte</string>
+    <string name="AppTradePartyDialogAccountIBAN">IBAN</string>
+    <string name="AppTradePartyDialogAccountBIC">BIC</string>
+    <string name="AppTradePartyDialogAccountCreditorReferenceId">SEPA-Gläubigerkennung</string>
+    <string name="AppTradePartyDialogAccountDirectDebitMandateId">Identification du créancier SEPA</string>
+    <string name="AppTradePartyDialogAccountPreferredPaymentMethod">mode de paiement préféré</string>
+
+    <string name="AppTradePartyDialogNotes">Textes libres</string>
+    <string name="AppTradePartyDialogNotesDescription">Description</string>
+    <string name="AppTradePartyDialogNotesImprint">Mentions légales</string>
+    <string name="AppTradePartyDialogNotesImprintInfo">
+        Autres mentions légales de l'entreprise, figurant normalement sur l'en-tête d'une facture.[br]
+        Par exemple : associé, conseil d'administration, registre du commerce, tribunal de commerce concerné, etc.
+    </string>
+
+    <string name="AppTradePartyDialogSubmit">Appliquer</string>
+    <string name="AppTradePartyDialogCancel">Annuler</string>
+    <string name="AppTradePartyDialogSavePermanently">enregistrer en permanence</string>
+</resources>
