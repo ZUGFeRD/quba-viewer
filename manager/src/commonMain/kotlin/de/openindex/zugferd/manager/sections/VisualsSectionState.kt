@@ -32,7 +32,6 @@ import de.openindex.zugferd.manager.AppState
 import de.openindex.zugferd.manager.model.DocumentTab
 import de.openindex.zugferd.manager.utils.SectionState
 import de.openindex.zugferd.manager.utils.directory
-import de.openindex.zugferd.manager.utils.getHtmlVisualizationFromXML
 import de.openindex.zugferd.manager.utils.getHtmlWithAttachments
 import de.openindex.zugferd.manager.utils.getHtmlWithAttachmentsFromXml
 import de.openindex.zugferd.manager.utils.getPrettyPrintedXml

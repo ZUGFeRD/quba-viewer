@@ -52,8 +52,6 @@ expect suspend fun getHtmlVisualizationFromPdf(pdf: PlatformFile): String?
 
 expect suspend fun getHtmlVisualizationFromXML(xml: Path): String?
 
-expect suspend fun getHtmlVisualizationFromXML(xml: PlatformFile): String?
-
 suspend fun getHtmlWithAttachments(pdf: PlatformFile): String? {
     val attachments = getAttachmentsFromPdf(pdf)
     val rawHtml = getHtmlVisualizationFromPdf(pdf) ?: return null

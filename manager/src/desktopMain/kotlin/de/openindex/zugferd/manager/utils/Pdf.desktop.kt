@@ -357,10 +357,6 @@ pre{white-space:pre-wrap;word-break:break-all;font-size:12px;line-height:1.5}
 </body></html>"""
 }
 
-actual suspend fun getHtmlVisualizationFromXML(xml: PlatformFile): String? {
-    return getHtmlVisualizationFromXML(xml.file.toPath())
-}
-
 
 actual suspend fun getHtmlVisualizationFromPdf(pdf: PlatformFile): String? {
     val xmlData = getXmlFromPdf(pdf) ?: return null
