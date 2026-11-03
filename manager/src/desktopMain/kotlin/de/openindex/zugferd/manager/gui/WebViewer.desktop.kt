@@ -143,6 +143,13 @@ private fun String.withQubaDarkStyle(): String {
         [bgcolor="#F9F9F9"],[bgcolor="#f5f5f5"],[bgcolor="#F5F5F5"],
         [bgcolor="#eeeeee"],[bgcolor="#EEEEEE"],[bgcolor="#e0e0e0"]{
             background:#1a1a20!important}
+        /* Mustang xrechnung-viewer.css classes */
+        .box,.haftungausschluss{background:#1a1a20!important;color:#d0d0d8!important}
+        .haftungausschluss{border-color:#c8a84b!important}
+        .boxtitelSub{background:#1e2a3a!important;color:#d0d0d8!important}
+        .wert{background:#23232b!important}
+        .legende,.color2{color:#9a9aa6!important}
+        .schwarz{color:#b0b0b8!important}
     """.trimIndent().replace(Regex("\\s*\n\\s*"), " ")
 
     // language=JavaScript
