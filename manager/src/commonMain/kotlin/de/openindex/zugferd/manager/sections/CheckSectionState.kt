@@ -31,8 +31,8 @@ import de.openindex.zugferd.manager.model.ValidationType
 import de.openindex.zugferd.manager.utils.SectionState
 import de.openindex.zugferd.manager.utils.Validation
 import de.openindex.zugferd.manager.utils.directory
-import de.openindex.zugferd.manager.utils.getHtmlVisualizationFromXML
 import de.openindex.zugferd.manager.utils.getHtmlWithAttachments
+import de.openindex.zugferd.manager.utils.getHtmlWithAttachmentsFromXml
 import de.openindex.zugferd.manager.utils.getPrettyPrintedXml
 import de.openindex.zugferd.manager.utils.getString
 import de.openindex.zugferd.manager.utils.getValidationXmlReport
@@ -187,7 +187,7 @@ class CheckSectionState : SectionState() {
         // Phase 2: HTML rendering and validation run concurrently.
         coroutineScope {
             launch(Dispatchers.IO) {
-                tab.html = if (isXml) getHtmlVisualizationFromXML(file)
+                tab.html = if (isXml) getHtmlWithAttachmentsFromXml(file.file.toPath(), file.readBytes().decodeToString())
                            else getHtmlWithAttachments(file)
             }
             launch(Dispatchers.IO) {
