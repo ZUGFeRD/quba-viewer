@@ -25,6 +25,8 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.material.icons.Icons
@@ -41,6 +43,7 @@ import ch.qos.logback.classic.ClassicConstants
 import de.openindex.zugferd.manager.utils.APP_LAUNCHER
 import de.openindex.zugferd.manager.utils.LOGS_DIR
 import de.openindex.zugferd.manager.utils.SHUTDOWN_HANDLER
+import de.openindex.zugferd.manager.utils.SingleInstance
 import de.openindex.zugferd.manager.utils.getPlatform
 import de.openindex.zugferd.manager.utils.installWebView
 import org.apache.commons.lang3.SystemUtils
@@ -52,12 +55,18 @@ import kotlin.io.path.absolutePathString
 import java.awt.GraphicsEnvironment
 import java.awt.Rectangle
 import java.awt.Toolkit
+import kotlin.system.exitProcess
+import java.awt.Desktop
+import java.awt.Frame
+import javax.swing.SwingUtilities
 
 val APP_LOGGER: Logger by lazy {
     LoggerFactory.getLogger("de.openindex.zugferd.manager")
 }
 
 val LocalApplicationScope = staticCompositionLocalOf<ApplicationScope?> { null }
+
+private var activateMainWindow: () -> Unit = {}
 
 fun main() {
 
@@ -96,6 +105,16 @@ fun main() {
             - launcher : $APP_LAUNCHER
         """.trimIndent(),
     )
+
+
+    //
+    // Allow only one instance, before CEF is initialized.
+    //
+
+    if (!SingleInstance.acquire { SwingUtilities.invokeLater { activateMainWindow() } }) {
+        APP_LOGGER.info("Quba is already running, exiting.")
+        exitProcess(0)
+    }
 
 
     //
@@ -172,6 +191,9 @@ fun main() {
                 exitApplication()
             },
         ) {
+            SideEffect {
+                activateMainWindow = { bringToFront(window) }
+            }
             CompositionLocalProvider(LocalApplicationScope provides this@application) {
                 App()
             }
@@ -204,4 +226,28 @@ private fun DpSize.fitToDefaultScreen(): DpSize {
         width = width.coerceAtMost((bounds.width - insets.left - insets.right).dp),
         height = height.coerceAtMost((bounds.height - insets.top - insets.bottom).dp),
     )
+}
+
+private fun bringToFront(window: ComposeWindow) {
+    window.extendedState = window.extendedState and Frame.ICONIFIED.inv()
+
+    val isOnScreen = GraphicsEnvironment.getLocalGraphicsEnvironment().screenDevices.any {
+        it.defaultConfiguration.bounds.intersects(window.bounds)
+    }
+    if (!isOnScreen) {
+        window.setLocationRelativeTo(null)
+    }
+
+    if (SystemUtils.IS_OS_MAC && Desktop.isDesktopSupported() &&
+        Desktop.getDesktop().isSupported(Desktop.Action.APP_REQUEST_FOREGROUND)
+    ) {
+        Desktop.getDesktop().requestForeground(true)
+    }
+
+    // Windows only lets the foreground process raise its windows,
+    // toggling always-on-top works around that.
+    window.isAlwaysOnTop = true
+    window.toFront()
+    window.requestFocus()
+    window.isAlwaysOnTop = false
 }
