@@ -22,12 +22,16 @@
 package de.openindex.zugferd.manager
 
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPosition
 import de.openindex.zugferd.quba.generated.resources.Res
 import de.openindex.zugferd.quba.generated.resources.ic_app_logo
 import org.jetbrains.compose.resources.painterResource
@@ -45,6 +49,9 @@ import org.slf4j.LoggerFactory
 import org.slf4j.bridge.SLF4JBridgeHandler
 import kotlinx.coroutines.runBlocking
 import kotlin.io.path.absolutePathString
+import java.awt.GraphicsEnvironment
+import java.awt.Rectangle
+import java.awt.Toolkit
 
 val APP_LOGGER: Logger by lazy {
     LoggerFactory.getLogger("de.openindex.zugferd.manager")
@@ -137,9 +144,12 @@ fun main() {
     //
 
     application {
+        val windowPosition = appState.preferences.windowPosition
+        val windowSize = appState.preferences.windowSize
+        val isOnScreen = windowPosition.isOnScreen(windowSize)
         val windowState = rememberWindowState(
-            size = appState.preferences.windowSize,
-            position = appState.preferences.windowPosition,
+            size = if (isOnScreen) windowSize else windowSize.fitToDefaultScreen(),
+            position = if (isOnScreen) windowPosition else WindowPosition.Aligned(Alignment.Center),
         )
 
         Runtime.getRuntime().addShutdownHook(Thread {
@@ -167,4 +177,31 @@ fun main() {
             }
         }
     }
+}
+
+/**
+ * Checks whether enough of the title bar is visible on one of the currently connected
+ * screens. A saved position may point to a monitor that is no longer attached.
+ */
+private fun WindowPosition.isOnScreen(size: DpSize): Boolean {
+    if (this !is WindowPosition.Absolute) return true
+    val titleBar = Rectangle(x.value.toInt(), y.value.toInt(), size.width.value.toInt(), 30)
+    return GraphicsEnvironment.getLocalGraphicsEnvironment().screenDevices.any {
+        val overlap = it.defaultConfiguration.bounds.intersection(titleBar)
+        overlap.width >= 100 && overlap.height > 0
+    }
+}
+
+/**
+ * Shrinks the size to the usable area of the default screen (without taskbar), so that
+ * a centered window does not extend beyond the top edge of the screen.
+ */
+private fun DpSize.fitToDefaultScreen(): DpSize {
+    val config = GraphicsEnvironment.getLocalGraphicsEnvironment().defaultScreenDevice.defaultConfiguration
+    val bounds = config.bounds
+    val insets = Toolkit.getDefaultToolkit().getScreenInsets(config)
+    return DpSize(
+        width = width.coerceAtMost((bounds.width - insets.left - insets.right).dp),
+        height = height.coerceAtMost((bounds.height - insets.top - insets.bottom).dp),
+    )
 }
