@@ -30,11 +30,13 @@ import de.openindex.zugferd.manager.sections.VisualsSectionState
 import de.openindex.zugferd.quba.generated.resources.AppVisualisationExportPdfContextMenu
 import de.openindex.zugferd.quba.generated.resources.Res
 import io.github.vinceglb.filekit.core.FileKit
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import org.cef.CefApp
 import org.cef.CefClient
 import org.cef.CefSettings
@@ -50,6 +52,8 @@ import kotlin.io.path.createDirectories
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.deleteRecursively
 import kotlin.io.path.exists
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 private const val CEF_WINDOWLESS_RENDERING_ENABLED = false
 private const val CEF_OFFSCREEN_RENDERING_ENABLED = false
@@ -466,6 +470,27 @@ suspend fun installWebView(gpuEnabled: Boolean = true) {
         APP_LOGGER.debug("Getting CEF application instance...")
         CefApp.getInstance(appArgs.toTypedArray(), settings)
     }
+}
+
+/**
+ * Suspends until the CEF application, created by [installWebView], has finished its
+ * asynchronous initialization.
+ *
+ * CEF initializes GTK on its own thread on Linux. GTK is not thread-safe, so the Compose / AWT
+ * user interface must not be started while this is still in progress. Otherwise the JVM may
+ * crash with a SIGSEGV in libgtk-3.so (gtk_css_node_invalidate via gtk_settings_notify).
+ *
+ * @return true, if CEF was initialized within the given timeout
+ */
+suspend fun awaitWebViewInitialized(timeout: Duration = 15.seconds): Boolean {
+    val app = CEF_APP ?: return false
+    val initialized = CompletableDeferred<Unit>()
+    app.onInitialization { state ->
+        if (state == CefApp.CefAppState.INITIALIZED) {
+            initialized.complete(Unit)
+        }
+    }
+    return withTimeoutOrNull(timeout) { initialized.await() } != null
 }
 
 @Suppress("SpellCheckingInspection")
