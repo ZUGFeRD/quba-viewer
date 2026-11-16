@@ -738,7 +738,8 @@ Siehe Kapitel 1 „Unterstützte Betriebssysteme (und Versionen)“. Kurzfassung
 Das hängt von Betriebssystem und Installationsart ab:
 
 * Windows:
-** Der EXE-Installer ist als *Per-User-Installation* ausgelegt und benötigt typischerweise keine Administratorrechte.
+** Der EXE-Installer installiert die Anwendung *pro Benutzer* und benötigt typischerweise keine Administratorrechte.
+** Der MSI-Installer installiert die Anwendung systemweit unter `C:\Program Files\Quba` und benötigt Administratorrechte.
 ** Das ZIP-Archiv ist *portable* und kann ohne Installation (und damit ohne Adminrechte) verwendet werden.
 
 * macOS:
@@ -751,7 +752,7 @@ Das hängt von Betriebssystem und Installationsart ab:
 Terminalserver / Mehrbenutzerbetrieb:
 
 * Für Windows-Terminalserver-Szenarien ist die portable Verteilung (ZIP) häufig der pragmatischste Ansatz (zentrale Ablage + Verknüpfung), da Benutzerdaten getrennt pro Profil gespeichert werden.
-* Für vollständig paketierte, zentrale Rollouts hängt das Vorgehen von Ihrer Softwareverteilung ab. Eine MSI-Datei ist hier nicht Bestandteil dieser Distribution; Windows wird über EXE/ZIP bereitgestellt.
+* Für vollständig paketierte, zentrale Rollouts kann der MSI-Installer verwendet werden; die EXE ist eine benutzerbezogene Installation.
 
 === Gibt es Befehlszeilenargumente?
 

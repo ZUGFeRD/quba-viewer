@@ -18,6 +18,15 @@ val isLinux = SystemUtils.IS_OS_LINUX
 val isMac = SystemUtils.IS_OS_MAC
 val isWindows = SystemUtils.IS_OS_WINDOWS
 
+val windowsInstaller = providers.gradleProperty("windowsInstaller")
+    .orElse("exe")
+    .get()
+    .lowercase()
+
+if (isWindows && windowsInstaller !in setOf("exe", "msi")) {
+    throw GradleException("Unsupported windowsInstaller '$windowsInstaller'; expected 'exe' or 'msi'.")
+}
+
 val isAmd64 = listOf("amd64", "x86_64")
     .contains(SystemUtils.OS_ARCH.lowercase())
 val isArm64 = listOf("aarch64", "arm64")
@@ -244,7 +253,7 @@ compose.desktop {
                 targetFormats(TargetFormat.Dmg)
             }
             if (isWindows) {
-                targetFormats(TargetFormat.Exe)
+                targetFormats(if (windowsInstaller == "msi") TargetFormat.Msi else TargetFormat.Exe)
             }
 
             //includeAllModules = true
@@ -390,8 +399,11 @@ compose.desktop {
                 menuGroup = "OpenIndex-ZUGFeRD"
                 upgradeUuid = "c8ce1e91-7f6f-45a6-a1c5-14020bc7c5e3"
                 console = false
-                dirChooser = true
-                perUserInstall = true
+                dirChooser = windowsInstaller == "exe"
+                perUserInstall = windowsInstaller == "exe"
+                if (windowsInstaller == "msi") {
+                    installationPath = "C:\\Program Files\\Quba"
+                }
                 iconFile.set(rootProject.layout.projectDirectory.dir("share").dir("icons").file("application.ico"))
             }
         }
@@ -417,7 +429,7 @@ tasks {
         }
         if (isWindows) {
             dependsOn("bundleWindowsArchive")
-            dependsOn("bundleWindowsExe")
+            dependsOn("bundleWindowsInstaller")
         }
     }
 
@@ -792,22 +804,24 @@ tasks {
             }
         }
 
-        register("bundleWindowsExe") {
+        register("bundleWindowsInstaller") {
             group = "OpenIndex"
-            description = "Create exe installer for Windows."
+            description = "Create the selected Windows installer."
             dependsOn("packageReleaseDistributionForCurrentOS")
 
             doLast {
+                val format = windowsInstaller
+                val extension = if (format == "msi") "msi" else "exe"
                 copy {
                     into(rootProject.layout.buildDirectory)
-                    from(project.layout.buildDirectory.dir("compose/binaries/main-release/exe"))
+                    from(project.layout.buildDirectory.dir("compose/binaries/main-release/$format"))
                     rename { name ->
-                        if (!name.endsWith(".exe")) {
+                        if (!name.endsWith(".$extension")) {
                             return@rename name
                         }
 
                         val arch = if (isArm64) "arm64" else "x64"
-                        "${project.name}-${libs.versions.application.pkg.get()}-windows-${arch}.exe"
+                        "${project.name}-${libs.versions.application.pkg.get()}-windows-${arch}.$extension"
                     }
                 }
             }
