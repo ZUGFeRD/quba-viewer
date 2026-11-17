@@ -1,0 +1,34 @@
+Quba
+Copyright 2024-2025 Andreas Rudolph, OpenIndex
+Copyright 2025 Mustangproject contributors
+
+This product is licensed under the Apache License, Version 2.0
+(see LICENSE.txt).
+
+--------------------------------------------------------------------------------
+Third-party components
+--------------------------------------------------------------------------------
+
+This product bundles the Inter typeface
+(manager/src/commonMain/composeResources/font/*.ttf),
+Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter),
+licensed under the SIL Open Font License, Version 1.1
+(see licenses/OFL-Inter.txt).
+
+This product bundles the sRGB IEC61966-2.1 color profile
+(manager/src/desktopMain/resources/de/openindex/zugferd/manager/utils/pdf/sRGB.icm),
+Copyright 1998 Hewlett-Packard Company.
+
+Binary distributions of this product bundle third-party libraries. Their
+licenses and notices are listed in THIRD-PARTY-NOTICES.txt. Components
+offered under a choice of licenses are used under the following terms:
+
+  - veraPDF (org.verapdf:*): Mozilla Public License 2.0
+  - Logback (ch.qos.logback:*): Eclipse Public License 1.0
+  - Jakarta XML Binding / JAXB (org.glassfish.jaxb:*, jakarta.*):
+    Eclipse Distribution License 1.0
+
+Binary distributions further bundle a Java runtime image based on OpenJDK,
+licensed under the GNU General Public License, version 2, with the Classpath
+Exception. Its license files are located in the "legal" folder of the bundled
+runtime.
