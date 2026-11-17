@@ -160,6 +160,30 @@ class VisualsSectionState : SectionState() {
         if (idx in documents.indices) selectedIndex = idx
     }
 
+    /**
+     * Opens files that were passed to the application on startup,
+     * e.g. by double-clicking a file or via "Quba.exe invoice.xml".
+     *
+     * Files that are already open (e.g. restored from the last session)
+     * are not opened twice; their tab is selected instead.
+     */
+    suspend fun openFiles(files: List<File>, appState: AppState) {
+        for (javaFile in files) {
+            val file = javaFile.absoluteFile
+            val existingIndex = documents.indexOfFirst { it.sourceFile?.file?.absoluteFile == file }
+            if (existingIndex >= 0) {
+                selectedIndex = existingIndex
+                continue
+            }
+
+            try {
+                addTabWithFile(PlatformFile(file), appState)
+            } catch (e: IOException) {
+                println("Fehler beim Öffnen der Datei \"${file.path}\": ${e.message}")
+            }
+        }
+    }
+
     suspend fun loadFileInTab(tab: DocumentTab, file: PlatformFile, appState: AppState) {
         appState.lastSelectedFile = file
         tab.sourceFile = file

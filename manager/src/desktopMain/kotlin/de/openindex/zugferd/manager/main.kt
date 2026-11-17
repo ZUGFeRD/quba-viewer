@@ -44,6 +44,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.bridge.SLF4JBridgeHandler
 import kotlinx.coroutines.runBlocking
+import java.io.File
 import kotlin.io.path.absolutePathString
 
 val APP_LOGGER: Logger by lazy {
@@ -52,7 +53,7 @@ val APP_LOGGER: Logger by lazy {
 
 val LocalApplicationScope = staticCompositionLocalOf<ApplicationScope?> { null }
 
-fun main() {
+fun main(args: Array<String>) {
 
      //
     // Setup logging.
@@ -117,6 +118,16 @@ fun main() {
     runBlocking {
         val visualsState = AppSection.VISUALISATION.state as de.openindex.zugferd.manager.sections.VisualsSectionState
         visualsState.restoreSession(appState)
+    }
+
+    // Open files passed on the command line (e.g. by double-clicking a file).
+    val filesFromArgs = args.map { File(it) }.filter { it.isFile }
+    if (filesFromArgs.isNotEmpty()) {
+        APP_LOGGER.info("Opening files from command line: ${filesFromArgs.joinToString()}")
+        runBlocking {
+            val visualsState = AppSection.VISUALISATION.state as de.openindex.zugferd.manager.sections.VisualsSectionState
+            visualsState.openFiles(filesFromArgs, appState)
+        }
     }
 
     //
