@@ -24,14 +24,11 @@ package de.openindex.zugferd.manager.utils
 import de.openindex.zugferd.manager.APP_LOGGER
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import org.mustangproject.XMLTools
 import org.mustangproject.ZUGFeRD.ZUGFeRDVisualizer
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.StringReader
-import java.net.URLEncoder
-import java.util.Base64
 import javax.xml.stream.XMLInputFactory
 import javax.xml.stream.XMLStreamConstants
 import javax.xml.transform.Templates
@@ -221,8 +218,6 @@ private val CUSTOM_VISUALIZATION_CSS = """
 
 """.trimIndent()
 
-private val DOWNLOAD_TARGET_ID = Regex("""downloadData\s*\(\s*['"]([^'"]+)['"]""")
-
 /**
  * One Jsoup pass over the rendered HTML (previously two full parse/serialize rounds):
  * custom CSS, BT ids in labels, and attachment links rewired to in-memory data.
@@ -256,102 +251,5 @@ private fun addBusinessTermIds(doc: Document) {
         if (!labelText.contains(btId)) {
             label.text("${labelText.removeSuffix(":").trim()} [$btId]")
         }
-    }
-}
-
-/**
- * Each attachment in the HTML is a hidden `<div id=… filename=… mimeType=…>BASE64</div>`
- * plus a link calling `downloadData(id)`. The div's own Base64 content is the attachment, so
- * it's decoded directly; matching against the PDF's embedded files only happens when a div
- * carries no data (e.g. BT-124 references via `#ef=`).
- *
- * Once a link points to the in-memory copy, the Base64 payload is removed from the page.
- * For invoices with large attachments this shrinks the HTML by megabytes, which the
- * browser then no longer has to parse, and the temp file gets smaller too.
- */
-private fun linkAttachments(doc: Document, pdfAttachments: List<Pair<String, ByteArray>>) {
-    val dataDivs = doc.select("div[filename], div[data-filename], div[mimetype]")
-    if (dataDivs.isEmpty()) return
-
-    // The invoice XML itself is never an "attachment" for a link.
-    val candidates = pdfAttachments.filterNot { (name, _) ->
-        name.lowercase().let { it == "factur-x.xml" || it == "zugferd-invoice.xml" || it == "xrechnung.xml" || it == "order-x.xml" }
-    }
-
-    // Index links by their downloadData() target once, instead of one document-wide query per div.
-    val linksById = HashMap<String, Element>()
-    for (link in doc.select("a[onclick]")) {
-        val id = DOWNLOAD_TARGET_ID.find(link.attr("onclick"))?.groupValues?.get(1) ?: continue
-        linksById.putIfAbsent(id, link)
-    }
-
-    for ((index, div) in dataDivs.withIndex()) {
-        val id = div.id()
-        if (id.isEmpty()) continue
-        val link = linksById[id] ?: doc.selectFirst("a[onclick*='$id']") ?: continue
-
-        var filename = div.attr("filename").ifEmpty { div.attr("data-filename") }
-
-        // Resolve filename from BT-124 #ef= reference (grandparent = boxtabelle container).
-        if (filename.isEmpty()) {
-            val efHref = div.parent()?.parent()?.selectFirst("a[href^='#ef=']")?.attr("href").orEmpty()
-            if (efHref.startsWith("#ef=")) {
-                val efFilename = efHref.removePrefix("#ef=")
-                filename = candidates.firstOrNull { it.first.endsWith(efFilename, ignoreCase = true) }?.first ?: efFilename
-            }
-        }
-
-        var bytes = decodeBase64OrNull(div.wholeText())
-        if (bytes == null) {
-            val match = findAttachment(filename, index, candidates)
-            if (match != null) {
-                if (filename.isEmpty()) filename = match.first
-                bytes = match.second
-            }
-        }
-
-        if (bytes == null) {
-            APP_LOGGER.warn("Kein passender Anhang gefunden für '$filename'")
-            continue
-        }
-
-        if (filename.isEmpty()) filename = "Anhang_${index + 1}"
-        val mimeType = div.attr("mimetype").ifEmpty { div.attr("type") }.ifEmpty { "application/octet-stream" }
-        val key = registerAttachment(filename, bytes, mimeType)
-
-        link.attr("href", "zugferd-attachment://" + URLEncoder.encode(key, Charsets.UTF_8))
-        link.removeAttr("onclick")
-        link.removeAttr("download")
-        link.text("Anhang öffnen")
-        div.empty()
-    }
-}
-
-private fun findAttachment(
-    filename: String,
-    index: Int,
-    candidates: List<Pair<String, ByteArray>>,
-): Pair<String, ByteArray>? {
-    if (candidates.isEmpty()) return null
-    if (filename.isNotEmpty()) {
-        candidates.firstOrNull { it.first == filename }?.let { return it }
-        candidates.firstOrNull { it.first.equals(filename, ignoreCase = true) }?.let { return it }
-        // e.g. "Aufmass.png" matches "EN16931_Elektron_Aufmass.png"
-        candidates.firstOrNull { it.first.endsWith(filename, ignoreCase = true) }?.let { return it }
-    }
-    if (index < candidates.size && filename.isEmpty()) return candidates[index]
-    if (candidates.size == 1) return candidates.first()
-    return null
-}
-
-/** Strict Base64 decode that ignores whitespace; null for empty or invalid content. */
-private fun decodeBase64OrNull(text: String): ByteArray? {
-    if (text.isBlank()) return null
-    val compact = StringBuilder(text.length)
-    for (c in text) if (!c.isWhitespace()) compact.append(c)
-    return try {
-        Base64.getDecoder().decode(compact.toString()).takeIf { it.isNotEmpty() }
-    } catch (e: IllegalArgumentException) {
-        null
     }
 }

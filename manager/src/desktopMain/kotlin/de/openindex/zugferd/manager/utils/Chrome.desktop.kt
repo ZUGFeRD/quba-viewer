@@ -137,6 +137,89 @@ fun registerAttachment(name: String, bytes: ByteArray, mimeType: String): String
     return key
 }
 
+/** Formats the embedded Chromium shows properly; everything else goes to the operating system. */
+private val VIEWER_EXTENSIONS = setOf("pdf", "png", "jpg", "jpeg", "gif", "bmp", "webp", "svg", "txt", "xml", "htm", "html")
+
+private val INVALID_FILE_NAME_CHARS = Regex("""[\\/:*?"<>|\p{Cntrl}]""")
+
+/**
+ * Opens an attachment. PDF, images, text and XML appear in Quba's own viewer window.
+ * Everything else (Excel, Word, CSV, ZIP, …) opens in the program the operating system
+ * associates with the file type. If there is none, a save dialog appears, so the file is
+ * always reachable. Runs off the CEF thread; the temp file is only written on click.
+ */
+fun openAttachment(entry: AttachmentEntry) {
+    Thread({
+        try {
+            val file = writeAttachmentToTempFile(entry)
+            if (isShownInViewer(entry)) {
+                openAttachmentInWindow(file.toURI().toString(), entry)
+            } else {
+                openWithSystemApp(file, entry)
+            }
+        } catch (e: Exception) {
+            APP_LOGGER.error("Anhang '${entry.name}' konnte nicht geöffnet werden.", e)
+            javax.swing.SwingUtilities.invokeLater { saveAttachmentAs(entry, null) }
+        }
+    }, "quba-open-attachment").apply {
+        isDaemon = true
+        start()
+    }
+}
+
+private fun isShownInViewer(entry: AttachmentEntry): Boolean {
+    extensionOf(entry.name)?.let { return it in VIEWER_EXTENSIONS }
+    val mime = entry.mimeType.lowercase()
+    return mime == "application/pdf" || mime.startsWith("image/") || mime == "text/plain" || mime.endsWith("/xml")
+}
+
+/**
+ * Writes the attachment under its own name (plus a fitting extension) into a fresh temp
+ * folder. The viewer window title and external programs then show the real file name, and
+ * the operating system can pick the right program by extension.
+ */
+private fun writeAttachmentToTempFile(entry: AttachmentEntry): java.io.File {
+    val dir = java.nio.file.Files.createTempDirectory("quba_att_").toFile().apply { deleteOnExit() }
+    return java.io.File(dir, safeFileName(withExtension(entry.name, entry.mimeType))).apply {
+        deleteOnExit()
+        writeBytes(entry.bytes)
+    }
+}
+
+private fun safeFileName(name: String): String {
+    val cleaned = name.replace(INVALID_FILE_NAME_CHARS, "_").trim().trim('.').ifEmpty { "Anhang" }
+    if (cleaned.length <= 150) return cleaned
+    val ext = extensionOf(cleaned)
+    return if (ext != null) cleaned.substringBeforeLast('.').take(140) + "." + ext else cleaned.take(150)
+}
+
+private fun openWithSystemApp(file: java.io.File, entry: AttachmentEntry) {
+    val desktop = if (java.awt.Desktop.isDesktopSupported()) java.awt.Desktop.getDesktop() else null
+    if (desktop != null && desktop.isSupported(java.awt.Desktop.Action.OPEN)) {
+        try {
+            desktop.open(file)
+            return
+        } catch (e: Exception) {
+            APP_LOGGER.warn("Kein Programm zum Öffnen von '${entry.name}' gefunden: ${e.message}")
+        }
+    }
+    javax.swing.SwingUtilities.invokeLater { saveAttachmentAs(entry, null) }
+}
+
+/** Save dialog for an attachment; also used by the viewer window's save actions. */
+private fun saveAttachmentAs(entry: AttachmentEntry, parent: java.awt.Component?, suggestedName: String? = null) {
+    val chooser = javax.swing.JFileChooser()
+    chooser.dialogTitle = "Anhang speichern"
+    chooser.selectedFile = java.io.File(suggestedName ?: safeFileName(withExtension(entry.name, entry.mimeType)))
+    if (chooser.showSaveDialog(parent) == javax.swing.JFileChooser.APPROVE_OPTION) {
+        try {
+            chooser.selectedFile.writeBytes(entry.bytes)
+        } catch (e: Exception) {
+            APP_LOGGER.error("Anhang konnte nicht gespeichert werden.", e)
+        }
+    }
+}
+
 
 /**
  * As we never show multiple browser instances at once,
@@ -184,12 +267,7 @@ fun getCefBrowser(url: String): CefBrowser {
                                     )
                                     val entry = globalAttachmentData[key]
                                     if (entry != null) {
-                                        // Create temp file only when user actually clicks — not upfront.
-                                        val safePrefix = entry.name.replace("[^a-zA-Z0-9._-]".toRegex(), "_")
-                                        val tempFile = java.io.File.createTempFile("zugferd_att_", "_$safePrefix")
-                                        tempFile.deleteOnExit()
-                                        tempFile.writeBytes(entry.bytes)
-                                        openAttachmentInWindow(tempFile.toURI().toString(), entry)
+                                        openAttachment(entry)
                                     } else {
                                         APP_LOGGER.warn("No attachment data found for: $key")
                                     }
@@ -503,17 +581,7 @@ private fun openAttachmentInWindow(url: String, entry: AttachmentEntry) {
                     suggestedName: String?,
                     callback: org.cef.callback.CefBeforeDownloadCallback?,
                 ) {
-                    javax.swing.SwingUtilities.invokeLater {
-                        val chooser = javax.swing.JFileChooser()
-                        chooser.selectedFile = java.io.File(suggestedName ?: title)
-                        if (chooser.showSaveDialog(null) == javax.swing.JFileChooser.APPROVE_OPTION) {
-                            try {
-                                chooser.selectedFile.writeBytes(entry.bytes)
-                            } catch (e: Exception) {
-                                APP_LOGGER.error("Anhang konnte nicht gespeichert werden.", e)
-                            }
-                        }
-                    }
+                    javax.swing.SwingUtilities.invokeLater { saveAttachmentAs(entry, null, suggestedName) }
                 }
             })
 
@@ -535,24 +603,13 @@ private fun openAttachmentInWindow(url: String, entry: AttachmentEntry) {
             // For non-PDF attachments (e.g. images), Chrome shows no download button.
             // Add a minimal toolbar with a save button only in that case.
             // Check both MIME type and file extension, as the MIME type from the HTML may be unreliable.
-            val mimeType = entry.mimeType
-            val isPdf = mimeType.equals("application/pdf", ignoreCase = true)
-                || title.endsWith(".pdf", ignoreCase = true)
+            val isPdf = entry.mimeType.equals("application/pdf", ignoreCase = true)
+                || extensionOf(title) == "pdf"
             if (!isPdf) {
                 val toolbar = javax.swing.JToolBar()
                 toolbar.isFloatable = false
                 val saveButton = javax.swing.JButton(getStringBlocking(Res.string.AppSaveAs).title())
-                saveButton.addActionListener {
-                    val chooser = javax.swing.JFileChooser()
-                    chooser.selectedFile = java.io.File(title)
-                    if (chooser.showSaveDialog(frame) == javax.swing.JFileChooser.APPROVE_OPTION) {
-                        try {
-                            chooser.selectedFile.writeBytes(entry.bytes)
-                        } catch (e: Exception) {
-                            APP_LOGGER.error("Anhang konnte nicht gespeichert werden.", e)
-                        }
-                    }
-                }
+                saveButton.addActionListener { saveAttachmentAs(entry, frame) }
                 toolbar.add(saveButton)
                 frame.contentPane.add(toolbar, java.awt.BorderLayout.NORTH)
             }
