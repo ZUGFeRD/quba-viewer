@@ -142,7 +142,7 @@ Exakter Name plus „ein Name endet auf den anderen“ (Durchgänge 1 bis 3). Da
 
 **Umsetzung (kleiner Aufwand)**
 - `manager/src/desktopMain/kotlin/de/openindex/zugferd/manager/utils/InvoiceAttachments.desktop.kt`, Funktion `matchEmbeddedFiles()`: Durchgänge 3 bis 6 entfernen (für die Zwischenlösung 4 bis 6). Hinweistext, Liste der übrigen Dateien und Öffnen nach Dateityp bleiben unverändert.
-- Abschnitt „Anhänge“ in `docs/dev-performance.md` und den Eintrag in `releases/RELEASE_QUBA_2.0.md` anpassen.
+- Abschnitt „Anhänge“ in `docs/dev-performance.md` und den Eintrag in `releases/RELEASE_QUBA_2.1.md` anpassen.
 
 **Offene Frage**
 - Komfort (direkter Link, kleines Fehlerrisiko) oder Sicherheit (nie falsch, ein Klick mehr)?
