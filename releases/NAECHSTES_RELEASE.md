@@ -111,3 +111,38 @@ In der geteilten Ansicht (HTML/XML links, PDF rechts) lässt sich die Trennlinie
 **Ziel**
 - Erneuter Klick auf den aktiven Split-Button oben rechts setzt die Aufteilung auf 50/50 zurück
 - Optional zusätzlich: Doppelklick auf die Trennlinie setzt ebenfalls auf 50/50 zurück
+
+---
+
+## Anhänge: Nur exakte Dateinamen zuordnen
+
+**Status:** Entscheidung offen. Umgesetzt ist derzeit die Zuordnung über Namensähnlichkeit (Commit `edbbd10`).
+
+**Hintergrund**
+Viele Rechnungen verweisen auf Anhänge, die in der PDF eingebettet sind, per `#ef=<Dateiname>` (BT-124). Laut ZUGFeRD-Standard soll dieser Name dem Namen der eingebetteten Datei entsprechen. In der Praxis weicht er oft ab, z. B. `#ef=ElektronRapport_neu-red.pdf` gegenüber der Datei `EN16931_Elektron_ElektronRapport.pdf`.
+
+**Aktuelles Verhalten**
+`matchEmbeddedFiles()` ordnet in sechs Durchgängen zu: gleicher Name, gleicher Name ohne Groß/Klein, ein Name endet auf den anderen, gemeinsame Namensteile bei gleichem Dateityp, einzige freie Datei des Typs, Reihenfolge (nur bei gleicher Anzahl und passenden Typen). Bei Gleichstand bleibt der Link offen. So öffnen alle Anhänge der Beispiel-PDFs. Restrisiko: Bei teilweise ähnlichen Namen kann ein falscher Anhang geöffnet werden.
+
+**Alternative: strenger Abgleich**
+- Ein Link wird nur mit einer eingebetteten Datei verbunden, wenn der Name exakt passt (wahlweise ohne Unterscheidung von Groß/Klein).
+- Alle übrigen Links zeigen „Anhang nicht in der Datei enthalten“.
+- Jede nicht zugeordnete Datei steht im Tab „Anhänge“ unter „Weitere in der PDF eingebettete Dateien“. Diese Liste gibt es schon.
+
+**Vorteile**
+- Öffnet nie einen falschen Anhang.
+- Weniger Code, leichter nachzuvollziehen.
+
+**Nachteile**
+- Bei abweichendem Namen steht der Anhang nicht direkt neben seiner Kennung (BT-122), sondern nur in der Liste darunter. Ein Klick mehr, und der Nutzer muss selbst erkennen, welche Datei zu welchem Eintrag gehört.
+- In den Beispieldateien betrifft das alle fünf Anhänge, die nur in der PDF stecken: `EN16931_Elektron.pdf` (2), `EN16931_Reisekostenabrechnung.pdf` (2), `EN16931_Betriebskostenabrechnung.pdf` (1). Bei keinem passt der Name exakt. Anhänge, die im XML selbst enthalten sind (z. B. alle `XRECHNUNG_*`-Dateien), sind nicht betroffen.
+
+**Zwischenlösung**
+Exakter Name plus „ein Name endet auf den anderen“ (Durchgänge 1 bis 3). Dann bleiben `#ef=Aufmass.png` und `#ef=Taxi-Nue-und-Berlin.pdf` direkt verlinkt, `ElektronRapport_neu-red.pdf`, `Hotelrechung-Immo.pdf` und `Betriebskostenabrechnung.pdf` landen in der Liste. Ganz ohne Risiko ist das nicht: `Rechnung.pdf` passt auch auf `Hotelrechnung.pdf`.
+
+**Umsetzung (kleiner Aufwand)**
+- `manager/src/desktopMain/kotlin/de/openindex/zugferd/manager/utils/InvoiceAttachments.desktop.kt`, Funktion `matchEmbeddedFiles()`: Durchgänge 3 bis 6 entfernen (für die Zwischenlösung 4 bis 6). Hinweistext, Liste der übrigen Dateien und Öffnen nach Dateityp bleiben unverändert.
+- Abschnitt „Anhänge“ in `docs/dev-performance.md` und den Eintrag in `releases/RELEASE_QUBA_2.0.md` anpassen.
+
+**Offene Frage**
+- Komfort (direkter Link, kleines Fehlerrisiko) oder Sicherheit (nie falsch, ein Klick mehr)?
