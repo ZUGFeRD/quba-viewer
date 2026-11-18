@@ -28,28 +28,26 @@ import androidx.compose.runtime.setValue
 import de.openindex.zugferd.manager.AppState
 import de.openindex.zugferd.manager.model.ValidationSeverity
 import de.openindex.zugferd.manager.model.ValidationType
+import de.openindex.zugferd.manager.utils.InvoiceDocuments
 import de.openindex.zugferd.manager.utils.SectionState
 import de.openindex.zugferd.manager.utils.Validation
 import de.openindex.zugferd.manager.utils.directory
-import de.openindex.zugferd.manager.utils.getHtmlVisualizationFromXML
-import de.openindex.zugferd.manager.utils.getHtmlWithAttachments
-import de.openindex.zugferd.manager.utils.getPrettyPrintedXml
 import de.openindex.zugferd.manager.utils.getString
 import de.openindex.zugferd.manager.utils.getValidationXmlReport
-import de.openindex.zugferd.manager.utils.getXmlFromPdf
 import de.openindex.zugferd.manager.utils.title
-import de.openindex.zugferd.manager.utils.trimToNull
-import de.openindex.zugferd.manager.utils.validatePdf
 import de.openindex.zugferd.quba.generated.resources.AppCheckSelectFile
 import de.openindex.zugferd.quba.generated.resources.Res
 import io.github.vinceglb.filekit.core.FileKit
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
 import io.github.vinceglb.filekit.core.PlatformFile
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * Holds all state for a single document tab in the check section.
@@ -64,9 +62,16 @@ class CheckTab(file: PlatformFile) {
     var validation by mutableStateOf<Validation?>(null)
     var filterType by mutableStateOf(ValidationType.entries.toList())
     var filterSeverity by mutableStateOf(ValidationSeverity.entries.toList())
+    internal var loadJob: Job? = null
 }
 
 class CheckSectionState : SectionState() {
+
+    /**
+     * Loading runs here instead of in a composable scope, so switching to another section
+     * doesn't cancel it halfway and leave a tab with an endless spinner.
+     */
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     /** All currently open document tabs. */
     val tabs = mutableStateListOf<CheckTab>()
@@ -93,7 +98,7 @@ class CheckSectionState : SectionState() {
     /** Closes the tab at [index] and adjusts the selected index accordingly. */
     fun removeTab(index: Int) {
         if (index !in tabs.indices) return
-        tabs.removeAt(index)
+        tabs.removeAt(index).loadJob?.cancel()
         selectedIndex = when {
             tabs.isEmpty() -> 0
             index <= selectedIndex -> (selectedIndex - 1).coerceAtLeast(0)
@@ -104,6 +109,7 @@ class CheckSectionState : SectionState() {
     /** Closes all tabs except the one at [index]. */
     fun removeOtherTabs(index: Int) {
         val keep = tabs.getOrNull(index) ?: return
+        tabs.filter { it !== keep }.forEach { it.loadJob?.cancel() }
         tabs.retainAll { it === keep }
         selectedIndex = 0
     }
@@ -111,7 +117,7 @@ class CheckSectionState : SectionState() {
     /** Closes all tabs to the right of [index]. */
     fun removeTabsToRight(index: Int) {
         while (tabs.size > index + 1) {
-            tabs.removeAt(tabs.lastIndex)
+            tabs.removeAt(tabs.lastIndex).loadJob?.cancel()
         }
         selectedIndex = selectedIndex.coerceAtMost(tabs.lastIndex.coerceAtLeast(0))
     }
@@ -142,7 +148,8 @@ class CheckSectionState : SectionState() {
      * If the file is already open in a tab, switches to that tab.
      */
     suspend fun selectFile(file: PlatformFile, appState: AppState) {
-        val existingIndex = tabs.indexOfFirst { it.file.name == file.name }
+        val path = file.file.absolutePath
+        val existingIndex = tabs.indexOfFirst { it.file.file.absolutePath == path }
         if (existingIndex >= 0) {
             selectedIndex = existingIndex
             return
@@ -158,49 +165,49 @@ class CheckSectionState : SectionState() {
         tabs.add(tab)
         selectedIndex = tabs.lastIndex
 
-        loadTab(tab)
+        tab.loadJob = scope.launch { loadTab(tab) }
     }
 
-    private suspend fun loadTab(tab: CheckTab) {
+    private suspend fun loadTab(tab: CheckTab) = coroutineScope {
         tab.isLoading = true
         tab.xml = null
         tab.html = null
         tab.validation = null
 
         val file = tab.file
-        val isXml = file.name.endsWith(".xml", ignoreCase = true)
 
-        // Phase 1: extract XML so the viewer can show it immediately.
+        // Validation doesn't depend on the extracted XML, so it starts right away
+        // and runs alongside XML extraction and HTML rendering.
+        launch {
+            tab.validation = InvoiceDocuments.validation(file)
+            tab.filterType = ValidationType.entries.toList()
+            tab.filterSeverity = ValidationSeverity.entries.toList()
+        }
+
+        // Phase 1: XML, so the viewer can show it immediately.
         try {
-            tab.xml = withContext(Dispatchers.IO) {
-                if (isXml) {
-                    val content = file.readBytes().decodeToString()
-                    getPrettyPrintedXml(content)?.trimToNull() ?: content.trimToNull()
-                } else {
-                    getXmlFromPdf(file)?.let { getPrettyPrintedXml(it) }?.trimToNull()
-                }
-            }
+            tab.xml = InvoiceDocuments.source(file).prettyXml
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            e.printStackTrace()
         } finally {
             tab.isLoading = false
         }
 
-        // Phase 2: HTML rendering and validation run concurrently.
-        coroutineScope {
-            launch(Dispatchers.IO) {
-                tab.html = if (isXml) getHtmlVisualizationFromXML(file)
-                           else getHtmlWithAttachments(file)
-            }
-            launch(Dispatchers.IO) {
-                tab.validation = validatePdf(file)
-                tab.filterType = ValidationType.entries.toList()
-                tab.filterSeverity = ValidationSeverity.entries.toList()
-            }
+        // Phase 2: HTML.
+        try {
+            tab.html = InvoiceDocuments.html(file)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     /** Exports the XML validation report for [tab]'s file to a user-chosen location. */
     suspend fun exportValidation(tab: CheckTab) {
-        val xmlReport = getValidationXmlReport(tab.file) ?: return
+        val xmlReport = tab.validation?.xmlReport ?: getValidationXmlReport(tab.file) ?: return
         FileKit.saveFile(
             bytes = xmlReport.toByteArray(Charsets.UTF_8),
             baseName = tab.file.name.substringBeforeLast(".").plus("_validation"),

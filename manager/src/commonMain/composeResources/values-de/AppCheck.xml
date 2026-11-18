@@ -64,6 +64,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppCheckMessagesFilterType">nach Art</string>
     <string name="AppCheckMessagesFilterSeverity">nach Dringlichkeit</string>
     <string name="AppCheckMessageMessageCopy">Mitteilung[br]kopieren</string>
+    <string name="AppCheckMessagesShowMore">%1$d weitere Mitteilungen anzeigen</string>
 
     <string name="AppCheckDetailsPdf">gewählte PDF</string>
     <string name="AppCheckDetailsHtml">XML-Visualisierung</string>

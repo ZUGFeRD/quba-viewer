@@ -27,54 +27,21 @@ import de.openindex.zugferd.manager.APP_VERSION
 import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeoutOrNull
 import org.apache.pdfbox.Loader
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.pdmodel.PDDocumentCatalog
 import org.apache.pdfbox.pdmodel.PDDocumentNameDictionary
 import org.apache.pdfbox.pdmodel.PDEmbeddedFilesNameTreeNode
-import org.apache.pdfbox.pdmodel.common.filespecification.PDComplexFileSpecification
 import org.apache.xmpbox.xml.DomXmpParser
 import org.apache.xmpbox.xml.XmpParsingException
 import org.mustangproject.ZUGFeRD.ZUGFeRDExporterFromA3
 import org.mustangproject.ZUGFeRD.ZUGFeRDExporterFromPDFA
-import org.mustangproject.ZUGFeRD.ZUGFeRDImporter
 import org.mustangproject.ZUGFeRD.ZUGFeRDVisualizer
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import java.io.File
 import java.io.IOException
 import java.io.OutputStream
-import java.nio.file.Files
-import java.nio.file.Path
-import kotlin.io.path.pathString
-import kotlin.io.path.writer
-@Suppress("SpellCheckingInspection")
-private val CUSTOM_VISUALIZATION_CSS = """
-    body > form {
-        position: fixed !important;
-        left: 0 !important;
-        right: 0 !important;
-        z-index: 1 !important;
-    }
 
-    .inhalt {
-        padding-top: 75px !important;    
-    }
-    
-    .menue > .innen {
-        text-align: center !important;
-    }
-    
-    .menue > .innen > button {
-        font-family: sans-serif !important;
-        font-size: 14px !important;
-    }
-    
-""".trimIndent()
-
-actual suspend fun getPdfArchiveVersion(pdfFile: PlatformFile): Int {
-    return try {
+actual suspend fun getPdfArchiveVersion(pdfFile: PlatformFile): Int = withContext(Dispatchers.IO) {
+    try {
         getPDFAVersion(pdfFile.file)
     } catch (e: Exception) {
         APP_LOGGER.error("Can't extract PDF/A version!", e)
@@ -87,31 +54,19 @@ actual suspend fun getPdfArchiveVersion(pdfFile: PlatformFile): Int {
  * @see ZUGFeRDExporterFromPDFA.getPDFAVersion
  */
 private fun getPDFAVersion(pdfFile: File): Int {
-    val document = Loader.loadPDF(pdfFile)
-    val catalog: PDDocumentCatalog = document.getDocumentCatalog()
-    val metadata = catalog.metadata
-
-    // the PDF version we could get through the document, but we want the PDF-A version,
-    // which is different (and can probably base on different PDF versions)
-    if (metadata != null) {
+    Loader.loadPDF(pdfFile).use { document ->
+        // the PDF version we could get through the document, but we want the PDF-A version,
+        // which is different (and can probably base on different PDF versions)
+        val metadata = document.documentCatalog.metadata ?: return 0
         try {
-            val xmpParser = DomXmpParser()
-            val xmp = xmpParser.parse(metadata.createInputStream())
-
-            val pdfASchema = xmp.pdfaIdentificationSchema
-            if (pdfASchema != null) {
-                return pdfASchema.part
-            }
+            val xmp = metadata.createInputStream().use { DomXmpParser().parse(it) }
+            xmp.pdfaIdentificationSchema?.let { return it.part }
         } catch (e: XmpParsingException) {
             APP_LOGGER.error("XmpParsingException", e)
-        } finally {
-            document.close()
         }
+        return 0
     }
-    return 0
 }
-
-
 
 @Throws(IOException::class)
 fun PDDocument.removeEmbeddedFiles(): PDDocument {
@@ -119,259 +74,6 @@ fun PDDocument.removeEmbeddedFiles(): PDDocument {
     names.embeddedFiles = PDEmbeddedFilesNameTreeNode()
     documentCatalog.names = names
     return this
-}
-
-actual fun getAttachmentsFromPdf(pdf: PlatformFile): List<Pair<String, ByteArray>> {
-    return try {
-        val doc = Loader.loadPDF(pdf.file)
-        val result = mutableListOf<Pair<String, ByteArray>>()
-        try {
-            val nameTree = PDDocumentNameDictionary(doc.documentCatalog).embeddedFiles ?: return emptyList()
-            for ((name, spec) in (nameTree.names ?: return emptyList())) {
-                val ef = (spec as? PDComplexFileSpecification)?.let {
-                    it.embeddedFile ?: it.embeddedFileUnicode
-                } ?: continue
-                result += name to ef.createInputStream().readBytes()
-            }
-        } finally {
-            doc.close()
-        }
-        result
-    } catch (e: Exception) {
-        APP_LOGGER.error("Anhänge konnten nicht aus PDF gelesen werden.", e)
-        emptyList()
-    }
-}
-
-actual fun getAttachmentsFromXml(xmlContent: String): List<Pair<String, ByteArray>> {
-    return try {
-        val document = org.dom4j.DocumentHelper.parseText(xmlContent)
-        val result = mutableListOf<Pair<String, ByteArray>>()
-        // XPath mit local-name() findet Elemente unabhaengig von Namespace-Praefix und Verschachtelungstiefe
-        val nodes = document.selectNodes(
-            "//*[local-name()='AttachmentBinaryObject' or local-name()='EmbeddedDocumentBinaryObject']"
-        )
-        for (node in nodes) {
-            if (node !is org.dom4j.Element) continue
-            val filename = node.attributeValue("filename") ?: continue
-            if (filename.isBlank()) continue
-            val base64Content = node.textTrim.replace("\\s".toRegex(), "")
-            if (base64Content.isBlank()) continue
-            try {
-                val bytes = java.util.Base64.getDecoder().decode(base64Content)
-                result += filename to bytes
-                APP_LOGGER.info("XML-Anhang gefunden: '$filename' (${bytes.size} Bytes)")
-            } catch (e: IllegalArgumentException) {
-                APP_LOGGER.warn("Base64-Dekodierung fehlgeschlagen fuer Anhang '$filename': ${e.message}")
-            }
-        }
-        result
-    } catch (e: Exception) {
-        APP_LOGGER.error("Anhaenge konnten nicht aus XML gelesen werden.", e)
-        emptyList()
-    }
-}
-
-actual fun postProcessHtmlForAttachments(html: String, attachments: List<Pair<String, ByteArray>>): String {
-    if (html.isBlank()) return html
-    APP_LOGGER.info("Post-processing HTML for attachments. Found ${attachments.size} attachments in PDF.")
-
-    // Keep bytes in memory — no temp files needed.
-    val attachmentData = mutableMapOf<String, ByteArray>()        // original name → bytes
-    val attachmentContentMap = mutableMapOf<String, String>()     // base64 content → original name
-
-    for ((name, bytes) in attachments) {
-        attachmentData[name] = bytes
-        attachmentContentMap[java.util.Base64.getEncoder().encodeToString(bytes)] = name
-        APP_LOGGER.info("Registered attachment '$name' (${bytes.size} bytes)")
-    }
-
-    val doc = Jsoup.parse(html)
-    val dataDivs = doc.select("div[filename], div[data-filename], div[mimetype]")
-    APP_LOGGER.info("Found ${dataDivs.size} data divs.")
-
-    for ((index, div) in dataDivs.withIndex()) {
-        val id = div.id()
-        if (id.isEmpty()) continue
-
-        var filename = div.attr("filename").ifEmpty { div.attr("data-filename") }
-        APP_LOGGER.info("Processing data div with ID: $id, Filename: '$filename'")
-
-        val link = doc.select("a[onclick*='$id']").first() ?: run {
-            APP_LOGGER.info("No link found for data div ID: $id")
-            null
-        } ?: continue
-
-        // Resolve filename from BT-124 #ef= reference (grandparent = boxtabelle container).
-        if (filename.isEmpty()) {
-            val efHref = div.parent()?.parent()?.selectFirst("a[href^='#ef=']")?.attr("href") ?: ""
-            if (efHref.startsWith("#ef=")) {
-                val efFilename = efHref.removePrefix("#ef=")
-                filename = attachmentData.keys.find { it.endsWith(efFilename, ignoreCase = true) } ?: efFilename
-                APP_LOGGER.info("Resolved filename via #ef= reference: '$efFilename' → '$filename'")
-            }
-        }
-
-        // Strategy 1: exact match
-        var resolvedName: String? = attachmentData.keys.find { it == filename }
-        // Strategy 1b: case-insensitive
-        if (resolvedName == null && filename.isNotEmpty())
-            resolvedName = attachmentData.keys.find { it.equals(filename, ignoreCase = true) }
-        // Strategy 1c: endsWith (e.g. "Aufmass.png" matches "EN16931_Elektron_Aufmass.png")
-        if (resolvedName == null && filename.isNotEmpty())
-            resolvedName = attachmentData.keys.find { it.endsWith(filename, ignoreCase = true) }
-        // Strategy 2: index-based
-        if (resolvedName == null && index < attachments.size) {
-            resolvedName = attachments[index].first
-            APP_LOGGER.info("Matched attachment by index ($index): $resolvedName")
-            if (filename.isEmpty()) filename = resolvedName
-        }
-        // Strategy 3: base64 content match
-        if (resolvedName == null) {
-            val divContent = div.text().replace("\\s".toRegex(), "")
-            if (divContent.isNotEmpty()) {
-                resolvedName = attachmentContentMap[divContent]
-                if (resolvedName != null) {
-                    APP_LOGGER.info("Matched attachment by content for div ID: $id")
-                    if (filename.isEmpty()) filename = resolvedName
-                }
-            }
-        }
-        // Strategy 4: single attachment fallback
-        if (resolvedName == null && attachmentData.size == 1) {
-            resolvedName = attachmentData.keys.first()
-            APP_LOGGER.info("Fallback: single attachment used for '$filename'")
-            if (filename.isEmpty()) filename = resolvedName
-        }
-
-        if (resolvedName != null) {
-            val bytes = attachmentData[resolvedName]!!
-            val mimeType = div.attr("mimetype").ifEmpty { div.attr("type") }.ifEmpty { "application/octet-stream" }
-
-            // Register bytes in global map — temp file written on demand when user clicks.
-            globalAttachmentData[filename] = Pair(bytes, mimeType)
-
-            val encodedFilename = java.net.URLEncoder.encode(filename, "UTF-8")
-            link.attr("href", "zugferd-attachment://$encodedFilename")
-            link.removeAttr("onclick")
-            link.removeAttr("download")
-            link.text("Anhang öffnen")
-            APP_LOGGER.info("Replaced link for '$filename' with in-memory attachment reference (${bytes.size} bytes)")
-        } else {
-            APP_LOGGER.warn("No matching attachment found for filename '$filename'")
-        }
-    }
-
-    return doc.outerHtml()
-}
-
-actual fun getXmlFromPdf(pdf: PlatformFile): String? {
-    return try {
-        pdf.file
-            .inputStream().use { input ->
-                ZUGFeRDImporter(input)
-            }
-            .utF8
-            ?.trimToNull()
-    } catch (e: Exception) {
-        APP_LOGGER.error("PDF read error.", e)
-        null
-    }
-}
-
-actual suspend fun getHtmlVisualizationFromXML(xml: Path): String? {
-    return try {
-        // ZUGFeRDVisualizer auf IO-Dispatcher ausführen (blockierende XSLT-Transformation)
-        // Timeout verhindert endloses Hängen bei beschädigten oder sehr großen Dateien
-        val rawHtml = withContext(Dispatchers.IO) {
-            withTimeoutOrNull(30_000L) {
-                ZUGFeRDVisualizer().visualize(xml.pathString, ZUGFeRDVisualizer.Language.DE)
-            }
-        }
-
-        if (rawHtml.isNullOrBlank() || rawHtml.length < 200) {
-            APP_LOGGER.warn("ZUGFeRDVisualizer lieferte leeres HTML – Fallback wird verwendet.")
-            return generateFallbackHtml(xml)
-        }
-
-        val doc: Document = Jsoup.parse(rawHtml)
-
-        // Benutzerdefiniertes CSS einfügen
-        doc.head().appendElement("style").appendText(CUSTOM_VISUALIZATION_CSS)
-
-        // 1. BT-IDs in boxzeile
-        val boxRows = doc.select("div.boxzeile")
-        for (row in boxRows) {
-            val legend = row.selectFirst("div.boxdaten.legende")
-            val value = row.selectFirst("div.boxdaten.wert[id]")
-
-            if (legend != null && value != null) {
-                val btId = value.id()
-                if (!legend.text().contains(btId)) {
-                    val labelText = legend.text().removeSuffix(":").trim()
-                    legend.text("$labelText [$btId]")
-                }
-            }
-        }
-
-        //  2. BT-IDs in rechnungsZeile → rechnungSp1 bekommt die ID von rechnungSp3
-        val invoiceRows = doc.select("div.rechnungsZeile")
-        for (row in invoiceRows) {
-            val label = row.selectFirst("div.rechnungSp1")
-            val idSource = row.selectFirst("div.rechnungSp3[id]")
-
-            if (label != null && idSource != null) {
-                val btId = idSource.id()
-                if (!label.text().contains(btId)) {
-                    val text = label.text().removeSuffix(":").trim()
-                    label.text("$text [$btId]")
-                }
-            }
-        }
-
-        doc.outerHtml()
-    } catch (e: Exception) {
-        APP_LOGGER.error("HTML-Visualisierung fehlgeschlagen.", e)
-        generateFallbackHtml(xml)
-    }
-}
-
-private fun generateFallbackHtml(xml: Path): String {
-    val xmlContent = try {
-        xml.toFile().readText(Charsets.UTF_8)
-    } catch (e: Exception) {
-        "<!-- Fehler beim Lesen der XML-Datei: ${e.message} -->"
-    }
-    val escaped = xmlContent
-        .replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-    return """<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><style>
-body{font-family:monospace;padding:20px;background:#1e1e1e;color:#d4d4d4}
-pre{white-space:pre-wrap;word-break:break-all;font-size:12px;line-height:1.5}
-.warn{background:#b45309;color:#fff;padding:10px 16px;border-radius:6px;margin-bottom:16px;font-family:sans-serif;font-size:13px}
-</style></head><body>
-<div class="warn">&#9888; HTML-Visualisierung nicht verfügbar – XML-Quellcode wird angezeigt.</div>
-<pre>$escaped</pre>
-</body></html>"""
-}
-
-actual suspend fun getHtmlVisualizationFromXML(xml: PlatformFile): String? {
-    return getHtmlVisualizationFromXML(xml.file.toPath())
-}
-
-
-actual suspend fun getHtmlVisualizationFromPdf(pdf: PlatformFile): String? {
-    val xmlData = getXmlFromPdf(pdf) ?: return null
-    val tempXmlFile = withContext(Dispatchers.IO) {
-        val tempXmlFile = Files.createTempFile("zugferd-", ".xml")
-        tempXmlFile.writer().use { writer ->
-            writer.write(xmlData)
-        }
-        tempXmlFile
-    }
-    return getHtmlVisualizationFromXML(tempXmlFile)
 }
 
 /**

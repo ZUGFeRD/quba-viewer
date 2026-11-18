@@ -64,6 +64,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppCheckMessagesFilterType">by type</string>
     <string name="AppCheckMessagesFilterSeverity">by severity</string>
     <string name="AppCheckMessageMessageCopy">copy[br]message</string>
+    <string name="AppCheckMessagesShowMore">show %1$d more messages</string>
 
     <string name="AppCheckDetailsPdf">selected PDF</string>
     <string name="AppCheckDetailsHtml">XML visualization</string>

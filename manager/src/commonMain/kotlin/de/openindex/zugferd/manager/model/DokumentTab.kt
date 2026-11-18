@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import io.github.vinceglb.filekit.core.PlatformFile
+import kotlinx.coroutines.Job
 
 
 /* orginal
@@ -37,6 +38,8 @@ class DocumentTab(
     var isHtmlLoading by mutableStateOf(false)
     // Original source file (PDF or XML) — persisted across app restarts.
     var sourceFile: PlatformFile? = null
+    // Background loading of this tab; cancelled when the tab is closed or reloaded.
+    var loadJob: Job? = null
 
     // Fixed copy method
     fun copy(

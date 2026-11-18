@@ -124,8 +124,22 @@ private fun exportCurrentVisualizationAsPdf() {
     }
 }
 
-/** Maps attachment filename → (bytes, mimeType) in memory. Populated by postProcessHtmlForAttachments(). */
-val globalAttachmentData = mutableMapOf<String, Pair<ByteArray, String>>()
+/** An invoice attachment kept in memory; a temp file is only written when the user opens it. */
+class AttachmentEntry(val name: String, val bytes: ByteArray, val mimeType: String)
+
+/**
+ * Attachment key → attachment. Filled by the HTML post-processing, read on CEF threads.
+ * The key holds a content hash, so two invoices with an attachment of the same name never
+ * open each other's file.
+ */
+private val globalAttachmentData = java.util.concurrent.ConcurrentHashMap<String, AttachmentEntry>()
+
+/** Registers an attachment and returns the key to put into a `zugferd-attachment://` link. */
+fun registerAttachment(name: String, bytes: ByteArray, mimeType: String): String {
+    val key = "${Integer.toHexString(bytes.contentHashCode())}${bytes.size}-$name"
+    globalAttachmentData[key] = AttachmentEntry(name, bytes, mimeType)
+    return key
+}
 
 
 /**
@@ -169,20 +183,19 @@ fun getCefBrowser(url: String): CefBrowser {
                             // Intercept attachment links → write temp file on-demand, open via file:// URL.
                             if (url.startsWith("zugferd-attachment://")) {
                                 try {
-                                    val filename = java.net.URLDecoder.decode(
-                                        url.removePrefix("zugferd-attachment://"), "UTF-8"
+                                    val key = java.net.URLDecoder.decode(
+                                        url.removePrefix("zugferd-attachment://").trimEnd('/'), "UTF-8"
                                     )
-                                    val entry = globalAttachmentData[filename]
+                                    val entry = globalAttachmentData[key]
                                     if (entry != null) {
-                                        val (bytes, _) = entry
                                         // Create temp file only when user actually clicks — not upfront.
-                                        val safePrefix = filename.replace("[^a-zA-Z0-9._-]".toRegex(), "_")
+                                        val safePrefix = entry.name.replace("[^a-zA-Z0-9._-]".toRegex(), "_")
                                         val tempFile = java.io.File.createTempFile("zugferd_att_", "_$safePrefix")
                                         tempFile.deleteOnExit()
-                                        tempFile.writeBytes(bytes)
-                                        openAttachmentInWindow(tempFile.toURI().toString(), filename)
+                                        tempFile.writeBytes(entry.bytes)
+                                        openAttachmentInWindow(tempFile.toURI().toString(), entry)
                                     } else {
-                                        APP_LOGGER.warn("No attachment data found for: $filename")
+                                        APP_LOGGER.warn("No attachment data found for: $key")
                                     }
                                 } catch (e: Exception) {
                                     APP_LOGGER.error("Fehler beim Öffnen des Anhangs.", e)
@@ -478,7 +491,8 @@ private fun enableVerboseLogging() {
     System.setProperty("jcef.log.trace_thread", "true")
 }
 
-private fun openAttachmentInWindow(url: String, title: String) {
+private fun openAttachmentInWindow(url: String, entry: AttachmentEntry) {
+    val title = entry.name
     javax.swing.SwingUtilities.invokeLater {
         try {
             // Use a dedicated CefClient per popup — sharing CEF_CLIENT with the main browser
@@ -493,22 +507,16 @@ private fun openAttachmentInWindow(url: String, title: String) {
                     suggestedName: String?,
                     callback: org.cef.callback.CefBeforeDownloadCallback?,
                 ) {
-                    val entry = globalAttachmentData[title]
-                    if (entry != null) {
-                        val (bytes, _) = entry
-                        javax.swing.SwingUtilities.invokeLater {
-                            val chooser = javax.swing.JFileChooser()
-                            chooser.selectedFile = java.io.File(suggestedName ?: title)
-                            if (chooser.showSaveDialog(null) == javax.swing.JFileChooser.APPROVE_OPTION) {
-                                try {
-                                    chooser.selectedFile.writeBytes(bytes)
-                                } catch (e: Exception) {
-                                    APP_LOGGER.error("Anhang konnte nicht gespeichert werden.", e)
-                                }
+                    javax.swing.SwingUtilities.invokeLater {
+                        val chooser = javax.swing.JFileChooser()
+                        chooser.selectedFile = java.io.File(suggestedName ?: title)
+                        if (chooser.showSaveDialog(null) == javax.swing.JFileChooser.APPROVE_OPTION) {
+                            try {
+                                chooser.selectedFile.writeBytes(entry.bytes)
+                            } catch (e: Exception) {
+                                APP_LOGGER.error("Anhang konnte nicht gespeichert werden.", e)
                             }
                         }
-                    } else {
-                        callback?.Continue(suggestedName ?: title, true)
                     }
                 }
             })
@@ -531,7 +539,7 @@ private fun openAttachmentInWindow(url: String, title: String) {
             // For non-PDF attachments (e.g. images), Chrome shows no download button.
             // Add a minimal toolbar with a save button only in that case.
             // Check both MIME type and file extension, as the MIME type from the HTML may be unreliable.
-            val mimeType = globalAttachmentData[title]?.second ?: ""
+            val mimeType = entry.mimeType
             val isPdf = mimeType.equals("application/pdf", ignoreCase = true)
                 || title.endsWith(".pdf", ignoreCase = true)
             if (!isPdf) {
@@ -539,17 +547,13 @@ private fun openAttachmentInWindow(url: String, title: String) {
                 toolbar.isFloatable = false
                 val saveButton = javax.swing.JButton("Speichern unter…")
                 saveButton.addActionListener {
-                    val entry = globalAttachmentData[title]
-                    if (entry != null) {
-                        val (bytes, _) = entry
-                        val chooser = javax.swing.JFileChooser()
-                        chooser.selectedFile = java.io.File(title)
-                        if (chooser.showSaveDialog(frame) == javax.swing.JFileChooser.APPROVE_OPTION) {
-                            try {
-                                chooser.selectedFile.writeBytes(bytes)
-                            } catch (e: Exception) {
-                                APP_LOGGER.error("Anhang konnte nicht gespeichert werden.", e)
-                            }
+                    val chooser = javax.swing.JFileChooser()
+                    chooser.selectedFile = java.io.File(title)
+                    if (chooser.showSaveDialog(frame) == javax.swing.JFileChooser.APPROVE_OPTION) {
+                        try {
+                            chooser.selectedFile.writeBytes(entry.bytes)
+                        } catch (e: Exception) {
+                            APP_LOGGER.error("Anhang konnte nicht gespeichert werden.", e)
                         }
                     }
                 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import ch.qos.logback.classic.ClassicConstants
 import de.openindex.zugferd.manager.utils.APP_LAUNCHER
+import de.openindex.zugferd.manager.utils.InvoiceHtmlRenderer
 import de.openindex.zugferd.manager.utils.LOGS_DIR
 import de.openindex.zugferd.manager.utils.SHUTDOWN_HANDLER
 import de.openindex.zugferd.manager.utils.getPlatform
@@ -106,6 +107,14 @@ fun main() {
 
     val appState = _APP_STATE
 
+    // Compile the XSLT stylesheets for the HTML view in the background while CEF starts,
+    // so the first opened invoice doesn't pay for it.
+    Thread({ InvoiceHtmlRenderer.warmUp() }, "quba-xslt-warmup").apply {
+        isDaemon = true
+        priority = Thread.MIN_PRIORITY
+        start()
+    }
+
     /*sorgen dafür, dass CEF beim Programmstart vorbereitet wird,
      *damit der allererste Klick auf „Select e‑Invoice” keinen CEF‑Initialisierungsfehler mehr auslöst.
     */
@@ -113,11 +122,10 @@ fun main() {
         installWebView()
     }
 
-    // Restore previously open tabs from last session.
-    runBlocking {
-        val visualsState = AppSection.VISUALISATION.state as de.openindex.zugferd.manager.sections.VisualsSectionState
-        visualsState.restoreSession(appState)
-    }
+    // Restore previously open tabs from last session. Only the tabs are created here;
+    // the files load in the background so the window opens without waiting for them.
+    (AppSection.VISUALISATION.state as de.openindex.zugferd.manager.sections.VisualsSectionState)
+        .restoreSession(appState)
 
     //
     // Dump System Properties

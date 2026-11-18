@@ -63,6 +63,31 @@ Bei Validierungsfehlern wird jetzt der genaue Ort im XML-Dokument angezeigt.
 **Validierungsbericht exportieren**
 Der Prüfbericht kann als XML-Datei gespeichert werden.
 
+**Rechnungen öffnen deutlich schneller**
+Einlesen, Umwandeln und Anzeigen von Rechnungen gehen jetzt schneller, am meisten bei großen Dateien. Messwerte mit den Beispielrechnungen, bei bereits gestarteter App:
+
+| Datei | vorher | jetzt |
+|---|---|---|
+| kleine XML-Rechnung (13 KB) | 1,6 s | 0,05 s |
+| ZUGFeRD-PDF (1 MB) | 1,5 s | 0,03 s |
+| XRechnung-PDF mit Anhängen (2 MB) | 1,8 s | 0,14 s |
+| XML-Rechnung mit 1.236 Positionen (3,1 MB) | 10,6 s | 2,7 s |
+| PDF mit 1.236 Positionen (5 MB) | 16,8 s | 2,6 s |
+
+Ist dieselbe Datei in Visualisieren und Prüfen geöffnet, verarbeitet Quba sie nur einmal.
+
+**Schneller Programmstart mit wiederhergestellten Tabs**
+Das Fenster erscheint sofort, auch wenn beim letzten Mal viele oder große Dateien geöffnet waren. Der zuletzt aktive Tab lädt zuerst, die anderen folgen im Hintergrund.
+
+**XML-Ansicht überarbeitet**
+Die XML-Ansicht zeigt Zeilennummern und färbt Tags, Attribute, Werte und Kommentare ein. Die Suche (Strg+F) springt zum Treffer. Ein Knopf oben rechts kopiert das gesamte XML in die Zwischenablage. Auch XML-Dateien mit mehreren Megabyte lassen sich flüssig scrollen. Bisher fror die Ansicht bei großen Dateien ein, und ab 500 KB fielen die Farben weg.
+
+**Lange Meldungslisten im Prüfen-Bereich**
+Validierungsmeldungen erscheinen in Blöcken zu je 100, der Knopf „… weitere Mitteilungen anzeigen“ holt die nächsten. Der Export des Prüfberichts nutzt das vorhandene Ergebnis und prüft die Datei nicht noch einmal.
+
+**Bereits geöffnete Datei**
+Öffnest du eine Datei, die schon in einem Tab offen ist, wechselt Quba zu diesem Tab, statt sie ein zweites Mal zu laden.
+
 ---
 
 ## Behobene Probleme
@@ -84,9 +109,16 @@ Der Prüfbericht kann als XML-Datei gespeichert werden.
 - Die Kategorien „Workspace", „Kontakt" und „E-Rechnung" in den Einstellungen waren optisch nicht von normalen Menüpunkten zu unterscheiden.
 - Beim Öffnen einer normalen PDF wurde der Inhalt in bestimmten Situationen nicht angezeigt — die Anzeigefläche blieb leer. Dies ist nun behoben.
 - Beim Wechsel zwischen den Anzeigemodi (z. B. von „Geteilt" zu „PDF") wurde der PDF-Inhalt gelegentlich nicht mehr dargestellt. Dieser Fehler wurde behoben.
+- Waren zwei Rechnungen mit gleichnamigem Anhang geöffnet, konnte „Anhang öffnen“ die Datei der anderen Rechnung zeigen.
+- Wurde während des Ladens in einen anderen Bereich gewechselt, fehlte danach die HTML-Ansicht, oder der Ladekreis im Prüfen-Bereich drehte sich endlos.
+- Brach die Validierung mit einem internen Fehler ab, drehte sich der Ladekreis endlos. Jetzt steht der Fehler in der Meldungsliste.
+- Zwei Dateien mit gleichem Namen aus verschiedenen Ordnern galten als dieselbe Datei. Die zweite ließ sich in manchen Fällen nicht öffnen.
+- Enthielt eine PDF eingebettete Rechnungsdaten, aber keine XMP-Metadaten, zeigte Quba kein XML an.
+- Bei jedem Öffnen einer PDF blieb eine temporäre XML-Datei im Temp-Ordner liegen.
 
 ---
 
 ## Bekannte Einschränkungen
 
 - Im Dark Mode bleibt der HTML-Anzeigebereich hell (wird in einer späteren Version behoben).
+- In der XML-Ansicht erfasst die Textauswahl mit der Maus nur die sichtbaren Zeilen. Für das gesamte XML gibt es den Kopier-Knopf oben rechts.
