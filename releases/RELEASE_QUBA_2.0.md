@@ -88,6 +88,12 @@ Validierungsmeldungen erscheinen in Blöcken zu je 100, der Knopf „… weitere
 **Bereits geöffnete Datei**
 Öffnest du eine Datei, die schon in einem Tab offen ist, wechselt Quba zu diesem Tab, statt sie ein zweites Mal zu laden.
 
+**Anhänge jedes Dateityps öffnen**
+PDF, Bilder, Text und XML öffnen im Anhangsfenster von Quba. Andere Dateitypen wie Excel, Word, CSV oder ZIP öffnet Quba mit dem Programm, das im Betriebssystem dafür eingestellt ist. Gibt es keins, erscheint „Speichern unter“.
+
+**Alle eingebetteten Dateien sichtbar**
+Dateien, die in der PDF stecken, auf die die Rechnung aber nicht verweist, stehen im Tab „Anhänge“ unter „Weitere in der PDF eingebettete Dateien“, mit Dateigröße.
+
 ---
 
 ## Behobene Probleme
@@ -110,6 +116,8 @@ Validierungsmeldungen erscheinen in Blöcken zu je 100, der Knopf „… weitere
 - Beim Öffnen einer normalen PDF wurde der Inhalt in bestimmten Situationen nicht angezeigt — die Anzeigefläche blieb leer. Dies ist nun behoben.
 - Beim Wechsel zwischen den Anzeigemodi (z. B. von „Geteilt" zu „PDF") wurde der PDF-Inhalt gelegentlich nicht mehr dargestellt. Dieser Fehler wurde behoben.
 - Waren zwei Rechnungen mit gleichnamigem Anhang geöffnet, konnte „Anhang öffnen“ die Datei der anderen Rechnung zeigen.
+- Weicht der Name im Verweis der Rechnung vom Namen der eingebetteten Datei ab (z. B. `#ef=ElektronRapport_neu-red.pdf` gegenüber `EN16931_Elektron_ElektronRapport.pdf`), entschied bisher die Reihenfolge, welche Datei geöffnet wird. Jetzt ordnet Quba über Namensteile und Dateityp zu.
+- Ließ sich ein Anhang keiner Datei zuordnen, sprang ein Klick auf „Öffnen“ nur an den Seitenanfang. Jetzt steht dort „Anhang nicht in der Datei enthalten“.
 - Wurde während des Ladens in einen anderen Bereich gewechselt, fehlte danach die HTML-Ansicht, oder der Ladekreis im Prüfen-Bereich drehte sich endlos.
 - Brach die Validierung mit einem internen Fehler ab, drehte sich der Ladekreis endlos. Jetzt steht der Fehler in der Meldungsliste.
 - Zwei Dateien mit gleichem Namen aus verschiedenen Ordnern galten als dieselbe Datei. Die zweite ließ sich in manchen Fällen nicht öffnen.

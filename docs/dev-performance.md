@@ -58,13 +58,43 @@ zuerst. Deshalb steht es in `main.kt` nicht mehr in `runBlocking`.
 - Keine Temp-Dateien, kein Kopier-Thread.
 
 Danach folgt ein einziger Jsoup-Durchgang (`postProcessInvoiceHtml`): eigenes CSS, BT-Nummern
-in den Beschriftungen, Anhänge. Jeder Anhang steht im HTML als verstecktes
-`<div id=… filename=… mimeType=…>BASE64</div>`. Dieser Inhalt wird direkt dekodiert, über
-`registerAttachment()` (`Chrome.desktop.kt`) abgelegt und der Link auf
-`zugferd-attachment://<schlüssel>` umgestellt. Danach wird der Base64-Text aus dem `div`
-entfernt. Bei XRechnung_Elektron schrumpft das HTML so von 1,3 MB auf 83 KB. Der Schlüssel
-enthält einen Hash des Inhalts, damit gleichnamige Anhänge aus zwei Rechnungen sich nicht
-überschreiben.
+in den Beschriftungen, Anhänge.
+
+## Anhänge (`InvoiceAttachments.desktop.kt`, `Chrome.desktop.kt`)
+
+Mustang erzeugt pro Anhang ein verstecktes `<div id=… filename=… mimeType=…>BASE64</div>` und
+einen Link `onclick="downloadData(id)"`. Das Skript öffnet ein Popup, das Quba blockiert. Ein
+Link, den `linkAttachments()` nicht umschreibt, springt deshalb nur an den Seitenanfang.
+
+1. Enthält das `div` Base64-Daten (Anhang steckt im XML), sind das die Daten des Anhangs.
+2. Sonst ist der Anhang eine in der PDF eingebettete Datei, meist per `#ef=<name>` (BT-124)
+   referenziert. Der Name im Verweis weicht oft vom echten Dateinamen ab
+   (`ElektronRapport_neu-red.pdf` gegenüber `EN16931_Elektron_ElektronRapport.pdf`,
+   `Hotelrechung-Immo.pdf` gegenüber `…_Hotelrechnung-Immo.pdf`). `matchEmbeddedFiles()`
+   ordnet alle offenen Links und alle eingebetteten Dateien gemeinsam zu, jede Datei höchstens
+   einmal, in Durchgängen von streng nach locker: gleicher Name, gleicher Name ohne
+   Groß/Klein, ein Name endet auf den anderen, gleicher Dateityp mit den meisten gemeinsamen
+   Namensteilen (Gleichstand bleibt offen), einzige freie Datei dieses Typs, zuletzt die
+   Reihenfolge, aber nur bei gleicher Anzahl und passenden Typen.
+3. Was dann noch ohne Daten ist, bekommt statt des toten Links den Text
+   „Anhang nicht in der Datei enthalten“.
+4. Eingebettete Dateien, auf die kein Link zeigt und deren Inhalt nicht schon verlinkt ist,
+   erscheinen im Tab „Anhänge“ (`#anlagen`) unter „Weitere in der PDF eingebettete Dateien“.
+
+Jeder Anhang wird über `registerAttachment()` abgelegt, der Link zeigt auf
+`zugferd-attachment://<schlüssel>`, der Base64-Text verschwindet aus dem `div`. Bei
+XRechnung_Elektron schrumpft das HTML so von 1,3 MB auf 83 KB. Der Schlüssel enthält einen Hash
+des Inhalts, damit gleichnamige Anhänge aus zwei Rechnungen sich nicht überschreiben.
+
+Beim Klick (`openAttachment()`) schreibt Quba die Datei unter ihrem Namen in einen eigenen
+Temp-Ordner. Fehlt die Endung, kommt sie aus dem MIME-Typ (`withExtension()`). PDF, Bilder
+(PNG, JPEG, GIF, BMP, WebP, SVG), Text, XML und HTML öffnen im Anhangsfenster (eigener
+`CefClient`). Alles andere geht an `java.awt.Desktop.open()`, also an das Programm, das das
+Betriebssystem für die Endung eingestellt hat. Schlägt das fehl, erscheint ein Speichern-Dialog.
+
+Geprüft mit allen Dateien in `samples/XML-Rechnung`: alle Anhänge der 6 PDFs mit Anhängen werden
+zugeordnet. „Nicht enthalten“ erscheint nur bei XML-Dateien, die auf Dateien einer PDF
+verweisen, und bei Verweisen auf eine externe URL.
 
 ## Patch für Mustangs `*-xr.xsl` (`XrSourcePathPatch`)
 

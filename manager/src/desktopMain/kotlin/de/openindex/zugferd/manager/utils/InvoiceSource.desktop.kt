@@ -37,7 +37,7 @@ import java.io.IOException
  * File names under which ZUGFeRD, Factur-X, XRechnung, Order-X and CIDA embed the invoice XML
  * into a PDF (same list Mustang uses), compared case-insensitively.
  */
-private val INVOICE_XML_NAMES = setOf(
+internal val INVOICE_XML_NAMES = setOf(
     "zugferd-invoice.xml",
     "factur-x.xml",
     "xrechnung.xml",
