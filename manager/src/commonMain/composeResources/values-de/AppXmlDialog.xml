@@ -26,4 +26,5 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
 <resources>
     <string name="AppXmlDialogTitle">XML-Ansicht</string>
     <string name="AppXmlDialogClose">schließen</string>
+    <string name="AppXmlViewerCopyAll">gesamtes XML kopieren</string>
 </resources>

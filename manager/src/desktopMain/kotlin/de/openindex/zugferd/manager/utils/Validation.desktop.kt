@@ -25,6 +25,8 @@ import org.mustangproject.validator.ESeverity
 import org.mustangproject.validator.ValidationContext
 import org.mustangproject.validator.ValidationResultItem
 import org.mustangproject.validator.ZUGFeRDValidator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.InputStream
 import de.openindex.zugferd.manager.utils.trimToNull
 
@@ -51,7 +53,7 @@ private class CustomValidator : ZUGFeRDValidator() {
     }
 
     fun getValidation(inputStream: InputStream, fileNameOfInputStream: String): Validation {
-        validate(inputStream, fileNameOfInputStream)
+        val report = validate(inputStream, fileNameOfInputStream)
 
         return Validation(
             isValid = wasCompletelyValid,
@@ -59,6 +61,7 @@ private class CustomValidator : ZUGFeRDValidator() {
             profile = context.profile,
             version = context.generation,
             messages = cachedResultItems.map { getMessage(it) },
+            xmlReport = report,
         )
     }
 
@@ -81,16 +84,14 @@ private class CustomValidator : ZUGFeRDValidator() {
     }
 }
 
-actual suspend fun validatePdf(pdf: PlatformFile): Validation {
-    return pdf.file
-        .inputStream().use { input ->
-            CustomValidator()
-                .getValidation(input, pdf.name)
-        }
+actual suspend fun validatePdf(pdf: PlatformFile): Validation = withContext(Dispatchers.IO) {
+    pdf.file.inputStream().use { input ->
+        CustomValidator().getValidation(input, pdf.name)
+    }
 }
 
-actual suspend fun getValidationXmlReport(pdf: PlatformFile): String? {
-    return try {
+actual suspend fun getValidationXmlReport(pdf: PlatformFile): String? = withContext(Dispatchers.IO) {
+    try {
         pdf.file.inputStream().use { input ->
             ZUGFeRDValidator().validate(input, pdf.name)
         }

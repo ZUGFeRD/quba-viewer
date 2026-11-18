@@ -64,6 +64,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppCheckMessagesFilterType">par type</string>
     <string name="AppCheckMessagesFilterSeverity">par urgence</string>
     <string name="AppCheckMessageMessageCopy">copier[br]le message</string>
+    <string name="AppCheckMessagesShowMore">afficher %1$d notifications de plus</string>
 
     <string name="AppCheckDetailsPdf">PDF sélectionné</string>
     <string name="AppCheckDetailsHtml">visualisation XML</string>

@@ -140,6 +140,7 @@ import de.openindex.zugferd.quba.generated.resources.AppCheckFailed
 import de.openindex.zugferd.quba.generated.resources.AppCheckMessageMessageCopy
 import de.openindex.zugferd.quba.generated.resources.AppCheckMessages
 import de.openindex.zugferd.quba.generated.resources.AppCheckMessagesFilter
+import de.openindex.zugferd.quba.generated.resources.AppCheckMessagesShowMore
 import de.openindex.zugferd.quba.generated.resources.AppCheckMessagesFilterSeverity
 import de.openindex.zugferd.quba.generated.resources.AppCheckMessagesFilterType
 import de.openindex.zugferd.quba.generated.resources.AppCheckPassed
@@ -1099,19 +1100,38 @@ private fun ValidationMessages(tab: CheckTab) {
     val filterType = tab.filterType
     val filterSeverity = tab.filterSeverity
 
+    val filtered = remember(validation, filterType, filterSeverity) {
+        validation.messages.filter { filterType.contains(it.type) && filterSeverity.contains(it.severity) }
+    }
+
+    // Large invoices can produce thousands of messages; composing them all at once
+    // stalls the UI, so they're shown in pages.
+    var visibleCount by remember(filtered) { mutableStateOf(VALIDATION_MESSAGES_PAGE) }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
             .fillMaxWidth(),
     ) {
-        validation.messages
-            .filter { filterType.contains(it.type) }
-            .filter { filterSeverity.contains(it.severity) }
+        filtered
+            .take(visibleCount)
             .forEach {
                 ValidationMessage(it)
             }
+
+        val remaining = filtered.size - visibleCount
+        if (remaining > 0) {
+            QubaButton(
+                label = stringResource(Res.string.AppCheckMessagesShowMore, minOf(remaining, VALIDATION_MESSAGES_PAGE)),
+                onClick = { visibleCount += VALIDATION_MESSAGES_PAGE },
+                variant = QubaButtonVariant.Ghost,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            )
+        }
     }
 }
+
+private const val VALIDATION_MESSAGES_PAGE = 100
 
 /**
  * A single validation message.

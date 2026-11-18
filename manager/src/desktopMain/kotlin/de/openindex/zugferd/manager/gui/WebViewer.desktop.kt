@@ -75,8 +75,9 @@ actual fun WebViewer(html: String, modifier: Modifier, search: SearchState?) {
     var currentTempFile by remember { mutableStateOf<File?>(null) }
 
     LaunchedEffect(html, isDark) {
-        val finalHtml = if (isDark) html.withQubaDarkStyle() else html
+        // Off the UI thread: the HTML of a large invoice can be several megabytes.
         val f = withContext(Dispatchers.IO) {
+            val finalHtml = if (isDark) html.withQubaDarkStyle() else html
             File.createTempFile("quba_html_", ".html").also { file ->
                 file.writeText(finalHtml, Charsets.UTF_8)
             }
@@ -117,7 +118,8 @@ actual fun WebViewer(html: String, modifier: Modifier, search: SearchState?) {
 // Only called when isDark == true; light mode HTML is left completely unchanged.
 // ─────────────────────────────────────────────────────────────────────────────
 
-private fun String.withQubaDarkStyle(): String {
+/** Built once; the CSS/JS were re-minified with regexes on every render before. */
+private val DARK_STYLE_INJECT: String by lazy {
     // language=CSS
     val css = """
         html,body{background:#141418!important;color:#d0d0d8!important}
@@ -160,14 +162,27 @@ private fun String.withQubaDarkStyle(): String {
         });
     """.trimIndent().replace(Regex("\\s*\n\\s*"), " ")
 
-    val inject = "<style>$css</style><script>$js</script>"
-    return when {
-        contains("</head>", ignoreCase = true) ->
-            replaceFirst(Regex("</head>", RegexOption.IGNORE_CASE), "$inject</head>")
-        contains(Regex("<body[^>]*>", RegexOption.IGNORE_CASE)) ->
-            replaceFirst(Regex("(<body[^>]*>)", RegexOption.IGNORE_CASE), "$1$inject")
-        else -> inject + this
+    "<style>$css</style><script>$js</script>"
+}
+
+private val BODY_TAG = Regex("<body[^>]*>", RegexOption.IGNORE_CASE)
+
+private fun String.withQubaDarkStyle(): String {
+    val headEnd = indexOf("</head>", ignoreCase = true)
+    if (headEnd >= 0) {
+        return StringBuilder(length + DARK_STYLE_INJECT.length)
+            .append(this, 0, headEnd)
+            .append(DARK_STYLE_INJECT)
+            .append(this, headEnd, length)
+            .toString()
     }
+    val body = BODY_TAG.find(this) ?: return DARK_STYLE_INJECT + this
+    val insertAt = body.range.last + 1
+    return StringBuilder(length + DARK_STYLE_INJECT.length)
+        .append(this, 0, insertAt)
+        .append(DARK_STYLE_INJECT)
+        .append(this, insertAt, length)
+        .toString()
 }
 
 private class WebPanel(val browser: CefBrowser) : JPanel(BorderLayout()) {

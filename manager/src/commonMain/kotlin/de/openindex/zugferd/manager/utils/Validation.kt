@@ -20,6 +20,7 @@ import de.openindex.zugferd.manager.model.ValidationSeverity
 import de.openindex.zugferd.manager.model.ValidationType
 import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 data class Validation(
@@ -27,7 +28,10 @@ data class Validation(
     val signature: String?,
     val profile: String?,
     val version: String?,
-    val messages: List<ValidationMessage>
+    val messages: List<ValidationMessage>,
+    /** Mustang's XML report, kept so exporting it doesn't re-run the whole validation. */
+    @Transient
+    val xmlReport: String? = null,
 ) {
     val countNotices: Int
         get() = messages.count { it.severity == ValidationSeverity.NOTICE }

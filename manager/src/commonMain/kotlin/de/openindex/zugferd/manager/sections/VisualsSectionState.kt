@@ -14,25 +14,18 @@
  * limitations under the License.
  */
 
-
 package de.openindex.zugferd.manager.sections
-
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import de.openindex.zugferd.manager.AppState
-
 import de.openindex.zugferd.manager.model.DocumentTab
+import de.openindex.zugferd.manager.utils.InvoiceDocuments
 import de.openindex.zugferd.manager.utils.SectionState
 import de.openindex.zugferd.manager.utils.directory
-import de.openindex.zugferd.manager.utils.getHtmlVisualizationFromXML
-import de.openindex.zugferd.manager.utils.getHtmlWithAttachments
-import de.openindex.zugferd.manager.utils.getHtmlWithAttachmentsFromXml
-import de.openindex.zugferd.manager.utils.getPrettyPrintedXml
 import de.openindex.zugferd.manager.utils.getString
-import de.openindex.zugferd.manager.utils.getXmlFromPdf
 import de.openindex.zugferd.manager.utils.title
 import de.openindex.zugferd.manager.utils.trimToNull
 import de.openindex.zugferd.quba.generated.resources.AppSelectFile
@@ -41,9 +34,11 @@ import io.github.vinceglb.filekit.core.FileKit
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
 import io.github.vinceglb.filekit.core.PlatformFile
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 
@@ -60,6 +55,12 @@ class VisualsSectionState : SectionState() {
     var viewMode by mutableStateOf(ViewMode.PDF_ONLY)
     var showViewModeToggle by mutableStateOf(false)
 
+    /**
+     * Loading runs here instead of in a composable scope, so switching to another section
+     * doesn't cancel it halfway and leave a tab without its HTML view.
+     */
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
     fun addNewTab() {
         // An empty name is shown as the translated "new tab" label.
         documents.add(DocumentTab(name = "", pdf = null, isLoading = false))
@@ -68,7 +69,7 @@ class VisualsSectionState : SectionState() {
 
     fun removeTab(index: Int) {
         if (index !in documents.indices) return
-        documents.removeAt(index)
+        documents.removeAt(index).loadJob?.cancel()
         selectedIndex = when {
             documents.isEmpty() -> 0
             index <= selectedIndex -> (selectedIndex - 1).coerceAtLeast(0)
@@ -79,6 +80,7 @@ class VisualsSectionState : SectionState() {
     /** Closes all tabs except the one at [index]. */
     fun removeOtherTabs(index: Int) {
         val keep = documents.getOrNull(index) ?: return
+        documents.filter { it !== keep }.forEach { it.loadJob?.cancel() }
         documents.retainAll { it === keep }
         selectedIndex = 0
     }
@@ -86,7 +88,7 @@ class VisualsSectionState : SectionState() {
     /** Closes all tabs to the right of [index]. */
     fun removeTabsToRight(index: Int) {
         while (documents.size > index + 1) {
-            documents.removeAt(documents.lastIndex)
+            documents.removeAt(documents.lastIndex).loadJob?.cancel()
         }
         selectedIndex = selectedIndex.coerceAtMost(documents.lastIndex.coerceAtLeast(0))
     }
@@ -97,8 +99,6 @@ class VisualsSectionState : SectionState() {
         selectedIndex = to
     }
 
-
-
     suspend fun selectFile(appState: AppState) {
         val file = FileKit.pickFile(
             type = PickerType.File(extensions = listOf("pdf", "xml")),
@@ -107,17 +107,8 @@ class VisualsSectionState : SectionState() {
             initialDirectory = appState.preferences.previousPdfLocation
         ) ?: return
 
-        // Deduplicate: if already open, just switch to that tab.
-        val existingIndex = documents.indexOfFirst { it.name == file.name }
-        if (existingIndex >= 0) {
-            selectedIndex = existingIndex
-            return
-        }
-
         addTabWithFile(file, appState)
     }
-
-
 
     suspend fun loadFileInCurrentTab(file: PlatformFile, appState: AppState) {
         if (documents.isEmpty()) {
@@ -128,36 +119,50 @@ class VisualsSectionState : SectionState() {
         }
     }
 
-
+    /**
+     * Opens [file] in a new tab, or switches to the tab that already shows it.
+     * Returns right away; reading and rendering continue in the background.
+     */
     suspend fun addTabWithFile(file: PlatformFile, appState: AppState) {
-        val newTab = DocumentTab(
-            name = file.name,
-            pdf = null,
-            isLoading = true
-        )
+        val existingIndex = indexOfFile(file)
+        if (existingIndex >= 0) {
+            selectedIndex = existingIndex
+            return
+        }
 
+        val newTab = DocumentTab(name = file.name, pdf = null, isLoading = true)
         documents.add(newTab)
         selectedIndex = documents.lastIndex
-
-        // Verzögerung nur beim allerersten Tab, damit Datei von OS freigegeben wird
-        if (documents.size == 1) {
-            delay(200L) // 200ms sollten reichen
-        }
 
         loadFileInTab(newTab, file, appState)
     }
 
+    /**
+     * Recreates the tabs of the last session. Only the tab list is built here, so the window
+     * opens immediately; the files are processed in the background, the selected tab first.
+     */
+    fun restoreSession(appState: AppState) {
+        val files = appState.preferences.openTabPaths
+            .map(::File)
+            .filter { it.exists() }
+            .map(::PlatformFile)
+        if (files.isEmpty()) return
 
-
-    suspend fun restoreSession(appState: AppState) {
-        val paths = appState.preferences.openTabPaths
-        if (paths.isEmpty()) return
-        for (path in paths) {
-            val javaFile = java.io.File(path)
-            if (javaFile.exists()) addTabWithFile(PlatformFile(javaFile), appState)
+        val restored = files.map { file ->
+            DocumentTab(name = file.name, pdf = null, isLoading = true).also {
+                it.sourceFile = file
+                documents.add(it)
+            }
         }
+
         val idx = appState.preferences.openTabSelectedIndex
         if (idx in documents.indices) selectedIndex = idx
+
+        val first = restored.indexOf(documents.getOrNull(selectedIndex)).coerceAtLeast(0)
+        val order = listOf(first) + restored.indices.filter { it != first }
+        for (i in order) startLoading(restored[i], files[i])
+
+        appState.lastSelectedFile = files[first]
     }
 
     /**
@@ -186,75 +191,51 @@ class VisualsSectionState : SectionState() {
 
     suspend fun loadFileInTab(tab: DocumentTab, file: PlatformFile, appState: AppState) {
         appState.lastSelectedFile = file
+        file.directory?.let { appState.preferences.setPreviousPdfLocation(it) }
+        startLoading(tab, file)
+    }
+
+    private fun startLoading(tab: DocumentTab, file: PlatformFile) {
+        tab.loadJob?.cancel()
         tab.sourceFile = file
+        tab.name = file.name
+        // Show the PDF viewer right away; corrected below once the content has been checked.
+        tab.pdf = if (file.name.endsWith(".pdf", ignoreCase = true)) file else null
+        tab.xml = null
+        tab.html = null
         tab.isLoading = true
         tab.isHtmlLoading = false
 
-        // Phase 1: XML sofort lesen und anzeigen (schnell)
-        val filePath: java.nio.file.Path
-        val isXml: Boolean
-        var fileText = ""
-        try {
-            if (tab.name.isEmpty()) delay(150L)
-
-            // Datei auf IO-Dispatcher lesen (blockierende Operation)
-            fileText = withContext(Dispatchers.IO) { readFileWithRetry(file.file) }
-
-            filePath = file.file.toPath()
-            isXml = file.name.lowercase().endsWith(".xml") || fileText.trimStart().startsWith("<")
-
-            tab.name = file.name
-            tab.pdf = if (!isXml) file else null
-
-            // XML-Inhalt: bei XML-Datei bereits im Speicher, bei PDF auf IO-Dispatcher
-            tab.xml = if (isXml) {
-                fileText.trimToNull()
-            } else {
-                withContext(Dispatchers.IO) {
-                    getXmlFromPdf(file)?.let { getPrettyPrintedXml(it) }?.trimToNull()
-                }
-            }
-
-            file.directory?.let { appState.preferences.setPreviousPdfLocation(it) }
-
-        } catch (e: IOException) {
-            println("Fehler beim Lesen der Datei: ${e.message}")
-            throw e
-        } finally {
-            tab.isLoading = false  // XML ist bereit → Spinner ausblenden
-        }
-
-        // Phase 2: HTML im Hintergrund generieren (kann länger dauern)
-        // XML-View ist bereits sichtbar, HTML-Tab erscheint sobald fertig
-        try {
-            tab.isHtmlLoading = true
-            tab.html = withContext(Dispatchers.IO) {
-                if (isXml) getHtmlWithAttachmentsFromXml(filePath, fileText)?.trimToNull()
-                else getHtmlWithAttachments(file)?.trimToNull()
-            }
-        } finally {
-            tab.isHtmlLoading = false
-        }
-    }
-
-    suspend fun readFileWithRetry(file: File, maxAttempts: Int = 5, initialDelay: Long = 100L): String {
-        var currentDelay = initialDelay
-        repeat(maxAttempts) { attempt ->
+        tab.loadJob = scope.launch {
+            // Phase 1: XML (one read of the file), shown as soon as it's there.
             try {
-                return file.inputStream().bufferedReader().use { it.readText() }
-            } catch (e: IOException) {
-                if (attempt == maxAttempts - 1) throw e
-                delay(currentDelay)
-                currentDelay *= 2 // Exponentielles Backoff
+                val source = InvoiceDocuments.source(file)
+                tab.pdf = if (source.isPdf) file else null
+                tab.xml = source.prettyXml
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                println("Fehler beim Lesen der Datei: ${e.message}")
+            } finally {
+                tab.isLoading = false
+            }
+
+            // Phase 2: HTML in the background; the HTML tab appears when it's ready.
+            try {
+                tab.isHtmlLoading = true
+                tab.html = InvoiceDocuments.html(file)?.trimToNull()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                println("Fehler bei der HTML-Visualisierung: ${e.message}")
+            } finally {
+                tab.isHtmlLoading = false
             }
         }
-        throw IOException("Datei konnte nach $maxAttempts Versuchen nicht gelesen werden")
     }
 
-
-
-
+    private fun indexOfFile(file: PlatformFile): Int {
+        val path = file.file.absolutePath
+        return documents.indexOfFirst { it.sourceFile?.file?.absolutePath == path }
+    }
 }
-
-
-
