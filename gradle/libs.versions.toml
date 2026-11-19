@@ -15,6 +15,7 @@ kotlin = "2.1.10"
 kotlinx-coroutines = "1.10.1"
 kotlinx-datetime = "0.6.2"
 kotlinx-serialization = "1.8.0"
+license-report = "2.9"
 logback = "1.5.17"
 mustang = "2.26.0"
 proguard = "7.6.0"
@@ -46,5 +47,6 @@ buildinfo = { id = "net.h34t.buildinfo", version.ref = "buildinfo" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+licenseReport = { id = "com.github.jk1.dependency-license-report", version.ref = "license-report" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }

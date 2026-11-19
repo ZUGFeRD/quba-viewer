@@ -61,6 +61,44 @@ plugins {
     // BuildInfo Plugin
     // https://codeberg.org/h34tnet/buildinfo
     alias(libs.plugins.buildinfo)
+
+    // License Report Plugin
+    // https://github.com/jk1/Gradle-License-Report
+    alias(libs.plugins.licenseReport)
+}
+
+//
+// Legal files (license, notice, third-party licenses),
+// that are bundled with every distribution.
+//
+val legalFiles: CopySpec = copySpec {
+    from(rootProject.layout.projectDirectory) {
+        include("LICENSE.txt", "NOTICE", "THIRD-PARTY-NOTICES.txt", "licenses/**")
+    }
+}
+
+val prepareLegalResources by tasks.registering(Sync::class) {
+    group = "OpenIndex"
+    description = "Prepare legal files for the application image."
+    into(project.layout.buildDirectory.dir("legal-resources/common/legal"))
+    with(legalFiles)
+}
+
+tasks.matching { it.name == "prepareAppResources" }.configureEach {
+    dependsOn(prepareLegalResources)
+}
+
+//
+// Third-party license report
+// https://github.com/jk1/Gradle-License-Report
+//
+// Generates THIRD-PARTY-NOTICES.txt for all bundled runtime dependencies.
+// Run "./gradlew :Quba:generateLicenseReport" after updating dependencies
+// and copy the result from build/reports/dependency-license/ into the project root.
+//
+licenseReport {
+    configurations = arrayOf("desktopRuntimeClasspath")
+    renderers = arrayOf(com.github.jk1.license.render.TextReportRenderer("THIRD-PARTY-NOTICES.txt"))
 }
 
 //
@@ -233,9 +271,13 @@ compose.desktop {
             packageName = applicationPackageName
             //packageVersion = project.version.toString()
             vendor = "Mustangproject"
-            copyright = "© $copyrightYear OpenIndex. All rights reserved."
+            copyright = "© $copyrightYear Andreas Rudolph, OpenIndex and Mustangproject contributors. Licensed under the Apache License 2.0."
             description = "A desktop application for creating and validating e-invoices."
             licenseFile = rootProject.file("LICENSE.txt")
+
+            // Bundle license, notice and third-party license files with every installer.
+            // Files in "common" are copied into the resources folder of the application image.
+            appResourcesRootDir.set(project.layout.buildDirectory.dir("legal-resources"))
 
             if (isLinux) {
                 targetFormats(TargetFormat.Deb, TargetFormat.Rpm)
@@ -433,8 +475,8 @@ tasks {
             compression = Compression.GZIP
             destinationDirectory = rootProject.layout.buildDirectory
             from(project.layout.buildDirectory.dir("compose/binaries/main-release/app"))
-            from(rootProject.layout.projectDirectory.file("LICENSE.txt")) {
-                into(project.name)
+            into(project.name) {
+                with(legalFiles)
             }
         }
 
@@ -787,8 +829,8 @@ tasks {
             archiveClassifier = if (isArm64) "windows-arm64" else "windows-x64"
             destinationDirectory = rootProject.layout.buildDirectory
             from(project.layout.buildDirectory.dir("compose/binaries/main-release/app"))
-            from(rootProject.layout.projectDirectory.file("LICENSE.txt")) {
-                into(project.name)
+            into(project.name) {
+                with(legalFiles)
             }
         }
 

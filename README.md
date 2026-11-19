@@ -69,6 +69,8 @@ Sie können und sollten Ihre eigenen erzeugten E-Rechnungen sowie auch von Ander
 
 Die Software steht kostenfrei unter den Bedingungen der [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) zur Verfügung (Open Source). Die Autoren übernehmen keinerlei Haftung für eventuelle Schäden, die aus der Nutzung dieser Software resultieren.
 
+Hinweise zu enthaltenen Komponenten Dritter finden sich in [NOTICE](NOTICE), [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt) und im Ordner [licenses](licenses/). Nach einer Aktualisierung von Abhängigkeiten sollte `THIRD-PARTY-NOTICES.txt` mit `./gradlew :Quba:generateLicenseReport` neu erzeugt und aus `manager/build/reports/dependency-license/` ins Projektverzeichnis kopiert werden.
+
 
 ## 🇺🇸 Information about development 🇺🇸
 
@@ -77,7 +79,8 @@ The application is written in [Kotlin / JVM](https://kotlinlang.org/) using [Com
 
 <details>
 <summary>2.1.0 xx.xx.xxxx</summary> 
-- #12
+- #12 #192 #173
+-
 
 </details>
 
