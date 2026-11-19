@@ -27,6 +27,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppSidebarCreate">créer</string>
     <string name="AppSidebarCheck">tester</string>
     <string name="AppSidebarSettings">options</string>
+    <string name="AppSidebarNewVisualisation">visualiser</string>
     <string name="AppSidebarQuit">terminer</string>
     <string name="AppSidebarCollapse">réduire</string>
     <string name="AppSidebarExpand">développer</string>
@@ -37,4 +38,28 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppTradePartyDialogGeneralTaxHint">* Au moins l'une des deux informations est requise.</string>
 
     <string name="AppPricePerUnit">%1$s par %2$s</string>
+
+    <string name="AppSelectFile">sélectionner un fichier</string>
+    <string name="AppSelectFiles">sélectionner des fichiers</string>
+    <string name="AppOpenFurtherFile">ouvrir un autre fichier</string>
+    <string name="AppOpenInCheck">ouvrir dans la validation</string>
+    <string name="AppOpenInVisualisation">ouvrir dans la visualisation</string>
+    <string name="AppClearSelection">effacer la sélection</string>
+    <string name="AppSaveAs">enregistrer sous…</string>
+
+    <string name="AppTabNew">nouvel onglet</string>
+    <string name="AppTabClose">fermer l'onglet</string>
+    <string name="AppTabCloseMenu">fermer</string>
+    <string name="AppTabCloseOthers">fermer les autres onglets</string>
+    <string name="AppTabCloseToRight">fermer les onglets à droite</string>
+
+    <string name="AppSearch">rechercher</string>
+    <string name="AppSearchTooltip">rechercher (Ctrl+F) — Entrée : résultat suivant · Échap : fermer</string>
+    <string name="AppSearchNext">résultat suivant</string>
+    <string name="AppSearchClose">fermer la recherche</string>
+
+    <string name="AppThemeLight">clair</string>
+    <string name="AppThemeAuto">auto</string>
+    <string name="AppThemeDark">sombre</string>
+    <string name="AppThemeSwitch">changer de thème</string>
 </resources>

@@ -30,8 +30,8 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     </plurals>
 
     <string name="PaymentMethod_10">Paiement en espèces</string>
-    <string name="PaymentMethod_30">Überweisung</string>
-    <string name="PaymentMethod_31">Virement bancaire</string>
+    <string name="PaymentMethod_30">Virement</string>
+    <string name="PaymentMethod_31">Transfert de débit</string>
     <string name="PaymentMethod_42">Versement sur le compte</string>
     <string name="PaymentMethod_48">Paiement par carte</string>
     <string name="PaymentMethod_49">Prélèvement</string>

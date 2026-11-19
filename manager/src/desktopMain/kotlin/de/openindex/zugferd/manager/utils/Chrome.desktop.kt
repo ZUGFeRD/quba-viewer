@@ -22,6 +22,7 @@ import de.openindex.zugferd.manager.AppInfo
 import de.openindex.zugferd.manager.AppSection
 import de.openindex.zugferd.manager._APP_STATE
 import de.openindex.zugferd.manager.sections.VisualsSectionState
+import de.openindex.zugferd.quba.generated.resources.AppSaveAs
 import de.openindex.zugferd.quba.generated.resources.AppVisualisationExportPdfContextMenu
 import de.openindex.zugferd.quba.generated.resources.Res
 import io.github.vinceglb.filekit.core.FileKit
@@ -532,7 +533,7 @@ private fun openAttachmentInWindow(url: String, title: String) {
             if (!isPdf) {
                 val toolbar = javax.swing.JToolBar()
                 toolbar.isFloatable = false
-                val saveButton = javax.swing.JButton("Speichern unter…")
+                val saveButton = javax.swing.JButton(getStringBlocking(Res.string.AppSaveAs).title())
                 saveButton.addActionListener {
                     val entry = globalAttachmentData[title]
                     if (entry != null) {

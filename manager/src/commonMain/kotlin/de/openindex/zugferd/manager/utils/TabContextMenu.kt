@@ -16,6 +16,10 @@
 
 package de.openindex.zugferd.manager.utils
 
+import de.openindex.zugferd.quba.generated.resources.AppTabCloseMenu
+import de.openindex.zugferd.quba.generated.resources.AppTabCloseOthers
+import de.openindex.zugferd.quba.generated.resources.AppTabCloseToRight
+import de.openindex.zugferd.quba.generated.resources.Res
 import java.awt.KeyboardFocusManager
 import javax.swing.JMenuItem
 import javax.swing.JPopupMenu
@@ -40,15 +44,15 @@ fun showTabContextMenu(
     SwingUtilities.invokeLater {
         val menu = JPopupMenu()
 
-        menu.add(JMenuItem("Schließen").apply {
+        menu.add(JMenuItem(getStringBlocking(Res.string.AppTabCloseMenu).title()).apply {
             addActionListener { onClose() }
         })
 
-        menu.add(JMenuItem("Andere Tabs schließen").apply {
+        menu.add(JMenuItem(getStringBlocking(Res.string.AppTabCloseOthers).title()).apply {
             addActionListener { onCloseOthers() }
         })
 
-        menu.add(JMenuItem("Tabs rechts schließen").apply {
+        menu.add(JMenuItem(getStringBlocking(Res.string.AppTabCloseToRight).title()).apply {
             isEnabled = onCloseToRight != null
             addActionListener { onCloseToRight?.invoke() }
         })

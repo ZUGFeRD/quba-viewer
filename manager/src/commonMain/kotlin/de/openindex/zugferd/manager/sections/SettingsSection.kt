@@ -97,6 +97,9 @@ import de.openindex.zugferd.quba.generated.resources.AppSettingsCreatePdfRemoveA
 import de.openindex.zugferd.quba.generated.resources.AppSettingsCreatePdfRemoveAttachmentsExperimental
 import de.openindex.zugferd.quba.generated.resources.AppSettingsCreatePdfRemoveAttachmentsWarning
 import de.openindex.zugferd.quba.generated.resources.AppSettingsGeneral
+import de.openindex.zugferd.quba.generated.resources.AppSettingsGroupContacts
+import de.openindex.zugferd.quba.generated.resources.AppSettingsGroupInvoice
+import de.openindex.zugferd.quba.generated.resources.AppSettingsGroupWorkspace
 import de.openindex.zugferd.quba.generated.resources.AppSettingsGeneralCountry
 import de.openindex.zugferd.quba.generated.resources.AppSettingsGeneralCurrency
 import de.openindex.zugferd.quba.generated.resources.AppSettingsGeneralInfo
@@ -199,7 +202,7 @@ private fun SettingsLeftNav(
                 .fillMaxWidth()
                 .padding(vertical = 12.dp, horizontal = 8.dp),
         ) {
-            SettingsNavGroup(label = "Workspace") {
+            SettingsNavGroup(label = stringResource(Res.string.AppSettingsGroupWorkspace).title()) {
                 SettingsNavItem(
                     label = stringResource(Res.string.AppSettingsGeneral).title(),
                     selected = currentPage == SettingsPage.GENERAL,
@@ -211,7 +214,7 @@ private fun SettingsLeftNav(
                     onClick = { onPageChange(SettingsPage.THEME) },
                 )
             }
-            SettingsNavGroup(label = "Contacts") {
+            SettingsNavGroup(label = stringResource(Res.string.AppSettingsGroupContacts).title()) {
                 SettingsNavItem(
                     label = stringResource(Res.string.AppSettingsSender).title(),
                     selected = currentPage == SettingsPage.SENDERS,
@@ -228,7 +231,7 @@ private fun SettingsLeftNav(
                     onClick = { onPageChange(SettingsPage.PRODUCTS) },
                 )
             }
-            SettingsNavGroup(label = "E-Invoice") {
+            SettingsNavGroup(label = stringResource(Res.string.AppSettingsGroupInvoice).title()) {
                 SettingsNavItem(
                     label = stringResource(Res.string.AppSettingsCreate).title(),
                     selected = currentPage == SettingsPage.CREATE,

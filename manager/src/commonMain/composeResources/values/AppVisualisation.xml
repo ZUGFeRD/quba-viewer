@@ -76,4 +76,12 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppVisualisationViewCode">Html/Xml</string>
 
     <string name="AppVisualisationExportPdfContextMenu">Export visualization as PDF</string>
+
+    <string name="AppVisualisationHtmlPreview">HTML preview</string>
+    <string name="AppVisualisationHtmlGenerating">generating HTML…</string>
+    <string name="AppVisualisationNoContent">no content available</string>
+    <string name="AppVisualisationSwitchView">switch view</string>
+    <string name="AppVisualisationOpenAttachment">open attachment</string>
+    <string name="AppVisualisationHtmlUnavailable">HTML visualization is not available – showing the XML source instead.</string>
+    <string name="AppVisualisationXmlReadError">error reading the XML file</string>
 </resources>

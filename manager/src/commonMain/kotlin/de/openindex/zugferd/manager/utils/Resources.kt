@@ -17,6 +17,7 @@
 package de.openindex.zugferd.manager.utils
 
 import androidx.compose.runtime.Composable
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.Resource
 import org.jetbrains.compose.resources.StringResource
@@ -96,6 +97,14 @@ suspend fun getString(resource: StringResource): String =
  */
 suspend fun getString(resource: StringResource, vararg formatArgs: Any): String =
     _getString(resource, *formatArgs).fixString()
+
+/**
+ * Blocking variant of [getString] for code outside of Compose and coroutines,
+ * e.g. Swing menus and dialogs or HTML post-processing.
+ * @see String.fixString
+ */
+fun getStringBlocking(resource: StringResource): String =
+    runBlocking { getString(resource) }
 
 /**
  * Custom getPluralString implementation, that fixes newlines and indentation.

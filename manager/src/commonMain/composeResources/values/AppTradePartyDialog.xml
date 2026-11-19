@@ -33,7 +33,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppTradePartyDialogGeneralCountry">country</string>
     <string name="AppTradePartyDialogGeneralVatId">VAT-ID</string>
     <string name="AppTradePartyDialogGeneralTaxId">tax-ID</string>
-    <string name="AppTradePartyDialogGeneralRegisterNr">register-nr</string>
+    <string name="AppTradePartyDialogGeneralRegisterNr">commercial register no.</string>
     <string name="AppTradePartyDialogGeneralCustomerId">customer-nr</string>
 
     <string name="AppTradePartyDialogContact">contact</string>

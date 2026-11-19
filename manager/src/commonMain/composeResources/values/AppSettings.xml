@@ -109,4 +109,8 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
 
     <string name="AppSettingsSectionInfo">Show / Hide further information.</string>
     <string name="AppSettingsSectionMore">Show further actions.</string>
+
+    <string name="AppSettingsGroupWorkspace">workspace</string>
+    <string name="AppSettingsGroupContacts">contacts</string>
+    <string name="AppSettingsGroupInvoice">e-invoice</string>
 </resources>

@@ -77,6 +77,10 @@ import de.openindex.zugferd.manager.utils.title
 import de.openindex.zugferd.quba.generated.resources.AppSidebarCollapse
 import de.openindex.zugferd.quba.generated.resources.AppSidebarExpand
 import de.openindex.zugferd.quba.generated.resources.AppSidebarQuit
+import de.openindex.zugferd.quba.generated.resources.AppThemeAuto
+import de.openindex.zugferd.quba.generated.resources.AppThemeDark
+import de.openindex.zugferd.quba.generated.resources.AppThemeLight
+import de.openindex.zugferd.quba.generated.resources.AppThemeSwitch
 import de.openindex.zugferd.quba.generated.resources.Res
 import de.openindex.zugferd.quba.generated.resources.ic_app_logo
 import java.awt.KeyEventDispatcher
@@ -392,7 +396,7 @@ private fun ThemeModeToggle(isExpanded: Boolean) {
         ) {
             ThemeSegment(
                 icon = Icons.Default.LightMode,
-                label = "Hell",
+                label = stringResource(Res.string.AppThemeLight).title(),
                 active = preferences.isThemeLight,
                 modifier = Modifier.weight(1f),
                 onClick = { setTheme(false) },
@@ -400,7 +404,7 @@ private fun ThemeModeToggle(isExpanded: Boolean) {
             Box(modifier = Modifier.width(1.dp).fillMaxHeight().background(colors.border))
             ThemeSegment(
                 icon = Icons.Default.BrightnessAuto,
-                label = "Auto",
+                label = stringResource(Res.string.AppThemeAuto).title(),
                 active = preferences.isThemeAuto,
                 modifier = Modifier.weight(1f),
                 onClick = { setTheme(null) },
@@ -408,7 +412,7 @@ private fun ThemeModeToggle(isExpanded: Boolean) {
             Box(modifier = Modifier.width(1.dp).fillMaxHeight().background(colors.border))
             ThemeSegment(
                 icon = Icons.Default.DarkMode,
-                label = "Dunkel",
+                label = stringResource(Res.string.AppThemeDark).title(),
                 active = preferences.isThemeDark,
                 modifier = Modifier.weight(1f),
                 onClick = { setTheme(true) },
@@ -440,7 +444,7 @@ private fun ThemeModeToggle(isExpanded: Boolean) {
             ) {
                 Icon(
                     imageVector = currentIcon,
-                    contentDescription = "Theme wechseln",
+                    contentDescription = stringResource(Res.string.AppThemeSwitch).title(),
                     tint = colors.text3,
                     modifier = Modifier.size(20.dp),
                 )

@@ -49,6 +49,8 @@ import androidx.compose.ui.unit.dp
 import de.openindex.zugferd.manager.utils.stringResource
 import de.openindex.zugferd.manager.utils.title
 import de.openindex.zugferd.manager.utils.translate
+import de.openindex.zugferd.quba.generated.resources.AppClearSelection
+import de.openindex.zugferd.quba.generated.resources.Res
 import org.jetbrains.compose.resources.Resource
 import org.jetbrains.compose.resources.StringResource
 
@@ -97,7 +99,7 @@ fun <T> AutoCompleteField(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Clear,
-                            contentDescription = "Auswahl leeren",
+                            contentDescription = stringResource(Res.string.AppClearSelection).title(),
                         )
                     }
                 },

@@ -19,6 +19,10 @@ package de.openindex.zugferd.manager.utils
 import de.openindex.zugferd.manager.APP_LOGGER
 import de.openindex.zugferd.manager.APP_TITLE_FULL
 import de.openindex.zugferd.manager.APP_VERSION
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationHtmlUnavailable
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationOpenAttachment
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationXmlReadError
+import de.openindex.zugferd.quba.generated.resources.Res
 import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -171,6 +175,8 @@ actual fun postProcessHtmlForAttachments(html: String, attachments: List<Pair<St
     if (html.isBlank()) return html
     APP_LOGGER.info("Post-processing HTML for attachments. Found ${attachments.size} attachments in PDF.")
 
+    val openAttachmentLabel = getStringBlocking(Res.string.AppVisualisationOpenAttachment).title()
+
     // Keep bytes in memory — no temp files needed.
     val attachmentData = mutableMapOf<String, ByteArray>()        // original name → bytes
     val attachmentContentMap = mutableMapOf<String, String>()     // base64 content → original name
@@ -250,7 +256,7 @@ actual fun postProcessHtmlForAttachments(html: String, attachments: List<Pair<St
             link.attr("href", "zugferd-attachment://$encodedFilename")
             link.removeAttr("onclick")
             link.removeAttr("download")
-            link.text("Anhang öffnen")
+            link.text(openAttachmentLabel)
             APP_LOGGER.info("Replaced link for '$filename' with in-memory attachment reference (${bytes.size} bytes)")
         } else {
             APP_LOGGER.warn("No matching attachment found for filename '$filename'")
@@ -343,12 +349,16 @@ actual suspend fun getHtmlVisualizationFromXML(xml: Path): String? {
     }
 }
 
-private fun generateFallbackHtml(xml: Path): String {
+private suspend fun generateFallbackHtml(xml: Path): String {
     val xmlContent = try {
         xml.toFile().readText(Charsets.UTF_8)
     } catch (e: Exception) {
-        "<!-- Fehler beim Lesen der XML-Datei: ${e.message} -->"
+        "<!-- ${getString(Res.string.AppVisualisationXmlReadError).title()}: ${e.message} -->"
     }
+    val warning = getString(Res.string.AppVisualisationHtmlUnavailable)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
     val escaped = xmlContent
         .replace("&", "&amp;")
         .replace("<", "&lt;")
@@ -359,7 +369,7 @@ body{font-family:monospace;padding:20px;background:#1e1e1e;color:#d4d4d4}
 pre{white-space:pre-wrap;word-break:break-all;font-size:12px;line-height:1.5}
 .warn{background:#b45309;color:#fff;padding:10px 16px;border-radius:6px;margin-bottom:16px;font-family:sans-serif;font-size:13px}
 </style></head><body>
-<div class="warn">&#9888; HTML-Visualisierung nicht verfügbar – XML-Quellcode wird angezeigt.</div>
+<div class="warn">&#9888; $warning</div>
 <pre>$escaped</pre>
 </body></html>"""
 }

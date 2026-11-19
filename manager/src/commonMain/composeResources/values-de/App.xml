@@ -38,4 +38,28 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppTradePartyDialogGeneralTaxHint">* Mindestens eine der beiden Angaben ist erforderlich.</string>
 
     <string name="AppPricePerUnit">%1$s pro %2$s</string>
+
+    <string name="AppSelectFile">Datei auswählen</string>
+    <string name="AppSelectFiles">Dateien auswählen</string>
+    <string name="AppOpenFurtherFile">weitere Datei öffnen</string>
+    <string name="AppOpenInCheck">in Prüfen öffnen</string>
+    <string name="AppOpenInVisualisation">in Visualisierung öffnen</string>
+    <string name="AppClearSelection">Auswahl leeren</string>
+    <string name="AppSaveAs">speichern unter…</string>
+
+    <string name="AppTabNew">neuer Tab</string>
+    <string name="AppTabClose">Tab schließen</string>
+    <string name="AppTabCloseMenu">schließen</string>
+    <string name="AppTabCloseOthers">andere Tabs schließen</string>
+    <string name="AppTabCloseToRight">Tabs rechts schließen</string>
+
+    <string name="AppSearch">suchen</string>
+    <string name="AppSearchTooltip">suchen (Strg+F) — Enter: nächster Treffer · Esc: schließen</string>
+    <string name="AppSearchNext">nächster Treffer</string>
+    <string name="AppSearchClose">Suche schließen</string>
+
+    <string name="AppThemeLight">hell</string>
+    <string name="AppThemeAuto">auto</string>
+    <string name="AppThemeDark">dunkel</string>
+    <string name="AppThemeSwitch">Theme wechseln</string>
 </resources>

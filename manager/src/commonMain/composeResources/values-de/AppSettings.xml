@@ -114,4 +114,8 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
 
     <string name="AppSettingsSectionInfo">Weitere Informationen einblenden / ausblenden.</string>
     <string name="AppSettingsSectionMore">Weitere Aktionen anzeigen.</string>
+
+    <string name="AppSettingsGroupWorkspace">Arbeitsbereich</string>
+    <string name="AppSettingsGroupContacts">Kontakte</string>
+    <string name="AppSettingsGroupInvoice">E-Rechnung</string>
 </resources>

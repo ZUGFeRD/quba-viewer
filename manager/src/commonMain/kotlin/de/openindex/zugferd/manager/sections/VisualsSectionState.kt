@@ -31,8 +31,12 @@ import de.openindex.zugferd.manager.utils.getHtmlVisualizationFromXML
 import de.openindex.zugferd.manager.utils.getHtmlWithAttachments
 import de.openindex.zugferd.manager.utils.getHtmlWithAttachmentsFromXml
 import de.openindex.zugferd.manager.utils.getPrettyPrintedXml
+import de.openindex.zugferd.manager.utils.getString
 import de.openindex.zugferd.manager.utils.getXmlFromPdf
+import de.openindex.zugferd.manager.utils.title
 import de.openindex.zugferd.manager.utils.trimToNull
+import de.openindex.zugferd.quba.generated.resources.AppSelectFile
+import de.openindex.zugferd.quba.generated.resources.Res
 import io.github.vinceglb.filekit.core.FileKit
 import io.github.vinceglb.filekit.core.PickerMode
 import io.github.vinceglb.filekit.core.PickerType
@@ -57,7 +61,8 @@ class VisualsSectionState : SectionState() {
     var showViewModeToggle by mutableStateOf(false)
 
     fun addNewTab() {
-        documents.add(DocumentTab(name = "Neuer Tab", pdf = null, isLoading = false))
+        // An empty name is shown as the translated "new tab" label.
+        documents.add(DocumentTab(name = "", pdf = null, isLoading = false))
         selectedIndex = documents.lastIndex
     }
 
@@ -98,7 +103,7 @@ class VisualsSectionState : SectionState() {
         val file = FileKit.pickFile(
             type = PickerType.File(extensions = listOf("pdf", "xml")),
             mode = PickerMode.Single,
-            title = "Datei auswählen",
+            title = getString(Res.string.AppSelectFile).title(),
             initialDirectory = appState.preferences.previousPdfLocation
         ) ?: return
 

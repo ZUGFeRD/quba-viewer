@@ -28,7 +28,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppProductDialogGeneralName">name</string>
     <string name="AppProductDialogGeneralPricePerUnit">price per unit</string>
     <string name="AppProductDialogGeneralTax">taxes in %</string>
-    <string name="AppProductDialogGeneralTaxExemptionReason">reason für 0% tax</string>
+    <string name="AppProductDialogGeneralTaxExemptionReason">reason for tax exemption</string>
 
     <string name="AppProductDialogNotes">notes</string>
     <string name="AppProductDialogNotesDescription">description</string>

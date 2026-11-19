@@ -159,6 +159,12 @@ import de.openindex.zugferd.quba.generated.resources.AppCheckSummaryUnknown
 import de.openindex.zugferd.quba.generated.resources.AppCheckSummaryVersion
 import de.openindex.zugferd.quba.generated.resources.AppCheckSummaryWarnings
 import de.openindex.zugferd.quba.generated.resources.Res
+import de.openindex.zugferd.quba.generated.resources.AppOpenFurtherFile
+import de.openindex.zugferd.quba.generated.resources.AppOpenInVisualisation
+import de.openindex.zugferd.quba.generated.resources.AppSearch
+import de.openindex.zugferd.quba.generated.resources.AppSearchTooltip
+import de.openindex.zugferd.quba.generated.resources.AppSelectFiles
+import de.openindex.zugferd.quba.generated.resources.AppTabClose
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -199,7 +205,7 @@ fun CheckSection(state: CheckSectionState) {
     val emptyAreaLauncher = rememberFilePickerLauncher(
         type = PickerType.File(extensions = listOf("pdf", "xml")),
         mode = PickerMode.Multiple(),
-        title = "Dateien auswählen",
+        title = stringResource(Res.string.AppSelectFiles).title(),
         onResult = { files: List<PlatformFile>? ->
             files?.forEach { file ->
                 scope.launch {
@@ -340,11 +346,12 @@ private fun CheckTabStrip(state: CheckSectionState) {
     val scope = rememberCoroutineScope()
     val appState = LocalAppState.current
     val density = LocalDensity.current
+    val openInVisualisationLabel = stringResource(Res.string.AppOpenInVisualisation).title()
 
     val fileLauncher = rememberFilePickerLauncher(
         type = PickerType.File(extensions = listOf("pdf", "xml")),
         mode = PickerMode.Multiple(),
-        title = "Dateien auswählen",
+        title = stringResource(Res.string.AppSelectFiles).title(),
         onResult = { files: List<PlatformFile>? ->
             files?.forEach { file ->
                 scope.launch(Dispatchers.IO) {
@@ -449,7 +456,7 @@ private fun CheckTabStrip(state: CheckSectionState) {
                                 onClose = { state.removeTab(index) },
                                 onCloseOthers = { state.removeOtherTabs(index) },
                                 onCloseToRight = if (index < state.tabs.lastIndex) ({ state.removeTabsToRight(index) }) else null,
-                                openInOtherLabel = "In Visualisierung öffnen",
+                                openInOtherLabel = openInVisualisationLabel,
                                 onOpenInOther = if (visualsState != null) ({
                                     // Use an independent scope — the local composable scope is
                                     // cancelled when this section leaves the composition on switch.
@@ -499,7 +506,7 @@ private fun CheckTabStrip(state: CheckSectionState) {
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Weitere Datei öffnen",
+                    contentDescription = stringResource(Res.string.AppOpenFurtherFile).title(),
                     modifier = Modifier.size(18.dp),
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
@@ -518,12 +525,12 @@ private fun CheckTabStrip(state: CheckSectionState) {
                     modifier = Modifier.width(280.dp).padding(end = 4.dp),
                 )
             } else {
-                Tooltip(text = "Suchen (Strg+F) — Enter: nächster Treffer · Esc: schließen") {
+                Tooltip(text = stringResource(Res.string.AppSearchTooltip).title()) {
                     IconButton(
                         onClick = { state.isSearchOpen = true },
                         modifier = Modifier.padding(end = 4.dp),
                     ) {
-                        Icon(Icons.Default.Search, contentDescription = "Suchen")
+                        Icon(Icons.Default.Search, contentDescription = stringResource(Res.string.AppSearch).title())
                     }
                 }
             }
@@ -652,7 +659,7 @@ private fun CheckTabItem(
         if (!tab.isLoading) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Tab schließen",
+                contentDescription = stringResource(Res.string.AppTabClose).title(),
                 modifier = Modifier
                     .size(14.dp)
                     .clickable(onClick = onClose),

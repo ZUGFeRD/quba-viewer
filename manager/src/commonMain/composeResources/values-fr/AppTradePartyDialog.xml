@@ -34,6 +34,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppTradePartyDialogGeneralVatId">Numéro d'identification TVA</string>
     <string name="AppTradePartyDialogGeneralTaxId">Numéro fiscale</string>
     <string name="AppTradePartyDialogGeneralCustomerId">N° de client</string>
+    <string name="AppTradePartyDialogGeneralRegisterNr">N° au registre du commerce</string>
 
     <string name="AppTradePartyDialogContact">Contact</string>
     <string name="AppTradePartyDialogContactName">Personne à contacter</string>
@@ -41,7 +42,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppTradePartyDialogContactZip">Code Postal</string>
     <string name="AppTradePartyDialogContactLocation">Ville</string>
     <string name="AppTradePartyDialogContactCountry">Pays</string>
-    <string name="AppTradePartyDialogContactEmail">E-Mail</string>
+    <string name="AppTradePartyDialogContactEmail">E-mail</string>
     <string name="AppTradePartyDialogContactPhone">Téléphone</string>
     <string name="AppTradePartyDialogContactFax">Facsimile</string>
 
@@ -49,7 +50,7 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppTradePartyDialogAccountName">Titulaire de compte</string>
     <string name="AppTradePartyDialogAccountIBAN">IBAN</string>
     <string name="AppTradePartyDialogAccountBIC">BIC</string>
-    <string name="AppTradePartyDialogAccountCreditorReferenceId">SEPA-Gläubigerkennung</string>
+    <string name="AppTradePartyDialogAccountCreditorReferenceId">Identifiant créancier SEPA</string>
     <string name="AppTradePartyDialogAccountDirectDebitMandateId">Identification du créancier SEPA</string>
     <string name="AppTradePartyDialogAccountPreferredPaymentMethod">mode de paiement préféré</string>
 

@@ -91,6 +91,19 @@ import de.openindex.zugferd.quba.generated.resources.AppVisualisationViewCode
 import de.openindex.zugferd.quba.generated.resources.AppVisualisationViewPdf
 import de.openindex.zugferd.quba.generated.resources.AppVisualisationViewSplit
 import de.openindex.zugferd.quba.generated.resources.Res
+import de.openindex.zugferd.quba.generated.resources.AppOpenFurtherFile
+import de.openindex.zugferd.quba.generated.resources.AppOpenInCheck
+import de.openindex.zugferd.quba.generated.resources.AppSearch
+import de.openindex.zugferd.quba.generated.resources.AppSearchClose
+import de.openindex.zugferd.quba.generated.resources.AppSearchNext
+import de.openindex.zugferd.quba.generated.resources.AppSearchTooltip
+import de.openindex.zugferd.quba.generated.resources.AppSelectFiles
+import de.openindex.zugferd.quba.generated.resources.AppTabClose
+import de.openindex.zugferd.quba.generated.resources.AppTabNew
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationHtmlGenerating
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationHtmlPreview
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationNoContent
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationSwitchView
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -145,7 +158,7 @@ fun VisualsSection(state: VisualsSectionState) {
     val emptyAreaLauncher = rememberFilePickerLauncher(
         type = PickerType.File(extensions = listOf("pdf", "xml")),
         mode = PickerMode.Multiple(),
-        title = "Dateien auswählen",
+        title = stringResource(Res.string.AppSelectFiles).title(),
         onResult = { files: List<PlatformFile>? ->
             files?.forEach { file ->
                 scope.launch {
@@ -319,7 +332,7 @@ internal fun CompactSearchBar(
             ) {
                 Icon(
                     Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = "Nächster Treffer",
+                    contentDescription = stringResource(Res.string.AppSearchNext).title(),
                     modifier = Modifier.size(16.dp),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -331,7 +344,7 @@ internal fun CompactSearchBar(
             ) {
                 Icon(
                     Icons.Default.Close,
-                    contentDescription = "Suche schließen",
+                    contentDescription = stringResource(Res.string.AppSearchClose).title(),
                     modifier = Modifier.size(16.dp),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -346,11 +359,12 @@ private fun TabRowWithControls(state: VisualsSectionState) {
     val scope = rememberCoroutineScope()
     val appState = LocalAppState.current
     val density = LocalDensity.current
+    val openInCheckLabel = stringResource(Res.string.AppOpenInCheck).title()
 
     val fileLauncher = rememberFilePickerLauncher(
         type = PickerType.File(extensions = listOf("pdf", "xml")),
         mode = PickerMode.Multiple(),
-        title = "Dateien auswählen",
+        title = stringResource(Res.string.AppSelectFiles).title(),
         onResult = { files: List<PlatformFile>? ->
             files?.forEach { file ->
                 scope.launch(Dispatchers.IO) {
@@ -454,7 +468,7 @@ private fun TabRowWithControls(state: VisualsSectionState) {
                                 onClose = { state.removeTab(index) },
                                 onCloseOthers = { state.removeOtherTabs(index) },
                                 onCloseToRight = if (index < state.documents.lastIndex) ({ state.removeTabsToRight(index) }) else null,
-                                openInOtherLabel = "In Prüfen öffnen",
+                                openInOtherLabel = openInCheckLabel,
                                 onOpenInOther = if (checkState != null && docFile != null) ({
                                     // Use an independent scope — the local composable scope is
                                     // cancelled when this section leaves the composition on switch.
@@ -504,7 +518,7 @@ private fun TabRowWithControls(state: VisualsSectionState) {
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Weitere Datei öffnen",
+                    contentDescription = stringResource(Res.string.AppOpenFurtherFile).title(),
                     modifier = Modifier.size(18.dp),
                     tint = MaterialTheme.colorScheme.onSurface,
                 )
@@ -523,12 +537,12 @@ private fun TabRowWithControls(state: VisualsSectionState) {
                     modifier = Modifier.width(280.dp).padding(end = 4.dp),
                 )
             } else {
-                Tooltip(text = "Suchen (Strg+F) — Enter: nächster Treffer · Esc: schließen") {
+                Tooltip(text = stringResource(Res.string.AppSearchTooltip).title()) {
                     IconButton(
                         onClick = { state.isSearchOpen = true },
                         modifier = Modifier.padding(end = 4.dp),
                     ) {
-                        Icon(Icons.Default.Search, contentDescription = "Suchen")
+                        Icon(Icons.Default.Search, contentDescription = stringResource(Res.string.AppSearch).title())
                     }
                 }
             }
@@ -626,7 +640,7 @@ private fun DocumentTabItem(
         Spacer(modifier = Modifier.width(6.dp))
 
         Text(
-            text = document.name.ifBlank { "Neuer Tab" },
+            text = document.name.ifBlank { stringResource(Res.string.AppTabNew).title() },
             color = if (isSelected) colors.text else colors.text2,
             style = typo.small,
             maxLines = 1,
@@ -639,7 +653,7 @@ private fun DocumentTabItem(
         if (!document.isLoading) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Tab schließen",
+                contentDescription = stringResource(Res.string.AppTabClose).title(),
                 modifier = Modifier
                     .size(14.dp)
                     .clickable(onClick = onClose),
@@ -776,7 +790,7 @@ private fun CodeOnlyView(tab: DocumentTab, selectedTab: Int, onTabChange: (Int) 
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center
                             ) {
-                                Text("HTML Vorschau")
+                                Text(stringResource(Res.string.AppVisualisationHtmlPreview).title())
                                 Spacer(modifier = Modifier.width(6.dp))
                                 CircularProgressIndicator(
                                     modifier = Modifier.size(12.dp),
@@ -784,7 +798,7 @@ private fun CodeOnlyView(tab: DocumentTab, selectedTab: Int, onTabChange: (Int) 
                                 )
                             }
                         } else {
-                            Text("HTML Vorschau")
+                            Text(stringResource(Res.string.AppVisualisationHtmlPreview).title())
                         }
                     }
                 )
@@ -813,7 +827,7 @@ private fun CodeOnlyView(tab: DocumentTab, selectedTab: Int, onTabChange: (Int) 
                         CircularProgressIndicator()
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = "HTML wird generiert…",
+                            text = stringResource(Res.string.AppVisualisationHtmlGenerating).title(),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -830,7 +844,7 @@ private fun CodeOnlyView(tab: DocumentTab, selectedTab: Int, onTabChange: (Int) 
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("Kein Inhalt verfügbar")
+                        Text(stringResource(Res.string.AppVisualisationNoContent).title())
                     }
                 }
             }
@@ -958,7 +972,7 @@ private fun ViewModeOrbitMenu(
         ) {
             Icon(
                 imageVector = triggerIcon,
-                contentDescription = "Ansicht wechseln",
+                contentDescription = stringResource(Res.string.AppVisualisationSwitchView).title(),
                 modifier = Modifier.size(16.dp),
                 tint = if (expanded) colors.accent else colors.text2,
             )
