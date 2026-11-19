@@ -80,7 +80,7 @@ The application is written in [Kotlin / JVM](https://kotlinlang.org/) using [Com
 <details>
 <summary>2.1.0 xx.xx.xxxx</summary> 
 - #12 #192 #173
--
+- #172 visualization now follows the selected application language (also for the PDF export)
 
 </details>
 
