@@ -76,6 +76,12 @@ The application is written in [Kotlin / JVM](https://kotlinlang.org/) using [Com
 
 
 <details>
+<summary>2.1.0 xx.xx.xxxx</summary> 
+- #12
+
+</details>
+
+<details>
 <summary>2.0.0 15.10.2026</summary> 
 - now based on Kotlin, instead of electron
 - now based directly on Mustangproject
