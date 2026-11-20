@@ -50,7 +50,7 @@ Die Anwendung richtet sich vorrangig an:
 
 | Betriebssystem | Formate                        |
 |----------------|-------------------------------|
-| Windows        | EXE-Installer, ZIP-Archiv     |
+| Windows        | MSI-/EXE-Installer, ZIP-Archiv |
 | macOS          | DMG-Archiv (Intel & M1/M2)    |
 | Linux          | DEB-Installer, RPM, TAR.GZ    |
 

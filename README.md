@@ -155,6 +155,14 @@ The application requires the [Jetbrains JDK (bundled with JCEF)](https://github.
    ```
    
    Generated files are written into the `build` folder.
+   On Windows, choose the installer with `-PwindowsInstaller=exe` (the default, per-user installation) or `-PwindowsInstaller=msi` (system-wide under `C:\Program Files\Quba`):
+
+   ```powershell
+   .\gradlew.bat :Quba:bundle -PwindowsInstaller=exe
+   .\gradlew.bat :Quba:bundle -PwindowsInstaller=msi
+   ```
+
+   To build only the selected installer, replace `bundle` with `bundleWindowsInstaller`. The Windows ZIP archive is also created by `bundle`.
 
 
 ### Translations
