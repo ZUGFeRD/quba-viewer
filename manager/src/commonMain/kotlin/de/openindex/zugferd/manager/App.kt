@@ -23,7 +23,14 @@ package de.openindex.zugferd.manager
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import de.openindex.zugferd.manager.sections.CheckSectionState
+import de.openindex.zugferd.manager.sections.VisualsSectionState
 import de.openindex.zugferd.manager.theme.QubaTheme
 import de.openindex.zugferd.manager.utils.DEFAULT_LANGUAGE
 import de.openindex.zugferd.manager.utils.ShutdownHandler
@@ -47,6 +54,17 @@ fun App() = QubaTheme {
 
     val shutdownHandler = getShutdownHandler()
     val language = LocalAppState.current.preferences.language
+
+    // Open invoices were rendered in the previous language; render them again so the
+    // switch takes effect without restarting the app. Nothing to do on the first run.
+    var renderedLanguage by remember { mutableStateOf(language) }
+    LaunchedEffect(language) {
+        if (language != renderedLanguage) {
+            renderedLanguage = language
+            (AppSection.VISUALISATION.state as? VisualsSectionState)?.refreshHtml()
+            (AppSection.CHECK.state as? CheckSectionState)?.refreshHtml()
+        }
+    }
 
     CompositionLocalProvider(LocalShutdownHandler provides shutdownHandler) {
         CompositionLocalProvider(LocalLanguage provides language) {

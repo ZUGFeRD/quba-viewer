@@ -196,15 +196,42 @@ class VisualsSectionState : SectionState() {
             }
 
             // Phase 2: HTML in the background; the HTML tab appears when it's ready.
-            try {
-                tab.isHtmlLoading = true
-                tab.html = InvoiceDocuments.html(file)?.trimToNull()
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                println("Fehler bei der HTML-Visualisierung: ${e.message}")
-            } finally {
-                tab.isHtmlLoading = false
+            loadHtml(tab, file)
+        }
+    }
+
+    /** Renders the HTML view of [tab] in the current app language. On failure the old HTML stays. */
+    private suspend fun loadHtml(tab: DocumentTab, file: PlatformFile) {
+        try {
+            tab.isHtmlLoading = true
+            tab.html = InvoiceDocuments.html(file)?.trimToNull()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            println("Fehler bei der HTML-Visualisierung: ${e.message}")
+        } finally {
+            tab.isHtmlLoading = false
+        }
+    }
+
+    /**
+     * Renders the HTML view of every open tab again, e.g. after the app language changed.
+     * Each tab keeps showing its current HTML until the new one is ready. A tab that is still
+     * loading finishes first and is then rendered again, so it ends up in the new language too.
+     */
+    fun refreshHtml() {
+        for (tab in documents) {
+            val file = tab.sourceFile ?: continue
+            val previous = tab.loadJob
+            tab.loadJob = scope.launch {
+                try {
+                    previous?.join()
+                } catch (e: CancellationException) {
+                    // Tab closed or reloaded while waiting: stop the earlier loading as well.
+                    previous?.cancel()
+                    throw e
+                }
+                loadHtml(tab, file)
             }
         }
     }

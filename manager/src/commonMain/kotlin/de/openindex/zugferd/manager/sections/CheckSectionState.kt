@@ -196,12 +196,39 @@ class CheckSectionState : SectionState() {
         }
 
         // Phase 2: HTML.
+        loadHtml(tab, file)
+    }
+
+    /** Renders the HTML view of [tab] in the current app language. On failure the old HTML stays. */
+    private suspend fun loadHtml(tab: CheckTab, file: PlatformFile) {
         try {
             tab.html = InvoiceDocuments.html(file)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    /**
+     * Renders the HTML view of every open tab again, e.g. after the app language changed.
+     * Each tab keeps showing its current HTML until the new one is ready. A tab that is still
+     * loading finishes first and is then rendered again, so it ends up in the new language too.
+     */
+    fun refreshHtml() {
+        for (tab in tabs) {
+            val file = tab.file
+            val previous = tab.loadJob
+            tab.loadJob = scope.launch {
+                try {
+                    previous?.join()
+                } catch (e: CancellationException) {
+                    // Tab closed while waiting: stop the earlier loading as well.
+                    previous?.cancel()
+                    throw e
+                }
+                loadHtml(tab, file)
+            }
         }
     }
 
