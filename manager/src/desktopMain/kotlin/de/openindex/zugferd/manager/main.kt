@@ -32,6 +32,7 @@ import ch.qos.logback.classic.ClassicConstants
 import de.openindex.zugferd.manager.utils.APP_LAUNCHER
 import de.openindex.zugferd.manager.utils.LOGS_DIR
 import de.openindex.zugferd.manager.utils.SHUTDOWN_HANDLER
+import de.openindex.zugferd.manager.utils.awaitWebViewInitialized
 import de.openindex.zugferd.manager.utils.getPlatform
 import de.openindex.zugferd.manager.utils.installWebView
 import org.apache.commons.lang3.SystemUtils
@@ -107,6 +108,13 @@ fun main(args: Array<String>) {
     */
     runBlocking {
         installWebView()
+
+        // CEF initializes asynchronously and touches GTK on Linux while doing so.
+        // Wait for it to finish before the Compose / AWT user interface is started,
+        // because concurrent GTK initialization may crash the JVM.
+        if (!awaitWebViewInitialized()) {
+            APP_LOGGER.warn("CEF was not initialized in time, starting user interface anyway.")
+        }
     }
 
     // Restore previously open tabs from last session.
