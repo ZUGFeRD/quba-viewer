@@ -1,8 +1,8 @@
 # Quba 2.1: Was ist neu?
 
-> Stand: 21. November 2026, noch nicht veröffentlicht
+> Stand: 21. November 2026. Veröffentlichung geplant für Anfang/Mitte Dezember 2026. Bis dahin kommt noch die neue Extended-Visualisierung aus Mustang dazu (#177).
 
-Quba 2.1 baut auf 2.0 auf. Die meisten Änderungen betreffen die Geschwindigkeit beim Öffnen von Rechnungen und den Umgang mit Anhängen.
+Quba 2.1 baut auf 2.0 auf und enthält alle Änderungen und Fehlerbehebungen bis zum 21. November 2026. Die meisten betreffen die Geschwindigkeit beim Öffnen von Rechnungen, den Umgang mit Anhängen und die Sprache der Rechnungsansicht.
 
 ---
 
