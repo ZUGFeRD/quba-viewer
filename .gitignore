@@ -28,3 +28,6 @@ hs_err_*.log
 
 # Marketing video output (renders, music, build files)
 marketing-output/
+
+# Projekt-Gedächtnis: Notizen und Dokumente zum Entwickeln, wird nicht hochgeladen
+/Gehirn/
