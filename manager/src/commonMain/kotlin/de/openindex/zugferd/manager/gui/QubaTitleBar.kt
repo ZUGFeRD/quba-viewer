@@ -71,8 +71,7 @@ fun QubaTitleBar(
                 }
             }
 
-            // Center — ⌘K command bar: deferred to next release,
-            // see releases/NAECHSTES_RELEASE.md
+            // Center — ⌘K command bar: deferred to a later release.
 
             // Right — actions (toggle)
             Row(
