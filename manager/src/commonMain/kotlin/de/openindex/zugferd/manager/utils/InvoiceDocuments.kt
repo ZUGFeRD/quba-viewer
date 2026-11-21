@@ -54,8 +54,8 @@ class InvoiceSource(
 /** Reads [file] once and extracts XML and attachments. Runs on the IO dispatcher. */
 expect suspend fun readInvoiceSource(file: PlatformFile): InvoiceSource
 
-/** Renders the HTML visualization for [source], or null if it contains no XML. */
-expect suspend fun renderInvoiceHtml(source: InvoiceSource): String?
+/** Renders the HTML visualization for [source] in [language], or null if it contains no XML. */
+expect suspend fun renderInvoiceHtml(source: InvoiceSource, language: Language): String?
 
 /** Identifies the current content of a file (path + size + modification time). */
 expect fun PlatformFile.contentKey(): String
@@ -71,6 +71,8 @@ expect fun PlatformFile.contentKey(): String
  *   many large files doesn't exhaust memory or freeze the machine.
  * - Results are keyed by path, size and modification time; editing a file on disk yields a
  *   fresh entry. Only the most recent [MAX_CACHED_FILES] files are kept.
+ * - The HTML is kept per language, so a file opened again after a language switch is
+ *   rendered in the new language.
  */
 object InvoiceDocuments {
     private const val MAX_CACHED_FILES = 6
@@ -81,7 +83,7 @@ object InvoiceDocuments {
 
     private class Entry {
         var source: Deferred<InvoiceSource>? = null
-        var html: Deferred<String?>? = null
+        val html = mutableMapOf<Language, Deferred<String?>>()
         var validation: Deferred<Validation>? = null
     }
 
@@ -96,11 +98,18 @@ object InvoiceDocuments {
             readLimit.withPermit { readInvoiceSource(file) }
         }
 
-    suspend fun html(file: PlatformFile): String? =
-        shared(file, { it.html }, { e, d -> e.html = d }) {
+    /** HTML visualization in the app's current language. */
+    suspend fun html(file: PlatformFile): String? {
+        val language = getCurrentLanguage()
+        return shared(
+            file,
+            { it.html[language] },
+            { e, d -> if (d == null) e.html.remove(language) else e.html[language] = d },
+        ) {
             val source = source(file)
-            heavyLimit.withPermit { renderInvoiceHtml(source) }
+            heavyLimit.withPermit { renderInvoiceHtml(source, language) }
         }
+    }
 
     /** Validation result; a crash inside the validator becomes a FATAL message instead of an endless spinner. */
     suspend fun validation(file: PlatformFile): Validation =

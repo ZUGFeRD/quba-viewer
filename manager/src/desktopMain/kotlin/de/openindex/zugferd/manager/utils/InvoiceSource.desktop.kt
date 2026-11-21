@@ -90,10 +90,10 @@ actual suspend fun readInvoiceSource(file: PlatformFile): InvoiceSource = withCo
     }
 }
 
-actual suspend fun renderInvoiceHtml(source: InvoiceSource): String? = withContext(Dispatchers.IO) {
+actual suspend fun renderInvoiceHtml(source: InvoiceSource, language: Language): String? = withContext(Dispatchers.IO) {
     val xml = source.xml ?: return@withContext null
     val rawHtml = try {
-        InvoiceHtmlRenderer.render(xml.toByteArray(Charsets.UTF_8))
+        InvoiceHtmlRenderer.render(xml.toByteArray(Charsets.UTF_8), language)
     } catch (e: Exception) {
         APP_LOGGER.error("HTML-Visualisierung fehlgeschlagen.", e)
         null
