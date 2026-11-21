@@ -13,11 +13,11 @@ Based on OpenIndex ZUGFeRD-Manager.
 | Windows                                                                                                                                  | MacOS                                                                                                                                        | Linux                                                                                                                                     |
 |------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | <img src="./share/os-logos/windows.png" width="100" alt="Windows">                                                                       | <img src="./share/os-logos/apple.png" width="90" alt="MacOS">                                                                                | <img src="./share/os-logos/linux.png" width="100" alt="Linux">                                                                            |
-| [EXE-Installer](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-windows-x64.exe)<br>(x86_64) | [DMG-Archiv](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-macos-arm64.dmg)<br>(M1 oder neuer) | [DEB-Installer](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-linux-x64.deb)<br>(x86_64)    |
-| [ZIP-Archiv](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-windows-x64.zip)<br>(x86_64)    | [DMG-Archiv](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-macos-x64.dmg)<br>(Intel)           | [RPM-Installer](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-linux-x64.rpm)<br>(x86_64)    |
-|                                                                                                                                          |                                                                                                                                              | [TAR.GZ-Archiv](https://github.com/OpenIndex/Quba/releases/download/v1.3.2/Quba-1.3.2-linux-x64.tar.gz)<br>(x86_64) |
+| [EXE-Installer](https://github.com/ZUGFeRD/quba-viewer/releases/download/2.0.0/Quba-2.0.0-windows-x64.exe)<br>(x86_64) | [DMG-Archiv](https://github.com/ZUGFeRD/quba-viewer/releases/download/2.0.0/Quba-2.0.0-macos-arm64.dmg)<br>(M1 oder neuer) | [DEB-Installer](https://github.com/ZUGFeRD/quba-viewer/releases/download/2.0.0/Quba-2.0.0-linux-x64.deb)<br>(x86_64)    |
+| [ZIP-Archiv](https://github.com/ZUGFeRD/quba-viewer/releases/download/2.0.0/Quba-2.0.0-windows-x64.zip)<br>(x86_64)    |                                                                                                                            | [RPM-Installer](https://github.com/ZUGFeRD/quba-viewer/releases/download/2.0.0/Quba-2.0.0-linux-x64.rpm)<br>(x86_64)    |
+|                                                                                                                                          |                                                                                                                                              | [TAR.GZ-Archiv](https://github.com/ZUGFeRD/quba-viewer/releases/download/2.0.0/Quba-2.0.0-linux-x64.tar.gz)<br>(x86_64) |
 
-Ältere Versionen sind in der [Release-Übersicht](https://github.com/OpenIndex/Quba/releases) zu finden.
+Ältere Versionen sind in der [Release-Übersicht](https://github.com/ZUGFeRD/quba-viewer/releases) zu finden. Version 2.1 ist für Anfang/Mitte Dezember 2026 geplant, was neu ist steht in [releases/RELEASE_QUBA_2.1.md](releases/RELEASE_QUBA_2.1.md).
 
 
 ## Zielgruppe
@@ -159,7 +159,7 @@ The application requires the [Jetbrains JDK (bundled with JCEF)](https://github.
 
 ### Translations
 
-The application is developed in English and translated into in German language. Translation into other languages are pretty straightforward. Please get in contact with us, if you like to translate the application into another language or help out with existing translations.
+The application is developed in English and translated into German and French. Translation into other languages are pretty straightforward. Please get in contact with us, if you like to translate the application into another language or help out with existing translations.
 
 
 ### Third party components

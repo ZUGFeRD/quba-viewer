@@ -1,6 +1,6 @@
 # Benutzerhandbuch — ZUGFeRD-Manager (Quba)
 
-> Version: Mustang Quba v1.9.9
+> Version: Mustang Quba 2.1.0 (Stand: 21. November 2026)
 > Basierend auf: OpenIndex ZUGFeRD-Manager
 > Lizenz: Kostenlos, Open Source (Apache License 2.0)
 
@@ -61,7 +61,7 @@ Die Oberfläche der Anwendung ist verfügbar auf:
 - **Englisch**
 - **Französisch**
 
-Die Sprache kann jederzeit in den Einstellungen gewechselt werden.
+Die Sprache kann jederzeit in den Einstellungen gewechselt werden. Die Rechnungsansicht (HTML-Vorschau), der PDF-Export und das Rechtsklick-Menü der Vorschau wechseln sofort mit, ohne Neustart. Bereits geöffnete Rechnungen werden dabei in der neuen Sprache neu aufbereitet.
 
 ---
 
@@ -232,6 +232,8 @@ Beim ersten Öffnen des Bereichs „Prüfen" erscheint im Hauptbereich die Auffo
 
 Klicken Sie auf die Schaltfläche **„E-Rechnung wählen"** oben rechts, oder ziehen Sie die Datei per **Drag & Drop** in das Fenster.
 
+Mehrere Rechnungen lassen sich in Tabs nebeneinander öffnen. Ein Rechtsklick auf einen Tab bietet **„Schließen"**, **„Andere Tabs schließen"**, **„Tabs rechts schließen"** und **„In Visualisierung öffnen"**.
+
 ![Bereich Prüfen – Startansicht](docs/screenshots/prüfen-start.png)
 
 #### Schritt 2 – Ergebnis der Prüfung
@@ -258,7 +260,7 @@ Im Bereich **„Zusammenfassung"** werden folgende Informationen angezeigt. Rech
 
 #### Schritt 4 – Mitteilungen / Fehlerliste
 
-Im Abschnitt **„Mitteilungen"** werden alle Meldungen der Prüfung aufgelistet. Über die Schaltfläche **„Mitteilungen filtern"** können die Meldungen eingeschränkt werden.
+Im Abschnitt **„Mitteilungen"** werden alle Meldungen der Prüfung aufgelistet. Über die Schaltfläche **„Mitteilungen filtern"** können die Meldungen eingeschränkt werden. Bei vielen Meldungen zeigt Quba sie in Blöcken zu je 100, die Schaltfläche **„… weitere Mitteilungen anzeigen"** holt die nächsten.
 
 Jede Meldung zeigt:
 - Ein **farbiges Icon** für den Schweregrad (blaues „i" = Hinweis, gelbes „!" = Warnung, rotes „✕" = Fehler)
@@ -288,7 +290,7 @@ Auf der rechten Seite stehen drei Tabs zur Verfügung, zwischen denen jederzeit 
 
 ### Zweck
 
-Der Bereich **Visualisieren** ist der mächtigste Anzeigebereich der App. Hier können Sie E-Rechnungen detailliert betrachten, ihren Inhalt strukturiert lesen, validieren und sogar gleichzeitig **mehrere Rechnungen nebeneinander** öffnen. Ideal zum Vergleichen oder schnellen Einsehen von erhaltenen E-Rechnungen.
+Der Bereich **Visualisieren** ist der mächtigste Anzeigebereich der App. Hier können Sie E-Rechnungen detailliert betrachten, ihren Inhalt strukturiert lesen und sogar gleichzeitig **mehrere Rechnungen nebeneinander** öffnen. Ideal zum Vergleichen oder schnellen Einsehen von erhaltenen E-Rechnungen.
 
 ### Mehrere Rechnungen gleichzeitig öffnen (Tabs)
 
@@ -297,6 +299,10 @@ Der Visualisieren-Bereich unterstützt ein **Tab-System**: Oben im Fenster ersch
 - Klicken Sie auf **„+"** rechts neben den Tabs, um eine weitere E-Rechnung zu öffnen
 - Oder klicken Sie auf **„Eine E-Rechnung auswählen"** oben rechts
 - Sie können beliebig viele Rechnungen gleichzeitig geöffnet halten und zwischen ihnen wechseln
+- Ist eine Datei schon in einem Tab offen, wechselt Quba zu diesem Tab, statt sie ein zweites Mal zu laden
+- Tabs lassen sich mit der Maus verschieben
+- Ein Rechtsklick auf einen Tab bietet **„Schließen"**, **„Andere Tabs schließen"**, **„Tabs rechts schließen"** und **„In Prüfen öffnen"**
+- Beim nächsten Programmstart sind die Tabs wieder da. Der zuletzt aktive Tab lädt zuerst, die anderen folgen im Hintergrund
 
 ### Anzeigemodi
 
@@ -309,6 +315,16 @@ Für jede geöffnete Rechnung stehen **drei Anzeigemodi** zur Wahl, die über di
 | **Html/Xml**  | Zeigt nur die HTML-Visualisierung / XML-Daten (volle Breite, ohne PDF)                             |
 
 > Der Modus **„Geteilt"** ist besonders praktisch: Sie können gleichzeitig das PDF sehen und in der strukturierten HTML-Ansicht die Daten im Detail prüfen.
+
+In der geteilten Ansicht lässt sich die Trennlinie zwischen den beiden Hälften verschieben. Dafür hat sie in der Mitte einen Griff.
+
+### HTML-Vorschau und XML-Ansicht
+
+In den Modi **„Geteilt"** und **„Html/Xml"** gibt es zwei Tabs: **„HTML Vorschau"** zeigt die aufbereitete Rechnung, **„XML"** die Rohdaten.
+
+Die XML-Ansicht zeigt Zeilennummern und färbt Tags, Attribute, Werte und Kommentare ein. Die Suche springt zum Treffer. Die Schaltfläche **„gesamtes XML kopieren"** oben rechts übernimmt das komplette XML in die Zwischenablage. Auch XML-Dateien mit mehreren Megabyte lassen sich flüssig scrollen.
+
+> **Hinweis:** Die Textauswahl mit der Maus erfasst nur die sichtbaren Zeilen. Für das gesamte XML die Schaltfläche **„gesamtes XML kopieren"** verwenden.
 
 ### HTML-Visualisierung — Unternavigation
 
@@ -324,19 +340,37 @@ Die HTML-Vorschau einer E-Rechnung ist in **fünf Abschnitte** unterteilt, die �
 
 > **Hinweis:** Die HTML-Visualisierung enthält oben den Hinweis: *„Wir übernehmen keine Haftung für die Richtigkeit der Daten."* — die Darstellung dient nur zur Anzeige und ist nicht rechtsverbindlich.
 
+Abschnitte und Feldbezeichnungen erscheinen in der eingestellten Sprache (Deutsch, Englisch oder Französisch).
+
+### Anhänge öffnen
+
+Im Abschnitt **„Anhänge"** steht bei jedem Anhang der Link **„Anhang öffnen"**:
+
+- PDF, Bilder, Text und XML öffnen in einem eigenen Fenster von Quba. Bei allen außer PDF gibt es dort die Schaltfläche **„Speichern unter…"**.
+- Andere Dateitypen wie Excel, Word, CSV oder ZIP öffnet Quba mit dem Programm, das im Betriebssystem dafür eingestellt ist. Gibt es keins, erscheint der Dialog **„Anhang speichern"**.
+- Lässt sich ein Anhang keiner eingebetteten Datei zuordnen, steht dort **„Anhang nicht in der Datei enthalten"**.
+- Dateien, die in der PDF eingebettet sind, auf die die Rechnung aber nicht verweist, stehen am Ende unter **„Weitere in der PDF eingebettete Dateien"**, mit Dateigröße.
+
+### Rechtsklick-Menü in der HTML-Vorschau
+
+Ein Rechtsklick in die HTML-Vorschau öffnet ein Menü, unter anderem mit:
+
+| Eintrag | Funktion |
+|---|---|
+| **Visualisierung als PDF exportieren** | Erzeugt eine PDF mit allen Abschnitten der Rechnung, mit Seitenumbrüchen und ohne Tab-Leiste, in der eingestellten Sprache. Bei ZUGFeRD-/Factur-X-Rechnungen (CII) wird das XML in die PDF eingebettet. |
+| **Drucken…** | Druckt den gerade sichtbaren Abschnitt der Vorschau. |
+
+> **Hinweis:** Beim Drucken über **„Drucken…"** fehlen derzeit die Farben, und die Tab-Leiste wird mitgedruckt. Für einen sauberen Ausdruck die Rechnung mit **„Visualisierung als PDF exportieren"** speichern und diese PDF drucken.
+
 ### Suchfunktion
 
-Oben rechts befindet sich ein **Lupen-Symbol**. Ein Klick darauf öffnet ein Suchfeld, in das Sie einen Suchbegriff eingeben können. Alle Treffer in der HTML-Visualisierung werden **gelb hervorgehoben**. Mit den Pfeilen (→ ←) navigieren Sie zwischen den Treffern.
+Oben rechts befindet sich ein **Lupen-Symbol**. Ein Klick darauf öffnet ein Suchfeld, in das Sie einen Suchbegriff eingeben können. Alle Treffer in der HTML-Visualisierung werden **gelb hervorgehoben**. Die Suche lässt sich auch mit **Strg+F** öffnen. **Enter** springt zum nächsten Treffer, **Esc** schließt die Suche.
 
 **Beispiel:** Eingabe von „käufer" markiert alle Textstellen mit dem Wort „Käufer" in der Vorschau gelb.
 
-### Validierungsergebnis
+### Rechnung prüfen
 
-Auch im Visualisieren-Bereich wird automatisch geprüft, ob die geladene E-Rechnung gültig ist:
-- **Gültig**: Daumen-hoch + Text „E-Rechnung ‚[Dateiname]' ist gültig."
-- **Ungültig**: Daumen-runter + Text „E-Rechnung ‚[Dateiname]' ist ungültig."
-
-Mit **„Bericht exportieren"** kann das Prüfergebnis als Datei gespeichert werden. Die Nachrichten (Fehler, Warnungen, Hinweise) lassen sich nach Typ und Schweregrad filtern — identisch wie im Bereich „Prüfen".
+Die Gültigkeitsprüfung findet im Bereich **„Prüfen"** statt (siehe Kapitel 4). Ein Rechtsklick auf den Tab einer Rechnung und **„In Prüfen öffnen"** öffnet sie dort direkt.
 
 ![Visualisieren – Geteilte Ansicht mit HTML-Visualisierung und PDF](docs/screenshots/visualisieren-geteilt.png)
 
