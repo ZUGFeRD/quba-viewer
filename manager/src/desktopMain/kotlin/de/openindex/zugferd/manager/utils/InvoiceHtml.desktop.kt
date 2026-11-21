@@ -29,6 +29,7 @@ import org.mustangproject.ZUGFeRD.ZUGFeRDVisualizer
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.StringReader
+import java.util.concurrent.ConcurrentHashMap
 import javax.xml.stream.XMLInputFactory
 import javax.xml.stream.XMLStreamConstants
 import javax.xml.transform.Templates
@@ -39,7 +40,8 @@ import javax.xml.transform.stream.StreamResult
 import javax.xml.transform.stream.StreamSource
 
 /**
- * Same XSLT pipeline as Mustang's [ZUGFeRDVisualizer.visualize] (German HTML), but:
+ * Same XSLT pipeline as Mustang's [ZUGFeRDVisualizer.visualize], in the requested [Language]
+ * (Mustang ships `xrechnung-html.de.xsl`, `.en.xsl` and `.fr.xsl`), but:
  *
  * - every stylesheet is compiled once per app run and then reused. Mustang compiles three
  *   stylesheets for every new visualizer instance, and even a reused instance recompiles the
@@ -66,8 +68,12 @@ internal object InvoiceHtmlRenderer {
     private val ublInvoiceToXr by lazy { compile("ubl-invoice-xr.xsl", patchSourcePaths = true) }
     private val ublCreditNoteToXr by lazy { compile("ubl-creditnote-xr.xsl", patchSourcePaths = true) }
     private val cioToXr by lazy { compile("cio-xr.xsl", patchSourcePaths = true) }
-    private val xrToHtml by lazy { compile("xrechnung-html.de.xsl") }
+    private val xrToHtmlByLanguage = ConcurrentHashMap<Language, Templates>()
     private val zf1ToHtml by lazy { compile("ZUGFeRD_1p0_c1p0_s1p0.xslt") }
+
+    /** XR → HTML stylesheet for [language], compiled on first use and then reused. */
+    private fun xrToHtml(language: Language): Templates =
+        xrToHtmlByLanguage.computeIfAbsent(language) { compile("xrechnung-html.${it.code}.xsl") }
 
     private fun compile(name: String, patchSourcePaths: Boolean = false): Templates {
         val started = System.currentTimeMillis()
@@ -96,17 +102,24 @@ internal object InvoiceHtmlRenderer {
         factory.newTemplates(StreamSource(StringReader(xslt)))
     }
 
-    /** Compiles the stylesheets used by almost every invoice (CII → XR → HTML) ahead of time. */
+    /**
+     * Compiles the stylesheets used by almost every invoice (CII → XR → HTML) ahead of time,
+     * with the HTML stylesheet in the app's current language.
+     */
     fun warmUp() {
         try {
             ciiToXr
-            xrToHtml
+            xrToHtml(getCurrentLanguage())
         } catch (e: Exception) {
             APP_LOGGER.warn("XSLT-Vorkompilierung fehlgeschlagen: ${e.message}")
         }
     }
 
-    fun render(xml: ByteArray): String {
+    /**
+     * Renders [xml] as HTML in [language]. ZUGFeRD 1.0 invoices (`CrossIndustryDocument`) have
+     * a single stylesheet of their own and are rendered without a language choice.
+     */
+    fun render(xml: ByteArray, language: Language): String {
         val toXr = when (val root = rootElementName(xml)) {
             "CrossIndustryDocument" -> return transform(zf1ToHtml, xml).toString(Charsets.UTF_8)
             "CrossIndustryInvoice" -> ciiToXr
@@ -116,7 +129,7 @@ internal object InvoiceHtmlRenderer {
             else -> throw IllegalArgumentException("Kein unterstütztes Rechnungsformat (Wurzelelement: $root)")
         }
         val xr = transform(toXr, xml)
-        return transform(xrToHtml, xr).toString(Charsets.UTF_8)
+        return transform(xrToHtml(language), xr).toString(Charsets.UTF_8)
     }
 
     private fun transform(templates: Templates, input: ByteArray): ByteArray {

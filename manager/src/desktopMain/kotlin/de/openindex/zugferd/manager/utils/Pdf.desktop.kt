@@ -77,6 +77,16 @@ fun PDDocument.removeEmbeddedFiles(): PDDocument {
 }
 
 /**
+ * Maps the application's current language to the language of Mustang's visualization templates.
+ */
+private fun getVisualizerLanguage(): ZUGFeRDVisualizer.Language =
+    when (getCurrentLanguage()) {
+        Language.DE -> ZUGFeRDVisualizer.Language.DE
+        Language.EN -> ZUGFeRDVisualizer.Language.EN
+        Language.FR -> ZUGFeRDVisualizer.Language.FR
+    }
+
+/**
  * Renders [xml] to [target] via Mustang's own ZUGFeRDVisualizer PDF template — a paginated
  * invoice document combining all sections (overview, line items, attachments, history, ...)
  * with no interactive tab concept, unlike the app's HTML preview. The invoice XML is then
@@ -87,16 +97,16 @@ fun PDDocument.removeEmbeddedFiles(): PDDocument {
  * The whole result is built in memory before writing to [target], so a failure never leaves
  * behind a truncated/empty file at the target location.
  *
- * Note: the current Mustang version (2.21.0) has no language parameter for this PDF template —
- * the output is always in German, regardless of the app's current language.
+ * The PDF is rendered in the app's current language (German, English or French).
  */
 suspend fun exportVisualizationAsPdf(xml: String, target: PlatformFile) {
+    val language = getVisualizerLanguage()
     withContext(Dispatchers.IO) {
         val tempXml = File.createTempFile("quba_visual_export_", ".xml")
         val tempPdf = File.createTempFile("quba_visual_export_", ".pdf")
         try {
             tempXml.writeText(xml, Charsets.UTF_8)
-            ZUGFeRDVisualizer().toPDF(tempXml.absolutePath, tempPdf.absolutePath)
+            ZUGFeRDVisualizer().toPDF(tempXml.absolutePath, tempPdf.absolutePath, language)
             val plainPdfBytes = tempPdf.readBytes()
 
             val resultBytes = if (isEmbeddableAsZugferdXml(xml)) {
