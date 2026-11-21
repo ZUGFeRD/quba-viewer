@@ -25,3 +25,6 @@ hs_err_*.log
 /local.*.properties
 !/local.example.properties
 /temp
+
+# Marketing video output (renders, music, build files)
+marketing-output/
