@@ -76,7 +76,6 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppVisualisationViewCode">Html/Xml</string>
 
     <string name="AppVisualisationExportPdfContextMenu">Export visualization as PDF</string>
-
     <string name="AppVisualisationHtmlPreview">HTML preview</string>
     <string name="AppVisualisationHtmlGenerating">generating HTML…</string>
     <string name="AppVisualisationNoContent">no content available</string>
@@ -84,4 +83,16 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppVisualisationOpenAttachment">open attachment</string>
     <string name="AppVisualisationHtmlUnavailable">HTML visualization is not available – showing the XML source instead.</string>
     <string name="AppVisualisationXmlReadError">error reading the XML file</string>
+    <string name="AppVisualisationContextMenuBack">Back</string>
+    <string name="AppVisualisationContextMenuForward">Forward</string>
+    <string name="AppVisualisationContextMenuPrint">Print…</string>
+    <string name="AppVisualisationContextMenuViewSource">View page source</string>
+    <string name="AppVisualisationContextMenuCopy">Copy</string>
+    <string name="AppVisualisationContextMenuSelectAll">Select all</string>
+    <string name="AppVisualisationAttachmentOpen">Open attachment</string>
+    <string name="AppVisualisationAttachmentMissing">Attachment not included in the file</string>
+    <string name="AppVisualisationAttachmentEmbeddedFiles">Other files embedded in the PDF</string>
+    <string name="AppVisualisationAttachmentFile">File:</string>
+    <string name="AppVisualisationAttachmentSaveTitle">Save attachment</string>
+    <string name="AppVisualisationAttachmentSaveAs">Save as…</string>
 </resources>

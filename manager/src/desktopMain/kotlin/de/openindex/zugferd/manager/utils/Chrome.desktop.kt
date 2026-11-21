@@ -22,7 +22,14 @@ import de.openindex.zugferd.manager.AppInfo
 import de.openindex.zugferd.manager.AppSection
 import de.openindex.zugferd.manager._APP_STATE
 import de.openindex.zugferd.manager.sections.VisualsSectionState
-import de.openindex.zugferd.quba.generated.resources.AppSaveAs
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationAttachmentSaveAs
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationAttachmentSaveTitle
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationContextMenuBack
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationContextMenuCopy
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationContextMenuForward
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationContextMenuPrint
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationContextMenuSelectAll
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationContextMenuViewSource
 import de.openindex.zugferd.quba.generated.resources.AppVisualisationExportPdfContextMenu
 import de.openindex.zugferd.quba.generated.resources.Res
 import io.github.vinceglb.filekit.core.FileKit
@@ -92,6 +99,29 @@ private const val EXPORT_VISUALIZATION_PDF_COMMAND_ID = CefMenuModel.MenuId.MENU
 
 private fun exportVisualizationPdfMenuLabel(): String =
     runBlocking { getString(Res.string.AppVisualisationExportPdfContextMenu) }
+
+/** Chromium's own context menu entries and the app texts that replace their labels. */
+private val CHROMIUM_MENU_LABELS = mapOf(
+    CefMenuModel.MenuId.MENU_ID_BACK to Res.string.AppVisualisationContextMenuBack,
+    CefMenuModel.MenuId.MENU_ID_FORWARD to Res.string.AppVisualisationContextMenuForward,
+    CefMenuModel.MenuId.MENU_ID_PRINT to Res.string.AppVisualisationContextMenuPrint,
+    CefMenuModel.MenuId.MENU_ID_VIEW_SOURCE to Res.string.AppVisualisationContextMenuViewSource,
+    CefMenuModel.MenuId.MENU_ID_COPY to Res.string.AppVisualisationContextMenuCopy,
+    CefMenuModel.MenuId.MENU_ID_SELECT_ALL to Res.string.AppVisualisationContextMenuSelectAll,
+)
+
+/**
+ * CEF takes its language once at startup (`settings.locale`), so Chromium's own menu entries
+ * would stay in that language after a language switch. Label them with the app's texts, which
+ * follow the current language.
+ */
+private fun relabelChromiumMenuItems(model: CefMenuModel) {
+    for ((commandId, label) in CHROMIUM_MENU_LABELS) {
+        if (model.getIndexOf(commandId) >= 0) {
+            model.setLabel(commandId, runBlocking { getString(label) })
+        }
+    }
+}
 
 /**
  * Renders the invoice XML of the currently active Visualisieren tab via Mustang's own
@@ -209,7 +239,7 @@ private fun openWithSystemApp(file: java.io.File, entry: AttachmentEntry) {
 /** Save dialog for an attachment; also used by the viewer window's save actions. */
 private fun saveAttachmentAs(entry: AttachmentEntry, parent: java.awt.Component?, suggestedName: String? = null) {
     val chooser = javax.swing.JFileChooser()
-    chooser.dialogTitle = "Anhang speichern"
+    chooser.dialogTitle = runBlocking { getString(Res.string.AppVisualisationAttachmentSaveTitle) }
     chooser.selectedFile = java.io.File(suggestedName ?: safeFileName(withExtension(entry.name, entry.mimeType)))
     if (chooser.showSaveDialog(parent) == javax.swing.JFileChooser.APPROVE_OPTION) {
         try {
@@ -334,8 +364,8 @@ fun getCefBrowser(url: String): CefBrowser {
                     })
                 }
                 .also { client ->
-                    // Add a custom "Export visualization as PDF" entry next to "Print..."
-                    // in the default Chromium context menu (Visualisieren section only).
+                    // Label Chromium's own entries in the current app language, and add a custom
+                    // "Export visualization as PDF" entry next to "Print..." (Visualisieren only).
                     client.addContextMenuHandler(object : CefContextMenuHandlerAdapter() {
                         override fun onBeforeContextMenu(
                             browser: CefBrowser?,
@@ -344,6 +374,7 @@ fun getCefBrowser(url: String): CefBrowser {
                             model: CefMenuModel?,
                         ) {
                             if (model == null) return
+                            relabelChromiumMenuItems(model)
                             if (_APP_STATE.sectionSync != AppSection.VISUALISATION) return
 
                             val printIndex = model.getIndexOf(CefMenuModel.MenuId.MENU_ID_PRINT)
@@ -608,7 +639,7 @@ private fun openAttachmentInWindow(url: String, entry: AttachmentEntry) {
             if (!isPdf) {
                 val toolbar = javax.swing.JToolBar()
                 toolbar.isFloatable = false
-                val saveButton = javax.swing.JButton(getStringBlocking(Res.string.AppSaveAs).title())
+                val saveButton = javax.swing.JButton(runBlocking { getString(Res.string.AppVisualisationAttachmentSaveAs) })
                 saveButton.addActionListener { saveAttachmentAs(entry, frame) }
                 toolbar.add(saveButton)
                 frame.contentPane.add(toolbar, java.awt.BorderLayout.NORTH)

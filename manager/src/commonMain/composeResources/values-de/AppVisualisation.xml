@@ -113,4 +113,16 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppVisualisationOpenAttachment">Anhang öffnen</string>
     <string name="AppVisualisationHtmlUnavailable">HTML-Visualisierung nicht verfügbar – XML-Quellcode wird angezeigt.</string>
     <string name="AppVisualisationXmlReadError">Fehler beim Lesen der XML-Datei</string>
+    <string name="AppVisualisationContextMenuBack">Zurück</string>
+    <string name="AppVisualisationContextMenuForward">Vorwärts</string>
+    <string name="AppVisualisationContextMenuPrint">Drucken…</string>
+    <string name="AppVisualisationContextMenuViewSource">Seitenquelltext anzeigen</string>
+    <string name="AppVisualisationContextMenuCopy">Kopieren</string>
+    <string name="AppVisualisationContextMenuSelectAll">Alles auswählen</string>
+    <string name="AppVisualisationAttachmentOpen">Anhang öffnen</string>
+    <string name="AppVisualisationAttachmentMissing">Anhang nicht in der Datei enthalten</string>
+    <string name="AppVisualisationAttachmentEmbeddedFiles">Weitere in der PDF eingebettete Dateien</string>
+    <string name="AppVisualisationAttachmentFile">Datei:</string>
+    <string name="AppVisualisationAttachmentSaveTitle">Anhang speichern</string>
+    <string name="AppVisualisationAttachmentSaveAs">Speichern unter…</string>
 </resources>
