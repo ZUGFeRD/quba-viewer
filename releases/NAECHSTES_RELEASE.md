@@ -146,3 +146,27 @@ Exakter Name plus „ein Name endet auf den anderen“ (Durchgänge 1 bis 3). Da
 
 **Offene Frage**
 - Komfort (direkter Link, kleines Fehlerrisiko) oder Sicherheit (nie falsch, ein Klick mehr)?
+
+---
+
+## Drucken der HTML-Ansicht
+
+**Status:** Offen. Aufgefallen am 21. November 2026 beim Test von Rechtsklick → „Drucken…“.
+
+**Beobachtung**
+Der Druck (bzw. die Druckvorschau) der HTML-Ansicht sieht anders aus als die Ansicht in Quba:
+- Farben und Gestaltung fehlen: Die schwarze Tab-Leiste, die blauen Überschriften der Kästen und die hellen Hintergründe sind weg, alles ist grau auf weiß.
+- Die Tab-Leiste oben („Übersicht“, „Positionen“, „Informationen“, „Anhänge“, „Bearbeitungshistorie“) wird mitgedruckt. Auf Papier braucht man sie nicht.
+
+**Ursache**
+- Mustangs `xrechnung-viewer.css` (Mustang 2.26.0) enthält keine Regeln für den Druck (`@media print`). Die Tab-Leiste (`.menue`) bleibt deshalb sichtbar.
+- Chromium druckt Hintergrundfarben standardmäßig nicht. Die Farben der Ansicht sind fast alle Hintergrundfarben.
+- Gedruckt wird nur der gerade sichtbare Tab. Die anderen Abschnitte sind per JavaScript ausgeblendet.
+
+**Mögliche Umsetzung**
+- In der Nachbearbeitung des HTML (`InvoiceHtml.desktop.kt`, `postProcessInvoiceHtml()`) ein Druck-CSS einfügen: `@media print { .menue { display: none } * { -webkit-print-color-adjust: exact; print-color-adjust: exact } }`.
+- Optional im Druck alle Abschnitte untereinander zeigen statt nur den aktiven Tab.
+- Alternative: „Drucken…“ druckt die PDF aus „Visualisierung als PDF exportieren“. Die enthält bereits alle Abschnitte, mit Seitenumbrüchen und ohne Tab-Leiste.
+
+**Offene Frage**
+- Nur den aktiven Tab drucken oder die ganze Rechnung?
