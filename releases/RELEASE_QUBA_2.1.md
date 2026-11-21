@@ -1,6 +1,6 @@
 # Quba 2.1: Was ist neu?
 
-> Stand: 18. November 2026, noch nicht veröffentlicht
+> Stand: 21. November 2026, noch nicht veröffentlicht
 
 Quba 2.1 baut auf 2.0 auf. Die meisten Änderungen betreffen die Geschwindigkeit beim Öffnen von Rechnungen und den Umgang mit Anhängen.
 
@@ -46,6 +46,10 @@ Die Trennlinie zwischen HTML/XML und PDF hat in der Mitte einen Griff und lässt
 
 ## Behobene Probleme
 
+- Die Rechnung erschien in der HTML-Ansicht und im PDF-Export immer auf Deutsch, auch wenn Quba auf Englisch oder Französisch eingestellt war. Jetzt folgt sie der eingestellten Sprache (#172).
+- Nach einem Sprachwechsel blieben bereits geöffnete Rechnungen in der alten Sprache, bis Quba neu gestartet wurde. Jetzt wechseln sie sofort.
+- Im Rechtsklick-Menü der HTML-Ansicht blieben „Zurück“, „Drucken…“ und „Seitenquelltext anzeigen“ nach einem Sprachwechsel in der Sprache, mit der Quba gestartet wurde.
+- Die Beschriftungen rund um Anhänge, etwa „Anhang öffnen“ und der Titel des Speichern-Dialogs, waren immer deutsch.
 - Waren zwei Rechnungen mit gleichnamigem Anhang geöffnet, konnte „Anhang öffnen“ die Datei der anderen Rechnung zeigen.
 - Weicht der Name im Verweis der Rechnung vom Namen der eingebetteten Datei ab (z. B. `#ef=ElektronRapport_neu-red.pdf` gegenüber `EN16931_Elektron_ElektronRapport.pdf`), entschied bisher die Reihenfolge, welche Datei geöffnet wird. Jetzt ordnet Quba über Namensteile und Dateityp zu.
 - Ließ sich ein Anhang keiner Datei zuordnen, sprang ein Klick auf „Öffnen“ nur an den Seitenanfang. Jetzt steht dort „Anhang nicht in der Datei enthalten“.

@@ -22,6 +22,12 @@
 package de.openindex.zugferd.manager.utils
 
 import de.openindex.zugferd.manager.APP_LOGGER
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationAttachmentEmbeddedFiles
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationAttachmentFile
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationAttachmentMissing
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationAttachmentOpen
+import de.openindex.zugferd.quba.generated.resources.Res
+import kotlinx.coroutines.runBlocking
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.net.URLEncoder
@@ -31,8 +37,6 @@ private val DOWNLOAD_TARGET_ID = Regex("""downloadData\s*\(\s*['"]([^'"]+)['"]""
 private val CAMEL_CASE_BOUNDARY = Regex("(?<=[a-zäöüß])(?=[A-ZÄÖÜ])")
 private val NAME_SEPARATORS = Regex("[^A-Za-z0-9ÄÖÜäöüß]+")
 
-private const val MISSING_ATTACHMENT_TEXT = "Anhang nicht in der Datei enthalten"
-private const val EMBEDDED_FILES_TITLE = "Weitere in der PDF eingebettete Dateien"
 
 /** File extension → MIME type for the formats that occur as invoice attachments. */
 private val MIME_BY_EXTENSION = mapOf(
@@ -181,7 +185,7 @@ internal fun linkAttachments(doc: Document, pdfAttachments: List<Pair<String, By
         attachment.link.attr("href", attachmentUrl(key))
         attachment.link.removeAttr("onclick")
         attachment.link.removeAttr("download")
-        attachment.link.text("Anhang öffnen")
+        attachment.link.text(runBlocking { getString(Res.string.AppVisualisationAttachmentOpen) })
         attachment.div.empty()
         linkedContent += contentId(bytes)
     }
@@ -270,7 +274,7 @@ private fun markMissing(link: Element) {
     link.replaceWith(
         Element("span")
             .attr("style", "color:#888;font-style:italic")
-            .text(MISSING_ATTACHMENT_TEXT)
+            .text(runBlocking { getString(Res.string.AppVisualisationAttachmentMissing) })
     )
 }
 
@@ -279,7 +283,9 @@ private fun appendEmbeddedFiles(doc: Document, files: List<EmbeddedFile>) {
     val box = container.appendElement("div").attr("class", "boxtabelle boxabstandtop")
         .appendElement("div").attr("class", "boxzeile")
         .appendElement("div").attr("class", "box")
-    box.appendElement("div").attr("class", "boxtitel").text(EMBEDDED_FILES_TITLE)
+    box.appendElement("div").attr("class", "boxtitel")
+        .text(runBlocking { getString(Res.string.AppVisualisationAttachmentEmbeddedFiles) })
+    val fileLabel = runBlocking { getString(Res.string.AppVisualisationAttachmentFile) }
     val table = box.appendElement("div").attr("class", "boxtabelle boxinhalt borderSpacing")
 
     for (file in files) {
@@ -287,7 +293,7 @@ private fun appendEmbeddedFiles(doc: Document, files: List<EmbeddedFile>) {
         val name = withExtension(file.name, mimeType)
         val key = registerAttachment(name, file.bytes, mimeType)
         val row = table.appendElement("div").attr("class", "boxzeile")
-        row.appendElement("div").attr("class", "boxdaten legende").text("Datei:")
+        row.appendElement("div").attr("class", "boxdaten legende").text(fileLabel)
         row.appendElement("div").attr("class", "boxdaten wert")
             .appendElement("a").attr("href", attachmentUrl(key)).text(name)
             .parent()!!.appendText(" (${formatSize(file.bytes.size)})")

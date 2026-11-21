@@ -76,4 +76,16 @@ PLEASE CONSIDER THESE NOTES BEFORE STARTING YOUR TRANSLATION WORK!
     <string name="AppVisualisationViewCode">Html/Xml</string>
 
     <string name="AppVisualisationExportPdfContextMenu">Exporter la visualisation en PDF</string>
+    <string name="AppVisualisationContextMenuBack">Retour</string>
+    <string name="AppVisualisationContextMenuForward">Avancer</string>
+    <string name="AppVisualisationContextMenuPrint">Imprimer…</string>
+    <string name="AppVisualisationContextMenuViewSource">Afficher le code source de la page</string>
+    <string name="AppVisualisationContextMenuCopy">Copier</string>
+    <string name="AppVisualisationContextMenuSelectAll">Tout sélectionner</string>
+    <string name="AppVisualisationAttachmentOpen">Ouvrir la pièce jointe</string>
+    <string name="AppVisualisationAttachmentMissing">Pièce jointe absente du fichier</string>
+    <string name="AppVisualisationAttachmentEmbeddedFiles">Autres fichiers intégrés au PDF</string>
+    <string name="AppVisualisationAttachmentFile">Fichier:</string>
+    <string name="AppVisualisationAttachmentSaveTitle">Enregistrer la pièce jointe</string>
+    <string name="AppVisualisationAttachmentSaveAs">Enregistrer sous…</string>
 </resources>
