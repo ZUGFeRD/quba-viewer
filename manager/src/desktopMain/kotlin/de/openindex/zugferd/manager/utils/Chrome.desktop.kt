@@ -172,25 +172,42 @@ fun registerAttachment(name: String, bytes: ByteArray, mimeType: String): String
     return key
 }
 
-/** Formats the embedded Chromium shows properly; everything else goes to the operating system. */
-private val VIEWER_EXTENSIONS = setOf("pdf", "png", "jpg", "jpeg", "gif", "bmp", "webp", "svg", "txt", "xml", "htm", "html")
+/**
+ * Formats the embedded Chromium shows in Quba's viewer window. Only passive formats: no HTML,
+ * SVG or anything else that can carry script (GitHub issue #201).
+ */
+private val VIEWER_EXTENSIONS = setOf("pdf", "png", "jpg", "jpeg", "gif", "bmp", "webp", "txt", "xml")
+
+/**
+ * Document formats handed to the program the operating system associates with them. Anything
+ * not listed here (executables, scripts, shortcuts, HTML, archives, …) is only offered for
+ * saving, so clicking an attachment can never start a program.
+ */
+private val SYSTEM_APP_EXTENSIONS = setOf(
+    "csv", "xlsx", "xls", "ods", "docx", "doc", "odt", "pptx", "odp", "rtf", "tif", "tiff",
+)
 
 private val INVALID_FILE_NAME_CHARS = Regex("""[\\/:*?"<>|\p{Cntrl}]""")
 
 /**
  * Opens an attachment. PDF, images, text and XML appear in Quba's own viewer window.
- * Everything else (Excel, Word, CSV, ZIP, …) opens in the program the operating system
- * associates with the file type. If there is none, a save dialog appears, so the file is
- * always reachable. Runs off the CEF thread; the temp file is only written on click.
+ * Office documents and CSV open in the program the operating system associates with the
+ * file type. Everything else, and anything without such a program, gets a save dialog, so
+ * the file is always reachable but never executed. Runs off the CEF thread; the temp file
+ * is only written on click.
  */
 fun openAttachment(entry: AttachmentEntry) {
     Thread({
         try {
-            val file = writeAttachmentToTempFile(entry)
-            if (isShownInViewer(entry)) {
-                openAttachmentInWindow(file.toURI().toString(), entry)
-            } else {
-                openWithSystemApp(file, entry)
+            when (attachmentOpenMode(entry)) {
+                AttachmentOpenMode.VIEWER ->
+                    openAttachmentInWindow(writeAttachmentToTempFile(entry).toURI().toString(), entry)
+                AttachmentOpenMode.SYSTEM_APP ->
+                    openWithSystemApp(writeAttachmentToTempFile(entry), entry)
+                AttachmentOpenMode.SAVE_ONLY -> {
+                    APP_LOGGER.info("Anhang '${entry.name}' wird nicht geöffnet, nur zum Speichern angeboten.")
+                    javax.swing.SwingUtilities.invokeLater { saveAttachmentAs(entry, null) }
+                }
             }
         } catch (e: Exception) {
             APP_LOGGER.error("Anhang '${entry.name}' konnte nicht geöffnet werden.", e)
@@ -202,11 +219,21 @@ fun openAttachment(entry: AttachmentEntry) {
     }
 }
 
-private fun isShownInViewer(entry: AttachmentEntry): Boolean {
-    extensionOf(entry.name)?.let { return it in VIEWER_EXTENSIONS }
-    val mime = entry.mimeType.lowercase()
-    return mime == "application/pdf" || mime.startsWith("image/") || mime == "text/plain" || mime.endsWith("/xml")
-}
+internal enum class AttachmentOpenMode { VIEWER, SYSTEM_APP, SAVE_ONLY }
+
+/**
+ * Decided by the extension of the file actually written, as that's what the viewer and the
+ * operating system go by, not by the declared MIME type.
+ */
+internal fun attachmentOpenMode(entry: AttachmentEntry): AttachmentOpenMode =
+    when (extensionOf(attachmentFileName(entry))) {
+        in VIEWER_EXTENSIONS -> AttachmentOpenMode.VIEWER
+        in SYSTEM_APP_EXTENSIONS -> AttachmentOpenMode.SYSTEM_APP
+        else -> AttachmentOpenMode.SAVE_ONLY
+    }
+
+private fun attachmentFileName(entry: AttachmentEntry): String =
+    safeFileName(withExtension(entry.name, entry.mimeType))
 
 /**
  * Writes the attachment under its own name (plus a fitting extension) into a fresh temp
@@ -215,7 +242,7 @@ private fun isShownInViewer(entry: AttachmentEntry): Boolean {
  */
 private fun writeAttachmentToTempFile(entry: AttachmentEntry): java.io.File {
     val dir = java.nio.file.Files.createTempDirectory("quba_att_").toFile().apply { deleteOnExit() }
-    return java.io.File(dir, safeFileName(withExtension(entry.name, entry.mimeType))).apply {
+    return java.io.File(dir, attachmentFileName(entry)).apply {
         deleteOnExit()
         writeBytes(entry.bytes)
     }
@@ -245,7 +272,7 @@ private fun openWithSystemApp(file: java.io.File, entry: AttachmentEntry) {
 private fun saveAttachmentAs(entry: AttachmentEntry, parent: java.awt.Component?, suggestedName: String? = null) {
     val chooser = javax.swing.JFileChooser()
     chooser.dialogTitle = runBlocking { getString(Res.string.AppVisualisationAttachmentSaveTitle) }
-    chooser.selectedFile = java.io.File(suggestedName ?: safeFileName(withExtension(entry.name, entry.mimeType)))
+    chooser.selectedFile = java.io.File(suggestedName ?: attachmentFileName(entry))
     if (chooser.showSaveDialog(parent) == javax.swing.JFileChooser.APPROVE_OPTION) {
         try {
             chooser.selectedFile.writeBytes(entry.bytes)
@@ -537,10 +564,10 @@ suspend fun installWebView(gpuEnabled: Boolean = true) {
         // Disable DRM / Widevine
         // https://magpcss.org/ceforum/viewtopic.php?f=6&t=19093
         appArgs.add("--disable-component-update")
-        
-        // Allow local file access and disable web security to support data URLs and local resources
-        appArgs.add("--allow-file-access-from-files")
-        appArgs.add("--disable-web-security")
+
+        // Never add --allow-file-access-from-files or --disable-web-security here: invoice
+        // content (Mustang HTML, attachments) runs as file:// pages, and with those flags its
+        // scripts could read any local file and send it anywhere (GitHub issue #201).
 
         // Disable Hardware Acceleration
         if (!gpuEnabled) {

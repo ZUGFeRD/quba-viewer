@@ -33,8 +33,8 @@ Validierungsmeldungen erscheinen in Blöcken zu je 100, der Knopf „… weitere
 **Bereits geöffnete Datei**
 Öffnest du eine Datei, die schon in einem Tab offen ist, wechselt Quba zu diesem Tab, statt sie ein zweites Mal zu laden.
 
-**Anhänge jedes Dateityps öffnen**
-PDF, Bilder, Text und XML öffnen im Anhangsfenster von Quba. Andere Dateitypen wie Excel, Word, CSV oder ZIP öffnet Quba mit dem Programm, das im Betriebssystem dafür eingestellt ist. Gibt es keins, erscheint „Speichern unter“.
+**Anhänge öffnen und speichern**
+PDF, Bilder, Text und XML öffnen im Anhangsfenster von Quba. Excel, Word, OpenDocument und CSV öffnet Quba mit dem Programm, das im Betriebssystem dafür eingestellt ist. Für alle anderen Dateitypen, etwa HTML, SVG, ZIP oder Programmdateien, erscheint „Speichern unter“, ebenso wenn kein passendes Programm eingestellt ist.
 
 **Alle eingebetteten Dateien sichtbar**
 Dateien, die in der PDF stecken, auf die die Rechnung aber nicht verweist, stehen im Tab „Anhänge“ unter „Weitere in der PDF eingebettete Dateien“, mit Dateigröße.
@@ -46,6 +46,7 @@ Die Trennlinie zwischen HTML/XML und PDF hat in der Mitte einen Griff und lässt
 
 ## Behobene Probleme
 
+- Sicherheit: Ein Anhang im HTML-Format konnte beim Öffnen per Skript andere Dateien auf dem Rechner lesen und an fremde Server schicken, weil Quba den eingebauten Browser mit abgeschalteten Schutzfunktionen startete. Die Schutzfunktionen sind jetzt an, und HTML- oder SVG-Anhänge öffnen nicht mehr im Browser, sondern lassen sich nur speichern (#201).
 - Die Rechnung erschien in der HTML-Ansicht und im PDF-Export immer auf Deutsch, auch wenn Quba auf Englisch oder Französisch eingestellt war. Jetzt folgt sie der eingestellten Sprache (#172).
 - Nach einem Sprachwechsel blieben bereits geöffnete Rechnungen in der alten Sprache, bis Quba neu gestartet wurde. Jetzt wechseln sie sofort.
 - Im Rechtsklick-Menü der HTML-Ansicht blieben „Zurück“, „Drucken…“ und „Seitenquelltext anzeigen“ nach einem Sprachwechsel in der Sprache, mit der Quba gestartet wurde.
