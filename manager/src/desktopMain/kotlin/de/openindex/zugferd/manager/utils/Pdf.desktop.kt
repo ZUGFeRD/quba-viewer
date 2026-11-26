@@ -19,9 +19,6 @@ package de.openindex.zugferd.manager.utils
 import de.openindex.zugferd.manager.APP_LOGGER
 import de.openindex.zugferd.manager.APP_TITLE_FULL
 import de.openindex.zugferd.manager.APP_VERSION
-import de.openindex.zugferd.quba.generated.resources.AppVisualisationHtmlUnavailable
-import de.openindex.zugferd.quba.generated.resources.AppVisualisationOpenAttachment
-import de.openindex.zugferd.quba.generated.resources.AppVisualisationXmlReadError
 import de.openindex.zugferd.quba.generated.resources.Res
 import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.Dispatchers

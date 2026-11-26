@@ -1,27 +1,24 @@
 /*
  * Copyright (c) 2024-2025 Andreas Rudolph <andy@openindex.de>.
  *
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package de.openindex.zugferd.manager.utils
 
 import de.openindex.zugferd.manager.APP_LOGGER
+import de.openindex.zugferd.quba.generated.resources.AppVisualisationHtmlUnavailable
+import de.openindex.zugferd.quba.generated.resources.Res
 import io.github.vinceglb.filekit.core.PlatformFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -211,7 +208,11 @@ private fun isAlreadyIndented(xml: String): Boolean {
     return newlines >= 5 && indented >= 3
 }
 
-private fun generateFallbackHtml(xml: String): String {
+private suspend fun generateFallbackHtml(xml: String): String {
+    val warning = getString(Res.string.AppVisualisationHtmlUnavailable)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
     val escaped = xml
         .replace("&", "&amp;")
         .replace("<", "&lt;")
@@ -222,7 +223,7 @@ body{font-family:monospace;padding:20px;background:#1e1e1e;color:#d4d4d4}
 pre{white-space:pre-wrap;word-break:break-all;font-size:12px;line-height:1.5}
 .warn{background:#b45309;color:#fff;padding:10px 16px;border-radius:6px;margin-bottom:16px;font-family:sans-serif;font-size:13px}
 </style></head><body>
-<div class="warn">&#9888; HTML-Visualisierung nicht verfügbar – XML-Quellcode wird angezeigt.</div>
+<div class="warn">&#9888; $warning</div>
 <pre>$escaped</pre>
 </body></html>"""
 }
